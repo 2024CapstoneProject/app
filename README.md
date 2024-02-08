@@ -75,5 +75,5 @@ Description : 작업 내용
   - 예시
     - feat/#1-create-cafe
 - 주의
-  - Merge나 새로운 브랜치 clone는 master 브랜치 이용
+  - Merge나 새로운 브랜치 clone는 main 브랜치 이용
     
