@@ -69,6 +69,7 @@ drawable notification_bg_low_pressed
 drawable notification_bg_normal
 drawable notification_bg_normal_pressed
 drawable notification_icon_background
+drawable notification_oversize_large_icon_bg
 drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
@@ -118,7 +119,9 @@ id chronometer
 id compose_view_saveable_id_tag
 id consume_window_insets_tag
 id dialog_button
+id edit_text_id
 id forever
+id hide_ime_id
 id hide_in_inspector_tag
 id icon
 id icon_group
@@ -160,6 +163,8 @@ id view_tree_view_model_store_owner
 id wrapped_composition_tag
 integer status_bar_notification_info_maxnum
 layout custom_dialog
+layout ime_base_split_test_activity
+layout ime_secondary_split_test_activity
 layout notification_action
 layout notification_action_tombstone
 layout notification_template_custom_big
