@@ -4,6 +4,23 @@
             "outputFile": "com.example.capstoneapp-mergeDebugResources-42:/values-hi/values-hi.xml",
             "map": [
                 {
+                    "source": "/Users/jeongjinseo/.gradle/caches/transforms-3/7e0de00efec8260dc761d11f7167e95b/transformed/core-1.12.0/res/values-hi/values-hi.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,153,256,361,462,575,681,808",
+                        "endColumns": "97,102,104,100,112,105,126,100",
+                        "endOffsets": "148,251,356,457,570,676,803,904"
+                    },
+                    "to": {
+                        "startLines": "6,7,8,9,10,11,12,63",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "565,663,766,871,972,1085,1191,6474",
+                        "endColumns": "97,102,104,100,112,105,126,100",
+                        "endOffsets": "658,761,866,967,1080,1186,1313,6570"
+                    }
+                },
+                {
                     "source": "/Users/jeongjinseo/.gradle/caches/transforms-3/56991579657abc1bbffec6207af617d3/transformed/ui-release/res/values-hi/values-hi.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
@@ -18,23 +35,6 @@
                         "startOffsets": "1318,1413,5148,5241,5411,5581,5659,5756,5845,5930,5998,6067,6148,6315,6676,6757,6823",
                         "endColumns": "94,82,92,97,88,77,96,88,84,67,68,80,84,72,80,65,119",
                         "endOffsets": "1408,1491,5236,5334,5495,5654,5751,5840,5925,5993,6062,6143,6228,6383,6752,6818,6938"
-                    }
-                },
-                {
-                    "source": "/Users/jeongjinseo/.gradle/caches/transforms-3/466d33011bedd8b0e160e7d741f9d04a/transformed/core-1.10.1/res/values-hi/values-hi.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,153,256,361,462,575,681,808",
-                        "endColumns": "97,102,104,100,112,105,126,100",
-                        "endOffsets": "148,251,356,457,570,676,803,904"
-                    },
-                    "to": {
-                        "startLines": "6,7,8,9,10,11,12,63",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "565,663,766,871,972,1085,1191,6474",
-                        "endColumns": "97,102,104,100,112,105,126,100",
-                        "endOffsets": "658,761,866,967,1080,1186,1313,6570"
                     }
                 },
                 {
