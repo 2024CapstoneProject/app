@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotificationScreen() {
+fun NotificationScreen(content: @Composable () -> Unit) {
 
     Scaffold(
         topBar = {
@@ -64,10 +64,7 @@ fun NotificationScreen() {
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "문제가 나오는 공간",
-                    modifier = Modifier.padding(16.dp) // Padding inside the rectangle
-                )
+                content()
             }
 
             // Buttons
@@ -97,9 +94,4 @@ fun NotificationScreen() {
             // This adds space between the buttons and the bottom bar
         }
     }
-}
-@Preview(showBackground = true)
-@Composable
-fun screenPreview() {
-    NotificationScreen()
 }
