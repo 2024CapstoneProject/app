@@ -51,7 +51,7 @@ fun NotificationScreen(content: @Composable () -> Unit) {
                         color = Color.LightGray, // Change this color to your desired background color
                         shape = RoundedCornerShape(16.dp) // Rounded corners
                     )
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
+                    .border(2.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
                 contentAlignment = Alignment.Center
             ) {
                 content()
@@ -108,7 +108,7 @@ fun NotificationScreenPreview() {
                     color = Color.LightGray, // Change this color to your desired background color
                     shape = RoundedCornerShape(16.dp) // Rounded corners
                 )
-                .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
+                .border(3.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
             contentAlignment = Alignment.Center
         ) {
             //content()
