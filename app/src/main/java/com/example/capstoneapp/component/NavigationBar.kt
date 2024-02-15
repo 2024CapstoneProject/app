@@ -17,13 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 
 // NavigationBar 컴포넌트에 선택된 메뉴 항목을 업데이트하는 로직 추가
 @Composable
-fun NavigationBar(onMenuItemClick: (String) -> Unit) {
+fun CustomizedNavigationBar(
+    menuItems: List<String>,
+    onMenuItemClick: (String) -> Unit
+) {
     Row(
         modifier = Modifier.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val menuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
-
         menuItems.forEach { item ->
             Text(
                 text = item,
@@ -34,7 +35,7 @@ fun NavigationBar(onMenuItemClick: (String) -> Unit) {
                 ),
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
-                    .clickable { onMenuItemClick(item) } // 클릭 시 onMenuItemClick 콜백 호출
+                    .clickable { onMenuItemClick(item) }
             )
         }
     }
