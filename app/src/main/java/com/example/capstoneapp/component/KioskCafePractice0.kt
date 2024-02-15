@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
-import com.example.capstoneapp.Frame.navVar2
+import com.example.capstoneapp.Frame.TopAppBar
 import com.example.capstoneapp.R
 
 class KioskCafePractice0 : ComponentActivity() {
@@ -34,7 +34,7 @@ class KioskCafePractice0 : ComponentActivity() {
         setContent {
             CapstoneAppTheme {
                 Column {
-                    navVar2()
+                    TopAppBar()
                     TextScreen()
                 }
             }
@@ -134,7 +134,7 @@ fun TextScreen() {
 fun TextScreenPreview() {
     CapstoneAppTheme {
         Column {
-            navVar2()
+            TopAppBar()
             TextScreen()
         }
     }
