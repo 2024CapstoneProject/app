@@ -35,14 +35,19 @@ fun itemMenu(selectedMenu: String) {
     )
     //네비게이션 카테고리 선택
     var selectedMenu by remember { mutableStateOf("햄버거") } // 초기값 설정
+    val myMenuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
+
     Column(
         modifier = Modifier.padding(0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //네비게이션 bar (추천 메뉴, 햄버거 ...)
-        NavigationBar { menuItem ->
-            selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
-        }
+        CustomizedNavigationBar(
+            menuItems = myMenuItems,
+            onMenuItemClick = { menuItem ->
+                selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+            }
+        )
         Divider(
             color = Color.Gray,
             thickness = 2.dp,
@@ -113,14 +118,19 @@ fun DefaultMenuPreview() {
 
     // AppTheme와 같은 상위 테마 컴포저블이 있으면 여기서 감싸줍니다.
     var selectedMenu by remember { mutableStateOf("햄버거") } // 초기값 설정
+    val myMenuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
+
     Column(
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {// 선택된 메뉴를 기반으로 ItemList 렌더링
 
-        NavigationBar { menuItem ->
-            selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
-        }
+        CustomizedNavigationBar(
+            menuItems = myMenuItems,
+            onMenuItemClick = { menuItem ->
+                selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+            }
+        )
         ItemList(selectedMenu = selectedMenu) {
             // 미리 정의된 주문 내역을 사용하므로 여기서는 아무 작업도 하지 않음
         }
