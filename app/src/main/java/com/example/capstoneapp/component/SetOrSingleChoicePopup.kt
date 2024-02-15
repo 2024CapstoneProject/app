@@ -36,8 +36,10 @@ fun SetOrSingleChoicePopup(
     onDismiss: () -> Unit,
     onAddToOrder: (MenuItem) -> Unit // Boolean 값은 세트 주문이면 true, 단품 주문이면 false
 ) {
-   val setItem = getMenuItemById(1);
-
+   var setItem = getMenuItemById(currentItem!!.id+1);
+    if (setItem != null) {
+        setItem.name="세트"
+    };
     //create currentItem set
 
     
@@ -67,7 +69,9 @@ fun SetOrSingleChoicePopup(
                         ItemCard(
                             item = currentItem
                         ) { onAddToOrder(currentItem) }
-                        ItemCard(item = currentItem) { onAddToOrder(currentItem) }
+                        if (setItem != null) {
+                            ItemCard(item = setItem) { onAddToOrder(setItem) }
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
