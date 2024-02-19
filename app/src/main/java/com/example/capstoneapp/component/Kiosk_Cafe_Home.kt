@@ -96,7 +96,7 @@ fun ImageButton(onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun cafeHomeScreenPreview() {
     CapstoneAppTheme {
         Column {
             TopAppBar()
