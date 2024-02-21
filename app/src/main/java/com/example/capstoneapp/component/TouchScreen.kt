@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,8 +38,8 @@ fun touchScreen() {
             style =
             TextStyle(
                 fontSize = 24.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif),
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif),
             modifier = Modifier.padding(top = 16.dp) // Icon과 Text 사이의 상단 패딩 적용
         )
     }

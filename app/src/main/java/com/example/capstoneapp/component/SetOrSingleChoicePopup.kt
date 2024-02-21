@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,13 +38,7 @@ fun SetOrSingleChoicePopup(
     onAddToOrder: (MenuItem) -> Unit // Boolean 값은 세트 주문이면 true, 단품 주문이면 false
 ) {
    var setItem = getMenuItemById(currentItem!!.id+1);
-    if (setItem != null) {
-        setItem.name="세트"
-    };
-    //create currentItem set
-
-    
-    if (showDialog && currentItem != null) {
+    if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
             Card(
                 modifier = Modifier
@@ -52,8 +47,11 @@ fun SetOrSingleChoicePopup(
 
             ) {
                 Column(
-                    modifier = Modifier.padding(4.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier = Modifier
+                        .fillMaxWidth() // Card의 전체 공간을 채웁니다.
+                        .padding(4.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally, // 컬럼 내부의 항목들을 수평 중앙 정렬 r
+
                 ) {
                     Text("세트로 드시겠어요?", style = androidx.compose.ui.text.TextStyle(
                         fontSize = 20.sp,
@@ -75,17 +73,7 @@ fun SetOrSingleChoicePopup(
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Button(onClick = { onAddToOrder(currentItem) }) {
-                            Text("주문하기")
-                        }
-                        Button(onClick = onDismiss) {
-                            Text("취소")
-                        }
-                    }
+
                 }
             }
         }
