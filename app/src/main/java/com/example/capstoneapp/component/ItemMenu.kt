@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.capstoneapp.Frame.DividerFormat
 import com.example.capstoneapp.Frame.kioskButtonFormat
 import com.example.capstoneapp.R
 import com.example.capstoneapp.repository.MenuItem
@@ -49,16 +50,15 @@ fun itemMenu(selectedMenu: String) {
                 selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
             }
         )
-        Divider(
-            color = Color.Gray,
-            thickness = 2.dp,
-            modifier = Modifier.padding(horizontal = 0.dp)
-        )
+
+        DividerFormat()
+
         // 메뉴 목록 표시
         ItemList(selectedMenu = selectedMenu) { selectedItem ->
             currentItemForDialog = selectedItem
             showDialog = true // 아이템 클릭 시 팝업 표시
         }
+
         if (showDialog) {
             SetOrSingleChoicePopup(
                 showDialog = showDialog,
@@ -71,22 +71,15 @@ fun itemMenu(selectedMenu: String) {
             )
         }
 
+        DividerFormat()
 
-        Divider(
-            color = Color.Gray,
-            thickness = 2.dp,
-            modifier = Modifier.padding(horizontal = 0.dp)
-        )
         // 주문 목록 표시
         orderList(orderItems = orderItems )
 
-       /* Divider(
-            color = Color.Gray,
-            thickness = 2.dp,
-            modifier = Modifier.padding(horizontal = 0.dp)
-        )*/
+        DividerFormat()
 
         Spacer(Modifier.weight(1f)) // This will push the buttons up to be just above the bottom bar
+
         // 결제 버튼
         Row(
             modifier = Modifier
@@ -120,10 +113,6 @@ fun itemMenu(selectedMenu: String) {
         }
     }
 }
-
-
-
-
 
 @Composable
 fun DefaultMenuPreview() {
