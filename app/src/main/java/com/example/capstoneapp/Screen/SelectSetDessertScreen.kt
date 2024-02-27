@@ -35,9 +35,8 @@ import com.example.capstoneapp.repository.MenuItem
 @Composable
 fun SelectSetDessertScreen() {
     // 주문한 목록
-    val orderItems = remember {
-        mutableStateListOf<MenuItem>()
-    }
+    val orderItems = remember { mutableStateListOf<MenuItem>() }
+    var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
 
     //테스트용 메뉴 선택 더미 데이터
     val dummyOrderItems = listOf(
@@ -74,6 +73,7 @@ fun SelectSetDessertScreen() {
 
         // 메뉴 목록 표시
         ItemList(selectedMenu = selectedMenu) { selectedItem ->
+            currentItemForDialog = selectedItem
             // 아이템 클릭 시 주문 목록에 추가
             orderItems.add(selectedItem)
         }

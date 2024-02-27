@@ -1,6 +1,5 @@
 package com.example.capstoneapp.repository
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.capstoneapp.R
 
 object MenuItemsRepository {
@@ -15,9 +14,25 @@ object MenuItemsRepository {
         MenuItem(8, "치킨버거 세트", R.drawable.baseline_adb_24, 10000)
     )
 
+    private var dessertMenuItems = listOf(
+        MenuItem(1, "감자튀김", R.drawable.baseline_adb_24, 0),
+        MenuItem(2, "양념감자", R.drawable.baseline_adb_24, 500),
+        MenuItem(3, "치킨텐더", R.drawable.baseline_adb_24, 800),
+        MenuItem(4, "치즈스틱", R.drawable.baseline_adb_24, 800),
+    )
+
+    private var drinkMenuItems = listOf(
+        MenuItem(1, "콜라", R.drawable.baseline_adb_24, 0),
+        MenuItem(2, "사이다", R.drawable.baseline_adb_24, 0),
+        MenuItem(3, "제로콜라", R.drawable.baseline_adb_24, 0),
+        MenuItem(4, "오랜지 주스", R.drawable.baseline_adb_24, 300),
+    )
+
     fun getItemsForMenu(selectedMenu: String): List<MenuItem> {
         return when (selectedMenu) {
             "햄버거" -> hamburgerMenuItems
+            "세트 디저트" -> dessertMenuItems
+            "세트 드링크" -> drinkMenuItems
             // 다른 메뉴 카테고리에 대한 처리...
             else -> listOf()
         }
@@ -25,14 +40,12 @@ object MenuItemsRepository {
 
     fun getMenuItemById(id: Int): MenuItem? {
 
-        var menuItem = hamburgerMenuItems.find { it.id == id }
+        val menuItem = hamburgerMenuItems.find { it.id == id }
         if(menuItem != null) {
             return menuItem
         }
         return null;
-
     }
-
 }
 
 data class MenuItem(

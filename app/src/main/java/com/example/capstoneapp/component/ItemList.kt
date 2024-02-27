@@ -20,14 +20,12 @@ import com.example.capstoneapp.repository.MenuItemsRepository
 
 @Composable
 fun ItemList(selectedMenu: String, onItemClicked: (MenuItem) -> Unit) {
-    val items = MenuItemsRepository.getItemsForMenu(selectedMenu).filter { it.id % 2 != 0 }
+    // 선택된 메뉴에 따라 상품 목록을 가져옵니다.
+    val items = MenuItemsRepository.getItemsForMenu(selectedMenu)
 
-    Column(
-        modifier = Modifier.padding(16.dp),) {
-        // 선택된 메뉴에 따라 다른 상품 목록을 보여주는 로직
-
-
-        val rows = items.chunked(2) // 리스트를 2개씩 묶어서 새로운 리스트 생성
+    Column(modifier = Modifier.padding(16.dp)) {
+        // 항목들을 2개씩 묶어서 새로운 리스트를 생성합니다.
+        val rows = items.chunked(2)
         rows.forEach { rowItems ->
             Row {
                 rowItems.forEach { item ->
