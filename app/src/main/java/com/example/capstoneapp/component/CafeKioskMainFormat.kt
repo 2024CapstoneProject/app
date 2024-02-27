@@ -29,10 +29,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@Preview
 @Composable
-fun CafeKioskMainFormat(){
+fun CafeKioskMainFormat(bar:@Composable () -> Unit, content:@Composable () -> Unit){
         Column(
+            //horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
         ){
             Box(
@@ -51,10 +51,9 @@ fun CafeKioskMainFormat(){
                     .border(0.dp, Color.Black, RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)) ,// Border
                 contentAlignment = Alignment.Center
             ){
-                // 메뉴바
+                bar()
             }
-            Spacer(modifier=Modifier.weight(1f))
-
-
+            //Spacer(modifier=Modifier.weight(1f))
+            content()
         }
 }
