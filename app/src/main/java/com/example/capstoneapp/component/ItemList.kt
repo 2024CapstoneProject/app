@@ -41,6 +41,3 @@ fun ItemList(selectedMenu: String, onItemClicked: (MenuItem) -> Unit) {
         }
     }
 }
-
-
-
