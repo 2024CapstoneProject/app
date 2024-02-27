@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
@@ -22,16 +21,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.capstoneapp.Frame.kioskButtonFormat
 import com.example.capstoneapp.R
+import com.example.capstoneapp.repository.MenuItem
 
 @Composable
 fun itemMenu(selectedMenu: String) {
     // 주문한 목록
-    val orderItems = remember {
-        mutableStateListOf<MenuItem>()
-    }
+    val orderItems = remember { mutableStateListOf<MenuItem>() }
+    var showDialog by remember { mutableStateOf(false) }
+    var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
     //테스트용 메뉴 선택 더미 데이터
     val dummyOrderItems = listOf(
-        MenuItem("불고기 버거", R.drawable.baseline_adb_24, 7000)
+        MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24, 7000)
     )
     //네비게이션 카테고리 선택
     var selectedMenu by remember { mutableStateOf("햄버거") } // 초기값 설정
@@ -44,6 +44,7 @@ fun itemMenu(selectedMenu: String) {
         //네비게이션 bar (추천 메뉴, 햄버거 ...)
         CustomizedNavigationBar(
             menuItems = myMenuItems,
+            selectedMenuItem=selectedMenu,
             onMenuItemClick = { menuItem ->
                 selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
             }
@@ -55,22 +56,35 @@ fun itemMenu(selectedMenu: String) {
         )
         // 메뉴 목록 표시
         ItemList(selectedMenu = selectedMenu) { selectedItem ->
-            // 아이템 클릭 시 주문 목록에 추가
-            orderItems.add(selectedItem)
+            currentItemForDialog = selectedItem
+            showDialog = true // 아이템 클릭 시 팝업 표시
         }
-        Divider(
-            color = Color.Gray,
-            thickness = 2.dp,
-            modifier = Modifier.padding(horizontal = 0.dp)
-        )
-        // 주문 목록 표시
-        orderList(orderItems = dummyOrderItems)
+        if (showDialog) {
+            SetOrSingleChoicePopup(
+                showDialog = showDialog,
+                currentItem = currentItemForDialog,
+                onDismiss = { showDialog = false },
+                onAddToOrder = { item ->
+                    orderItems.add(item)
+                    showDialog = false
+                }
+            )
+        }
+
 
         Divider(
             color = Color.Gray,
             thickness = 2.dp,
             modifier = Modifier.padding(horizontal = 0.dp)
         )
+        // 주문 목록 표시
+        orderList(orderItems = orderItems )
+
+       /* Divider(
+            color = Color.Gray,
+            thickness = 2.dp,
+            modifier = Modifier.padding(horizontal = 0.dp)
+        )*/
 
         Spacer(Modifier.weight(1f)) // This will push the buttons up to be just above the bottom bar
         // 결제 버튼
@@ -83,6 +97,7 @@ fun itemMenu(selectedMenu: String) {
             kioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
+                    .padding(bottom=16.dp)
                 ,
                 onClick = { /* Handle click */ },
                 buttonText = "취소하기",
@@ -94,13 +109,14 @@ fun itemMenu(selectedMenu: String) {
             kioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
+                    .padding(bottom=16.dp)
                 ,
                 onClick = { /* Handle click */ },
                 buttonText = "결제하기",
                 backgroundColor = Color.Red,
                 contentColor = Color.Black
             )
-            Spacer(modifier = Modifier.height(48.dp))
+            //Spacer(modifier = Modifier.height(64.dp))
         }
     }
 }
@@ -113,7 +129,7 @@ fun itemMenu(selectedMenu: String) {
 fun DefaultMenuPreview() {
     // 주문 내역에 "불고기 버거" 추가를 시뮬레이션
     val dummyOrderItems = listOf(
-        MenuItem("불고기 버거", R.drawable.baseline_adb_24, 7000)
+        MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24, 7000)
     )
 
     // AppTheme와 같은 상위 테마 컴포저블이 있으면 여기서 감싸줍니다.
@@ -127,6 +143,7 @@ fun DefaultMenuPreview() {
 
         CustomizedNavigationBar(
             menuItems = myMenuItems,
+            selectedMenuItem=selectedMenu,
             onMenuItemClick = { menuItem ->
                 selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
             }
@@ -146,3 +163,4 @@ fun DefaultMenuPreview() {
 fun PreviewItemMenu() {
     itemMenu("햄버거")
 }
+
