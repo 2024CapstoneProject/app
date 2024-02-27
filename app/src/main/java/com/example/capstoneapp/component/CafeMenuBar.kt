@@ -20,7 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CafeMenuBar(){
+fun CafeMenuBar(
+    menuItems:List<String>,
+    onMenuItemClick:(String)->Unit
+){
     Row(
         modifier= Modifier
             .fillMaxWidth(),
@@ -39,24 +42,17 @@ fun CafeMenuBar(){
                 imageVector = Icons.Filled.Home,
                 contentDescription = "setting")
         }
-        //Spacer(Modifier.width(20.dp))
-        TextButton(
-            onClick = { /*TODO*/ }
-        ) {
-            Text(text="커피(HOT)", color= Color.Black,fontSize=15.sp)
-        }
-        //Spacer(Modifier.width(10.dp))
-        TextButton(
-            onClick = { /*TODO*/ }
-        ) {
-            Text(text="커피(ICE)",color= Color.Black,fontSize=15.sp)
-        }
-        //Spacer(Modifier.width(10.dp))
-        TextButton(
-            onClick = { /*TODO*/ }
-        ) {
-            Text(text="티(TEA)",color= Color.Black,fontSize=15.sp)
+        menuItems.forEach { item ->
+            TextButton(
+                onClick = {
+                    onMenuItemClick(item)
+                }
+            ) {
+                Text(text=item, color= Color.Black,fontSize=15.sp)
+            }
         }
         Spacer(Modifier.width(10.dp))
     }
 }
+
+
