@@ -29,12 +29,12 @@ fun CustomizedNavigationBar(
             Text(
                 text = item,
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize =18.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.SansSerif
                 ),
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
+                    .padding(horizontal = 6.dp)
                     .clickable { onMenuItemClick(item) }
             )
         }
