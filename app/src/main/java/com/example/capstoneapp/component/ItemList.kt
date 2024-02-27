@@ -22,15 +22,26 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 @Composable
 fun ItemList(selectedMenu: String, onItemClicked: (MenuItem) -> Unit) {
-    Column(
-        modifier = Modifier.padding(16.dp),) {
+    Column {
         // 선택된 메뉴에 따라 다른 상품 목록을 보여주는 로직
         val items = when (selectedMenu) {
             "햄버거" -> listOf(
-                MenuItem("불고기 버거", R.drawable.baseline_adb_24,7000),//R.drawable.ic_bulgogi_burger),
-                MenuItem("새우버거", R.drawable.baseline_adb_24,7000),//R.drawable.ic_shrimp_burger),
-                MenuItem("치즈버거",  R.drawable.baseline_adb_24,7000),//R.drawable.ic_cheese_burger),
-                MenuItem("치킨버거",  R.drawable.baseline_adb_24,7000),//R.drawable.ic_chicken_burger)
+                MenuItem("불고기 버거", R.drawable.baseline_adb_24, 7000),//R.drawable.ic_bulgogi_burger),
+                MenuItem("새우버거", R.drawable.baseline_adb_24, 7000),//R.drawable.ic_shrimp_burger),
+                MenuItem("치즈버거",  R.drawable.baseline_adb_24, 7000),//R.drawable.ic_cheese_burger),
+                MenuItem("치킨버거",  R.drawable.baseline_adb_24, 7000),//R.drawable.ic_chicken_burger)
+            )
+            "세트 디저트" -> listOf(
+                MenuItem("감자튀김", R.drawable.baseline_adb_24, 0),//R.drawable.ic_bulgogi_burger),
+                MenuItem("양념 감자튀김", R.drawable.baseline_adb_24, 500),//R.drawable.ic_shrimp_burger),
+                MenuItem("디저트1",  R.drawable.baseline_adb_24, 800),//R.drawable.ic_cheese_burger),
+                MenuItem("디저트2",  R.drawable.baseline_adb_24, 800),//R.drawable.ic_chicken_burger)
+            )
+            "세트 드링크" -> listOf(
+                MenuItem("콜라", R.drawable.baseline_adb_24, 0),//R.drawable.ic_bulgogi_burger),
+                MenuItem("사이다", R.drawable.baseline_adb_24, 0),//R.drawable.ic_shrimp_burger),
+                MenuItem("제로콜라",  R.drawable.baseline_adb_24, 0),//R.drawable.ic_cheese_burger),
+                MenuItem("오랜지 주스",  R.drawable.baseline_adb_24, 500),//R.drawable.ic_chicken_burger)
             )
             // 다른 메뉴에 대한 아이템 리스트 정의
             else -> listOf()
