@@ -44,6 +44,7 @@ fun itemMenu(selectedMenu: String) {
         //네비게이션 bar (추천 메뉴, 햄버거 ...)
         CustomizedNavigationBar(
             menuItems = myMenuItems,
+            selectedMenuItem=selectedMenu,
             onMenuItemClick = { menuItem ->
                 selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
             }
@@ -77,7 +78,7 @@ fun itemMenu(selectedMenu: String) {
             modifier = Modifier.padding(horizontal = 0.dp)
         )
         // 주문 목록 표시
-        orderList(orderItems = dummyOrderItems)
+        orderList(orderItems = orderItems )
 
        /* Divider(
             color = Color.Gray,
@@ -142,6 +143,7 @@ fun DefaultMenuPreview() {
 
         CustomizedNavigationBar(
             menuItems = myMenuItems,
+            selectedMenuItem=selectedMenu,
             onMenuItemClick = { menuItem ->
                 selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
             }
@@ -161,3 +163,4 @@ fun DefaultMenuPreview() {
 fun PreviewItemMenu() {
     itemMenu("햄버거")
 }
+
