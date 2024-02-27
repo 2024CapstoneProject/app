@@ -20,12 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.Frame.NotificationScreen
 
 
 @Composable
 fun KioskCafePractice6(){
-    CafeKioskScreen()
-    PayScreen()
+    NotificationScreen {
+        CafeKioskMainFormat({MenuText()}, {PayScreen()})
+    }
 
 }
 @Composable
@@ -34,22 +36,13 @@ fun PayScreen(){
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 95.dp),
+            .padding(vertical = 0.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
-        Text(
-            text = "결제수단 선택",
-            modifier = Modifier
-                .fillMaxWidth()
-                .absolutePadding(left = 30.dp),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            )
         //카드결제
         Box(
             modifier = Modifier
-                .padding(70.dp)
+                .padding(60.dp)
                 .size(width = 200.dp, height = 150.dp)
                 .background(Color.Gray)
                 .align(Alignment.CenterHorizontally)
@@ -86,9 +79,9 @@ fun PayScreen(){
         }
         Row {
             Text(
-                text = "금액 선택",
+                text = "금액",
                 modifier = Modifier
-                    .absolutePadding(top = 70.dp, left = 40.dp),
+                    .absolutePadding(top = 70.dp, left = 30.dp),
                 fontSize = 27.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -96,7 +89,7 @@ fun PayScreen(){
             Text(
                 text = "$price",
                 modifier = Modifier
-                    .absolutePadding(top = 72.dp, left = 120.dp),
+                    .absolutePadding(top = 72.dp, left = 160.dp),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Red
@@ -112,6 +105,18 @@ fun PayScreen(){
         }
 
     }
+}
+@Composable
+fun MenuText(){
+    Text(
+        text = "결제수단 선택",
+        modifier = Modifier
+            .fillMaxWidth()
+            .absolutePadding(left = 30.dp),
+        fontSize = 22.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.White,
+    )
 }
 @Preview
 @Composable
