@@ -26,6 +26,7 @@ fun touchScreen() {
         horizontalAlignment = Alignment.CenterHorizontally // 자식 요소들을 가운데 정렬
     ) {
         Spacer(modifier = Modifier.height(48.dp))
+
         Icon(
             painter = painterResource(id = R.drawable.baseline_adb_24),
             contentDescription = null

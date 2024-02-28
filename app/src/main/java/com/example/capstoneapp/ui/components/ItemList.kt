@@ -19,6 +19,7 @@ fun ItemList(selectedMenu: String, onItemClicked: (MenuItem) -> Unit) {
     Column(modifier = Modifier.padding(16.dp)) {
         // 항목들을 2개씩 묶어서 새로운 리스트를 생성합니다.
         val rows = items.chunked(2)
+
         rows.forEach { rowItems ->
             Row {
                 rowItems.forEach { item ->

@@ -36,7 +36,8 @@ fun SetOrSingleChoicePopup(
     onDismiss: () -> Unit,
     onAddToOrder: (MenuItem) -> Unit // Boolean 값은 세트 주문이면 true, 단품 주문이면 false
 ) {
-   val setItem = getMenuItemById(currentItem!!.id + 1)
+    val setItem = getMenuItemById(currentItem!!.id + 1)
+
     if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
             Card(
