@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.example.capstoneapp.data.repository.MenuItem
 
 @Composable
-fun orderList(orderItems: List<MenuItem>) {
+fun OrderList(orderItems: List<MenuItem>) {
     Column(modifier = Modifier.padding(0.dp)) {
         // 총 주문 내역, 총 개수, 총 가격을 한 줄에 표시
         Row(

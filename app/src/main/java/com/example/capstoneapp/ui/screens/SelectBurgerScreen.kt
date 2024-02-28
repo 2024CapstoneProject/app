@@ -25,8 +25,8 @@ import com.example.capstoneapp.data.repository.MenuItem
 import com.example.capstoneapp.ui.components.CustomizedNavigationBar
 import com.example.capstoneapp.ui.components.DividerFormat
 import com.example.capstoneapp.ui.components.ItemList
-import com.example.capstoneapp.ui.components.kioskButtonFormat
-import com.example.capstoneapp.ui.components.orderList
+import com.example.capstoneapp.ui.components.KioskButtonFormat
+import com.example.capstoneapp.ui.components.OrderList
 
 @Composable
 fun itemMenu() {
@@ -85,7 +85,7 @@ fun itemMenu() {
         DividerFormat()
 
         // 주문 목록 표시
-        orderList(orderItems = orderItems )
+        OrderList(orderItems = orderItems )
 
         DividerFormat()
 
@@ -98,11 +98,10 @@ fun itemMenu() {
                 .padding(horizontal = 32.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
         ) {
-            kioskButtonFormat(
+            KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom=16.dp)
-                ,
+                    .padding(bottom=16.dp),
                 onClick = { /* Handle click */ },
                 buttonText = "취소하기",
                 backgroundColor = Color.DarkGray,
@@ -110,7 +109,7 @@ fun itemMenu() {
             )
             Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
 
-            kioskButtonFormat(
+            KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
                     .padding(bottom=16.dp)
@@ -163,7 +162,7 @@ fun DefaultMenuPreview() {
         // 구분선
         Divider(color = Color.Gray, thickness = 2.dp)
         // 더미 주문 내역을 렌더링
-        orderList(orderItems = dummyOrderItems)
+        OrderList(orderItems = dummyOrderItems)
     }
 }
 

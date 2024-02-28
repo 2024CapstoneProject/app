@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,13 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.capstoneapp.ui.components.DividerFormat
-import com.example.capstoneapp.ui.components.kioskButtonFormat
 import com.example.capstoneapp.R
-import com.example.capstoneapp.ui.components.CustomizedNavigationBar
-import com.example.capstoneapp.ui.components.ItemList
-import com.example.capstoneapp.ui.components.orderList
 import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.ui.components.CustomizedNavigationBar
+import com.example.capstoneapp.ui.components.DividerFormat
+import com.example.capstoneapp.ui.components.ItemList
+import com.example.capstoneapp.ui.components.KioskButtonFormat
+import com.example.capstoneapp.ui.components.OrderList
 
 @Composable
 fun SelectSetDessertScreen() {
@@ -89,7 +88,7 @@ fun SelectSetDessertScreen() {
         DividerFormat()
 
         // 주문 목록 표시
-        orderList(orderItems = dummyOrderItems)
+        OrderList(orderItems = dummyOrderItems)
 
         DividerFormat()
 
@@ -102,7 +101,7 @@ fun SelectSetDessertScreen() {
                 .padding(horizontal = 32.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
         ) {
-            kioskButtonFormat(
+            KioskButtonFormat(
                 modifier = Modifier.weight(1f),
                 onClick = { /* Handle click */ },
                 buttonText = "취소하기",
@@ -111,7 +110,7 @@ fun SelectSetDessertScreen() {
             )
             Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
 
-            kioskButtonFormat(
+            KioskButtonFormat(
                 modifier = Modifier.weight(1f),
                 onClick = { /* Handle click */ },
                 buttonText = "선택완료",

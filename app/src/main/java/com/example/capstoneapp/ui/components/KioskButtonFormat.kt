@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun kioskButtonFormat(
+fun KioskButtonFormat(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     buttonText: String,
@@ -28,7 +28,7 @@ fun kioskButtonFormat(
             .height(54.dp),
         shape = MaterialTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor, // 배경a색
+            containerColor = backgroundColor, // 배경색
             contentColor = contentColor // 텍스트 색상
         ),
         onClick = onClick
