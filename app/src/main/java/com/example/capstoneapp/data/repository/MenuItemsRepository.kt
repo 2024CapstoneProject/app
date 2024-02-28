@@ -40,7 +40,7 @@ object MenuItemsRepository {
 
     fun getMenuItemById(id: Int): MenuItem? {
         val menuItem = hamburgerMenuItems.find { it.id == id }
-        if(menuItem != null) {
+        if (menuItem != null) {
             return menuItem
         }
         return null

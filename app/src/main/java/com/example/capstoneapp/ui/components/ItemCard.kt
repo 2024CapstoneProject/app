@@ -4,18 +4,22 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.R
 import com.example.capstoneapp.data.repository.MenuItem
 
 @Composable
@@ -49,6 +53,35 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit) {
                 fontFamily = FontFamily.SansSerif
             ),
             modifier = Modifier.padding(top = 2.dp)
+        )
+    }
+}
+
+@Composable
+fun OptionCard(
+    onClick: () -> Unit,
+    text: String,
+    icon: Painter
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(18.dp)
+            .clickable(onClick = onClick)
+    ) {
+        Icon(
+            painter = icon,
+            contentDescription = "",
+            modifier = Modifier.size(48.dp)
+        )
+        Text(
+            text = text,
+            style = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif,
+                textAlign = TextAlign.Center
+            ),
+            modifier = Modifier.padding(top = 4.dp)
         )
     }
 }
