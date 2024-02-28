@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,19 +29,18 @@ import com.example.capstoneapp.Frame.kioskButtonFormat
 import com.example.capstoneapp.R
 import com.example.capstoneapp.component.CustomizedNavigationBar
 import com.example.capstoneapp.component.ItemList
-import com.example.capstoneapp.component.MenuItem
 import com.example.capstoneapp.component.orderList
+import com.example.capstoneapp.repository.MenuItem
 
 @Composable
 fun SelectSetDessertScreen() {
     // 주문한 목록
-    val orderItems = remember {
-        mutableStateListOf<MenuItem>()
-    }
+    val orderItems = remember { mutableStateListOf<MenuItem>() }
+    var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
 
     //테스트용 메뉴 선택 더미 데이터
     val dummyOrderItems = listOf(
-        MenuItem("감자튀김", R.drawable.baseline_adb_24, 0)
+        MenuItem(1, "감자튀김", R.drawable.baseline_adb_24, 0)
     )
 
     //네비게이션 카테고리 선택
@@ -75,6 +73,7 @@ fun SelectSetDessertScreen() {
 
         // 메뉴 목록 표시
         ItemList(selectedMenu = selectedMenu) { selectedItem ->
+            currentItemForDialog = selectedItem
             // 아이템 클릭 시 주문 목록에 추가
             orderItems.add(selectedItem)
         }
