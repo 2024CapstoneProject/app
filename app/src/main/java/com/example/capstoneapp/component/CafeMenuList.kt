@@ -30,32 +30,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
+import com.example.capstoneapp.Repository.MenuItem
+import com.example.capstoneapp.Repository.MenuItemsRepository
 
 @Composable
 fun CafeMenuList(selectedMenu : String,onItemClicked:(MenuItem) ->Unit) {
+    val items = MenuItemsRepository.getItemsForMenu(selectedMenu)
 
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .padding(16.dp)
     ) {
-        val items = when (selectedMenu) {
-            "커피(HOT)" -> listOf(
-                MenuItem("아메리카노", R.drawable.cafe_icon, 2500),
-                MenuItem("카페라떼", R.drawable.cafe_icon, 3000)
-            )
-
-            else -> listOf()
-        }
 
         val rows = items.chunked(2)
 
         rows.forEach { rowItems ->
             Row {
                 rowItems.forEach { item ->
-                    ItemCard(item = item) {
+                    ItemCard(item = item, onClick =  {
                         onItemClicked(item)
-                    }
+                    })
                 }
                 if (rowItems.size < 2) {
                     Spacer(modifier = Modifier.width(16.dp))
@@ -64,68 +59,6 @@ fun CafeMenuList(selectedMenu : String,onItemClicked:(MenuItem) ->Unit) {
         }
     }
 }
-
-@Composable
-fun ItemCard(item: MenuItem, onClick :()->Unit){
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .width(130.dp)
-            .height(180.dp)
-            .absolutePadding(right=8.dp,left=8.dp)
-            .background(Color.White)
-            .border(1.dp, Color.Black)
-            .clickable(onClick = onClick)
-    ){
-        Icon(
-            painter = painterResource(id = item.iconResourceId),
-            contentDescription = "",
-            modifier = Modifier
-                .padding(top=24.dp)
-                .width(88.dp)
-                .height(88.dp)
-        )
-
-        Text(
-            text=item.name,
-            style= TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Cursive
-            ),
-            modifier = Modifier.padding(top=4.dp)
-        )
-
-        Text(
-
-            text= buildAnnotatedString {
-                withStyle(
-                    style=SpanStyle(
-                        Color.Red,
-                        fontSize=16.sp,
-                        fontWeight = FontWeight.ExtraBold
-                    ),
-                ){
-                    append(item.price.toString())
-                }
-                append("원")
-            },
-            textAlign = TextAlign.Center,
-            fontFamily = FontFamily.SansSerif,
-            fontSize=12.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-    }
-
-}
-
-data class MenuItem(
-    val name:String,
-    val iconResourceId:Int,
-    val price:Int
-)
 
 @Preview
 @Composable
