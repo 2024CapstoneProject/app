@@ -1,6 +1,7 @@
 package com.example.capstoneapp.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,15 +44,23 @@ fun itemMenu(selectedMenu: String) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //네비게이션 bar (추천 메뉴, 햄버거 ...)
-        CustomizedNavigationBar(
-            menuItems = myMenuItems,
-            onMenuItemClick = { menuItem ->
-                selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
-            }
-        )
-
-        DividerFormat()
-
+        Box {
+            CustomizedNavigationBar(
+                menuItems = myMenuItems,
+                selectedMenuItem = selectedMenu,
+                onMenuItemClick = { menuItem ->
+                    selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+                }
+            )
+            Divider(
+                color = Color.Gray,
+                thickness = 2.dp,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+            )
+        }
+        
         // 메뉴 목록 표시
         ItemList(selectedMenu = selectedMenu) { selectedItem ->
             currentItemForDialog = selectedItem
