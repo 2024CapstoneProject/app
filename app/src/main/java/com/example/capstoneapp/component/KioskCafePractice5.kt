@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,38 +20,62 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.Frame.NotificationScreen
 
-
 @Composable
-fun KioskCafePractice6(){
+fun KioskCafePractice5(){
     NotificationScreen {
         Column {
             CafeMenuBarFormat {
-                MenuText6()
+                MenuText5()
             }
-            Screen6()
+            Screen5()
         }
     }
-
 }
 @Composable
-fun Screen6(){
+fun Screen5(){
     val price = 2500
+    val num = 1
+    val menu = "ICE 아메리카노"
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 0.dp),
-        verticalArrangement = Arrangement.spacedBy(0.dp)
+            .padding(vertical = 0.dp)
     ) {
-        PayButton(onClick =  {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                text = "$menu",
+                modifier = Modifier
+                    .padding(start = 30.dp, top = 50.dp)
+                    .align(Alignment.CenterVertically)
+                    .weight(1f),
+                fontSize = 27.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+            )
+            Text(
+                text = "$num",
+                modifier = Modifier
+                    .padding(end = 30.dp, top = 52.dp)
+                    .align(Alignment.CenterVertically),
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+        }
 
-        })
+        Spacer(modifier = Modifier.height(250.dp))
+
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
                 text = "금액",
-                modifier = Modifier.padding(start = 30.dp, top = 50.dp)
+                modifier = Modifier
+                    .padding(start = 30.dp, top = 50.dp)
                     .align(Alignment.CenterVertically)
                     .weight(1f),
                 fontSize = 28.sp,
@@ -64,7 +84,8 @@ fun Screen6(){
             )
             Text(
                 text = "$price",
-                modifier = Modifier.padding(end = 5.dp, top = 50.dp)
+                modifier = Modifier
+                    .padding(end = 5.dp, top = 50.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -72,56 +93,23 @@ fun Screen6(){
             )
             Text(
                 text = "원",
-                modifier = Modifier.padding(end = 30.dp, top = 50.dp)
+                modifier = Modifier
+                    .padding(end = 30.dp, top = 50.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
         }
+        Row {
 
-    }
-}
-@Composable
-fun PayButton(onClick: () -> Unit){
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 70.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier.size(200.dp, 150.dp),
-            colors = ButtonDefaults.buttonColors(Color.Gray),
-            shape = RoundedCornerShape(0.dp)
-        ) {
-            Text(
-                text = "카드결제",
-                fontSize = 24.sp,
-                color = Color.Black
-            )
-        }
-        Spacer(modifier = Modifier.height(40.dp))
-        Button(
-            onClick = onClick,
-            modifier = Modifier.size(200.dp, 150.dp),
-            colors = ButtonDefaults.buttonColors(Color.Gray),
-            shape = RoundedCornerShape(0.dp)
-        ) {
-            Text(
-                text = "쿠폰사용",
-                fontSize = 24.sp,
-                color = Color.Black
-            )
         }
     }
 }
 @Composable
-fun MenuText6(){
+fun MenuText5(){
     Text(
-        text = "결제수단 선택",
+        text = "주문 세부내역 확인",
         modifier = Modifier
             .fillMaxWidth()
             .absolutePadding(left = 30.dp),
@@ -130,8 +118,9 @@ fun MenuText6(){
         color = Color.White,
     )
 }
+
 @Preview
 @Composable
-fun Kiosk6PreView(){
-    KioskCafePractice6()
+fun Kiosk5PreView(){
+    KioskCafePractice5()
 }
