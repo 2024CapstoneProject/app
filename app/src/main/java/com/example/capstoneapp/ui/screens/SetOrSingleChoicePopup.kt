@@ -1,4 +1,4 @@
-package com.example.capstoneapp.component
+package com.example.capstoneapp.ui.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -8,12 +8,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 
@@ -27,8 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.capstoneapp.R
-import com.example.capstoneapp.repository.MenuItem
-import com.example.capstoneapp.repository.MenuItemsRepository.getMenuItemById
+import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.data.repository.MenuItemsRepository.getMenuItemById
+import com.example.capstoneapp.ui.components.ItemCard
 
 @Composable
 fun SetOrSingleChoicePopup(
@@ -37,14 +36,13 @@ fun SetOrSingleChoicePopup(
     onDismiss: () -> Unit,
     onAddToOrder: (MenuItem) -> Unit // Boolean 값은 세트 주문이면 true, 단품 주문이면 false
 ) {
-   var setItem = getMenuItemById(currentItem!!.id+1);
+   val setItem = getMenuItemById(currentItem!!.id + 1)
     if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
-
             ) {
                 Column(
                     modifier = Modifier
@@ -53,27 +51,27 @@ fun SetOrSingleChoicePopup(
                     horizontalAlignment = Alignment.CenterHorizontally, // 컬럼 내부의 항목들을 수평 중앙 정렬 r
 
                 ) {
-                    Text("세트로 드시겠어요?", style = androidx.compose.ui.text.TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Text("세트로 드시겠어요?",
+                        style = androidx.compose.ui.text.TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween, // Arrange buttons with space in between
                         verticalAlignment = Alignment.CenterVertically,
 
-                    ){
+                    ) {
                         ItemCard(
                             item = currentItem
                         ) { onAddToOrder(currentItem) }
+
                         if (setItem != null) {
                             ItemCard(item = setItem) { onAddToOrder(setItem) }
                         }
                     }
-
                     Spacer(modifier = Modifier.height(16.dp))
-
                 }
             }
         }

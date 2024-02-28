@@ -1,4 +1,4 @@
-package com.example.capstoneapp.repository
+package com.example.capstoneapp.data.repository
 
 import com.example.capstoneapp.R
 

@@ -1,22 +1,15 @@
-package com.example.capstoneapp.component
+package com.example.capstoneapp.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
-import com.example.capstoneapp.R
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.sp
 
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import com.example.capstoneapp.repository.MenuItem
-import com.example.capstoneapp.repository.MenuItemsRepository
+import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.data.repository.MenuItemsRepository
 
 @Composable
 fun ItemList(selectedMenu: String, onItemClicked: (MenuItem) -> Unit) {

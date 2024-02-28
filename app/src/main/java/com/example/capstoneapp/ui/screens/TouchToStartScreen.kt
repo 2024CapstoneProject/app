@@ -1,10 +1,9 @@
-package com.example.capstoneapp.component
+package com.example.capstoneapp.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun touchScreen() {
 
@@ -43,8 +41,6 @@ fun touchScreen() {
             modifier = Modifier.padding(top = 16.dp) // Icon과 Text 사이의 상단 패딩 적용
         )
     }
-
-
 }
 
 @Preview(showBackground = true)

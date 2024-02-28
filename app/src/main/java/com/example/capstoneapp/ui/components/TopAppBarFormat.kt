@@ -1,4 +1,4 @@
-package com.example.capstoneapp.Frame
+package com.example.capstoneapp.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
