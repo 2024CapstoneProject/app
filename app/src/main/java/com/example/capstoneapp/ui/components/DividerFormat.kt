@@ -1,4 +1,4 @@
-package com.example.capstoneapp.Frame
+package com.example.capstoneapp.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
@@ -8,10 +8,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DividerFormat() {
+fun DividerFormat(modifier: Modifier = Modifier) {
     Divider(
         color = Color.Gray,
         thickness = 2.dp,
-        modifier = Modifier.padding(horizontal = 0.dp)
+        modifier = modifier.padding(horizontal = 0.dp)
     )
 }

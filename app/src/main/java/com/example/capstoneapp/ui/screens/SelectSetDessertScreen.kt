@@ -1,6 +1,7 @@
-package com.example.capstoneapp.Screen
+package com.example.capstoneapp.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,13 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.capstoneapp.Frame.DividerFormat
-import com.example.capstoneapp.Frame.kioskButtonFormat
 import com.example.capstoneapp.R
-import com.example.capstoneapp.component.CustomizedNavigationBar
-import com.example.capstoneapp.component.ItemList
-import com.example.capstoneapp.component.orderList
-import com.example.capstoneapp.repository.MenuItem
+import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.ui.components.CustomizedNavigationBar
+import com.example.capstoneapp.ui.components.DividerFormat
+import com.example.capstoneapp.ui.components.ItemList
+import com.example.capstoneapp.ui.components.KioskButtonFormat
+import com.example.capstoneapp.ui.components.OrderList
 
 @Composable
 fun SelectSetDessertScreen() {
@@ -52,16 +53,22 @@ fun SelectSetDessertScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //네비게이션 bar
-        CustomizedNavigationBar(
-            menuItems = myMenuItems,
-            onMenuItemClick = { menuItem ->
-                selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
-            }
-        )
+        Box {
+            CustomizedNavigationBar(
+                menuItems = myMenuItems,
+                selectedMenuItem = selectedMenu,
+                onMenuItemClick = { menuItem ->
+                    selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+                }
+            )
+            DividerFormat(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+            )
+        }
 
-        DividerFormat()
         Spacer(Modifier.padding(top = 16.dp))
-
         Text(
             text = "세트 디저트 1개를 선택해주세요.",
             style = TextStyle(
@@ -81,7 +88,7 @@ fun SelectSetDessertScreen() {
         DividerFormat()
 
         // 주문 목록 표시
-        orderList(orderItems = dummyOrderItems)
+        OrderList(orderItems = dummyOrderItems)
 
         DividerFormat()
 
@@ -94,7 +101,7 @@ fun SelectSetDessertScreen() {
                 .padding(horizontal = 32.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
         ) {
-            kioskButtonFormat(
+            KioskButtonFormat(
                 modifier = Modifier.weight(1f),
                 onClick = { /* Handle click */ },
                 buttonText = "취소하기",
@@ -103,7 +110,7 @@ fun SelectSetDessertScreen() {
             )
             Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
 
-            kioskButtonFormat(
+            KioskButtonFormat(
                 modifier = Modifier.weight(1f),
                 onClick = { /* Handle click */ },
                 buttonText = "선택완료",

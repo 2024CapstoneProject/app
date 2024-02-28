@@ -1,4 +1,4 @@
-package com.example.capstoneapp.Frame
+package com.example.capstoneapp.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

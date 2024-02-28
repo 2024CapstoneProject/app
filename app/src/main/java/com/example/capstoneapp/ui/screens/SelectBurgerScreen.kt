@@ -1,4 +1,4 @@
-package com.example.capstoneapp.component
+package com.example.capstoneapp.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,21 +20,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.capstoneapp.Frame.DividerFormat
-import com.example.capstoneapp.Frame.kioskButtonFormat
 import com.example.capstoneapp.R
-import com.example.capstoneapp.repository.MenuItem
+import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.ui.components.CustomizedNavigationBar
+import com.example.capstoneapp.ui.components.DividerFormat
+import com.example.capstoneapp.ui.components.ItemList
+import com.example.capstoneapp.ui.components.KioskButtonFormat
+import com.example.capstoneapp.ui.components.OrderList
 
 @Composable
-fun itemMenu(selectedMenu: String) {
+fun itemMenu() {
     // 주문한 목록
     val orderItems = remember { mutableStateListOf<MenuItem>() }
     var showDialog by remember { mutableStateOf(false) }
     var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
+
     //테스트용 메뉴 선택 더미 데이터
     val dummyOrderItems = listOf(
         MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24, 7000)
     )
+
     //네비게이션 카테고리 선택
     var selectedMenu by remember { mutableStateOf("햄버거") } // 초기값 설정
     val myMenuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
@@ -52,9 +57,7 @@ fun itemMenu(selectedMenu: String) {
                     selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
                 }
             )
-            Divider(
-                color = Color.Gray,
-                thickness = 2.dp,
+            DividerFormat(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
@@ -82,7 +85,7 @@ fun itemMenu(selectedMenu: String) {
         DividerFormat()
 
         // 주문 목록 표시
-        orderList(orderItems = orderItems )
+        OrderList(orderItems = orderItems )
 
         DividerFormat()
 
@@ -95,11 +98,10 @@ fun itemMenu(selectedMenu: String) {
                 .padding(horizontal = 32.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
         ) {
-            kioskButtonFormat(
+            KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom=16.dp)
-                ,
+                    .padding(bottom=16.dp),
                 onClick = { /* Handle click */ },
                 buttonText = "취소하기",
                 backgroundColor = Color.DarkGray,
@@ -107,7 +109,7 @@ fun itemMenu(selectedMenu: String) {
             )
             Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
 
-            kioskButtonFormat(
+            KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
                     .padding(bottom=16.dp)
@@ -137,26 +139,36 @@ fun DefaultMenuPreview() {
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {// 선택된 메뉴를 기반으로 ItemList 렌더링
-
-        CustomizedNavigationBar(
-            menuItems = myMenuItems,
-            onMenuItemClick = { menuItem ->
-                selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
-            }
-        )
+        //네비게이션 bar (추천 메뉴, 햄버거 ...)
+        Box {
+            CustomizedNavigationBar(
+                menuItems = myMenuItems,
+                selectedMenuItem = selectedMenu,
+                onMenuItemClick = { menuItem ->
+                    selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+                }
+            )
+            Divider(
+                color = Color.Gray,
+                thickness = 2.dp,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+            )
+        }
         ItemList(selectedMenu = selectedMenu) {
             // 미리 정의된 주문 내역을 사용하므로 여기서는 아무 작업도 하지 않음
         }
         // 구분선
         Divider(color = Color.Gray, thickness = 2.dp)
         // 더미 주문 내역을 렌더링
-        orderList(orderItems = dummyOrderItems)
+        OrderList(orderItems = dummyOrderItems)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewItemMenu() {
-    itemMenu("햄버거")
+    itemMenu()
 }
 

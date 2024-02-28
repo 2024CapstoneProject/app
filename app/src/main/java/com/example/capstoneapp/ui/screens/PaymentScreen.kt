@@ -1,4 +1,4 @@
-package com.example.capstoneapp.component
+package com.example.capstoneapp.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,21 +25,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
 
-
 @Composable
-fun paymentMenu() {
+fun PaymentScreen() {
     Column(
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-
-        ) {
+    ) {
         Text(
             text = "원하시는 결제방법을 선택해주세요",
-            style =
-            TextStyle(
+            style = TextStyle(
                 fontSize = 20.sp,
                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif),
+                fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+            ),
             modifier = Modifier.padding(top = 16.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -49,10 +47,7 @@ fun paymentMenu() {
                 .padding(horizontal = 16.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween, // Arrange buttons with space in between
             verticalAlignment = Alignment.CenterVertically
-        )
-        {
-
-
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_adb_24),
                 contentDescription = null,
@@ -61,54 +56,39 @@ fun paymentMenu() {
                     .width(120.dp) // 아이콘의 너비를 48dp로 설정
                     .height(120.dp)
                     .weight(1f)
-
             )
             Column(
-
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
-                //왼쪽에 padding을 주기 위해
-
+                modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
             ) {
-
                 Text(
                     text = "현금",
-                    style =
-                    TextStyle(
+                    style = TextStyle(
                         fontSize = 40.sp,
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif),
-
+                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
                     )
+                )
                 Text(
                     text = "신용/체크카드 \n 모바일 금액권 \n 간편결제(페이)",
-                    style =
-                    TextStyle(
+                    style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif),
-
+                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                    ),
                     modifier = Modifier.padding(top = 16.dp)
                 )
             }
-
-
-
-
         }
         Spacer(modifier = Modifier.height(48.dp))
-        //가로선을 추가해줘
+
         Divider(
             color = Color.Gray, // 선의 색상 지정
             thickness = 2.dp, // 선의 두께 지정
             modifier = Modifier.padding(horizontal = 16.dp) // 좌우 패딩 적용
         )
 
-
-
         Spacer(modifier = Modifier.height(48.dp))
-
-
 
         Row(
             modifier = Modifier
@@ -116,32 +96,24 @@ fun paymentMenu() {
                 .padding(horizontal = 16.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween,// Arrange buttons with space in between
             verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            Column(
-
+        ) { Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
-                //왼쪽에 padding을 주기 위해
-
+                modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
             ) {
-
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_adb_24),
                     contentDescription = null,
                     modifier = Modifier
                         .width(80.dp) // 아이콘의 너비를 48dp로 설정
                         .height(80.dp)
-
                 )
                 Text(
                     text = "디지털쿠폰/교환권",
-                    style =
-                    TextStyle(
+                    style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif),
-
+                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                    ),
                     modifier = Modifier.padding(top = 16.dp)
                 )
             }
@@ -152,42 +124,36 @@ fun paymentMenu() {
                     .height(180.dp) // 선의 높이
                     .background(color = Color.Gray) // 선의 색상
             )
+
             Column(
-
-
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
-                //왼쪽에 padding을 주기 위해
-
+                modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
             ) {
-
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_adb_24),
                     contentDescription = null,
                     modifier = Modifier
                         .width(80.dp) // 아이콘의 너비를 48dp로 설정
                         .height(80.dp)
-
                 )
+
                 Text(
                     text = "현금",
-                    style =
-                    TextStyle(
+                    style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif),
-
+                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                    ),
                     modifier = Modifier.padding(top = 16.dp)
                 )
             }
         }
         Spacer(modifier = Modifier.height(48.dp))
-
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PaymentPreview() {
-    paymentMenu()
+    PaymentScreen()
 }

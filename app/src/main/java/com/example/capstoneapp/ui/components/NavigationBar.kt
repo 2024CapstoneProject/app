@@ -1,4 +1,4 @@
-package com.example.capstoneapp.component;
+package com.example.capstoneapp.ui.components;
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,25 +7,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 
 import androidx.compose.material3.Text
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,13 +43,13 @@ fun CustomizedNavigationBar(
     ) {
         menuItems.forEach { item ->
             val isSelected = item == selectedMenuItem
+
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = 2.dp)
                     .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)) // 상단 모서리를 둥글게
                     .then(
-
                         if (isSelected) Modifier.border(
                             width = 2.dp,
                             color = Color.Gray,
@@ -67,7 +61,6 @@ fun CustomizedNavigationBar(
                     .clickable { onMenuItemClick(item) },
                 contentAlignment = Alignment.Center
 
-
             ) {
                 Text(
                     text = item,
@@ -78,14 +71,11 @@ fun CustomizedNavigationBar(
                         fontFamily = FontFamily.SansSerif
                     )
                 )
-
             }
-
         }
         if (!selectedMenuItem.isEmpty()) {
             Box(
                 modifier = Modifier
-                 
                     .padding(horizontal = 4.dp) // 전체 Row의 좌우 패딩과 일치시킵니다.
                     .wrapContentSize(Alignment.BottomStart) // 하단에 내용을 배치합니다.
                     .offset(y = 10.dp) // 텍스트의 하단에서부터 시작점을 옮깁니다.
@@ -93,13 +83,8 @@ fun CustomizedNavigationBar(
                     .background(Color.LightGray) // 박스의 배경색을 LightGray로 설정합니다.
             )
         }
-
-
-
     }
-
 }
-
 
 @Composable
 @Preview

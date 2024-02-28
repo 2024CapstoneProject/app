@@ -1,8 +1,6 @@
-package com.example.capstoneapp.Frame
+package com.example.capstoneapp.ui.components
 
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -11,11 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun kioskButtonFormat(
+fun ButtonFormat(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     buttonText: String,
@@ -23,12 +22,10 @@ fun kioskButtonFormat(
     contentColor: Color
 ) {
     Button(
-        modifier = modifier
-            .width(72.dp)
-            .height(54.dp),
+        modifier = modifier,
         shape = MaterialTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor, // 배경a색
+            containerColor = backgroundColor, // 배경색
             contentColor = contentColor // 텍스트 색상
         ),
         onClick = onClick
@@ -36,10 +33,10 @@ fun kioskButtonFormat(
         Text(
             text = buttonText,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.White,
+            color = Color.Black,
             //fontFamily = suite,
-            fontSize = 18.sp,
-            modifier = Modifier.padding(vertical = 0.dp),
+            fontSize = 24.sp,
+            modifier = Modifier.padding(vertical = 8.dp),
         )
     }
 }
