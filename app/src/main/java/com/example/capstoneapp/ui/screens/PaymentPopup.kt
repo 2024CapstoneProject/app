@@ -1,4 +1,5 @@
 package com.example.capstoneapp.ui.screens
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -82,21 +83,23 @@ fun PaymentPopup(
     }
 }
 
+
 @Composable
 fun CancelButton(onDismiss: () -> Unit) {
     Button(
         modifier = Modifier.padding(horizontal = 110.dp),
         shape = MaterialTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.DarkGray, // 배경색
+            containerColor = Color.Transparent, // 배경색을 투명으로 설정
             contentColor = Color.Black // 텍스트 색상
         ),
+        border = BorderStroke(1.dp, Color.Gray), // 테두리 설정
         onClick = onDismiss
     ) {
         Text(
             text = "취소",
             fontWeight = FontWeight.ExtraBold,
-            color = Color.White,
+            color = Color.Black, // 텍스트 색상을 흑색으로 설정
             fontFamily = fontFamily,
             fontSize = 14.sp,
         )
