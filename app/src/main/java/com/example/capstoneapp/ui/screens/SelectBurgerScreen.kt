@@ -20,69 +20,93 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.ui.components.AppNavigation
 import com.example.capstoneapp.ui.components.CustomizedNavigationBar
-import com.example.capstoneapp.ui.components.DividerFormat
+import com.example.capstoneapp.ui.frame.DividerFormat
 import com.example.capstoneapp.ui.components.ItemList
-import com.example.capstoneapp.ui.components.KioskButtonFormat
+import com.example.capstoneapp.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OrderList
 
 @Composable
-fun ItemMenu() {
+fun itemMenu(navController: NavController) {
     // 주문한 목록
     val orderItems = remember { mutableStateListOf<MenuItem>() }
     var showDialog by remember { mutableStateOf(false) }
     var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
-
+    var showDessertScreen by remember { mutableStateOf(false) }
     //테스트용 메뉴 선택 더미 데이터
     val dummyOrderItems = listOf(
         MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24, 7000)
     )
+    val onButtonClick = {
+        showDessertScreen = false
+        // Additional logic here if needed, such as navigating back or handling the action
+    }
 
     //네비게이션 카테고리 선택
     var selectedMenu by remember { mutableStateOf("햄버거") } // 초기값 설정
     val myMenuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
-
+    val buttonText = if (showDessertScreen) "선택완료" else "결제하기"
     Column(
         modifier = Modifier.padding(0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //네비게이션 bar (추천 메뉴, 햄버거 ...)
-        Box {
-            CustomizedNavigationBar(
-                menuItems = myMenuItems,
-                selectedMenuItem = selectedMenu,
-                onMenuItemClick = { menuItem ->
-                    selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
-                }
-            )
-        }
+
         
-        // 메뉴 목록 표시
-        ItemList(selectedMenu = selectedMenu) { selectedItem ->
-            currentItemForDialog = selectedItem
-            showDialog = true // 아이템 클릭 시 팝업 표시
-        }
+        // 메뉴 목록 표
+        if (!showDessertScreen) {
 
-        if (showDialog) {
-            SetOrSingleChoicePopup(
-                showDialog = showDialog,
-                currentItem = currentItemForDialog,
-                onDismiss = { showDialog = false },
-                onAddToOrder = { item ->
-                    orderItems.add(item)
-                    showDialog = false
+            Box {
+                CustomizedNavigationBar(
+                    menuItems = myMenuItems,
+                    selectedMenuItem = selectedMenu,
+                    onMenuItemClick = { menuItem ->
+                        selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+                    }
+                )
+                DividerFormat(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                )
+            }
+            // Display the default content
+            // 메뉴 목록 표시
+            ItemList(selectedMenu = selectedMenu) { selectedItem ->
+                currentItemForDialog = selectedItem
+                showDialog = true // 아이템 클릭 시 팝업 표시
+            }
+
+            if (showDialog) {
+                SetOrSingleChoicePopup(
+                    showDialog = showDialog,
+                    currentItem = currentItemForDialog,
+                    onDismiss = { showDialog = false },
+                    onAddToOrder = { item ->
+                        orderItems.add(item)
+                        showDialog = false
+                        showDessertScreen = item.id % 2 == 0
+                    },
+                )
+            }
+        } else {
+            // Display the SelectSetDessertScreen content
+            SelectSetDessertScreen(
+                onItemSelected = { selectedItem ->
+                    orderItems.add(selectedItem)
+
                 }
-            )
+            )// You may need to adjust this part based on your actual content
         }
 
-        DividerFormat()
+        DividerFormat()  // 밑으로 변경 x
 
         // 주문 목록 표시
         OrderList(orderItems = orderItems )
-
-        DividerFormat()
 
         Spacer(Modifier.weight(1f)) // This will push the buttons up to be just above the bottom bar
 
@@ -96,7 +120,7 @@ fun ItemMenu() {
             KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom=16.dp),
+                    .padding(bottom = 16.dp),
                 onClick = { /* Handle click */ },
                 buttonText = "취소하기",
                 backgroundColor = Color.DarkGray,
@@ -107,61 +131,25 @@ fun ItemMenu() {
             KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom=16.dp),
-                onClick = { /* Handle click */ },
-                buttonText = "결제하기",
+                    .padding(bottom = 16.dp)
+                ,
+                onClick = onButtonClick,
+                buttonText = buttonText,
                 backgroundColor = Color.Red,
                 contentColor = Color.Black
             )
+            //Spacer(modifier = Modifier.height(64.dp))
         }
     }
 }
 
-@Composable
-fun DefaultMenuPreview() {
-    // 주문 내역에 "불고기 버거" 추가를 시뮬레이션
-    val dummyOrderItems = listOf(
-        MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24, 7000)
-    )
 
-    // AppTheme와 같은 상위 테마 컴포저블이 있으면 여기서 감싸줍니다.
-    var selectedMenu by remember { mutableStateOf("햄버거") } // 초기값 설정
-    val myMenuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
 
-    Column(
-        modifier = Modifier.padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {// 선택된 메뉴를 기반으로 ItemList 렌더링
-        //네비게이션 bar (추천 메뉴, 햄버거 ...)
-        Box {
-            CustomizedNavigationBar(
-                menuItems = myMenuItems,
-                selectedMenuItem = selectedMenu,
-                onMenuItemClick = { menuItem ->
-                    selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
-                }
-            )
-            Divider(
-                color = Color.Gray,
-                thickness = 2.dp,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-            )
-        }
-        ItemList(selectedMenu = selectedMenu) {
-            // 미리 정의된 주문 내역을 사용하므로 여기서는 아무 작업도 하지 않음
-        }
-        // 구분선
-        Divider(color = Color.Gray, thickness = 2.dp)
-        // 더미 주문 내역을 렌더링
-        OrderList(orderItems = dummyOrderItems)
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewItemMenu() {
-    ItemMenu()
+    AppNavigation()
 }
 
