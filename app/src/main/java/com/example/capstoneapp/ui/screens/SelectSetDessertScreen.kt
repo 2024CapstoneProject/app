@@ -28,17 +28,18 @@ import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
 import com.example.capstoneapp.data.repository.MenuItem
 import com.example.capstoneapp.ui.components.CustomizedNavigationBar
-import com.example.capstoneapp.ui.components.DividerFormat
+import com.example.capstoneapp.ui.frame.DividerFormat
 import com.example.capstoneapp.ui.components.ItemList
-import com.example.capstoneapp.ui.components.KioskButtonFormat
+import com.example.capstoneapp.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OrderList
 
 @Composable
-fun SelectSetDessertScreen() {
+fun SelectSetDessertScreen(onItemSelected: (MenuItem) -> Unit) {
     // 주문한 목록
     val orderItems = remember { mutableStateListOf<MenuItem>() }
     var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
-
+    var selectDessert by remember { mutableStateOf(false) }
+    var selectDrink by remember { mutableStateOf(false) }
     //테스트용 메뉴 선택 더미 데이터
     val dummyOrderItems = listOf(
         MenuItem(1, "감자튀김", R.drawable.baseline_adb_24, 0)
@@ -80,50 +81,53 @@ fun SelectSetDessertScreen() {
 
         // 메뉴 목록 표시
         ItemList(selectedMenu = selectedMenu) { selectedItem ->
-            currentItemForDialog = selectedItem
-            // 아이템 클릭 시 주문 목록에 추가
-            orderItems.add(selectedItem)
-        }
-
-        DividerFormat()
-
-        // 주문 목록 표시
-        OrderList(orderItems = dummyOrderItems)
-
-        DividerFormat()
-
-        Spacer(Modifier.weight(1f)) // This will push the buttons up to be just above the bottom bar
-
-        // 결제 버튼
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp), // Apply horizontal padding
-            horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
-        ) {
-            KioskButtonFormat(
-                modifier = Modifier.weight(1f),
-                onClick = { /* Handle click */ },
-                buttonText = "취소하기",
-                backgroundColor = Color.DarkGray,
-                contentColor = Color.Black
-            )
-            Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
-
-            KioskButtonFormat(
-                modifier = Modifier.weight(1f),
-                onClick = { /* Handle click */ },
-                buttonText = "선택완료",
-                backgroundColor = Color.Red,
-                contentColor = Color.Black
-            )
-            Spacer(modifier = Modifier.height(48.dp))
+            onItemSelected(selectedItem) // This will invoke the callback passed from itemMenu
+            selectedMenu="세트 드링크"
         }
     }
-}
+
+//        DividerFormat()
+//
+//        // 주문 목록 표시
+//        OrderList(orderItems = dummyOrderItems)
+//
+//        DividerFormat()
+//
+//        Spacer(Modifier.weight(1f)) // This will push the buttons up to be just above the bottom bar
+//
+//        // 결제 버튼
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 32.dp), // Apply horizontal padding
+//            horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
+//        ) {
+//            KioskButtonFormat(
+//                modifier = Modifier.weight(1f),
+//                onClick = { /* Handle click */ },
+//                buttonText = "취소하기",
+//                backgroundColor = Color.DarkGray,
+//                contentColor = Color.Black
+//            )
+//            Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
+//
+//            KioskButtonFormat(
+//                modifier = Modifier.weight(1f),
+//                onClick = { /* Handle click */ },
+//                buttonText = "선택완료",
+//                backgroundColor = Color.Red,
+//                contentColor = Color.Black
+//            )
+//            Spacer(modifier = Modifier.height(48.dp))
+//        }
+//    }
+}//
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewISelectSetDessertScreen() {
-    SelectSetDessertScreen()
+    val dummyOrderItems = listOf(
+        MenuItem(1, "감자튀김", R.drawable.baseline_adb_24, 0)
+    )
+    SelectSetDessertScreen(onItemSelected = {dummyOrderItems})
 }

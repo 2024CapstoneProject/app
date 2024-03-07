@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.data.repository.MenuItem
 import com.example.capstoneapp.data.repository.MenuItemsRepository.getMenuItemById
@@ -34,7 +36,7 @@ fun SetOrSingleChoicePopup(
     showDialog: Boolean,
     currentItem: MenuItem?,
     onDismiss: () -> Unit,
-    onAddToOrder: (MenuItem) -> Unit // Boolean 값은 세트 주문이면 true, 단품 주문이면 false
+    onAddToOrder: (MenuItem) -> Unit, // Boolean 값은 세트 주문이면 true, 단품 주문이면 false // NavController 추가
 ) {
     val setItem = getMenuItemById(currentItem!!.id + 1)
 
@@ -83,6 +85,7 @@ fun SetOrSingleChoicePopup(
 @Composable
 fun SetPopupPreview() {
     var showDialog by remember { mutableStateOf(true) }
+    val navController = rememberNavController()
 
     if (showDialog) {
         SetOrSingleChoicePopup(
@@ -90,6 +93,7 @@ fun SetPopupPreview() {
             MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24,7000),
             onDismiss = { showDialog = false },
             onAddToOrder = { /* 주문 추가 이벤트 처리는 불필요하므로 비워둠 */ }
+
         )
     }
 }
