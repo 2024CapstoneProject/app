@@ -61,11 +61,6 @@ fun SelectSetDessertScreen() {
                     selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
                 }
             )
-            DividerFormat(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-            )
         }
 
         Spacer(Modifier.padding(top = 16.dp))
