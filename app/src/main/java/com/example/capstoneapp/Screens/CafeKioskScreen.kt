@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,27 +36,31 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.Frame.DialogFormat
 import com.example.capstoneapp.Frame.NotificationScreen
 import com.example.capstoneapp.R
 import com.example.capstoneapp.Repository.MenuItem
 import com.example.capstoneapp.component.CafeMenuBar
 import com.example.capstoneapp.component.CafeMenuBarFormat
 import com.example.capstoneapp.component.CafeMenuList
-import com.example.capstoneapp.component.SelectedMenuSpec
+import com.example.capstoneapp.component.ShowMenu
 
 
 @Composable
 fun CafeKioskScreen(){
-    NotificationScreen {CafeMenuScreen()}
+    NotificationScreen {ShowMenu(navController = rememberNavController())}
 
 }
 
 @Composable
 fun CafeMenuScreen(){
 
+
     val orderItems = remember{
-        mutableStateListOf<MenuItem>()
+        mutableStateListOf<Pair<MenuItem,Int>>()
     }
+
     var selectedMenu by remember{ mutableStateOf("커피(HOT)") }
     val menuCategory = listOf("커피(HOT)","커피(ICE)","티(TEA)")
 
@@ -78,9 +83,18 @@ fun CafeMenuScreen(){
             }
             /*
             * 선택한 메뉴 종류에 따라 메뉴 리스트를 보여줌
-            * */
+            *
+            * selectedMenu : 종류
+            * selectedItem : 선택한 메뉴
+            *  */
             CafeMenuList(selectedMenu = selectedMenu){selectedItem ->
-                orderItems.add(selectedItem)
+                val targetPair = orderItems.firstOrNull(){it.first.name == selectedItem.name}
+
+                if(targetPair != null){
+                    val index = orderItems.indexOf(targetPair)
+                    orderItems[index] = targetPair.copy(second = targetPair.second+1)
+                } else
+                    orderItems.add(Pair(selectedItem,1))
             }
         }
 
@@ -105,22 +119,6 @@ fun CafeMenuScreen(){
                         .padding()
                         .width(234.dp)
                 )
-                Box(//선택한 메뉴 보여줌
-                    modifier = Modifier
-                        .width(230.dp)
-                        .height(100.dp)
-                ){
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        contentPadding = PaddingValues(4.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ){//선택한 메뉴 갯수에 따라 메뉴리스트 조회가능
-                        items(orderItems.size){ i->
-                            SelectedMenuSpec(selectedMenuName = orderItems.get(i).name)
-                        }
-                    }
-                }
             }
 
             Divider(
@@ -129,133 +127,6 @@ fun CafeMenuScreen(){
                     .fillMaxHeight()
                     .width(2.dp)
             )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(76.dp),
-                    contentAlignment = Alignment.CenterStart
-
-                ) {
-
-                    Column(
-                        modifier = Modifier.padding(start=4.dp)
-                    ){
-                        Text(
-                            text="남은 시간",
-                            style= TextStyle(
-                                fontSize = 30.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                fontFamily = FontFamily.Cursive
-                            ),
-                        )
-
-                        Text(
-                            text = buildAnnotatedString {
-                                withStyle(
-                                    style = SpanStyle(
-                                        Color.Red,
-                                        fontSize =34.sp,
-                                        fontWeight = FontWeight.ExtraBold,
-                                        fontFamily = FontFamily.SansSerif
-                                    ),
-                                ) {
-                                    append("120")
-                                }
-                                append("초")
-                            },
-                            fontSize = 30.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontFamily = FontFamily.SansSerif,
-
-                            )
-
-                    }
-
-                }
-
-                Divider(
-                    color = Color.Gray, // 선의 색상 지정
-                    thickness = 1.dp, // 선의 두께 지정
-                    modifier = Modifier
-                        .padding(2.dp)
-                )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .padding(start = 4.dp),
-                    contentAlignment = Alignment.TopStart
-                ){
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-
-                    ){
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(2.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ){
-                            Text(
-                                text="선택 상품",
-                                style= TextStyle(
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    fontFamily = FontFamily.SansSerif
-                                ),
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = buildAnnotatedString {
-                                    withStyle(
-                                        style = SpanStyle(
-                                            Color.Red,
-                                            fontSize = 20.sp,
-                                            fontWeight = FontWeight.ExtraBold,
-                                            fontFamily = FontFamily.SansSerif
-                                        ),
-                                    ) {
-                                        append(orderItems.size.toString())
-                                    }
-                                    append("개")
-                                },
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                fontFamily = FontFamily.SansSerif,
-                            )
-                        }
-                        Spacer(modifier=Modifier.height(8.dp))
-
-                        Button(
-                            modifier = Modifier
-                                .width(114.dp)
-                                .height(70.dp)
-                            ,
-                            shape = MaterialTheme.shapes.small,
-                            colors=ButtonDefaults.buttonColors(
-                                containerColor = Color.Gray,
-                                contentColor = Color.White
-                            ),
-                            onClick = {}
-                        ){
-                            Text(
-                                text="결제하기",
-                                fontSize=24.sp
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 }
