@@ -32,6 +32,7 @@ import com.example.capstoneapp.ui.components.DividerFormat
 import com.example.capstoneapp.ui.components.ItemList
 import com.example.capstoneapp.ui.components.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OrderList
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun SelectSetDessertScreen() {
@@ -69,7 +70,7 @@ fun SelectSetDessertScreen() {
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.SansSerif
+                fontFamily = fontFamily
             )
         )
 

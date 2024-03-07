@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun ButtonFormat(
@@ -34,7 +35,7 @@ fun ButtonFormat(
             text = buttonText,
             fontWeight = FontWeight.ExtraBold,
             color = Color.Black,
-            //fontFamily = suite,
+            fontFamily = fontFamily,
             fontSize = 24.sp,
             modifier = Modifier.padding(vertical = 8.dp),
         )

@@ -20,10 +20,12 @@ import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun PaymentScreen() {
@@ -35,8 +37,8 @@ fun PaymentScreen() {
             text = "원하시는 결제방법을 선택해주세요",
             style = TextStyle(
                 fontSize = 20.sp,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                fontWeight = FontWeight.Bold,
+                fontFamily = fontFamily,
             ),
             modifier = Modifier.padding(top = 16.dp)
         )
@@ -65,16 +67,16 @@ fun PaymentScreen() {
                     text = "현금",
                     style = TextStyle(
                         fontSize = 40.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = fontFamily,
                     )
                 )
                 Text(
                     text = "신용/체크카드 \n 모바일 금액권 \n 간편결제(페이)",
                     style = TextStyle(
                         fontSize = 16.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = fontFamily,
                     ),
                     modifier = Modifier.padding(top = 16.dp)
                 )
@@ -111,8 +113,8 @@ fun PaymentScreen() {
                     text = "디지털쿠폰/교환권",
                     style = TextStyle(
                         fontSize = 16.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = fontFamily,
                     ),
                     modifier = Modifier.padding(top = 16.dp)
                 )
@@ -141,8 +143,8 @@ fun PaymentScreen() {
                     text = "현금",
                     style = TextStyle(
                         fontSize = 16.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        fontFamily = androidx.compose.ui.text.font.FontFamily.SansSerif
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = fontFamily,
                     ),
                     modifier = Modifier.padding(top = 16.dp)
                 )

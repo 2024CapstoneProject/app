@@ -28,6 +28,7 @@ import com.example.capstoneapp.R
 import com.example.capstoneapp.data.repository.MenuItem
 import com.example.capstoneapp.data.repository.MenuItemsRepository.getMenuItemById
 import com.example.capstoneapp.ui.components.ItemCard
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun SetOrSingleChoicePopup(
@@ -55,7 +56,8 @@ fun SetOrSingleChoicePopup(
                     Text("세트로 드시겠어요?",
                         style = androidx.compose.ui.text.TextStyle(
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = fontFamily
                         )
                     )
                     Spacer(modifier = Modifier.height(16.dp))

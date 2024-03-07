@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun touchScreen() {
@@ -38,7 +39,8 @@ fun touchScreen() {
             TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.SansSerif),
+                fontFamily = fontFamily
+            ),
             modifier = Modifier.padding(top = 16.dp) // Icon과 Text 사이의 상단 패딩 적용
         )
     }

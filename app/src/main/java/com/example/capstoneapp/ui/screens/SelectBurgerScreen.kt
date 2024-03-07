@@ -107,14 +107,12 @@ fun ItemMenu() {
             KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom=16.dp)
-                ,
+                    .padding(bottom=16.dp),
                 onClick = { /* Handle click */ },
                 buttonText = "결제하기",
                 backgroundColor = Color.Red,
                 contentColor = Color.Black
             )
-            //Spacer(modifier = Modifier.height(64.dp))
         }
     }
 }

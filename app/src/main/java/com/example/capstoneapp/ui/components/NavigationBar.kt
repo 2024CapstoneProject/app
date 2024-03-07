@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.capstoneapp.ui.theme.fontFamily
 
 // NavigationBar 컴포넌트에 선택된 메뉴 항목을 업데이트하는 로직 추가
 @Composable
@@ -55,15 +56,15 @@ fun CustomizedNavigationBar(
                         .padding(horizontal = 2.dp)
                         .padding(top = 4.dp)
                         .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)) // 상단 모서리를 둥글게
+                        // todo : 배경색 바꾸기
                         .background(if (isSelected) Color.White else Color.LightGray) // 선택되지 않은 메뉴의 배경색을 회색으로 설정
                         .then(
                             if (isSelected) Modifier.border(
                                 width = 1.dp,
-                                color = Color.LightGray,
+                                color = Color.Transparent,
                                 shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp) // 하단 테두리 제외
                             )
-                            else Modifier
-                                .background(Color.Transparent)
+                            else Modifier.background(Color.Transparent)
                         )
                         .padding(horizontal = 8.dp, vertical = 10.dp)
                         .clickable { onMenuItemClick(item) },
@@ -75,7 +76,7 @@ fun CustomizedNavigationBar(
                             fontSize = 14.sp,
                             fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Bold,
                             color = if (isSelected) Color.Black else Color.DarkGray,
-                            fontFamily = FontFamily.SansSerif
+                            fontFamily = fontFamily
                         )
                     )
                 }
