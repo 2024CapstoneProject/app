@@ -29,9 +29,7 @@ import com.example.capstoneapp.ui.theme.Yellow
 @Composable
 fun NotificationScreen(content: @Composable () -> Unit) {
     Scaffold(
-        topBar = {
-            TopAppBar()
-        }
+        topBar = { TopAppBar() }
     ) {
         Column(
             modifier = Modifier

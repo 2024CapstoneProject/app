@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 
 import androidx.compose.ui.text.font.FontWeight
 import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun OrderList(orderItems: List<MenuItem>) {
@@ -40,7 +41,10 @@ fun OrderList(orderItems: List<MenuItem>) {
             // 총 개수와 총 가격을 함께 표시
             Text(
                 text = "$totalItems 개 $totalPrice 원",
-                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = fontFamily,
+                fontSize = 10.sp,
             )
         }
 
@@ -49,7 +53,13 @@ fun OrderList(orderItems: List<MenuItem>) {
         Spacer(modifier = Modifier.height(6.dp))
         // 개별 주문 내역을 아래에 표시
         orderItems.forEach { item ->
-            Text("${item.name} ${item.price}원", style = TextStyle(fontSize = 18.sp))
+            Text(
+                text = "${item.name} ${item.price}원",
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                fontFamily = fontFamily,
+                fontSize = 18.sp,
+            )
             Spacer(modifier = Modifier.height(6.dp))
         }
     }

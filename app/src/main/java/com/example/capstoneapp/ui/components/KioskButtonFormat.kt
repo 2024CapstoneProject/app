@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun KioskButtonFormat(
@@ -37,7 +38,7 @@ fun KioskButtonFormat(
             text = buttonText,
             fontWeight = FontWeight.ExtraBold,
             color = Color.White,
-            //fontFamily = suite,
+            fontFamily = fontFamily,
             fontSize = 18.sp,
             modifier = Modifier.padding(vertical = 0.dp),
         )

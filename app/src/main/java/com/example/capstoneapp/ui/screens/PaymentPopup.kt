@@ -36,6 +36,7 @@ import com.example.capstoneapp.data.repository.MenuItem
 import com.example.capstoneapp.data.repository.MenuItemsRepository.getMenuItemById
 import com.example.capstoneapp.ui.components.ItemCard
 import com.example.capstoneapp.ui.components.KioskButtonFormat
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun PaymentPopup(
@@ -60,7 +61,8 @@ fun PaymentPopup(
                         text = "신용/체크카드",
                         style = androidx.compose.ui.text.TextStyle(
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = fontFamily
                         )
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -95,7 +97,7 @@ fun CancelButton(onDismiss: () -> Unit) {
             text = "취소",
             fontWeight = FontWeight.ExtraBold,
             color = Color.White,
-            //fontFamily = suite,
+            fontFamily = fontFamily,
             fontSize = 14.sp,
         )
     }

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
 import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun ItemCard(item: MenuItem, onClick: () -> Unit) {
@@ -50,7 +51,7 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit) {
             style = TextStyle(
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
-                fontFamily = FontFamily.SansSerif
+                fontFamily = fontFamily
             ),
             modifier = Modifier.padding(top = 2.dp)
         )
@@ -78,7 +79,7 @@ fun OptionCard(
             style = TextStyle(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.SansSerif,
+                fontFamily = fontFamily,
                 textAlign = TextAlign.Center
             ),
             modifier = Modifier.padding(top = 4.dp)

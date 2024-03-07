@@ -29,7 +29,7 @@ import com.example.capstoneapp.ui.components.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OrderList
 
 @Composable
-fun itemMenu() {
+fun ItemMenu() {
     // 주문한 목록
     val orderItems = remember { mutableStateListOf<MenuItem>() }
     var showDialog by remember { mutableStateOf(false) }
@@ -56,11 +56,6 @@ fun itemMenu() {
                 onMenuItemClick = { menuItem ->
                     selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
                 }
-            )
-            DividerFormat(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
             )
         }
         
@@ -112,14 +107,12 @@ fun itemMenu() {
             KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom=16.dp)
-                ,
+                    .padding(bottom=16.dp),
                 onClick = { /* Handle click */ },
                 buttonText = "결제하기",
                 backgroundColor = Color.Red,
                 contentColor = Color.Black
             )
-            //Spacer(modifier = Modifier.height(64.dp))
         }
     }
 }
@@ -169,6 +162,6 @@ fun DefaultMenuPreview() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewItemMenu() {
-    itemMenu()
+    ItemMenu()
 }
 

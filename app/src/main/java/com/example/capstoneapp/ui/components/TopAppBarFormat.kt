@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.ui.theme.fontFamily
 
 //container height:64dp
 //icon size : 24dp
@@ -34,7 +35,7 @@ fun TopAppBar(){
                 text = "카페",
                 fontWeight = FontWeight.ExtraBold,
                 color = Color.Black,
-                //fontFamily = suite,
+                fontFamily = fontFamily,
                 fontSize = 24.sp
             )
         },

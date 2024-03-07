@@ -32,6 +32,7 @@ import com.example.capstoneapp.ui.components.DividerFormat
 import com.example.capstoneapp.ui.components.ItemList
 import com.example.capstoneapp.ui.components.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OptionCard
+import com.example.capstoneapp.ui.theme.fontFamily
 import org.w3c.dom.Text
 
 @Preview(showBackground = true)
@@ -52,7 +53,7 @@ fun OrderScreen() {
                 }
                 // Rows
                 Spacer(modifier = Modifier.padding(8.dp))
-                ItemRow("풀고기버거세트", "1", "6,300")
+                ItemRow("불고기버거세트", "1", "6,300")
                 ItemRow("콜라", "1", "0")
                 ItemRow("포테이토", "1", "0")
 
@@ -157,9 +158,9 @@ fun ItemRow(name: String, quantity: String, price: String) {
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(name, modifier = Modifier.weight(1f))
-        Text(quantity, modifier = Modifier.weight(1f))
-        Text(price, modifier = Modifier.weight(1f))
+        Text(name, modifier = Modifier.weight(1f), fontFamily = fontFamily)
+        Text(quantity, modifier = Modifier.weight(1f), fontFamily = fontFamily)
+        Text(price, modifier = Modifier.weight(1f), fontFamily = fontFamily)
     }
 }
 
@@ -175,13 +176,15 @@ fun SummaryRow(label: String, amount: String, isTotal: Boolean = false) {
             text = label,
             modifier = Modifier,
             color = Color.Black,
-            fontWeight = if (isTotal) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (isTotal) FontWeight.Bold else FontWeight.Normal,
+            fontFamily = fontFamily,
         )
         Text(
             text = amount,
             modifier = Modifier,
             color = if (isTotal) Color.Red else Color.Black,
-            fontWeight = if (isTotal) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (isTotal) FontWeight.Bold else FontWeight.Normal,
+            fontFamily = fontFamily,
         )
     }
 }
@@ -193,7 +196,7 @@ fun OrderText(optionText: String) {
         style = TextStyle(
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.SansSerif,
+            fontFamily = fontFamily,
             textAlign = TextAlign.Center
         ),
         modifier = Modifier.fillMaxWidth()

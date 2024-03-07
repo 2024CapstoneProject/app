@@ -32,6 +32,7 @@ import com.example.capstoneapp.ui.components.DividerFormat
 import com.example.capstoneapp.ui.components.ItemList
 import com.example.capstoneapp.ui.components.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OrderList
+import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun SelectSetDessertScreen() {
@@ -61,11 +62,6 @@ fun SelectSetDessertScreen() {
                     selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
                 }
             )
-            DividerFormat(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-            )
         }
 
         Spacer(Modifier.padding(top = 16.dp))
@@ -74,7 +70,7 @@ fun SelectSetDessertScreen() {
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily.SansSerif
+                fontFamily = fontFamily
             )
         )
 
