@@ -22,22 +22,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.capstoneapp.Frame.NotificationScreen
 
 @Composable
-fun KioskCafePractice5() {
+fun KioskCafePractice5(navController: NavController) {
     NotificationScreen {
         Column {
             CafeMenuBarFormat {
                 MenuText5()
             }
-            Screen5()
+            Screen5(navController)
         }
     }
 }
 
 @Composable
-fun Screen5() {
+fun Screen5(navController: NavController) {
     val price = 2500
     val menusAndNums = ArrayList<Pair<String, Int>>()
     menusAndNums.add(Pair("ICE 아메리카노", 2))
@@ -164,5 +165,5 @@ fun MenuText5() {
 @Preview
 @Composable
 fun Kiosk5PreView() {
-    KioskCafePractice5()
+    //KioskCafePractice5()
 }
