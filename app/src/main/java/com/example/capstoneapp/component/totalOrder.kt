@@ -42,6 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.Frame.ButtonFormat
 import com.example.capstoneapp.R
 import com.example.capstoneapp.Repository.MenuItem
@@ -50,7 +52,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun totalOrder(
-    orderItems: List<Pair<MenuItem, Int>>, ResetOrderList: (Boolean) -> Unit
+    orderItems: List<Pair<MenuItem, Int>>, ResetOrPayOrder: (Pair<Boolean,Boolean>) -> Unit
 ) {
     //타이머 120초
     var remainingTime by remember { mutableStateOf(120) }
@@ -75,7 +77,7 @@ fun totalOrder(
             //재시작 버튼 클릭 시 타이머 재시작
             isTimerRunning = it
             //리스트 초기화
-            ResetOrderList(true)
+            ResetOrPayOrder(Pair(true,false))
         }
         remainingTime = 120
 
@@ -191,7 +193,7 @@ fun totalOrder(
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Gray, contentColor = Color.White
                     ),
-                    onClick = { }) {
+                    onClick = { ResetOrPayOrder(Pair(false,true))}) {
                     Text(
                         text = "결제",
                         fontSize = 24.sp,
@@ -252,6 +254,7 @@ fun showTimerEndPopup(restartButton: (Boolean) -> Unit) {
 @Preview
 @Composable
 fun preview() {
+    val navController = rememberNavController()
     val dummyOrderItems = listOf(
         MenuItem(1, "불고기 버거", R.drawable.cafe_icon, 7000)
     )
@@ -260,7 +263,7 @@ fun preview() {
     }
     orderItems.add(Pair(MenuItem(1, "불고기 버거", R.drawable.cafe_icon, 7000), 1))
     totalOrder(orderItems) {
-        if (it) {
+        if (it.first) {
             orderItems.clear()
         }
     }

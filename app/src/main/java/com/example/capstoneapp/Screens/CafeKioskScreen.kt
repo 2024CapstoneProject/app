@@ -20,23 +20,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.Frame.NotificationScreen
+import com.example.capstoneapp.Frame.TopAppBar
 import com.example.capstoneapp.Repository.MenuItem
 import com.example.capstoneapp.component.CafeMenuBar
 import com.example.capstoneapp.component.CafeMenuBarFormat
 import com.example.capstoneapp.component.CafeMenuList
 import com.example.capstoneapp.component.OrderList
+import com.example.capstoneapp.component.TextScreen
 import com.example.capstoneapp.component.totalOrder
+import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 
 @Composable
-fun CafeKioskScreen() {
-    NotificationScreen { CafeMenuScreen() }
-
+fun CafeKioskScreen(navController: NavController) {
+    NotificationScreen { CafeMenuScreen(navController) }
 }
 
 @Composable
-fun CafeMenuScreen() {
+fun CafeMenuScreen(navController: NavController) {
 
     val orderItems = remember {
         mutableStateListOf<Pair<MenuItem, Int>>()
@@ -130,8 +134,10 @@ fun CafeMenuScreen() {
             )
             //결제하기, 선택 상품 개수, 시간 표시
             totalOrder(orderItems) {
-                if (it) {
+                if (it.first) {
                     orderItems.clear()
+                }else if(it.second){
+                    navController.navigate("KioskCafePractice5")
                 }
             }
         }
@@ -141,5 +147,6 @@ fun CafeMenuScreen() {
 @Preview
 @Composable
 fun cafeKioskScreenPreview() {
-    CafeKioskScreen()
+    val navController = rememberNavController()
+    CafeKioskScreen(navController)
 }
