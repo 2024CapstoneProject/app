@@ -1,19 +1,9 @@
 package com.example.capstoneapp.component
 
-import android.content.res.Resources
+import android.content.Context
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,12 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,27 +31,28 @@ import com.example.capstoneapp.Frame.TopAppBar
 import com.example.capstoneapp.R
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
-
 @Composable
-fun guideImage() {
+fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
     val imageResources = listOf(
         R.drawable.ex1,
-        R.drawable.ex2,
-        R.drawable.ex3
+        R.drawable.cash,
+        R.drawable.kiosk,
+        R.drawable.card
     )
-    var currentImageIndex by remember { mutableStateOf(0) }
     val currentImageResourceId = imageResources[currentImageIndex]
+    val context = LocalContext.current
+    val imageName = getResourceName(currentImageResourceId, context)
 
     MaterialTheme {
         Column(
-            modifier = Modifier
-                .padding(16.dp),
+            modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "${getResourceName(currentImageResourceId)}",
+                text = imageName,
                 style = TextStyle(fontSize = 30.sp),
+                fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -70,11 +63,10 @@ fun guideImage() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = { currentImageIndex = showPreviousImage(imageResources.size, currentImageIndex) },
-                    //modifier = Modifier.weight(1f)
+                    onClick = { onImageIndexChanged(showPreviousImage(imageResources.size, currentImageIndex)) }
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_arrow_back_),
+                    Image(
+                        painter = painterResource(id = R.mipmap.arrow_back),
                         contentDescription = "Previous"
                     )
                 }
@@ -94,11 +86,10 @@ fun guideImage() {
                 Spacer(modifier = Modifier.width(0.dp))
 
                 IconButton(
-                    onClick = { currentImageIndex = showNextImage(imageResources.size, currentImageIndex) },
-                    //modifier = Modifier.weight(1f)
+                    onClick = { onImageIndexChanged(showNextImage(imageResources.size, currentImageIndex)) }
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_arrow_forward),
+                    Image(
+                        painter = painterResource(id = R.mipmap.arrow_forward),
                         contentDescription = "Next"
                     )
                 }
@@ -108,12 +99,13 @@ fun guideImage() {
 }
 
 @Composable
-fun getResourceName(resourceId: Int): String {
-    val context = LocalContext.current
-    return try {
-        context.resources.getResourceName(resourceId).substringAfterLast('/')
-    } catch (e: Resources.NotFoundException) {
-        "Unknown"
+fun getResourceName(resourceId: Int, context: Context): String {
+    return when (resourceId) {
+        R.drawable.ex1 -> context.getString(R.string.ex1_text)
+        R.drawable.cash -> context.getString(R.string.cash_text)
+        R.drawable.kiosk -> context.getString(R.string.kiosk_text)
+        R.drawable.card -> context.getString(R.string.card_text)
+        else -> "Unknown"
     }
 }
 
@@ -126,49 +118,77 @@ fun showPreviousImage(size: Int, currentIndex: Int): Int {
 }
 
 @Composable
-fun guideText() {
+fun guideText(currentImageIndex: Int) {
+    val textList = listOf(
+        Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
+        Triple("현금 결제이시면", "키오스크가 아니라", "카운터에서 주문해주세요"),
+        Triple("\"카드\"결제이시면 파란색을", "\"쿠폰\"을 사용하시려면 초록색을", "눌러주세요."),
+        Triple("이 창이 뜨면 카드를 넣어주세요.", "화면 오른쪽 아래에", "카드 투입구가 있습니다.")
+    )
+
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 40.dp),
+            .padding(vertical = 30.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ){
-        Text(
-            text = "사진을 옆으로 넘기거나",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
+        val (text1, text2, text3) = textList[currentImageIndex]
+        TextWithColoredWords(
+            text = text1,
+            wordsToColor = mapOf(
+                "현금 결제" to Color.Green,
+                "카드" to Color.Blue,
+                "파란색" to Color.Blue
+            )
         )
-        Text(
-            text = "화살표를 눌러 확인해주세요",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
+        TextWithColoredWords(
+            text = text2,
+            wordsToColor = mapOf(
+                "쿠폰" to Color.Green,
+                "초록색" to Color.Green,
+                "화면 오른쪽 아래" to Color.Red
+            )
         )
-        Text(
-            text = "사진을 누르면 확대됩니다",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,)
+        TextWithColoredWords(
+            text = text3,
+            wordsToColor = mapOf(
+                "카운터" to Color.Green
+            )
+        )
     }
+}
+
+@Composable
+fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
+    val spannableString = buildAnnotatedString {
+        append(text)
+        wordsToColor.forEach { (word, color) ->
+            val startIndex = text.indexOf(word)
+            if (startIndex >= 0) {
+                val endIndex = startIndex + word.length
+                addStyle(SpanStyle(color = color), startIndex, endIndex)
+            }
+        }
+    }
+
+    Text(
+        text = spannableString,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp),
+        fontSize = 22.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.Black,
+        textAlign = TextAlign.Center,
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun cafeGuideScreenPreview() {
     CapstoneAppTheme {
+        var currentImageIndex by remember { mutableStateOf(0) }
+
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
@@ -176,9 +196,11 @@ fun cafeGuideScreenPreview() {
         ) {
             TopAppBar()
             Spacer(modifier = Modifier.height(40.dp))
-            guideImage()
+            guideImage(currentImageIndex) { newIndex ->
+                currentImageIndex = newIndex
+            }
             Spacer(modifier = Modifier.height(16.dp))
-            guideText()
+            guideText(currentImageIndex)
         }
     }
 }
