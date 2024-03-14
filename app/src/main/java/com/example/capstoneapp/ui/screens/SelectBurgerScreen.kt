@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -22,7 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.data.model.OrderViewModel
 import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.data.repository.OrderItem
 import com.example.capstoneapp.ui.components.AppNavigation
 import com.example.capstoneapp.ui.components.CustomizedNavigationBar
 import com.example.capstoneapp.ui.frame.DividerFormat
@@ -31,7 +32,7 @@ import com.example.capstoneapp.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OrderList
 
 @Composable
-fun itemMenu(navController: NavController) {
+fun itemMenu(navController: NavController,viewModel: OrderViewModel) {
     // 주문한 목록
     val orderItems = remember { mutableStateListOf<MenuItem>() }
     var showDialog by remember { mutableStateOf(false) }
@@ -42,8 +43,15 @@ fun itemMenu(navController: NavController) {
         MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24, 7000)
     )
     val onButtonClick = {
-        showDessertScreen = false
-        // Additional logic here if needed, such as navigating back or handling the action
+        if(showDessertScreen)
+            showDessertScreen = false
+        else
+        {
+            navController.navigate("finalOrder")
+            // Additional logic here if needed, such as navigating back or handling the action
+            //nav -> finalOrderDetailScreen
+        }
+
     }
 
     //네비게이션 카테고리 선택
@@ -88,6 +96,8 @@ fun itemMenu(navController: NavController) {
                     onDismiss = { showDialog = false },
                     onAddToOrder = { item ->
                         orderItems.add(item)
+
+                        viewModel.addMenuItem(item, 1)
                         showDialog = false
                         showDessertScreen = item.id % 2 == 0
                     },
@@ -98,7 +108,7 @@ fun itemMenu(navController: NavController) {
             SelectSetDessertScreen(
                 onItemSelected = { selectedItem ->
                     orderItems.add(selectedItem)
-
+                    viewModel.addMenuItem(selectedItem, 1)
                 }
             )// You may need to adjust this part based on your actual content
         }

@@ -1,7 +1,9 @@
 package com.example.capstoneapp.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -16,15 +18,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
-fun touchScreen() {
+fun touchScreen(navController: NavController) {
 
     Column(
-        modifier = Modifier.padding(16.dp), // 전체 Column에 패딩 적용
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+            .clickable {
+                navController.navigate("payment") // Navigate to PaymentScreen
+            }, // 전체 Column에 패딩 적용
         horizontalAlignment = Alignment.CenterHorizontally // 자식 요소들을 가운데 정렬
+
     ) {
         Spacer(modifier = Modifier.height(48.dp))
 
@@ -49,5 +59,6 @@ fun touchScreen() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    touchScreen()
+    val navController = rememberNavController()
+    touchScreen(navController = navController)
 }

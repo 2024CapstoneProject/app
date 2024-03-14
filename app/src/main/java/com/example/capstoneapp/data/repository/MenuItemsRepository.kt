@@ -53,3 +53,7 @@ data class MenuItem(
     val iconResourceId: Int,
     val price: Int
 )
+data class OrderItem(
+    val menuItem: MenuItem,
+    var quantity: Int // 주문 수량
+)

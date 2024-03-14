@@ -1,6 +1,7 @@
 package com.example.capstoneapp.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,11 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
-fun PaymentScreen() {
+fun PaymentScreen(navController: NavController) {
     Column(
         modifier = Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,13 +61,20 @@ fun PaymentScreen() {
                     .width(120.dp) // 아이콘의 너비를 48dp로 설정
                     .height(120.dp)
                     .weight(1f)
+                    .clickable {
+                        navController.navigate("itemMenu") // Navigate to PaymentScreen
+                    },
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                    navController.navigate("itemMenu") // Navigate to PaymentScreen
+                },//왼쪽에 padding을 주기 위해
             ) {
                 Text(
-                    text = "현금",
+                    text = "카드",
                     style = TextStyle(
                         fontSize = 40.sp,
                         fontWeight = FontWeight.Bold,
@@ -157,5 +167,6 @@ fun PaymentScreen() {
 @Preview(showBackground = true)
 @Composable
 fun PaymentPreview() {
-    PaymentScreen()
+    val navController = rememberNavController()
+    PaymentScreen(navController = navController)
 }

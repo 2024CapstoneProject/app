@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -19,16 +21,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.data.model.OrderViewModel
+import com.example.capstoneapp.data.model.PreviewOrderViewModel
+import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.data.repository.OrderItem
 import com.example.capstoneapp.ui.frame.DividerFormat
 import com.example.capstoneapp.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OptionCard
-import com.example.capstoneapp.ui.theme.fontFamily
-import org.w3c.dom.Text
 
-@Preview(showBackground = true)
 @Composable
-fun OrderScreen() {
+fun OrderScreen(navController: NavController,viewModel: OrderViewModel) {
+    val orderItems by viewModel.orderItems.observeAsState(initial = listOf())
+    val totalAmount by viewModel.totalOrderAmount.observeAsState(0)
+
+
     Column {
         Row {
             // Left Section (Placeholder for other content)
@@ -36,6 +46,7 @@ fun OrderScreen() {
                 .weight(1f)
                 .padding(16.dp)
             ) {
+
                 // Header
                 Row {
                     Text("제품", modifier = Modifier.weight(1f))
@@ -44,9 +55,12 @@ fun OrderScreen() {
                 }
                 // Rows
                 Spacer(modifier = Modifier.padding(8.dp))
-                ItemRow("불고기버거세트", "1", "6,300")
-                ItemRow("콜라", "1", "0")
-                ItemRow("포테이토", "1", "0")
+                orderItems.forEach { orderItem ->
+                    ItemRow(orderItem.menuItem.name,orderItem.quantity.toString(),"${orderItem.menuItem.price * orderItem.quantity}")
+                }
+               // ItemRow(orderItem.menuItem.name, "1", "6,300")
+               //  ItemRow("콜라", "1", "0")
+               // ItemRow("포테이토", "1", "0")
 
                 Spacer(modifier = Modifier.padding(32.dp))
                 DividerFormat()
@@ -54,10 +68,10 @@ fun OrderScreen() {
 
                 Column {
                     // Individual Row for each item in the table
-                    SummaryRow(label = "주문금액", amount = "6,300")
+                    SummaryRow(label = "주문금액", amount = totalAmount.toString())
                     SummaryRow(label = "할인금액", amount = "0")
                     Spacer(modifier = Modifier.padding(8.dp))
-                    SummaryRow(label = "결제할금액", amount = "6,300", isTotal = true)
+                    SummaryRow(label = "결제할금액", amount = totalAmount.toString(), isTotal = true)
                 }
             }
 
@@ -191,3 +205,15 @@ fun OrderText(optionText: String) {
         modifier = Modifier.fillMaxWidth()
     )
 }
+@Preview(showBackground = true)
+@Composable
+fun PreviewOrderScreen() {
+    // Mock data to be displayed in the preview, since we cannot use live data here.
+    val mockViewModel = PreviewOrderViewModel()
+    // No actual NavController functionality required for preview
+
+    val navController = rememberNavController()
+    OrderScreen(navController = navController, mockViewModel)
+}
+
+// Ensure to use the correct package for R.drawable if you're referencing drawables
