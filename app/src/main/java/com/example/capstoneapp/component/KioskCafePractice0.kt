@@ -24,26 +24,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.Frame.TopAppBar
 import com.example.capstoneapp.R
 
-class KioskCafePractice0 : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            CapstoneAppTheme {
-                Column {
-                    TopAppBar()
-                    TextScreen()
-                }
-            }
+@Composable
+fun KioskCafePractice0(navController:NavController) {
+        Column {
+            TopAppBar()
+            TextScreen(navController)
         }
-    }
+
 }
 
 @Composable
-fun TextScreen() {
+fun TextScreen(navController:NavController) {
     val menu ="아이스아메리카노"
     val place = "매장에서 먹기"
     val point = "O"
@@ -123,7 +120,7 @@ fun TextScreen() {
             textAlign = TextAlign.Center,
         )
         StartButton(onClick =  {
-
+            navController.navigate("CafeKioskScreen")
         })
     }
 
@@ -132,10 +129,11 @@ fun TextScreen() {
 @Preview(showBackground = true)
 @Composable
 fun TextScreenPreview() {
+    val navController = rememberNavController()
     CapstoneAppTheme {
         Column {
             TopAppBar()
-            TextScreen()
+            TextScreen(navController)
         }
     }
 }

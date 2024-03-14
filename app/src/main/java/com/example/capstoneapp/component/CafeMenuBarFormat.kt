@@ -30,7 +30,7 @@ fun CafeMenuBarFormat(bar:@Composable () -> Unit){
                     topEnd = 16.dp
                 ) // Rounded corners
             )
-            .border(0.dp, Color.Black, RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)) ,// Border
+            .border(0.dp, Color.Transparent, RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)) ,// Border
         contentAlignment = Alignment.Center
     ){
         bar()
