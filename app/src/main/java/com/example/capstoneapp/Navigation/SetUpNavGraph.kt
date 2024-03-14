@@ -5,8 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.Screens.CafeKioskScreen
-import com.example.capstoneapp.Screens.CafeMenuScreen
+import com.example.capstoneapp.component.CafeKioskScreen
 import com.example.capstoneapp.component.KioskCafePractice0
 import com.example.capstoneapp.component.KioskCafePractice5
 import com.example.capstoneapp.component.PayTest
