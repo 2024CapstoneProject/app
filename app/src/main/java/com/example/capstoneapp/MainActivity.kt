@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.capstoneapp.Frame.NotificationScreen
+import com.example.capstoneapp.component.cafeGuideScreenPreview
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +31,6 @@ class MainActivity : ComponentActivity() {
                             text = "문제가 나오는 공간",
                             modifier = Modifier.padding(16.dp) // Padding inside the rectangle
                         )
-
                     }
                 }
             }
