@@ -35,7 +35,7 @@ import com.example.capstoneapp.R
 import com.example.capstoneapp.data.repository.MenuItem
 import com.example.capstoneapp.data.repository.MenuItemsRepository.getMenuItemById
 import com.example.capstoneapp.ui.components.ItemCard
-import com.example.capstoneapp.ui.components.KioskButtonFormat
+import com.example.capstoneapp.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
