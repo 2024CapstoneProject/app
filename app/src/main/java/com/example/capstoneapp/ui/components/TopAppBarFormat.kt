@@ -32,7 +32,7 @@ fun TopAppBar(){
         modifier = Modifier.padding(horizontal = 16.dp),
         title = {
             Text(
-                text = "햄버거 가게",
+                text = "카페",
                 fontWeight = FontWeight.ExtraBold,
                 color = Color.Black,
                 fontFamily = fontFamily,
