@@ -15,6 +15,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,23 +26,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.Frame.NotificationScreen
 
 
 @Composable
-fun KioskCafePractice6(){
+fun KioskCafePractice6(navController: NavController){
     NotificationScreen {
         Column {
             CafeMenuBarFormat {
                 MenuText6()
             }
-            Screen6()
+            Screen6(navController)
         }
     }
-
 }
 @Composable
-fun Screen6(){
+fun Screen6(navController: NavController){
     val price = 2500
     Column(
         modifier = Modifier
@@ -55,7 +60,8 @@ fun Screen6(){
         ) {
             Text(
                 text = "금액",
-                modifier = Modifier.padding(start = 30.dp, top = 50.dp)
+                modifier = Modifier
+                    .padding(start = 30.dp, top = 50.dp)
                     .align(Alignment.CenterVertically)
                     .weight(1f),
                 fontSize = 28.sp,
@@ -64,7 +70,8 @@ fun Screen6(){
             )
             Text(
                 text = "$price",
-                modifier = Modifier.padding(end = 5.dp, top = 50.dp)
+                modifier = Modifier
+                    .padding(end = 5.dp, top = 50.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -72,7 +79,8 @@ fun Screen6(){
             )
             Text(
                 text = "원",
-                modifier = Modifier.padding(end = 30.dp, top = 50.dp)
+                modifier = Modifier
+                    .padding(end = 30.dp, top = 50.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -84,6 +92,9 @@ fun Screen6(){
 }
 @Composable
 fun PayButton(onClick: () -> Unit){
+    var dialog7 by remember { mutableStateOf(false) }
+    var dialog10 by remember { mutableStateOf(false) }
+    var dialog11 by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -92,7 +103,9 @@ fun PayButton(onClick: () -> Unit){
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = onClick,
+            onClick = {
+                dialog11 = true
+            },
             modifier = Modifier.size(200.dp, 150.dp),
             colors = ButtonDefaults.buttonColors(Color.Gray),
             shape = RoundedCornerShape(0.dp)
@@ -105,7 +118,9 @@ fun PayButton(onClick: () -> Unit){
         }
         Spacer(modifier = Modifier.height(40.dp))
         Button(
-            onClick = onClick,
+            onClick = {
+                dialog7 = true
+            },
             modifier = Modifier.size(200.dp, 150.dp),
             colors = ButtonDefaults.buttonColors(Color.Gray),
             shape = RoundedCornerShape(0.dp)
@@ -114,6 +129,21 @@ fun PayButton(onClick: () -> Unit){
                 text = "쿠폰사용",
                 fontSize = 24.sp,
                 color = Color.Black
+            )
+        }
+        if (dialog7) {
+            Dialog7(
+                onDismiss = { dialog7 = false },
+                onConfirm = { dialog10 = true }
+            )
+        }
+        if(dialog10){
+            Dialog10(onDismiss = { dialog10 = false })
+        }
+        if(dialog11){
+            Dialog11(
+                onDismiss = { dialog11 = false },
+                onConfirm = { dialog10 = true }
             )
         }
     }
@@ -133,5 +163,6 @@ fun MenuText6(){
 @Preview
 @Composable
 fun Kiosk6PreView(){
-    KioskCafePractice6()
+    val navController = rememberNavController()
+    KioskCafePractice6(navController)
 }

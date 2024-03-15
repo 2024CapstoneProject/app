@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.Frame.NotificationScreen
 
 @Composable
@@ -39,6 +40,7 @@ fun KioskCafePractice5(navController: NavController) {
 
 @Composable
 fun Screen5(navController: NavController) {
+    val navController = rememberNavController()
     val price = 2500
     val menusAndNums = ArrayList<Pair<String, Int>>()
     menusAndNums.add(Pair("ICE 아메리카노", 2))
@@ -74,7 +76,7 @@ fun Screen5(navController: NavController) {
             }
         }
 
-        Spacer(modifier = Modifier.height(200.dp))
+        Spacer(modifier = Modifier.height(100.dp))
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -116,7 +118,9 @@ fun Screen5(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("KioskCafePractice6")
+                },
                 modifier = Modifier.size(150.dp, 80.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFCA0D)),
                 shape = RoundedCornerShape(16.dp)
@@ -165,5 +169,6 @@ fun MenuText5() {
 @Preview
 @Composable
 fun Kiosk5PreView() {
-    //KioskCafePractice5()
+    val navController = rememberNavController()
+    KioskCafePractice5(navController)
 }

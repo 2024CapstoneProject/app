@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.component.CafeKioskScreen
 import com.example.capstoneapp.component.KioskCafePractice0
 import com.example.capstoneapp.component.KioskCafePractice5
+import com.example.capstoneapp.component.KioskCafePractice6
 import com.example.capstoneapp.component.PayTest
 
 @Composable
@@ -25,6 +26,9 @@ fun SetUpNavGraph(navController:NavHostController) {
         }
         composable(route ="KioskCafePractice5"){
             KioskCafePractice5(navController = navController)
+        }
+        composable(route ="KioskCafePractice6"){
+            KioskCafePractice6(navController = navController)
         }
     }
 } // End of setUpNavGraph

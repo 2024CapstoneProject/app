@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
 
 @Composable
-fun Dialog7(onDismiss: () -> Unit, onConfirm: () -> Unit) {
+fun Dialog11(onDismiss: () -> Unit, onConfirm: () -> Unit) {
     Dialog(onDismissRequest = onDismiss) {
         Box(
             modifier = androidx.compose.ui.Modifier
@@ -42,20 +42,14 @@ fun Dialog7(onDismiss: () -> Unit, onConfirm: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "사진을 확인하시고",
-                    color = Color.Black,
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.ExtraBold
-                )
-                Text(
-                    text = "확인 눌러주세요.",
+                    text = "카드를 넣어주세요.",
                     color = Color.Black,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Spacer(modifier = androidx.compose.ui.Modifier.height(16.dp))
                 Image(
-                    painter = painterResource(R.drawable.img7),
+                    painter = painterResource(R.drawable.img11),
                     contentDescription = null,
                     modifier = androidx.compose.ui.Modifier.size(250.dp, 140.dp)
                 )
@@ -83,8 +77,8 @@ fun Dialog7(onDismiss: () -> Unit, onConfirm: () -> Unit) {
 }
 @Preview
 @Composable
-fun Kiosk7PreView() {
-    Dialog7(
+fun Kiosk11PreView() {
+    Dialog11(
         onDismiss = { },
         onConfirm = { }
     )
