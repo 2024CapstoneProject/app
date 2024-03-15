@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
-import com.example.capstoneapp.ui.components.TopAppBar
+import com.example.capstoneapp.ui.frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 @Composable

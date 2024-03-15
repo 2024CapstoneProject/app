@@ -21,8 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.capstoneapp.ui.components.NotificationScreen
-import com.example.capstoneapp.ui.components.TopAppBar
+import com.example.capstoneapp.ui.frame.NotificationScreen
 import com.example.capstoneapp.ui.screens.GuideImage
 import com.example.capstoneapp.ui.screens.guideText
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
