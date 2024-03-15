@@ -44,7 +44,7 @@ fun OrderList(orderItems: List<MenuItem>) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 fontFamily = fontFamily,
-                fontSize = 10.sp,
+                fontSize = 14.sp,
             )
         }
 
