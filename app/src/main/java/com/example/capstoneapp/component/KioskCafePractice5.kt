@@ -40,7 +40,6 @@ fun KioskCafePractice5(navController: NavController) {
 
 @Composable
 fun Screen5(navController: NavController) {
-    val navController = rememberNavController()
     val price = 2500
     val menusAndNums = ArrayList<Pair<String, Int>>()
     menusAndNums.add(Pair("ICE 아메리카노", 2))
@@ -76,7 +75,7 @@ fun Screen5(navController: NavController) {
             }
         }
 
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(200.dp))
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
