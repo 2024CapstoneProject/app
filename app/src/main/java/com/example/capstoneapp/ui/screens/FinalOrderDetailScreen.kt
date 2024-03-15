@@ -1,5 +1,6 @@
 package com.example.capstoneapp.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -33,13 +36,15 @@ import com.example.capstoneapp.ui.frame.DividerFormat
 import com.example.capstoneapp.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OptionCard
 
+@SuppressLint("RememberReturnType")
 @Composable
 fun OrderScreen(navController: NavController,viewModel: OrderViewModel) {
     val orderItems by viewModel.orderItems.observeAsState(initial = listOf())
     val totalAmount by viewModel.totalOrderAmount.observeAsState(0)
+    val showDialog = remember { mutableStateOf(false) }
+    Column(modifier=Modifier
+        .fillMaxWidth()) {
 
-
-    Column {
         Row {
             // Left Section (Placeholder for other content)
             Column(modifier = Modifier
@@ -73,6 +78,11 @@ fun OrderScreen(navController: NavController,viewModel: OrderViewModel) {
                     Spacer(modifier = Modifier.padding(8.dp))
                     SummaryRow(label = "결제할금액", amount = totalAmount.toString(), isTotal = true)
                 }
+
+                PaymentPopup(
+                    showDialog = showDialog.value,
+                    onDismiss = { showDialog.value = false } // 팝업을 닫을 때 showDialog 상태를 false로 설정
+                )
             }
 
             // Right Section for selectable image buttons
@@ -146,7 +156,7 @@ fun OrderScreen(navController: NavController,viewModel: OrderViewModel) {
                 modifier = Modifier
                     .weight(1f)
                     .padding(bottom = 16.dp),
-                onClick = { /* Handle click */ },
+                onClick = { showDialog.value = true },
                 buttonText = "결제하기",
                 backgroundColor = Color.Red,
                 contentColor = Color.Black

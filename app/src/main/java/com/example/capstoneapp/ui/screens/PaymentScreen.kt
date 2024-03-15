@@ -33,7 +33,8 @@ import com.example.capstoneapp.ui.theme.fontFamily
 @Composable
 fun PaymentScreen(navController: NavController) {
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(16.dp)
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
