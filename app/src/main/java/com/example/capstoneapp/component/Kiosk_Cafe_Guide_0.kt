@@ -2,7 +2,16 @@ package com.example.capstoneapp.component
 
 import android.content.Context
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,14 +32,37 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.capstoneapp.Frame.TopAppBar
 import com.example.capstoneapp.R
-import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
+
+@Composable
+fun KioskCafeGuide0(navController: NavController){
+    var currentImageIndex by remember { mutableStateOf(0) }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        //TopAppBar(navController)
+        TopAppBar()
+        Spacer(modifier = Modifier.height(40.dp))
+        guideImage(currentImageIndex) { newIndex ->
+            currentImageIndex = newIndex
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        guideText(currentImageIndex)
+    }
+}
+
+/*
+* 가이드 이미지, 화살표 버튼
+* */
 @Composable
 fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
     val imageResources = listOf(
@@ -109,14 +141,17 @@ fun getResourceName(resourceId: Int, context: Context): String {
     }
 }
 
+/*다음 이미지로 변경*/
 fun showNextImage(size: Int, currentIndex: Int): Int {
     return (currentIndex + 1) % size
 }
 
+/*이전 이미지로 변경*/
 fun showPreviousImage(size: Int, currentIndex: Int): Int {
     return if (currentIndex == 0) size - 1 else currentIndex - 1
 }
 
+/*가이드 텍스트*/
 @Composable
 fun guideText(currentImageIndex: Int) {
     val textList = listOf(
@@ -158,6 +193,7 @@ fun guideText(currentImageIndex: Int) {
     }
 }
 
+/*텍스트 디자인*/
 @Composable
 fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
     val spannableString = buildAnnotatedString {
@@ -186,14 +222,14 @@ fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
 @Preview(showBackground = true)
 @Composable
 fun cafeGuideScreenPreview() {
-    CapstoneAppTheme {
         var currentImageIndex by remember { mutableStateOf(0) }
-
+        //val navController = rememberNavController()
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            //TopAppBar(navController)
             TopAppBar()
             Spacer(modifier = Modifier.height(40.dp))
             guideImage(currentImageIndex) { newIndex ->
@@ -202,5 +238,5 @@ fun cafeGuideScreenPreview() {
             Spacer(modifier = Modifier.height(16.dp))
             guideText(currentImageIndex)
         }
-    }
+
 }

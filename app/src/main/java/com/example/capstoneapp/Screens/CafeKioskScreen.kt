@@ -23,20 +23,21 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.Frame.NotificationScreen
-import com.example.capstoneapp.Frame.TopAppBar
 import com.example.capstoneapp.Repository.MenuItem
 import com.example.capstoneapp.component.CafeMenuBar
 import com.example.capstoneapp.component.CafeMenuBarFormat
 import com.example.capstoneapp.component.CafeMenuList
 import com.example.capstoneapp.component.OrderList
-import com.example.capstoneapp.component.TextScreen
 import com.example.capstoneapp.component.totalOrder
-import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 
 @Composable
 fun CafeKioskScreen(navController: NavController) {
-    NotificationScreen { CafeMenuScreen(navController) }
+    /*
+    *  KioskCafePractice0 매개변수 viewModel: SharedViewModel 추가
+    *  NotificationScreen 인자 viewModel,navController 추가
+    * */
+    NotificationScreen() { CafeMenuScreen(navController) }
 }
 
 @Composable
@@ -50,7 +51,8 @@ fun CafeMenuScreen(navController: NavController) {
 
     Column() {
         Column(//메뉴 리스트 Column
-            horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
         ) {
             //카페 네비게이션 바
             CafeMenuBarFormat {
@@ -149,4 +151,6 @@ fun CafeMenuScreen(navController: NavController) {
 fun cafeKioskScreenPreview() {
     val navController = rememberNavController()
     CafeKioskScreen(navController)
+//    val viewModel: SharedViewModel = viewModel()
+//    CafeKioskScreen(navController,viewModel)
 }
