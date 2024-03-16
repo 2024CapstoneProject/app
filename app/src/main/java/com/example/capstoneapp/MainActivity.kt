@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.Frame.NotificationScreen
-import com.example.capstoneapp.Navigation.SetUpNavGraph
+import com.example.capstoneapp.ui.Frame.NotificationScreen
+import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 class MainActivity : ComponentActivity() {
