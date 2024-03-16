@@ -28,7 +28,11 @@ import com.example.capstoneapp.Frame.NotificationScreen
 
 @Composable
 fun KioskCafePractice5(navController: NavController) {
-    NotificationScreen {
+    /*
+    *  KioskCafePractice5 매개변수 viewModel: SharedViewModel 추가
+    *  NotificationScreen 인자 viewModel,navController 추가
+    * */
+    NotificationScreen() {
         Column {
             CafeMenuBarFormat {
                 MenuText5()
@@ -170,4 +174,6 @@ fun MenuText5() {
 fun Kiosk5PreView() {
     val navController = rememberNavController()
     KioskCafePractice5(navController)
+//    val viewModel: SharedViewModel = viewModel()
+//    KioskCafePractice5(navController,viewModel)
 }

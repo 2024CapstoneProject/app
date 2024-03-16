@@ -22,9 +22,29 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.Frame.TopAppBar
 import com.example.capstoneapp.R
-import com.example.capstoneapp.ui.theme.CapstoneAppTheme
+
+@Composable
+fun CafeHomeScreen(navController:NavController){
+    Column {
+        TopAppBar()
+        //가이드모드
+        PictureButton {
+            navController.navigate("KioskCafeGuide0")
+        }
+        //연습모드
+        PracticeButton {
+            navController.navigate("KioskCafePractice0")
+        }
+        //이미지(onclick 기능 필요없음)
+        ImageButton {
+        }
+        Spacer(modifier = Modifier.height(100.dp))
+    }
+}
 
 @Composable
 fun PictureButton(onClick: () -> Unit) {
@@ -94,25 +114,9 @@ fun ImageButton(onClick: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun cafeHomeScreenPreview() {
-    CapstoneAppTheme {
-        Column {
-            TopAppBar()
-            //Greeting()
-            PictureButton {
-
-            }
-            PracticeButton {
-
-            }
-            ImageButton {
-
-            }
-            Spacer(modifier = Modifier.height(100.dp))
-        }
-
-
-    }
+    val navController = rememberNavController()
+    CafeHomeScreen(navController = (navController))
 }
