@@ -2,18 +2,16 @@ package com.example.capstoneapp.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHost
-import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.ui.screens.itemMenu
 import androidx.navigation.compose.composable
-import com.example.capstoneapp.ui.screens.SelectSetDessertScreen
 import androidx.navigation.compose.NavHost
-import androidx.navigation.navArgument
 import com.example.capstoneapp.data.model.OrderViewModel
-import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.ui.screens.CafeGuideScreenPreview
+import com.example.capstoneapp.ui.screens.GreetingPreview
 import com.example.capstoneapp.ui.screens.OrderScreen
 import com.example.capstoneapp.ui.screens.PaymentScreen
+import com.example.capstoneapp.ui.screens.PracticeHomeScreen
 import com.example.capstoneapp.ui.screens.touchScreen
 
 @Composable
@@ -23,8 +21,24 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = "touchToStart"
+        startDestination = "HamburgerHomeScreen"
     ) {
+
+
+
+
+        composable(route = "HamburgerHomeScreen"){
+            GreetingPreview(navController = navController)
+        }
+
+        composable(route = "HamburgerGuideScreen"){
+            CafeGuideScreenPreview(navController = navController)
+        }
+
+        composable(route = "HamburgerPracticeHomeScreen"){
+            PracticeHomeScreen(navController = navController)
+        }
+
         composable(route = "touchToStart"){
             touchScreen(navController = navController)
         }

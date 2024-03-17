@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.ui.frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
@@ -196,9 +197,8 @@ fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
     )
 }
 
-@Preview(showBackground = true)
 @Composable
-fun CafeGuideScreenPreview() {
+fun CafeGuideScreenPreview(navController: NavController) {
     CapstoneAppTheme {
         var currentImageIndex by remember { mutableIntStateOf(0) }
 
@@ -217,3 +217,26 @@ fun CafeGuideScreenPreview() {
         }
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun CafeGuideScreenPreviews() {
+    CapstoneAppTheme {
+        var currentImageIndex by remember { mutableIntStateOf(0) }
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TopAppBar()
+            Spacer(modifier = Modifier.height(40.dp))
+            GuideImage(currentImageIndex) { newIndex ->
+                currentImageIndex = newIndex
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            guideText(currentImageIndex)
+        }
+    }
+}
+
