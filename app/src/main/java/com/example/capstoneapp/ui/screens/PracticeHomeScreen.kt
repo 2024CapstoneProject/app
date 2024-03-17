@@ -21,22 +21,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.ui.frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
-fun PracticeHomeScreen() {
+fun PracticeHomeScreen(navController: NavController) {
+
     Column {
         TopAppBar()
-        TextScreen()
+        TextScreen(navController = navController)
     }
 
 }
 
 @Composable
-fun TextScreen() {
+fun TextScreen(navController: NavController) {
     val menu = "불고기버거 세트, 콜라, 감자튀김"
     val place = "매장에서 먹기"
     val point = "O"
@@ -116,7 +119,7 @@ fun TextScreen() {
             textAlign = TextAlign.Center,
         )
         StartButton(onClick =  {
-            //navController.navigate("CafeKioskScreen")
+            navController.navigate("touchToStart")
         })
     }
 
@@ -125,11 +128,11 @@ fun TextScreen() {
 @Preview(showBackground = true)
 @Composable
 fun TextScreenPreview() {
-    //val navController = rememberNavController()
+    val navController = rememberNavController()
     CapstoneAppTheme {
         Column {
             TopAppBar()
-            TextScreen()
+            TextScreen(navController=navController)
         }
     }
 }

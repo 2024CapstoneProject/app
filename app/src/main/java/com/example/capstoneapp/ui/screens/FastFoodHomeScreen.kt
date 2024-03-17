@@ -24,6 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.ui.frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
@@ -33,7 +35,9 @@ import com.example.capstoneapp.ui.theme.fontFamily
 fun PictureButton(onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
     ) {
         Spacer(modifier = Modifier.height(100.dp))
         Button(
@@ -60,7 +64,9 @@ fun PictureButton(onClick: () -> Unit) {
 fun PracticeButton(onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
     ) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(
@@ -99,9 +105,24 @@ fun ImageButton(onClick: () -> Unit) {
     }
 }
 
+
+@Composable
+fun GreetingPreview(navController: NavController) {
+    CapstoneAppTheme {
+        Column {
+            TopAppBar()
+            PictureButton(onClick = { navController.navigate("HamburgerGuideScreen") })
+            PracticeButton(onClick = { navController.navigate("HamburgerPracticeHomeScreen") })
+            ImageButton {}
+            Spacer(modifier = Modifier.height(100.dp))
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
+    val navController = rememberNavController()
     CapstoneAppTheme {
         Column {
             TopAppBar()
