@@ -105,7 +105,7 @@ fun ImageButton(onClick: () -> Unit) {
     ) {
         Spacer(modifier = Modifier.height(20.dp))
         Image(
-            painter = painterResource(id = R.drawable.coffee_img),
+            painter = painterResource(id = R.drawable.cafe_coffee_img),
             contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
             modifier = Modifier
                 .size(194.dp) // 이미지 크기 조정

@@ -2,7 +2,9 @@ package com.example.capstoneapp.ui.Screens
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -35,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.R
@@ -66,10 +70,10 @@ fun KioskCafeGuide0(navController: NavController){
 @Composable
 fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
     val imageResources = listOf(
-        R.drawable.ex1,
-        R.drawable.cash,
-        R.drawable.kiosk,
-        R.drawable.card
+        R.drawable.cafe_guide_ex1,
+        R.drawable.cafe_guide_cash,
+        R.drawable.cafe_guide_kiosk,
+        R.drawable.cafe_guide_card
     )
     val currentImageResourceId = imageResources[currentImageIndex]
     val context = LocalContext.current
@@ -105,14 +109,26 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 
                 Spacer(modifier = Modifier.width(0.dp))
 
+                val isImageClicked = remember { mutableStateOf(false) }
+                val modifier = if (isImageClicked.value) {
+                    Modifier.clickable { /* Do nothing */ }
+                } else {
+                    Modifier.clickable {
+                        isImageClicked.value = true
+                    }
+                }
+
+                val imageModifier = Modifier
+                    .weight(3f)
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(20.dp))
+                    .then(modifier)
+
                 Image(
                     painter = painterResource(id = imageResources[currentImageIndex]),
                     contentDescription = null,
-                    modifier = Modifier
-                        .weight(3f)
-                        .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(20.dp))
+                    modifier = imageModifier
                 )
 
                 Spacer(modifier = Modifier.width(0.dp))
@@ -125,6 +141,13 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                         contentDescription = "Next"
                     )
                 }
+
+                // 이미지가 클릭되었을 때만 팝업을 표시
+                if (isImageClicked.value) {
+                    EnlargedImagePopup(currentImageResourceId) {
+                        isImageClicked.value = false // 팝업 닫히면 클릭 상태를 초기화
+                    }
+                }
             }
         }
     }
@@ -133,10 +156,10 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 @Composable
 fun getResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.ex1 -> context.getString(R.string.ex1_text)
-        R.drawable.cash -> context.getString(R.string.cash_text)
-        R.drawable.kiosk -> context.getString(R.string.kiosk_text)
-        R.drawable.card -> context.getString(R.string.card_text)
+        R.drawable.cafe_guide_ex1 -> context.getString(R.string.ex1_text)
+        R.drawable.cafe_guide_cash -> context.getString(R.string.cash_text)
+        R.drawable.cafe_guide_kiosk -> context.getString(R.string.kiosk_text)
+        R.drawable.cafe_guide_card -> context.getString(R.string.card_text)
         else -> "Unknown"
     }
 }
@@ -149,6 +172,26 @@ fun showNextImage(size: Int, currentIndex: Int): Int {
 /*이전 이미지로 변경*/
 fun showPreviousImage(size: Int, currentIndex: Int): Int {
     return if (currentIndex == 0) size - 1 else currentIndex - 1
+}
+
+@Composable
+fun EnlargedImagePopup(imageResource: Int, onClose: () -> Unit) {
+    Dialog(onDismissRequest = onClose) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Image(
+                painter = painterResource(id = imageResource),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { /* Do nothing on click */ },
+                contentScale = ContentScale.Fit // 이미지가 화면에 맞게 최대로 확대됨
+            )
+        }
+    }
 }
 
 /*가이드 텍스트*/
