@@ -4,4 +4,24 @@
     <string name="cash_text">현금 결제</string>
     <string name="kiosk_text">카드 결제&amp;쿠폰 사용 선택</string>
     <string name="card_text">카드 결제 진행</string>
+
+    <string name="taxi_guide_000_text">택시</string>
+    <string name="taxi_guide_001_text">로그인</string>
+    <string name="taxi_guide_002_text">위치 허용</string>
+    <string name="taxi_guide_003_text">광고 닫기</string>
+    <string name="taxi_guide_004_text">화면 터치</string>
+    <string name="taxi_guide_005_text">택시 선택</string>
+    <string name="taxi_guide_006_text">도착지 설정 1</string>
+    <string name="taxi_guide_007_text">도착지 설정 2</string>
+    <string name="taxi_guide_008_text">도착지 입력</string>
+    <string name="taxi_guide_009_text">도착지 주소 선택</string>
+    <string name="taxi_guide_010_text">탑승 위치 조정&amp;확인</string>
+    <string name="taxi_guide_011_text">택시 종류 선택</string>
+    <string name="taxi_guide_012_text">결제수단 선택</string>
+    <string name="taxi_guide_013_text">직접 결제</string>
+    <string name="taxi_guide_014_text">결제수단 확인&amp;호출하기</string>
+    <string name="taxi_guide_015_text">호출중</string>
+    <string name="taxi_guide_016_text">호출취소 1</string>
+    <string name="taxi_guide_017_text">호출취소 2</string>
+
 </resources>
