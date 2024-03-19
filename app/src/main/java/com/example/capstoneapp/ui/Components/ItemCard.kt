@@ -51,9 +51,8 @@ fun ItemCard(item: MenuItem, onClick :()->Unit){
         Text(
             text=item.name,
             style= TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Cursive
+                fontSize = 14.sp,
+                fontWeight = FontWeight.ExtraBold
             ),
             modifier = Modifier.padding(top=4.dp)
         )
@@ -64,7 +63,7 @@ fun ItemCard(item: MenuItem, onClick :()->Unit){
                 withStyle(
                     style= SpanStyle(
                         Color.Red,
-                        fontSize=16.sp,
+                        fontSize=14.sp,
                         fontWeight = FontWeight.ExtraBold
                     ),
                 ){

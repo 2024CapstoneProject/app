@@ -5,13 +5,13 @@ import com.example.capstoneapp.R
 object MenuItemsRepository {
 
     private var coffeeHotMenuItems = listOf(
-        MenuItem(1,"아메리카노", R.drawable.cafe_icon, 2500),
-        MenuItem(2,"카페라떼", R.drawable.cafe_icon, 3000),
+        MenuItem(1,"HOT아메리카노", R.drawable.cafe_icon, 2500),
+        MenuItem(2,"HOT카페라떼", R.drawable.cafe_icon, 3000),
     )
 
     private var coffeeIceMenuItems = listOf(
-        MenuItem(1,"아메리카노", R.drawable.cafe_icon, 3000),
-        MenuItem(2,"바닐라라떼", R.drawable.cafe_icon, 4000),
+        MenuItem(1,"ICE아메리카노", R.drawable.cafe_icon, 3000),
+        MenuItem(2,"ICE바닐라라떼", R.drawable.cafe_icon, 4000),
     )
 
     private var TeaMenuItems = listOf(

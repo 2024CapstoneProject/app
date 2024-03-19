@@ -61,7 +61,7 @@ fun CafeMenuBar(
                 shape = RoundedCornerShape(topStart = 16.dp,topEnd=16.dp)
 
             ) {
-                Text(text=item,fontSize=15.sp)
+                Text(text=item,fontSize=14.sp)
             }
         }
         Spacer(Modifier.width(10.dp))

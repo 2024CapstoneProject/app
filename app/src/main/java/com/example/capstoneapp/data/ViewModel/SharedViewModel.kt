@@ -16,7 +16,6 @@ class SharedViewModel @Inject constructor(private val problemRepository: Problem
         fun createRandomProblem() {
             viewModelScope.launch {
                 problem = problemRepository.createProblem()
-
             }
         }
 
