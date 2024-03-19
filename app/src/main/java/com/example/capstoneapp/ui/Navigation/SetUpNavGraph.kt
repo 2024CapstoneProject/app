@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.capstoneapp.data.Repository.ProblemRepository
+import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
+import com.example.capstoneapp.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.ui.Screens.CafeKioskScreen
 import com.example.capstoneapp.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.ui.Screens.KioskCafeGuide0
@@ -21,8 +23,10 @@ import com.example.capstoneapp.data.ViewModel.SharedViewModelFactory
 fun SetUpNavGraph(navController:NavHostController) {
 
     //viewModelFactory : SharedViewModel 객체 생성 때 필요함
-    val viewModelFactory = SharedViewModelFactory(ProblemRepository)
-    val viewModel: SharedViewModel = viewModel(factory = viewModelFactory)
+    val problemViewModelFactory = SharedViewModelFactory(ProblemRepository)
+    val problemViewModel : SharedViewModel = viewModel(factory = problemViewModelFactory)
+    val menuItemsViewModelFactory = MenuItemsViewModelFactory()
+    val menuItemsViewModel : MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
 
     NavHost(
         navController = navController,
@@ -45,7 +49,7 @@ fun SetUpNavGraph(navController:NavHostController) {
 
             LaunchedEffect(isFromKioskCafePractice0) {
                 if (isFromKioskCafePractice0) {
-                    viewModel.createRandomProblem()
+                    problemViewModel.createRandomProblem()
                 }
             }
             //KioskCafePractice0(navController = navController, viewModel = viewModel)
@@ -54,22 +58,21 @@ fun SetUpNavGraph(navController:NavHostController) {
 
         //카페 연습 메뉴 선택 화면
         composable(route="CafeKioskScreen"){
-            //CafeKioskScreen(navController = navController,viewModel = viewModel)
-            CafeKioskScreen(navController = navController)
+            //CafeKioskScreen(navController = navController,viewModel = problemViewModel)
+            CafeKioskScreen(navController = navController,viewModel = menuItemsViewModel)
         }
 
         //카페 연습 메뉴 확인 화면
         composable(route ="KioskCafePractice5"){
-            //KioskCafePractice5(navController = navController,viewModel = viewModel)
-            KioskCafePractice5(navController = navController)
+            //KioskCafePractice5(navController = navController,viewModel = problemViewModel)
+            KioskCafePractice5(navController = navController,menuItemsViewModel)
         }
 
         //카페 연습 결제 선택 화면
         composable(route ="KioskCafePractice6"){
-            //KioskCafePractice6(navController = navController,viewModel = viewModel)
-            KioskCafePractice6(navController = navController)
+            //KioskCafePractice6(navController = navController,viewModel = problemViewModel)
+            KioskCafePractice6(navController = navController,menuItemsViewModel)
         }
     }
 }
-
 

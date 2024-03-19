@@ -51,7 +51,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun totalOrder(
-    orderItems: List<Pair<MenuItem, Int>>, ResetOrPayOrder: (Pair<Boolean,Boolean>) -> Unit
+    totalCount:Int, ResetOrPayOrder: (Pair<Boolean,Boolean>) -> Unit
 ) {
     //타이머 120초
     var remainingTime by remember { mutableStateOf(120) }
@@ -174,7 +174,7 @@ fun totalOrder(
                                     fontFamily = FontFamily.SansSerif
                                 ),
                             ) {
-                                append(orderItems.sumOf { it.second }.toString())
+                                append(totalCount.toString())
                             }
                             append("개")
                         },
@@ -261,7 +261,7 @@ fun preview() {
         mutableStateListOf<Pair<MenuItem, Int>>()
     }
     orderItems.add(Pair(MenuItem(1, "불고기 버거", R.drawable.cafe_icon, 7000), 1))
-    totalOrder(orderItems) {
+    totalOrder(1) {
         if (it.first) {
             orderItems.clear()
         }

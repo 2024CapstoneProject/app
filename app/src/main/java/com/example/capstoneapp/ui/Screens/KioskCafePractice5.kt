@@ -1,20 +1,25 @@
 package com.example.capstoneapp.ui.Screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absolutePadding
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,13 +27,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.Frame.NotificationScreen
+import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
+import com.example.capstoneapp.ui.Frame.NotificationScreen
 
 @Composable
-fun KioskCafePractice5(navController: NavController) {
+fun KioskCafePractice5(navController: NavController,viewModel: MenuItemsViewModel) {
     /*
     *  KioskCafePractice5 매개변수 viewModel: SharedViewModel 추가
     *  NotificationScreen 인자 viewModel,navController 추가
@@ -38,49 +45,68 @@ fun KioskCafePractice5(navController: NavController) {
             CafeMenuBarFormat {
                 MenuText5()
             }
-            Screen5(navController)
+            Screen5(navController,viewModel)
         }
     }
 }
 
 @Composable
-fun Screen5(navController: NavController) {
-    val price = 2500
-    val menusAndNums = ArrayList<Pair<String, Int>>()
-    menusAndNums.add(Pair("ICE 아메리카노", 2))
-    menusAndNums.add(Pair("카페라떼", 1))
-    menusAndNums.add(Pair("카페모카", 1))
+fun Screen5(navController: NavController,viewModel: MenuItemsViewModel) {
+//    val price = 2500
+//    val menusAndNums = ArrayList<Pair<String, Int>>()
+//    menusAndNums.add(Pair("ICE 아메리카노", 2))
+//    menusAndNums.add(Pair("카페라떼", 1))
+//    menusAndNums.add(Pair("카페모카", 1))
+//    menusAndNums.add(Pair("ICE 아메리카노", 2))
+//    menusAndNums.add(Pair("카페라떼", 1))
+//    menusAndNums.add(Pair("카페모카", 1))
+//    menusAndNums.add(Pair("ICE 아메리카노", 2))
+//    menusAndNums.add(Pair("카페라떼", 1))
+//    menusAndNums.add(Pair("카페모카", 1))
+    val orderItems by viewModel.orderItems.observeAsState()
+    val totalAmount by viewModel.totalOrderAmount.observeAsState()
 
-    Column {
-        for (menuAndNum in menusAndNums) {
-            val (menu, num) = menuAndNum
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(
-                    text = menu,
-                    modifier = Modifier
-                        .padding(start = 30.dp, top = 10.dp)
-                        .align(Alignment.CenterVertically)
-                        .weight(1f),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                )
-                Text(
-                    text = num.toString(),
-                    modifier = Modifier
-                        .padding(end = 30.dp, top = 10.dp)
-                        .align(Alignment.CenterVertically),
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
+    Column(modifier = Modifier.fillMaxHeight()) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(276.dp)){
+
+            LazyColumn(modifier = Modifier
+                .height(280.dp)
+                .fillMaxWidth()) {
+                orderItems?.size?.let {
+                    items(it){
+                        val item = orderItems!![it]
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier.fillMaxWidth(),
+                        ){
+                            Text(
+                                text = item.first.name,
+                                modifier = Modifier
+                                    .padding(start = 30.dp, top = 10.dp)
+                                    .align(Alignment.CenterVertically),
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black,
+                            )
+                            Text(
+                                text = item.second.toString(),
+                                modifier = Modifier
+                                    .padding(end = 30.dp, top = 10.dp)
+                                    .align(Alignment.CenterVertically),
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )}
+
+
+                    }
+                }
+
             }
         }
 
-        Spacer(modifier = Modifier.height(200.dp))
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -89,7 +115,7 @@ fun Screen5(navController: NavController) {
             Text(
                 text = "금액",
                 modifier = Modifier
-                    .padding(start = 30.dp, top = 50.dp)
+                    .padding(start = 30.dp)
                     .align(Alignment.CenterVertically)
                     .weight(1f),
                 fontSize = 28.sp,
@@ -97,9 +123,9 @@ fun Screen5(navController: NavController) {
                 color = Color.Black,
             )
             Text(
-                text = "$price",
+                text = totalAmount.toString(),
                 modifier = Modifier
-                    .padding(end = 5.dp, top = 50.dp)
+                    .padding(end = 5.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -108,7 +134,7 @@ fun Screen5(navController: NavController) {
             Text(
                 text = "원",
                 modifier = Modifier
-                    .padding(end = 30.dp, top = 50.dp)
+                    .padding(end = 30.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -174,7 +200,9 @@ fun MenuText5() {
 @Composable
 fun Kiosk5PreView() {
     val navController = rememberNavController()
-    KioskCafePractice5(navController)
+    val viewModel: MenuItemsViewModel = viewModel()
+
+    KioskCafePractice5(navController,viewModel)
 //    val viewModel: SharedViewModel = viewModel()
 //    KioskCafePractice5(navController,viewModel)
 }

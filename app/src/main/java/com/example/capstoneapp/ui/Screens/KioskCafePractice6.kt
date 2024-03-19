@@ -16,6 +16,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,14 +27,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.ui.Frame.NotificationScreen
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
 
 
 @Composable
-fun KioskCafePractice6(navController: NavController){
+fun KioskCafePractice6(navController: NavController,viewModel: MenuItemsViewModel){
     /*
     *  KioskCafePractice0 매개변수 viewModel: SharedViewModel 추가
     *  NotificationScreen 인자 viewModel,navController 추가
@@ -43,30 +46,32 @@ fun KioskCafePractice6(navController: NavController){
             CafeMenuBarFormat {
                 MenuText6()
             }
-            Screen6(navController)
+            Screen6(navController,viewModel)
         }
     }
 }
 @Composable
-fun Screen6(navController: NavController){
-    val price = 2500
+fun Screen6(navController: NavController,viewModel: MenuItemsViewModel){
+    //val price = 2500
+    val totalAmount by viewModel.totalOrderAmount.observeAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 0.dp),
-        verticalArrangement = Arrangement.spacedBy(0.dp)
+        verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         PayButton(onClick =  {
 
         })
         Row(
+            modifier = Modifier.fillMaxWidth().padding(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth(),
+
         ) {
             Text(
                 text = "금액",
                 modifier = Modifier
-                    .padding(start = 30.dp, top = 50.dp)
+                    .padding(start = 30.dp)
                     .align(Alignment.CenterVertically)
                     .weight(1f),
                 fontSize = 28.sp,
@@ -74,9 +79,9 @@ fun Screen6(navController: NavController){
                 color = Color.Black,
             )
             Text(
-                text = "$price",
+                text = totalAmount.toString(),
                 modifier = Modifier
-                    .padding(end = 5.dp, top = 50.dp)
+                    .padding(end = 5.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -85,7 +90,7 @@ fun Screen6(navController: NavController){
             Text(
                 text = "원",
                 modifier = Modifier
-                    .padding(end = 30.dp, top = 50.dp)
+                    .padding(end = 30.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -103,7 +108,7 @@ fun PayButton(onClick: () -> Unit){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 70.dp),
+            .padding(top = 40.dp,bottom=40.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -169,7 +174,8 @@ fun MenuText6(){
 @Composable
 fun Kiosk6PreView(){
     val navController = rememberNavController()
-    KioskCafePractice6(navController)
+    val viewModel: MenuItemsViewModel = viewModel()
+    KioskCafePractice6(navController,viewModel)
 //    val viewModel: SharedViewModel = viewModel()
 //    KioskCafePractice6(navController,viewModel)
 }
