@@ -37,7 +37,7 @@ fun touchScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally // 자식 요소들을 가운데 정렬
 
     ) {
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(228.dp))
 
         Icon(
             painter = painterResource(id = R.drawable.baseline_adb_24),

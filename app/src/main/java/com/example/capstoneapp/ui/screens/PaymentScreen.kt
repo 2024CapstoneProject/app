@@ -37,6 +37,7 @@ fun PaymentScreen(navController: NavController) {
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Spacer(modifier = Modifier.height(48.dp))
         Text(
             text = "원하시는 결제방법을 선택해주세요",
             style = TextStyle(
@@ -46,13 +47,18 @@ fun PaymentScreen(navController: NavController) {
             ),
             modifier = Modifier.padding(top = 16.dp)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp), // Apply horizontal padding
+                .padding(horizontal = 16.dp)
+                .clickable {
+                    navController.navigate("itemMenu") // Navigate to PaymentScreen
+                }, // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween, // Arrange buttons with space in between
             verticalAlignment = Alignment.CenterVertically
+
+
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_adb_24),
@@ -62,9 +68,6 @@ fun PaymentScreen(navController: NavController) {
                     .width(120.dp) // 아이콘의 너비를 48dp로 설정
                     .height(120.dp)
                     .weight(1f)
-                    .clickable {
-                        navController.navigate("itemMenu") // Navigate to PaymentScreen
-                    },
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
