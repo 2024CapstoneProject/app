@@ -23,10 +23,6 @@ fun AppNavigation() {
         navController = navController,
         startDestination = "HamburgerHomeScreen"
     ) {
-
-
-
-
         composable(route = "HamburgerHomeScreen"){
             GreetingPreview(navController = navController)
         }
@@ -42,14 +38,15 @@ fun AppNavigation() {
         composable(route = "touchToStart"){
             touchScreen(navController = navController)
         }
+
         composable(route="payment") {
             PaymentScreen(navController = navController)//SelectSetDessertScreen()
         }
 
-
         composable(route = "itemMenu"){
            itemMenu(navController = navController, viewModel)
         }
+
         composable(route="setDessert") {
             //SelectSetDessertScreen()
         }
@@ -62,8 +59,6 @@ fun AppNavigation() {
         // Define other routes...
     }
 }
-
-
 
 
 enum class NavScreen()
