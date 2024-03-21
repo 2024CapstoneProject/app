@@ -30,9 +30,8 @@ import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun PracticeHomeScreen(navController: NavController) {
-
     Column {
-        TopAppBar()
+//        TopAppBar()
         TextScreen(navController = navController)
     }
 
@@ -132,7 +131,7 @@ fun TextScreenPreview() {
     CapstoneAppTheme {
         Column {
             TopAppBar()
-            TextScreen(navController=navController)
+            TextScreen(navController = navController)
         }
     }
 }

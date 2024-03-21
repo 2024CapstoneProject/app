@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.data.model.PreviewOrderViewModel
+import com.example.capstoneapp.ui.components.AppNavigation
 import com.example.capstoneapp.ui.frame.NotificationScreen
 import com.example.capstoneapp.ui.screens.GuideImage
 import com.example.capstoneapp.ui.screens.OrderScreen
@@ -40,14 +41,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     NotificationScreen{
-                        CapstoneAppTheme {
-                            // Mock data to be displayed in the preview, since we cannot use live data here.
-                            val mockViewModel = PreviewOrderViewModel()
-                            // No actual NavController functionality required for preview
-
-                            val navController = rememberNavController()
-                            OrderScreen(navController = navController, mockViewModel)
-                        }
+                        AppNavigation()
                     }
                 }
             }

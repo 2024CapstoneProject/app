@@ -39,7 +39,7 @@ fun PictureButton(onClick: () -> Unit) {
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Button(
             onClick = onClick,
             shape = MaterialTheme.shapes.medium,
@@ -108,14 +108,12 @@ fun ImageButton(onClick: () -> Unit) {
 
 @Composable
 fun GreetingPreview(navController: NavController) {
-    CapstoneAppTheme {
-        Column {
-            TopAppBar()
-            PictureButton(onClick = { navController.navigate("HamburgerGuideScreen") })
-            PracticeButton(onClick = { navController.navigate("HamburgerPracticeHomeScreen") })
-            ImageButton {}
-            Spacer(modifier = Modifier.height(100.dp))
-        }
+    Column {
+        //TopAppBar()
+        PictureButton(onClick = { navController.navigate("HamburgerGuideScreen") })
+        PracticeButton(onClick = { navController.navigate("HamburgerPracticeHomeScreen") })
+        ImageButton {}
+        Spacer(modifier = Modifier.height(100.dp))
     }
 }
 
