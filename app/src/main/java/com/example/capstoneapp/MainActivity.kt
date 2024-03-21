@@ -21,8 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.data.model.PreviewOrderViewModel
 import com.example.capstoneapp.ui.frame.NotificationScreen
 import com.example.capstoneapp.ui.screens.GuideImage
+import com.example.capstoneapp.ui.screens.OrderScreen
 import com.example.capstoneapp.ui.screens.guideText
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
@@ -38,19 +41,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NotificationScreen{
                         CapstoneAppTheme {
-                            var currentImageIndex by remember { mutableIntStateOf(0) }
+                            // Mock data to be displayed in the preview, since we cannot use live data here.
+                            val mockViewModel = PreviewOrderViewModel()
+                            // No actual NavController functionality required for preview
 
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Top,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Spacer(modifier = Modifier.height(8.dp))
-                                GuideImage(currentImageIndex) { newIndex ->
-                                    currentImageIndex = newIndex
-                                }
-                                guideText(currentImageIndex)
-                            }
+                            val navController = rememberNavController()
+                            OrderScreen(navController = navController, mockViewModel)
                         }
                     }
                 }
