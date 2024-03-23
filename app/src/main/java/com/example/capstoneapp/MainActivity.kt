@@ -40,9 +40,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NotificationScreen{
-                        AppNavigation()
-                    }
+                    AppNavigation()
                 }
             }
         }
@@ -54,10 +52,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    NotificationScreen{
-        Text(
-            text = "문제가 나오는 공간",
-            modifier = Modifier.padding(16.dp) // Padding inside the rectangle
-        )
-    }
+   AppNavigation()
 }

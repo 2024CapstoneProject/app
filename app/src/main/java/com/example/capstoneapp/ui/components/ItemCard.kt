@@ -34,8 +34,8 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit) {
             painter = painterResource(id = item.iconResourceId),
             contentDescription = "",
             modifier = Modifier
-                .width(96.dp) // 아이콘의 너비를 48dp로 설정
-                .height(72.dp)
+                .width(72.dp) // 아이콘의 너비를 48dp로 설정
+                .height(64.dp)
         )
         Text(
             text = item.name,
