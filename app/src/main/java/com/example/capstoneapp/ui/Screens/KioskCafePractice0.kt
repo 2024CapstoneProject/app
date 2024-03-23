@@ -12,6 +12,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,32 +24,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.R
+import com.example.capstoneapp.data.Repository.Problem
+import com.example.capstoneapp.data.ViewModel.ProblemViewModel
+import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 @Composable
-fun KioskCafePractice0(navController:NavController) {
-    /*
-    *  KioskCafePractice0 매개변수 viewModel: SharedViewModel 추가
-    *  TextScreen 인자 viewModel 추가
-    *  TopAppBar 인자 navController 추가(backButton 설정)
-    * */
+fun KioskCafePractice0(navController:NavController, problem: Problem) {
+
+
         Column {
             TopAppBar()
-            TextScreen(navController)
+            TextScreen(navController,problem)
         }
 }
 
 @Composable
-fun TextScreen(navController:NavController) {
-    /*
-    * TextScreen 매개변수 viewModel: SharedViewModel = hiltViewModel() 추가
-    * */
-
-    // val problem = viewModel.getProblem()
+fun TextScreen(navController:NavController,problem: Problem) {
 
     Column(
         modifier = Modifier
@@ -54,56 +52,8 @@ fun TextScreen(navController:NavController) {
             .padding(vertical = 60.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp), // 수직 방향으로 요소를 동일한 간격으로 배치합니다.
     ) {
-//            problem?.let{
-//                problem ->  Text(
-//                text = "메뉴 : ${problem.menu}",
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(0.dp),
-//                fontSize = 22.sp,
-//                fontWeight = FontWeight.Bold,
-//                color = Color.Black,
-//                textAlign = TextAlign.Center,
-//            )
-//                Text(
-//                    text = "장소 : ${problem.place}",
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(0.dp),
-//                    fontSize = 22.sp,
-//                    fontWeight = FontWeight.Bold,
-//                    color = Color.Black,
-//                    textAlign = TextAlign.Center,
-//                )
-//                Text(
-//                    text = "포인트 적립 여부 : ${problem.point}",
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(0.dp),
-//                    fontSize = 22.sp,
-//                    fontWeight = FontWeight.Bold,
-//                    color = Color.Black,
-//                    textAlign = TextAlign.Center,
-//                )
-//                Text(
-//                    text = "결제 방식 : ${problem.pay}",
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(0.dp),
-//                    fontSize = 22.sp,
-//                    fontWeight = FontWeight.Bold,
-//                    color = Color.Black,
-//                    textAlign = TextAlign.Center,
-//                )
-//            }
-
-        val menu = "아메리카노"
-        val place = "매장에서 먹기"
-        val point = "O"
-        val pay = "카드 결제"
-
         Text(
-            text = "메뉴 : $menu",
+            text = "메뉴 : ${problem!!.menu}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -113,7 +63,7 @@ fun TextScreen(navController:NavController) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "장소 : $place",
+            text = "장소 : ${problem!!.place}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -123,7 +73,7 @@ fun TextScreen(navController:NavController) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "포인트 적립 여부 : $point",
+            text = "포인트 적립 여부 : ${problem!!.point}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -133,7 +83,7 @@ fun TextScreen(navController:NavController) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "결제 방식 : $pay",
+            text = "결제 방식 : ${problem!!.pay}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -171,7 +121,7 @@ fun TextScreen(navController:NavController) {
             color = Color.Black,
             textAlign = TextAlign.Center,
         )
-        StartButton(onClick =  {
+        StartButton(onClick = {
             navController.navigate("CafeKioskScreen")
         })
     }
@@ -182,16 +132,14 @@ fun TextScreen(navController:NavController) {
 @Composable
 fun TextScreenPreview() {
     val navController = rememberNavController()
+    val problemViewModel : ProblemViewModel = viewModel()
+    val problemState by problemViewModel.problem.observeAsState()
+    val problem = remember { problemState }
+
     CapstoneAppTheme {
         Column {
-//            TopAppBar(navController)
-//            val viewModel: SharedViewModel = viewModel()
-//            LaunchedEffect(Unit) {
-//                viewModel.createRandomProblem()
-//            }
-//            TextScreen(navController,viewModel)
             TopAppBar()
-            TextScreen(navController)
+            TextScreen(navController,problem!!)
         }
     }
 }

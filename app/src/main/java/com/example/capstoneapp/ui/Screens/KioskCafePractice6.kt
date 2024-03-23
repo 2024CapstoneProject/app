@@ -30,23 +30,25 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.data.Repository.Problem
 import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
-import com.example.capstoneapp.ui.Frame.NotificationScreen
+import com.example.capstoneapp.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
+import com.example.capstoneapp.ui.Frame.NotificationScreen
 
 
 @Composable
-fun KioskCafePractice6(navController: NavController,viewModel: MenuItemsViewModel){
+fun KioskCafePractice6(navController: NavController,menuItemsViewModel: MenuItemsViewModel,problem: Problem){
     /*
     *  KioskCafePractice0 매개변수 viewModel: SharedViewModel 추가
     *  NotificationScreen 인자 viewModel,navController 추가
     * */
-    NotificationScreen() {
+    NotificationScreen(navController,problem!!) {
         Column {
             CafeMenuBarFormat {
                 MenuText6()
             }
-            Screen6(navController,viewModel)
+            Screen6(navController,menuItemsViewModel)
         }
     }
 }
@@ -174,8 +176,9 @@ fun MenuText6(){
 @Composable
 fun Kiosk6PreView(){
     val navController = rememberNavController()
-    val viewModel: MenuItemsViewModel = viewModel()
-    KioskCafePractice6(navController,viewModel)
+    val menuItemsViewModel: MenuItemsViewModel = viewModel()
+    val problemViewModel: ProblemViewModel = viewModel()
+    KioskCafePractice6(navController,menuItemsViewModel,problemViewModel.getProblemValue()!!)
 //    val viewModel: SharedViewModel = viewModel()
 //    KioskCafePractice6(navController,viewModel)
 }
