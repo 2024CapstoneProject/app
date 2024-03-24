@@ -2,8 +2,10 @@ package com.example.capstoneapp.ui.Screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -22,15 +24,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.R
 
 @Composable
-fun CafeHomeScreen(navController:NavController){
-    Column {
-        TopAppBar()
+fun CafeHomeScreen(navController: NavController) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
         //가이드모드
         PictureButton {
             navController.navigate("KioskCafeGuide0")
@@ -42,7 +48,6 @@ fun CafeHomeScreen(navController:NavController){
         //이미지(onclick 기능 필요없음)
         ImageButton {
         }
-        Spacer(modifier = Modifier.height(100.dp))
     }
 }
 
@@ -52,7 +57,6 @@ fun PictureButton(onClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Spacer(modifier = Modifier.height(100.dp))
         Button(
             onClick = onClick,
             shape = MaterialTheme.shapes.medium,
@@ -64,8 +68,8 @@ fun PictureButton(onClick: () -> Unit) {
             Text(
                 text = "사진으로 설명보기",
                 color = Color.Black, // 텍스트 색상을 검은색으로 설정
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
+                fontSize = 24.sp
             )
         }
     }
@@ -90,7 +94,8 @@ fun PracticeButton(onClick: () -> Unit) {
             Text(
                 text = "직접 연습해보기",
                 color = Color.Black, // 텍스트 색상을 검은색으로 설정
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.ExtraBold),
+                fontSize = 24.sp
 
             )
         }

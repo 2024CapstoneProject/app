@@ -21,26 +21,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 @Composable
 fun Guide0(navController:NavController) {
     CapstoneAppTheme {
-        Column {
-            TopAppBar()
-            GuideScreen(navController)
-        }
+        GuideScreen(navController)
     }
 }
 
 @Composable
 fun GuideScreen(navController:NavController) {
-    /*
-    * TextScreen 매개변수 viewModel: SharedViewModel = hiltViewModel() 추가
-    * */
 
-    // val problem = viewModel.getProblem()
     Column(
         modifier = Modifier
             .padding(top = 20.dp, bottom = 20.dp),

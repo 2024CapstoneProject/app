@@ -24,25 +24,26 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.data.Repository.Problem
+import com.example.capstoneapp.data.Repository.ProblemRepository
 import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
+import com.example.capstoneapp.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.data.ViewModel.ProblemViewModel
+import com.example.capstoneapp.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.ui.Components.CafeMenuBar
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.ui.Components.CafeMenuList
 import com.example.capstoneapp.ui.Components.OrderList
 import com.example.capstoneapp.ui.Components.totalOrder
 import com.example.capstoneapp.ui.Frame.NotificationScreen
-import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 
 
 @Composable
 fun CafeKioskScreen(
-    navController: NavController,
-    menuItemsViewModel: MenuItemsViewModel,
-    problem: Problem
+    navController: NavController, menuItemsViewModel: MenuItemsViewModel, problem: Problem
 ) {
-
-    NotificationScreen(navController, problem) { CafeMenuScreen(navController, menuItemsViewModel) }
+    NotificationScreen(navController, problem) {
+        CafeMenuScreen(navController, menuItemsViewModel)
+    }
 }
 
 @Composable
@@ -55,8 +56,7 @@ fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel) 
 
     Column() {
         Column(//메뉴 리스트 Column
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()
         ) {
             //카페 네비게이션 바
             CafeMenuBarFormat {
@@ -65,8 +65,7 @@ fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel) 
                 selectedMenu :
                 onMenuItemClick : 카테고리 클릭
                  */
-                CafeMenuBar(
-                    menuItems = menuCategory,
+                CafeMenuBar(menuItems = menuCategory,
                     selectedMenu = selectedMenu,
                     onMenuItemClick = { menuItem ->
                         if (menuItem.equals("HOME")) {
@@ -94,7 +93,7 @@ fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel) 
         Column( //빈공간
             modifier = Modifier.fillMaxWidth()
         ) {
-            Spacer(modifier = Modifier.height(160.dp))
+            Spacer(modifier = Modifier.height(140.dp))
         }
 
         Row(//선택한 메뉴, 남은시간, 결제 버튼 공간
@@ -151,9 +150,10 @@ fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel) 
 @Composable
 fun cafeKioskScreenPreview() {
     val navController = rememberNavController()
-    SetUpNavGraph(navController = navController)
-    val menuItemsViewModel: MenuItemsViewModel = viewModel()
-    val problemViewModel: ProblemViewModel = viewModel()
+    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val menuItemsViewModelFactory = MenuItemsViewModelFactory()
+    val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
 
     CafeKioskScreen(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!)
 }

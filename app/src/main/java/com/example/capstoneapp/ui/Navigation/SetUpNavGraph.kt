@@ -23,14 +23,14 @@ import com.example.capstoneapp.ui.Screens.KioskCafePractice6
 import com.example.capstoneapp.ui.Screens.Guide0
 
 @Composable
-fun SetUpNavGraph(navController:NavHostController) {
+fun SetUpNavGraph(navController: NavHostController) {
 
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-    val problemViewModel : ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val problem by problemViewModel.problem.observeAsState()
 
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
-    val menuItemsViewModel : MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
+    val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -39,43 +39,43 @@ fun SetUpNavGraph(navController:NavHostController) {
         startDestination = "Guide0"
     ) {
         //메인(제일 처음)
-        composable(route="Guide0"){
+        composable(route = "Guide0") {
             Guide0(navController = navController)
         }
 
         //카페 가이드, 연습 선택 화면
-        composable(route="CafeHomeScreen"){
+        composable(route = "CafeHomeScreen") {
             CafeHomeScreen(navController = navController)
         }
 
         //카페 가이드 첫번째 화면
-        composable(route="KioskCafeGuide0"){
+        composable(route = "KioskCafeGuide0") {
             KioskCafeGuide0(navController = navController)
         }
 
         //카페 연습 첫번째 화면
-        composable(route="KioskCafePractice0"){
+        composable(route = "KioskCafePractice0") {
             LaunchedEffect(navBackStackEntry) {
                 if (navBackStackEntry?.destination?.route == "KioskCafePractice0") {
                     problemViewModel.createProblem()
                 }
             }
-            KioskCafePractice0(navController = navController,problem!!)
+            KioskCafePractice0(navController = navController, problem!!)
         }
 
         //카페 연습 메뉴 선택 화면
-        composable(route="CafeKioskScreen"){
-            CafeKioskScreen(navController = navController,menuItemsViewModel,problem!!)
+        composable(route = "CafeKioskScreen") {
+            CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!)
         }
 
         //카페 연습 메뉴 확인 화면
-        composable(route ="KioskCafePractice5"){
-            KioskCafePractice5(navController = navController,menuItemsViewModel,problem!!)
+        composable(route = "KioskCafePractice5") {
+            KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!)
         }
 
         //카페 연습 결제 선택 화면
-        composable(route ="KioskCafePractice6"){
-            KioskCafePractice6(navController = navController,menuItemsViewModel,problem!!)
+        composable(route = "KioskCafePractice6") {
+            KioskCafePractice6(navController = navController, menuItemsViewModel, problem!!)
         }
     }
 }
