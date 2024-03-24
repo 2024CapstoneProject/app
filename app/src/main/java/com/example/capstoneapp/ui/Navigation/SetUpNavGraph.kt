@@ -58,6 +58,7 @@ fun SetUpNavGraph(navController: NavHostController) {
             LaunchedEffect(navBackStackEntry) {
                 if (navBackStackEntry?.destination?.route == "KioskCafePractice0") {
                     problemViewModel.createProblem()
+                    menuItemsViewModel.clearMenuItem()
                 }
             }
             KioskCafePractice0(navController = navController, problem!!)
@@ -65,6 +66,11 @@ fun SetUpNavGraph(navController: NavHostController) {
 
         //카페 연습 메뉴 선택 화면
         composable(route = "CafeKioskScreen") {
+            LaunchedEffect(navBackStackEntry) {
+                if (navBackStackEntry?.destination?.route == "CafeKioskScreen") {
+                    menuItemsViewModel.clearMenuItem()
+                }
+            }
             CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!)
         }
 
