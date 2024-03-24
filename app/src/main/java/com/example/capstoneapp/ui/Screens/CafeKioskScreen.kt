@@ -12,7 +12,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -24,33 +23,32 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.Frame.NotificationScreen
-import com.example.capstoneapp.data.Repository.MenuItem
+import com.example.capstoneapp.data.Repository.Problem
 import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
+import com.example.capstoneapp.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.ui.Components.CafeMenuBar
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.ui.Components.CafeMenuList
 import com.example.capstoneapp.ui.Components.OrderList
 import com.example.capstoneapp.ui.Components.totalOrder
+import com.example.capstoneapp.ui.Frame.NotificationScreen
+import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 
 
 @Composable
-fun CafeKioskScreen(navController: NavController,viewModel: MenuItemsViewModel) {
-    /*
-    *  KioskCafePractice0 매개변수 viewModel: SharedViewModel 추가
-    *  NotificationScreen 인자 viewModel,navController 추가
-    * */
-    NotificationScreen() { CafeMenuScreen(navController,viewModel) }
+fun CafeKioskScreen(
+    navController: NavController,
+    menuItemsViewModel: MenuItemsViewModel,
+    problem: Problem
+) {
+
+    NotificationScreen(navController, problem) { CafeMenuScreen(navController, menuItemsViewModel) }
 }
 
 @Composable
-fun CafeMenuScreen(navController: NavController,viewModel: MenuItemsViewModel) {
+fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel) {
     val orderItems by viewModel.orderItems.observeAsState(initial = listOf())
     val totalCount by viewModel.totalOrderCount.observeAsState(0)
-
-//    val orderItems = remember {
-//        mutableStateListOf<Pair<MenuItem, Int>>()
-//    }
 
     var selectedMenu by remember { mutableStateOf("커피(HOT)") }
     val menuCategory = listOf("커피(HOT)", "커피(ICE)", "티(TEA)")
@@ -71,8 +69,12 @@ fun CafeMenuScreen(navController: NavController,viewModel: MenuItemsViewModel) {
                     menuItems = menuCategory,
                     selectedMenu = selectedMenu,
                     onMenuItemClick = { menuItem ->
-                    selectedMenu = menuItem
-                })
+                        if (menuItem.equals("HOME")) {
+                            navController.navigate("KioskCafePractice0")
+                        } else {
+                            selectedMenu = menuItem
+                        }
+                    })
             }/*
             * 선택한 메뉴 종류에 따라 메뉴 리스트를 보여줌
             *
@@ -84,8 +86,8 @@ fun CafeMenuScreen(navController: NavController,viewModel: MenuItemsViewModel) {
 
                 if (targetPair != null) {
                     val index = orderItems.indexOf(targetPair)
-                    viewModel.addMenuItem(targetPair,index)
-                } else viewModel.addMenuItem(Pair(selectedItem,1),-1)
+                    viewModel.addMenuItem(targetPair, index)
+                } else viewModel.addMenuItem(Pair(selectedItem, 1), -1)
             }
         }
 
@@ -118,9 +120,9 @@ fun CafeMenuScreen(navController: NavController,viewModel: MenuItemsViewModel) {
                         val targetPair = orderItems[targetPairIndex]
 
                         if (onItemStatus.second.equals("Add")) {
-                            viewModel.addMenuItem(targetPair,targetPairIndex)
+                            viewModel.addMenuItem(targetPair, targetPairIndex)
                         } else if (onItemStatus.second.equals("Minus")) {
-                            viewModel.minusMenuItem(targetPair,targetPairIndex)
+                            viewModel.minusMenuItem(targetPair, targetPairIndex)
                         } else if (onItemStatus.second.equals("Delete")) {
                             viewModel.removeMenuItem(targetPair)
                         }
@@ -137,7 +139,7 @@ fun CafeMenuScreen(navController: NavController,viewModel: MenuItemsViewModel) {
             totalOrder(totalCount) {
                 if (it.first) {
                     viewModel.clearMenuItem()
-                }else if(it.second){
+                } else if (it.second) {
                     navController.navigate("KioskCafePractice5")
                 }
             }
@@ -149,8 +151,9 @@ fun CafeMenuScreen(navController: NavController,viewModel: MenuItemsViewModel) {
 @Composable
 fun cafeKioskScreenPreview() {
     val navController = rememberNavController()
-    val viewModel: MenuItemsViewModel = viewModel()
-    CafeKioskScreen(navController,viewModel)
-//    val viewModel: SharedViewModel = viewModel()
-//    CafeKioskScreen(navController,viewModel)
+    SetUpNavGraph(navController = navController)
+    val menuItemsViewModel: MenuItemsViewModel = viewModel()
+    val problemViewModel: ProblemViewModel = viewModel()
+
+    CafeKioskScreen(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!)
 }

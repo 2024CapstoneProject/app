@@ -81,6 +81,7 @@ fun Dialog7(onDismiss: () -> Unit, onConfirm: () -> Unit) {
     }
 
 }
+
 @Preview
 @Composable
 fun Kiosk7PreView() {

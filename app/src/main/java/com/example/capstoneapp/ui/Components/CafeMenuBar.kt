@@ -29,39 +29,39 @@ fun CafeMenuBar(
     menuItems:List<String>,
     selectedMenu:String,
     onMenuItemClick:(String)->Unit
-){
+) {
     Row(
-        modifier= Modifier
+        modifier = Modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
 
-    ){
-        //Spacer(Modifier.width(20.dp))
+    ) {
         IconButton(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
+            onClick = {onMenuItemClick("HOME")},
+            modifier = Modifier.padding(top = 12.dp)
                 .width(60.dp)
-                .height(64.dp)
+                .height(60.dp)
         ) {
             Icon(
                 imageVector = Icons.Filled.Home,
-                contentDescription = "setting")
+                contentDescription = "setting"
+            )
         }
         menuItems.forEach { item ->
             TextButton(
-                modifier = Modifier.padding(top=12.dp).fillMaxHeight().wrapContentWidth(),
+                modifier = Modifier.padding(top = 12.dp).fillMaxHeight().wrapContentWidth(),
                 onClick = {
                     onMenuItemClick(item)
                 },
                 colors = ButtonDefaults.textButtonColors(
                     containerColor = if (item == selectedMenu) Color.White else Color.Transparent,
-                    contentColor = if(item == selectedMenu) Color.Black else Color.White
+                    contentColor = if (item == selectedMenu) Color.Black else Color.White
                 ),
-                shape = RoundedCornerShape(topStart = 16.dp,topEnd=16.dp)
+                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
 
             ) {
-                Text(text=item,fontSize=14.sp)
+                Text(text = item, fontSize = 14.sp)
             }
         }
         Spacer(Modifier.width(10.dp))

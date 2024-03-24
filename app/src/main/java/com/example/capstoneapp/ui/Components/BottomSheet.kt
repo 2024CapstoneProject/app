@@ -1,6 +1,8 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,36 +29,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.capstoneapp.data.Repository.Problem
+import com.example.capstoneapp.data.Repository.ProblemRepository
+import com.example.capstoneapp.data.ViewModel.ProblemViewModel
+import com.example.capstoneapp.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.ui.Frame.ButtonFormat
 import com.example.capstoneapp.ui.theme.Yellow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetScreen(openBottomSheet: Boolean, onOpenBottomSheetChange: (Boolean) -> Unit) {
-
-    //var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    var skipPartiallyExpanded by remember { mutableStateOf(false) }
-    var edgeToEdgeEnabled by remember { mutableStateOf(false) }
+fun BottomSheetScreen(
+    openBottomSheet: Boolean,
+    problem: Problem,
+    onOpenBottomSheetChange: (Boolean) -> Unit
+) {
+    val skipPartiallyExpanded by remember { mutableStateOf(false) }
+    val edgeToEdgeEnabled by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = skipPartiallyExpanded
     )
 
-    // App content (뜨게 하는 버튼)
-//    Column(
-//        horizontalAlignment = Alignment.Start,
-//        verticalArrangement = Arrangement.spacedBy(4.dp)
-//    ) {
-//        Button(
-//            onClick = { openBottomSheet = !openBottomSheet },
-//            modifier = Modifier.align(Alignment.CenterHorizontally)
-//        ) {
-//            Text(text = "Show Bottom Sheet")
-//        }
-//    }
-
-    // Sheet content
     if (openBottomSheet) {
         val windowInsets =
             if (edgeToEdgeEnabled) WindowInsets(0) else BottomSheetDefaults.windowInsets
@@ -64,39 +59,16 @@ fun BottomSheetScreen(openBottomSheet: Boolean, onOpenBottomSheetChange: (Boolea
         ModalBottomSheet(
             onDismissRequest = { onOpenBottomSheetChange(false) },
             sheetState = bottomSheetState,
-            windowInsets = windowInsets
+            windowInsets = windowInsets,
         ) {
-
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.27f),
+                    .fillMaxHeight(0.5f),
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-
-//            var text by remember { mutableStateOf("") }
-//                OutlinedTextField(
-//                    value = text,
-//                    onValueChange = { text = it },
-//                    modifier = Modifier.padding(horizontal = 16.dp),
-//                    label = { Text("Text field") }
-//                )
-//                Button(
-//                    // Note: If you provide logic outside of onDismissRequest to remove the sheet,
-//                    // you must additionally handle intended state cleanup, if any.
-//                    onClick = {
-//                        scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
-//                            if (!bottomSheetState.isVisible) {
-//                                openBottomSheet = false
-//                            }
-//                        }
-//                    }
-//                ) {
-//                    Text("닫기") // 닫기 버튼
-//                }
-                //ProblemBox(viewModel)
-                ProblemBox()
+                ProblemBox(problem)
                 ButtonFormat(
                     modifier = Modifier.height(64.dp), onClick = {
                         scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
@@ -106,65 +78,55 @@ fun BottomSheetScreen(openBottomSheet: Boolean, onOpenBottomSheetChange: (Boolea
                         }
                     }, buttonText = "닫기", backgroundColor = Yellow, contentColor = Color.Black
                 )
-
             }
         }
     }
 }
 
 @Composable
-fun ProblemBox() {/*ProblemBox 매개변수 viewModel: SharedViewModel 추가
-    *
-    val problem = viewModel.getProblem()
-    */
-    val menu = "아메리카노"
-    val place = "매장에서 먹기"
-    val point = "O"
-    val pay = "카드 결제"
+fun ProblemBox(problem: Problem) {
+
     Column(
         modifier = Modifier
             .wrapContentSize()
-            .padding(bottom = 16.dp),
-        horizontalAlignment = Alignment.Start
+            .padding(bottom = 16.dp)
     ) {
         Text(
-            text = "메뉴 : $menu",
-            fontSize = 20.sp,
+            text = "메뉴 : ${problem.menu}",
+            fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.SansSerif
         )
         Text(
-            text = "장소 : $place",
-            fontSize = 20.sp,
+            text = "장소 : ${problem.place}",
+            fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.SansSerif
         )
         Text(
-            text = "포인트 적립 여부 : $point",
-            fontSize = 20.sp,
+            text = "포인트 적립 여부 : ${problem.point}",
+            fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.SansSerif
         )
         Text(
-            text = "결제 방식 : $pay",
-            fontSize = 20.sp,
+            text = "결제 방식 : ${problem.pay}",
+            fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.SansSerif
         )
+        Spacer(Modifier.padding(bottom = 20.dp))
     }
-
-
 }
 
 @Preview
 @Composable
 fun BottomSheetPreview() {
-    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
-    BottomSheetScreen(openBottomSheet = openBottomSheet,
-        onOpenBottomSheetChange = { openBottomSheet = it })
-
-//    val viewModel: SharedViewModel = viewModel()
-//    BottomSheetScreen(openBottomSheet = openBottomSheet,
-//        onOpenBottomSheetChange = {openBottomSheet = it},viewModel
-//    )
+    var openBottomSheet by rememberSaveable { mutableStateOf(true) }
+    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val problem = remember { problemViewModel.getProblemValue() }
+    BottomSheetScreen(
+        openBottomSheet = openBottomSheet, problem = problem!!
+    ) { openBottomSheet = it }
 }

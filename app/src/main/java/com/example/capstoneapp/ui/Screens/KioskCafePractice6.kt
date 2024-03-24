@@ -30,23 +30,26 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.data.Repository.Problem
 import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
-import com.example.capstoneapp.ui.Frame.NotificationScreen
+import com.example.capstoneapp.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
+import com.example.capstoneapp.ui.Frame.NotificationScreen
+import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 
 
 @Composable
-fun KioskCafePractice6(navController: NavController,viewModel: MenuItemsViewModel){
+fun KioskCafePractice6(navController: NavController,menuItemsViewModel: MenuItemsViewModel,problem: Problem){
     /*
     *  KioskCafePractice0 매개변수 viewModel: SharedViewModel 추가
     *  NotificationScreen 인자 viewModel,navController 추가
     * */
-    NotificationScreen() {
+    NotificationScreen(navController,problem!!) {
         Column {
             CafeMenuBarFormat {
                 MenuText6()
             }
-            Screen6(navController,viewModel)
+            Screen6(navController,menuItemsViewModel)
         }
     }
 }
@@ -60,7 +63,7 @@ fun Screen6(navController: NavController,viewModel: MenuItemsViewModel){
             .padding(vertical = 0.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
-        PayButton(onClick =  {
+        PayButton(navController, onClick =  {
 
         })
         Row(
@@ -101,7 +104,7 @@ fun Screen6(navController: NavController,viewModel: MenuItemsViewModel){
     }
 }
 @Composable
-fun PayButton(onClick: () -> Unit){
+fun PayButton(navController: NavController, onClick: () -> Unit){
     var dialog7 by remember { mutableStateOf(false) }
     var dialog10 by remember { mutableStateOf(false) }
     var dialog11 by remember { mutableStateOf(false) }
@@ -148,7 +151,10 @@ fun PayButton(onClick: () -> Unit){
             )
         }
         if(dialog10){
-            Dialog10(onDismiss = { dialog10 = false })
+            Dialog10(onDismiss = {
+                dialog10 = false
+                navController.navigate("KioskCafePractice0")
+            })
         }
         if(dialog11){
             Dialog11(
@@ -174,8 +180,8 @@ fun MenuText6(){
 @Composable
 fun Kiosk6PreView(){
     val navController = rememberNavController()
-    val viewModel: MenuItemsViewModel = viewModel()
-    KioskCafePractice6(navController,viewModel)
-//    val viewModel: SharedViewModel = viewModel()
-//    KioskCafePractice6(navController,viewModel)
+    SetUpNavGraph(navController = navController)
+    val menuItemsViewModel: MenuItemsViewModel = viewModel()
+    val problemViewModel: ProblemViewModel = viewModel()
+    KioskCafePractice6(navController,menuItemsViewModel,problemViewModel.getProblemValue()!!)
 }

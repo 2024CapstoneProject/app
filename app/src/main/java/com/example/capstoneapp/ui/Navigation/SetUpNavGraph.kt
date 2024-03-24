@@ -2,6 +2,8 @@ package com.example.capstoneapp.ui.Navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,24 +12,27 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.capstoneapp.data.Repository.ProblemRepository
 import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.data.ViewModel.MenuItemsViewModelFactory
-import com.example.capstoneapp.ui.Screens.CafeKioskScreen
+import com.example.capstoneapp.data.ViewModel.ProblemViewModel
+import com.example.capstoneapp.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.ui.Screens.CafeHomeScreen
+import com.example.capstoneapp.ui.Screens.CafeKioskScreen
 import com.example.capstoneapp.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.ui.Screens.KioskCafePractice6
-import com.example.capstoneapp.data.ViewModel.SharedViewModel
-import com.example.capstoneapp.data.ViewModel.SharedViewModelFactory
 import com.example.capstoneapp.ui.Screens.Guide0
 
 @Composable
 fun SetUpNavGraph(navController:NavHostController) {
 
-    //viewModelFactory : SharedViewModel 객체 생성 때 필요함
-    val problemViewModelFactory = SharedViewModelFactory(ProblemRepository)
-    val problemViewModel : SharedViewModel = viewModel(factory = problemViewModelFactory)
+    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+    val problemViewModel : ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val problem by problemViewModel.problem.observeAsState()
+
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel : MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     NavHost(
         navController = navController,
@@ -50,34 +55,27 @@ fun SetUpNavGraph(navController:NavHostController) {
 
         //카페 연습 첫번째 화면
         composable(route="KioskCafePractice0"){
-            val currentBackStackEntry = navController.currentBackStackEntryAsState().value
-            val isFromKioskCafePractice0 = currentBackStackEntry?.destination?.route == "KioskCafePractice0"
-
-            LaunchedEffect(isFromKioskCafePractice0) {
-                if (isFromKioskCafePractice0) {
-                    problemViewModel.createRandomProblem()
+            LaunchedEffect(navBackStackEntry) {
+                if (navBackStackEntry?.destination?.route == "KioskCafePractice0") {
+                    problemViewModel.createProblem()
                 }
             }
-            //KioskCafePractice0(navController = navController, viewModel = viewModel)
-            KioskCafePractice0(navController = navController)
+            KioskCafePractice0(navController = navController,problem!!)
         }
 
         //카페 연습 메뉴 선택 화면
         composable(route="CafeKioskScreen"){
-            //CafeKioskScreen(navController = navController,viewModel = problemViewModel)
-            CafeKioskScreen(navController = navController,viewModel = menuItemsViewModel)
+            CafeKioskScreen(navController = navController,menuItemsViewModel,problem!!)
         }
 
         //카페 연습 메뉴 확인 화면
         composable(route ="KioskCafePractice5"){
-            //KioskCafePractice5(navController = navController,viewModel = problemViewModel)
-            KioskCafePractice5(navController = navController,menuItemsViewModel)
+            KioskCafePractice5(navController = navController,menuItemsViewModel,problem!!)
         }
 
         //카페 연습 결제 선택 화면
         composable(route ="KioskCafePractice6"){
-            //KioskCafePractice6(navController = navController,viewModel = problemViewModel)
-            KioskCafePractice6(navController = navController,menuItemsViewModel)
+            KioskCafePractice6(navController = navController,menuItemsViewModel,problem!!)
         }
     }
 }
