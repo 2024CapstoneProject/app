@@ -150,7 +150,7 @@ fun PayButton(navController: NavController, onClick: () -> Unit) {
         if (dialog10) {
             Dialog10(onDismiss = {
                 dialog10 = false
-                navController.navigate("KioskCafePractice0")
+                navController.popBackStack("KioskCafePractice0",inclusive = true)
             })
         }
         if (dialog11) {
