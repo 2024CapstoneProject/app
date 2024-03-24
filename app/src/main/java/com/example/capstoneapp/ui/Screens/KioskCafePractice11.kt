@@ -75,6 +75,7 @@ fun Dialog11(onDismiss: () -> Unit, onConfirm: () -> Unit) {
     }
 
 }
+
 @Preview
 @Composable
 fun Kiosk11PreView() {

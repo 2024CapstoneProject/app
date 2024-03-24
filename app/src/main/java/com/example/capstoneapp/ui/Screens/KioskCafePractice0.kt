@@ -34,17 +34,16 @@ import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 @Composable
-fun KioskCafePractice0(navController:NavController, problem: Problem) {
+fun KioskCafePractice0(navController: NavController, problem: Problem) {
 
-
-        Column {
-            TopAppBar()
-            TextScreen(navController,problem)
-        }
+    Column {
+        TopAppBar()
+        TextScreen(navController, problem)
+    }
 }
 
 @Composable
-fun TextScreen(navController:NavController,problem: Problem) {
+fun TextScreen(navController: NavController, problem: Problem) {
 
     Column(
         modifier = Modifier
@@ -132,14 +131,14 @@ fun TextScreen(navController:NavController,problem: Problem) {
 @Composable
 fun TextScreenPreview() {
     val navController = rememberNavController()
-    val problemViewModel : ProblemViewModel = viewModel()
+    val problemViewModel: ProblemViewModel = viewModel()
     val problemState by problemViewModel.problem.observeAsState()
     val problem = remember { problemState }
 
     CapstoneAppTheme {
         Column {
             TopAppBar()
-            TextScreen(navController,problem!!)
+            TextScreen(navController, problem!!)
         }
     }
 }
@@ -163,7 +162,7 @@ fun StartButton(onClick: () -> Unit) {
                 text = "시작하기",
                 fontSize = 24.sp,
                 color = Color.Black
-                )
+            )
         }
     }
 }

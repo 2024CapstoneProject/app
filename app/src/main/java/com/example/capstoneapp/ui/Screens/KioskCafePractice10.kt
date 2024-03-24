@@ -1,4 +1,5 @@
 package com.example.capstoneapp.ui.Screens
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -68,8 +69,8 @@ fun Dialog10(onDismiss: () -> Unit) {
             }
         }
     }
-
 }
+
 @Preview
 @Composable
 fun Kiosk10PreView() {

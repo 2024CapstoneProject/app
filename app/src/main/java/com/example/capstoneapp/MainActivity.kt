@@ -3,17 +3,7 @@ package com.example.capstoneapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.Frame.NotificationScreen
 import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
@@ -30,13 +20,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    NotificationScreen{
-        Text(
-            text = "문제가 나오는 공간",
-            modifier = Modifier.padding(16.dp) // Padding inside the rectangle
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    val navController = rememberNavController()
+//    val viewModel: ProblemViewModel = viewModel()
+//    NotificationScreen(navController,viewModel.getProblemValue()!!){
+//        Text(
+//            text = "문제가 나오는 공간",
+//            modifier = Modifier.padding(16.dp) // Padding inside the rectangle
+//        )
+//    }
+//}

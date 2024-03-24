@@ -15,13 +15,13 @@ class ProblemViewModel @Inject constructor(private val problemRepository: Proble
     private val _problem = MutableLiveData<Problem>()
     val problem: LiveData<Problem> = _problem
 
-    init{
+    init {
         if (_problem.value == null) {
             _problem.value = problemRepository.createProblem()
         }
     }
 
-    fun createProblem(){
+    fun createProblem() {
         val problem = problemRepository.createProblem()
         _problem.value = problem
     }

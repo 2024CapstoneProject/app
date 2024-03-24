@@ -24,12 +24,13 @@ import com.example.capstoneapp.ui.Screens.KioskCafePractice6
 @Composable
 fun SetUpNavGraph(navController:NavHostController) {
 
-    //viewModelFactory : SharedViewModel 객체 생성 때 필요함
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel : ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val problem by problemViewModel.problem.observeAsState()
+
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel : MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
-    val problem by problemViewModel.problem.observeAsState()
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     NavHost(

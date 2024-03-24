@@ -35,45 +35,54 @@ import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.ui.Frame.NotificationScreen
+import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 
 @Composable
-fun KioskCafePractice5(navController: NavController,menuItemsViewModel: MenuItemsViewModel,problem: Problem) {
+fun KioskCafePractice5(
+    navController: NavController,
+    menuItemsViewModel: MenuItemsViewModel,
+    problem: Problem
+) {
     /*
     *  KioskCafePractice5 매개변수 viewModel: SharedViewModel 추가
     *  NotificationScreen 인자 viewModel,navController 추가
     * */
 
-    NotificationScreen(navController,problem!!) {
+    NotificationScreen(navController, problem!!) {
         Column {
             CafeMenuBarFormat {
                 MenuText5()
             }
-            Screen5(navController,menuItemsViewModel)
+            Screen5(navController, menuItemsViewModel)
         }
     }
 }
 
 @Composable
-fun Screen5(navController: NavController,viewModel: MenuItemsViewModel) {
+fun Screen5(navController: NavController, viewModel: MenuItemsViewModel) {
 
     val orderItems by viewModel.orderItems.observeAsState()
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
 
     Column(modifier = Modifier.fillMaxHeight()) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(276.dp)){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(276.dp)
+        ) {
 
-            LazyColumn(modifier = Modifier
-                .height(280.dp)
-                .fillMaxWidth()) {
+            LazyColumn(
+                modifier = Modifier
+                    .height(280.dp)
+                    .fillMaxWidth()
+            ) {
                 orderItems?.size?.let {
-                    items(it){
+                    items(it) {
                         val item = orderItems!![it]
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier.fillMaxWidth(),
-                        ){
+                        ) {
                             Text(
                                 text = item.first.name,
                                 modifier = Modifier
@@ -157,7 +166,7 @@ fun Screen5(navController: NavController,viewModel: MenuItemsViewModel) {
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(
-                onClick = {},
+                onClick = {navController.navigate("KioskCafePractice6")},
                 modifier = Modifier.size(150.dp, 80.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFB2929)),
                 shape = RoundedCornerShape(16.dp)
@@ -190,9 +199,10 @@ fun MenuText5() {
 @Composable
 fun Kiosk5PreView() {
     val navController = rememberNavController()
+    SetUpNavGraph(navController = navController)
     val menuItemsViewModel: MenuItemsViewModel = viewModel()
-    val problemViewModel : ProblemViewModel = viewModel()
+    val problemViewModel: ProblemViewModel = viewModel()
 
-    KioskCafePractice5(navController,menuItemsViewModel,problemViewModel.getProblemValue()!!)
+    KioskCafePractice5(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!)
 
 }

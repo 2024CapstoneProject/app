@@ -45,7 +45,7 @@ import com.example.capstoneapp.R
 
 
 @Composable
-fun KioskCafeGuide0(navController: NavController){
+fun KioskCafeGuide0(navController: NavController) {
     var currentImageIndex by remember { mutableStateOf(0) }
 
     Column(
@@ -54,7 +54,7 @@ fun KioskCafeGuide0(navController: NavController){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //TopAppBar(navController)
-        TopAppBar()
+        //TopAppBar()
         Spacer(modifier = Modifier.height(40.dp))
         guideImage(currentImageIndex) { newIndex ->
             currentImageIndex = newIndex
@@ -99,7 +99,14 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = { onImageIndexChanged(showPreviousImage(imageResources.size, currentImageIndex)) }
+                    onClick = {
+                        onImageIndexChanged(
+                            showPreviousImage(
+                                imageResources.size,
+                                currentImageIndex
+                            )
+                        )
+                    }
                 ) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_back),
@@ -134,7 +141,14 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 Spacer(modifier = Modifier.width(0.dp))
 
                 IconButton(
-                    onClick = { onImageIndexChanged(showNextImage(imageResources.size, currentImageIndex)) }
+                    onClick = {
+                        onImageIndexChanged(
+                            showNextImage(
+                                imageResources.size,
+                                currentImageIndex
+                            )
+                        )
+                    }
                 ) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_forward),
@@ -204,12 +218,12 @@ fun guideText(currentImageIndex: Int) {
         Triple("이 창이 뜨면 카드를 넣어주세요.", "화면 오른쪽 아래에", "카드 투입구가 있습니다.")
     )
 
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 30.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp),
-    ){
+    ) {
         val (text1, text2, text3) = textList[currentImageIndex]
         TextWithColoredWords(
             text = text1,
@@ -265,21 +279,19 @@ fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
 @Preview(showBackground = true)
 @Composable
 fun cafeGuideScreenPreview() {
-        var currentImageIndex by remember { mutableStateOf(0) }
-        //val navController = rememberNavController()
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            //TopAppBar(navController)
-            TopAppBar()
-            Spacer(modifier = Modifier.height(40.dp))
-            guideImage(currentImageIndex) { newIndex ->
-                currentImageIndex = newIndex
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            guideText(currentImageIndex)
+    var currentImageIndex by remember { mutableStateOf(0) }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TopAppBar()
+        Spacer(modifier = Modifier.height(40.dp))
+        guideImage(currentImageIndex) { newIndex ->
+            currentImageIndex = newIndex
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        guideText(currentImageIndex)
+    }
 
 }

@@ -35,6 +35,7 @@ import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.ui.Frame.NotificationScreen
+import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 
 
 @Composable
@@ -62,7 +63,7 @@ fun Screen6(navController: NavController,viewModel: MenuItemsViewModel){
             .padding(vertical = 0.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
-        PayButton(onClick =  {
+        PayButton(navController, onClick =  {
 
         })
         Row(
@@ -103,7 +104,7 @@ fun Screen6(navController: NavController,viewModel: MenuItemsViewModel){
     }
 }
 @Composable
-fun PayButton(onClick: () -> Unit){
+fun PayButton(navController: NavController, onClick: () -> Unit){
     var dialog7 by remember { mutableStateOf(false) }
     var dialog10 by remember { mutableStateOf(false) }
     var dialog11 by remember { mutableStateOf(false) }
@@ -150,7 +151,10 @@ fun PayButton(onClick: () -> Unit){
             )
         }
         if(dialog10){
-            Dialog10(onDismiss = { dialog10 = false })
+            Dialog10(onDismiss = {
+                dialog10 = false
+                navController.navigate("KioskCafePractice0")
+            })
         }
         if(dialog11){
             Dialog11(
@@ -176,9 +180,8 @@ fun MenuText6(){
 @Composable
 fun Kiosk6PreView(){
     val navController = rememberNavController()
+    SetUpNavGraph(navController = navController)
     val menuItemsViewModel: MenuItemsViewModel = viewModel()
     val problemViewModel: ProblemViewModel = viewModel()
     KioskCafePractice6(navController,menuItemsViewModel,problemViewModel.getProblemValue()!!)
-//    val viewModel: SharedViewModel = viewModel()
-//    KioskCafePractice6(navController,viewModel)
 }

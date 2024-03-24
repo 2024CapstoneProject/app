@@ -10,11 +10,11 @@ import javax.inject.Inject
 @HiltViewModel
 open class MenuItemsViewModel @Inject constructor() : ViewModel() {
 
-    private val _orderItems = MutableLiveData<List<Pair<MenuItem,Int>>>()
-    val orderItems: LiveData<List<Pair<MenuItem,Int>>> = _orderItems
+    private val _orderItems = MutableLiveData<List<Pair<MenuItem, Int>>>()
+    val orderItems: LiveData<List<Pair<MenuItem, Int>>> = _orderItems
 
     private val _totalOrderAmount = MutableLiveData<Int>()
-    val totalOrderAmount :LiveData<Int> = _totalOrderAmount
+    val totalOrderAmount: LiveData<Int> = _totalOrderAmount
 
     private val _totalOrderCount = MutableLiveData<Int>()
     val totalOrderCount: LiveData<Int> = _totalOrderCount
@@ -26,21 +26,21 @@ open class MenuItemsViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun updateTotalOrderAmount() { //각 메뉴 가격 * 개수 = 전체금액
-        _totalOrderAmount.value = _orderItems.value?.sumOf {it.first.price * it.second } ?: 0
+        _totalOrderAmount.value = _orderItems.value?.sumOf { it.first.price * it.second } ?: 0
     }
 
     private fun updateTotalOrderCount() { //전체 메뉴 개수
-        _totalOrderCount.value = _orderItems.value?.sumOf {it.second } ?: 0
+        _totalOrderCount.value = _orderItems.value?.sumOf { it.second } ?: 0
     }
 
     //주문 목록 메뉴 추가
-    fun addMenuItem(targetPair: Pair<MenuItem,Int>,targetPairIndex: Int) {
+    fun addMenuItem(targetPair: Pair<MenuItem, Int>, targetPairIndex: Int) {
         val updatedList = _orderItems.value?.toMutableList() ?: mutableListOf()
 
         //있으면 개수 증가, 없으면 항목 추가
-        if(targetPairIndex == -1){
+        if (targetPairIndex == -1) {
             updatedList.add(targetPair)
-        }else{
+        } else {
             updatedList[targetPairIndex] = Pair(targetPair.first, targetPair.second + 1)
         }
         // 주문 목록 업데이트
@@ -50,18 +50,19 @@ open class MenuItemsViewModel @Inject constructor() : ViewModel() {
     }
 
     //주문 메뉴 개수 감소 & 주문 목록 메뉴 제거
-    fun minusMenuItem(targetPair: Pair<MenuItem,Int>,targetPairIndex: Int){
+    fun minusMenuItem(targetPair: Pair<MenuItem, Int>, targetPairIndex: Int) {
         val removeList = _orderItems.value?.toMutableList() ?: mutableListOf()
-        if(targetPair.second -1 ==0){
+        if (targetPair.second - 1 == 0) {
             removeList.remove(targetPair)
-        }else{
-            removeList[targetPairIndex] = Pair(targetPair.first,targetPair.second-1)
+        } else {
+            removeList[targetPairIndex] = Pair(targetPair.first, targetPair.second - 1)
         }
         _orderItems.value = removeList
         updateTotalOrderAmount()
     }
 
-    fun removeMenuItem(targetPair: Pair<MenuItem,Int>){
+    //주문 메뉴 삭제
+    fun removeMenuItem(targetPair: Pair<MenuItem, Int>) {
         val removeList = _orderItems.value?.toMutableList() ?: mutableListOf()
         removeList.remove(targetPair)
         _orderItems.value = removeList
@@ -69,7 +70,7 @@ open class MenuItemsViewModel @Inject constructor() : ViewModel() {
     }
 
     //주문 목록 초기화
-    fun clearMenuItem(){
+    fun clearMenuItem() {
         val clearList = _orderItems.value?.toMutableList() ?: mutableListOf()
         clearList.clear()
         _orderItems.value = clearList

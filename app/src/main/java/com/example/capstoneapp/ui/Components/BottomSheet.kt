@@ -40,8 +40,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetScreen(openBottomSheet: Boolean,  problem: Problem, onOpenBottomSheetChange: (Boolean) -> Unit) {
-
+fun BottomSheetScreen(
+    openBottomSheet: Boolean,
+    problem: Problem,
+    onOpenBottomSheetChange: (Boolean) -> Unit
+) {
     val skipPartiallyExpanded by remember { mutableStateOf(false) }
     val edgeToEdgeEnabled by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -49,7 +52,6 @@ fun BottomSheetScreen(openBottomSheet: Boolean,  problem: Problem, onOpenBottomS
         skipPartiallyExpanded = skipPartiallyExpanded
     )
 
-    // Sheet content
     if (openBottomSheet) {
         val windowInsets =
             if (edgeToEdgeEnabled) WindowInsets(0) else BottomSheetDefaults.windowInsets
@@ -76,7 +78,6 @@ fun BottomSheetScreen(openBottomSheet: Boolean,  problem: Problem, onOpenBottomS
                         }
                     }, buttonText = "닫기", backgroundColor = Yellow, contentColor = Color.Black
                 )
-
             }
         }
     }
@@ -90,37 +91,31 @@ fun ProblemBox(problem: Problem) {
             .wrapContentSize()
             .padding(bottom = 16.dp)
     ) {
-
-            if (problem != null) {
-                Text(
-                    text = "메뉴 : ${problem.menu}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontFamily = FontFamily.SansSerif
-                )
-
-
-                Text(
-                    text = "장소 : ${problem.place}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontFamily = FontFamily.SansSerif
-                )
-                Text(
-                    text = "포인트 적립 여부 : ${problem.point}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontFamily = FontFamily.SansSerif
-                )
-                Text(
-                    text = "결제 방식 : ${problem.pay}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontFamily = FontFamily.SansSerif
-                )
-            }
-
-        Spacer(Modifier.padding(bottom=20.dp))
+        Text(
+            text = "메뉴 : ${problem.menu}",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.ExtraBold,
+            fontFamily = FontFamily.SansSerif
+        )
+        Text(
+            text = "장소 : ${problem.place}",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.ExtraBold,
+            fontFamily = FontFamily.SansSerif
+        )
+        Text(
+            text = "포인트 적립 여부 : ${problem.point}",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.ExtraBold,
+            fontFamily = FontFamily.SansSerif
+        )
+        Text(
+            text = "결제 방식 : ${problem.pay}",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.ExtraBold,
+            fontFamily = FontFamily.SansSerif
+        )
+        Spacer(Modifier.padding(bottom = 20.dp))
     }
 }
 
@@ -129,10 +124,9 @@ fun ProblemBox(problem: Problem) {
 fun BottomSheetPreview() {
     var openBottomSheet by rememberSaveable { mutableStateOf(true) }
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-    val problemViewModel : ProblemViewModel = viewModel(factory = problemViewModelFactory)
-    val problem = remember {problemViewModel.getProblemValue()}
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val problem = remember { problemViewModel.getProblemValue() }
     BottomSheetScreen(
-        openBottomSheet = openBottomSheet,problem=problem!!
+        openBottomSheet = openBottomSheet, problem = problem!!
     ) { openBottomSheet = it }
-
 }
