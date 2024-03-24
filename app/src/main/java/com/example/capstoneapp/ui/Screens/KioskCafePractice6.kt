@@ -31,46 +31,49 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.data.Repository.Problem
+import com.example.capstoneapp.data.Repository.ProblemRepository
 import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
+import com.example.capstoneapp.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.data.ViewModel.ProblemViewModel
+import com.example.capstoneapp.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.ui.Frame.NotificationScreen
-import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 
 
 @Composable
-fun KioskCafePractice6(navController: NavController,menuItemsViewModel: MenuItemsViewModel,problem: Problem){
-    /*
-    *  KioskCafePractice0 매개변수 viewModel: SharedViewModel 추가
-    *  NotificationScreen 인자 viewModel,navController 추가
-    * */
-    NotificationScreen(navController,problem!!) {
+fun KioskCafePractice6(
+    navController: NavController, menuItemsViewModel: MenuItemsViewModel, problem: Problem
+) {
+    NotificationScreen(navController, problem) {
         Column {
             CafeMenuBarFormat {
                 MenuText6()
             }
-            Screen6(navController,menuItemsViewModel)
+            Screen6(navController, menuItemsViewModel)
         }
     }
 }
+
 @Composable
-fun Screen6(navController: NavController,viewModel: MenuItemsViewModel){
-    //val price = 2500
+fun Screen6(navController: NavController, viewModel: MenuItemsViewModel) {
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 0.dp),
+            .padding(vertical = 20.dp),
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
-        PayButton(navController, onClick =  {
+        PayButton(navController, onClick = {
 
         })
         Row(
-            modifier = Modifier.fillMaxWidth().padding(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(),
             horizontalArrangement = Arrangement.SpaceBetween,
 
-        ) {
+            ) {
             Text(
                 text = "금액",
                 modifier = Modifier
@@ -103,15 +106,16 @@ fun Screen6(navController: NavController,viewModel: MenuItemsViewModel){
 
     }
 }
+
 @Composable
-fun PayButton(navController: NavController, onClick: () -> Unit){
+fun PayButton(navController: NavController, onClick: () -> Unit) {
     var dialog7 by remember { mutableStateOf(false) }
     var dialog10 by remember { mutableStateOf(false) }
     var dialog11 by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 40.dp,bottom=40.dp),
+            .padding(top = 40.dp, bottom = 80.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -124,9 +128,7 @@ fun PayButton(navController: NavController, onClick: () -> Unit){
             shape = RoundedCornerShape(0.dp)
         ) {
             Text(
-                text = "카드결제",
-                fontSize = 24.sp,
-                color = Color.Black
+                text = "카드결제", fontSize = 24.sp, color = Color.Black
             )
         }
         Spacer(modifier = Modifier.height(40.dp))
@@ -139,33 +141,26 @@ fun PayButton(navController: NavController, onClick: () -> Unit){
             shape = RoundedCornerShape(0.dp)
         ) {
             Text(
-                text = "쿠폰사용",
-                fontSize = 24.sp,
-                color = Color.Black
+                text = "쿠폰사용", fontSize = 24.sp, color = Color.Black
             )
         }
         if (dialog7) {
-            Dialog7(
-                onDismiss = { dialog7 = false },
-                onConfirm = { dialog10 = true }
-            )
+            Dialog7(onDismiss = { dialog7 = false }, onConfirm = { dialog10 = true })
         }
-        if(dialog10){
+        if (dialog10) {
             Dialog10(onDismiss = {
                 dialog10 = false
                 navController.navigate("KioskCafePractice0")
             })
         }
-        if(dialog11){
-            Dialog11(
-                onDismiss = { dialog11 = false },
-                onConfirm = { dialog10 = true }
-            )
+        if (dialog11) {
+            Dialog11(onDismiss = { dialog11 = false }, onConfirm = { dialog10 = true })
         }
     }
 }
+
 @Composable
-fun MenuText6(){
+fun MenuText6() {
     Text(
         text = "결제수단 선택",
         modifier = Modifier
@@ -176,12 +171,15 @@ fun MenuText6(){
         color = Color.White,
     )
 }
+
 @Preview
 @Composable
-fun Kiosk6PreView(){
+fun Kiosk6PreView() {
     val navController = rememberNavController()
-    SetUpNavGraph(navController = navController)
-    val menuItemsViewModel: MenuItemsViewModel = viewModel()
-    val problemViewModel: ProblemViewModel = viewModel()
-    KioskCafePractice6(navController,menuItemsViewModel,problemViewModel.getProblemValue()!!)
+    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val menuItemsViewModelFactory = MenuItemsViewModelFactory()
+    val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
+
+    KioskCafePractice6(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!)
 }

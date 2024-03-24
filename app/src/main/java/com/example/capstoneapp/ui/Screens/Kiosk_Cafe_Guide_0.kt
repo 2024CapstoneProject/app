@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.example.capstoneapp.ui.Frame.TopAppBar
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 
 
@@ -49,17 +48,15 @@ fun KioskCafeGuide0(navController: NavController) {
     var currentImageIndex by remember { mutableStateOf(0) }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize(1f),
     ) {
         //TopAppBar(navController)
         //TopAppBar()
-        Spacer(modifier = Modifier.height(40.dp))
         guideImage(currentImageIndex) { newIndex ->
             currentImageIndex = newIndex
         }
-        Spacer(modifier = Modifier.height(16.dp))
         guideText(currentImageIndex)
     }
 }
@@ -89,25 +86,21 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 text = imageName,
                 style = TextStyle(fontSize = 30.sp),
                 fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 20.dp)
             )
-            Spacer(modifier = Modifier.height(10.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
-                    onClick = {
-                        onImageIndexChanged(
-                            showPreviousImage(
-                                imageResources.size,
-                                currentImageIndex
-                            )
+                IconButton(onClick = {
+                    onImageIndexChanged(
+                        showPreviousImage(
+                            imageResources.size, currentImageIndex
                         )
-                    }
-                ) {
+                    )
+                }) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_back),
                         contentDescription = "Previous"
@@ -140,16 +133,13 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 
                 Spacer(modifier = Modifier.width(0.dp))
 
-                IconButton(
-                    onClick = {
-                        onImageIndexChanged(
-                            showNextImage(
-                                imageResources.size,
-                                currentImageIndex
-                            )
+                IconButton(onClick = {
+                    onImageIndexChanged(
+                        showNextImage(
+                            imageResources.size, currentImageIndex
                         )
-                    }
-                ) {
+                    )
+                }) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_forward),
                         contentDescription = "Next"
@@ -219,31 +209,22 @@ fun guideText(currentImageIndex: Int) {
     )
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 30.dp),
+        modifier = Modifier,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
         TextWithColoredWords(
-            text = text1,
-            wordsToColor = mapOf(
-                "현금 결제" to Color.Green,
-                "카드" to Color.Blue,
-                "파란색" to Color.Blue
+            text = text1, wordsToColor = mapOf(
+                "현금 결제" to Color.Green, "카드" to Color.Blue, "파란색" to Color.Blue
             )
         )
         TextWithColoredWords(
-            text = text2,
-            wordsToColor = mapOf(
-                "쿠폰" to Color.Green,
-                "초록색" to Color.Green,
-                "화면 오른쪽 아래" to Color.Red
+            text = text2, wordsToColor = mapOf(
+                "쿠폰" to Color.Green, "초록색" to Color.Green, "화면 오른쪽 아래" to Color.Red
             )
         )
         TextWithColoredWords(
-            text = text3,
-            wordsToColor = mapOf(
+            text = text3, wordsToColor = mapOf(
                 "카운터" to Color.Green
             )
         )
@@ -268,7 +249,7 @@ fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
         text = spannableString,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(0.dp),
+            .padding(4.dp),
         fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         color = Color.Black,
@@ -279,19 +260,8 @@ fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
 @Preview(showBackground = true)
 @Composable
 fun cafeGuideScreenPreview() {
+    val navController = rememberNavController()
     var currentImageIndex by remember { mutableStateOf(0) }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        TopAppBar()
-        Spacer(modifier = Modifier.height(40.dp))
-        guideImage(currentImageIndex) { newIndex ->
-            currentImageIndex = newIndex
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        guideText(currentImageIndex)
-    }
+    KioskCafeGuide0(navController)
 
 }

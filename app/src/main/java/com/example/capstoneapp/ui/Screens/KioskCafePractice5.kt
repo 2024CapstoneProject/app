@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,25 +32,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.data.Repository.Problem
+import com.example.capstoneapp.data.Repository.ProblemRepository
 import com.example.capstoneapp.data.ViewModel.MenuItemsViewModel
+import com.example.capstoneapp.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.data.ViewModel.ProblemViewModel
+import com.example.capstoneapp.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.ui.Frame.NotificationScreen
-import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 
 @Composable
 fun KioskCafePractice5(
-    navController: NavController,
-    menuItemsViewModel: MenuItemsViewModel,
-    problem: Problem
+    navController: NavController, menuItemsViewModel: MenuItemsViewModel, problem: Problem
 ) {
-    /*
-    *  KioskCafePractice5 매개변수 viewModel: SharedViewModel 추가
-    *  NotificationScreen 인자 viewModel,navController 추가
-    * */
-
-    NotificationScreen(navController, problem!!) {
-        Column {
+    NotificationScreen(navController, problem) {
+        Column(modifier = Modifier.fillMaxHeight()) {
             CafeMenuBarFormat {
                 MenuText5()
             }
@@ -64,7 +60,11 @@ fun Screen5(navController: NavController, viewModel: MenuItemsViewModel) {
     val orderItems by viewModel.orderItems.observeAsState()
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
 
-    Column(modifier = Modifier.fillMaxHeight()) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -111,7 +111,9 @@ fun Screen5(navController: NavController, viewModel: MenuItemsViewModel) {
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 80.dp),
         ) {
             Text(
                 text = "금액",
@@ -166,7 +168,7 @@ fun Screen5(navController: NavController, viewModel: MenuItemsViewModel) {
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(
-                onClick = {navController.navigate("KioskCafePractice6")},
+                onClick = { navController.navigate("KioskCafePractice6") },
                 modifier = Modifier.size(150.dp, 80.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFB2929)),
                 shape = RoundedCornerShape(16.dp)
@@ -199,9 +201,10 @@ fun MenuText5() {
 @Composable
 fun Kiosk5PreView() {
     val navController = rememberNavController()
-    SetUpNavGraph(navController = navController)
-    val menuItemsViewModel: MenuItemsViewModel = viewModel()
-    val problemViewModel: ProblemViewModel = viewModel()
+    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val menuItemsViewModelFactory = MenuItemsViewModelFactory()
+    val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
 
     KioskCafePractice5(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!)
 

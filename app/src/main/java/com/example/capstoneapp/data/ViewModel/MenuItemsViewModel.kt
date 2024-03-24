@@ -72,7 +72,9 @@ open class MenuItemsViewModel @Inject constructor() : ViewModel() {
     //주문 목록 초기화
     fun clearMenuItem() {
         val clearList = _orderItems.value?.toMutableList() ?: mutableListOf()
-        clearList.clear()
+        if(clearList.isNotEmpty()){
+            clearList.clear()
+        }
         _orderItems.value = clearList
         updateTotalOrderAmount()
     }
