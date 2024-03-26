@@ -30,7 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 
 @Composable
-fun CafeHomeScreen(navController: NavController) {
+fun KakaoHomeScreen(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -38,23 +38,21 @@ fun CafeHomeScreen(navController: NavController) {
     ) {
         //가이드모드
         PictureButton {
-            navController.navigate("KioskCafeGuide0")
+            navController.navigate("KakaoGuide0")
         }
         //연습모드
         PracticeButton {
-            navController.navigate("KioskCafePractice0")
+            navController.navigate("KakaoPractice0")
         }
         //이미지(onclick 기능 필요없음)
-        ImageButton {
-        }
+        ImageButton {}
     }
 }
 
 @Composable
 fun PictureButton(onClick: () -> Unit) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()
     ) {
         Button(
             onClick = onClick,
@@ -77,8 +75,7 @@ fun PictureButton(onClick: () -> Unit) {
 @Composable
 fun PracticeButton(onClick: () -> Unit) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()
     ) {
         Spacer(modifier = Modifier.height(10.dp))
         Button(
@@ -104,12 +101,10 @@ fun PracticeButton(onClick: () -> Unit) {
 @Composable
 fun ImageButton(onClick: () -> Unit) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()
     ) {
         Spacer(modifier = Modifier.height(20.dp))
-        Image(
-            painter = painterResource(id = R.drawable.cafe_coffee_img),
+        Image(painter = painterResource(id = R.drawable.kakaotalk_icon),
             contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
             modifier = Modifier
                 .size(194.dp) // 이미지 크기 조정
@@ -120,7 +115,7 @@ fun ImageButton(onClick: () -> Unit) {
 
 @Preview
 @Composable
-fun cafeHomeScreenPreview() {
+fun kakaoHomeScreenPreview() {
     val navController = rememberNavController()
-    CafeHomeScreen(navController = (navController))
+    KakaoHomeScreen(navController = (navController))
 }

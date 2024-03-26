@@ -44,7 +44,7 @@ import com.example.capstoneapp.R
 
 
 @Composable
-fun KioskCafeGuide0(navController: NavController) {
+fun KakaoGuide0(navController: NavController) {
     var currentImageIndex by remember { mutableStateOf(0) }
 
     Column(
@@ -52,8 +52,6 @@ fun KioskCafeGuide0(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize(1f),
     ) {
-        //TopAppBar(navController)
-        //TopAppBar()
         guideImage(currentImageIndex) { newIndex ->
             currentImageIndex = newIndex
         }
@@ -259,9 +257,9 @@ fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
 
 @Preview(showBackground = true)
 @Composable
-fun cafeGuideScreenPreview() {
+fun kakaoGuideScreenPreview() {
     val navController = rememberNavController()
     var currentImageIndex by remember { mutableStateOf(0) }
-    KioskCafeGuide0(navController)
+    KakaoGuide0(navController)
 
 }
