@@ -24,18 +24,17 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 @Composable
-fun Guide0(navController:NavController) {
+fun Guide0(navController: NavController) {
     CapstoneAppTheme {
         GuideScreen(navController)
     }
 }
 
 @Composable
-fun GuideScreen(navController:NavController) {
+fun GuideScreen(navController: NavController) {
 
     Column(
-        modifier = Modifier
-            .padding(top = 20.dp, bottom = 20.dp),
+        modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -61,11 +60,8 @@ fun GuideScreen(navController:NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {
-                    navController.navigate("CafeHomeScreen")
-                },
-                modifier = Modifier
-                    .size(150.dp, 150.dp),
+                onClick = {},
+                modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -77,9 +73,8 @@ fun GuideScreen(navController:NavController) {
                 )
             }
             Button(
-                onClick = {},
-                modifier = Modifier
-                    .size(150.dp, 150.dp),
+                onClick = { navController.navigate("KakaoHomeScreen") },
+                modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -99,8 +94,7 @@ fun GuideScreen(navController:NavController) {
         ) {
             Button(
                 onClick = {},
-                modifier = Modifier
-                    .size(150.dp, 150.dp),
+                modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -126,8 +120,7 @@ fun GuideScreen(navController:NavController) {
             }
             Button(
                 onClick = {},
-                modifier = Modifier
-                    .size(150.dp, 150.dp),
+                modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -147,8 +140,7 @@ fun GuideScreen(navController:NavController) {
         ) {
             Button(
                 onClick = {},
-                modifier = Modifier
-                    .size(150.dp, 150.dp),
+                modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -161,8 +153,7 @@ fun GuideScreen(navController:NavController) {
             }
             Button(
                 onClick = {},
-                modifier = Modifier
-                    .size(150.dp, 150.dp),
+                modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {

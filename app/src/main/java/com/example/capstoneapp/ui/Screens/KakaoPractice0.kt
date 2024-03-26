@@ -31,10 +31,9 @@ import com.example.capstoneapp.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.data.ViewModel.ProblemViewModelFactory
 
 @Composable
-fun KioskCafePractice0(navController: NavController, problem: Problem) {
+fun KakaoPractice0(navController: NavController, problem: Problem) {
 
     Column {
-        //TopAppBar()
         TextScreen(navController, problem)
     }
 }
@@ -91,7 +90,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
         )
 
         Image(
-            painter = painterResource(R.drawable.cafe_icon),
+            painter = painterResource(R.drawable.kakaotalk_icon),
             contentDescription = "cafe image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -119,7 +118,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
             textAlign = TextAlign.Center,
         )
         StartButton(onClick = {
-            navController.navigate("CafeKioskScreen")
+            navController.navigate("KakaoPractice1")
         })
     }
 
@@ -154,5 +153,5 @@ fun TextScreenPreview() {
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
 
-    KioskCafePractice0(navController, problemViewModel.getProblemValue()!!)
+    KakaoPractice0(navController, problemViewModel.getProblemValue()!!)
 }
