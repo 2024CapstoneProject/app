@@ -85,7 +85,9 @@ fun GuideScreen(navController:NavController) {
                 )
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Kakao_menu")
+                },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
