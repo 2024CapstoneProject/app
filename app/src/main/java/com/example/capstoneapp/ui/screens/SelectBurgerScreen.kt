@@ -159,15 +159,3 @@ fun itemMenu(navController: NavController,viewModel: OrderViewModel) {
     }
 }
 
-
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewItemMenu() {
-    val navController = rememberNavController()
-    val viewModel = OrderViewModel()
-    itemMenu(navController = navController, viewModel)
-}
-

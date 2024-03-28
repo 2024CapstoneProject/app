@@ -1,5 +1,6 @@
 package com.example.capstoneapp.ui.frame
 
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,20 +17,25 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.capstoneapp.ui.frame.ButtonFormat
-import com.example.capstoneapp.ui.frame.TopAppBar
+import com.example.capstoneapp.data.repository.Problem
 import com.example.capstoneapp.ui.theme.LightYellow
 import com.example.capstoneapp.ui.theme.Yellow
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NotificationScreen(content: @Composable () -> Unit) {
+fun NotificationScreen(problem: Problem, content: @Composable () -> Unit) {
+    var openBottomSheet by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(
         topBar = { TopAppBar() }
     ) {
@@ -68,7 +74,7 @@ fun NotificationScreen(content: @Composable () -> Unit) {
             ) {
                 ButtonFormat(
                     modifier = Modifier.weight(1f),
-                    onClick = { /* Handle click */ },
+                    onClick = { openBottomSheet = true },
                     buttonText = "문제보기",
                     backgroundColor = LightYellow,
                     contentColor = Color.Black
@@ -83,6 +89,13 @@ fun NotificationScreen(content: @Composable () -> Unit) {
                     contentColor = Color.Black
                 )
             }
+        }
+
+        if (openBottomSheet){
+            BottomSheetScreen(
+                openBottomSheet = openBottomSheet,
+                problem = problem
+            ) { openBottomSheet = it }
         }
     }
 }

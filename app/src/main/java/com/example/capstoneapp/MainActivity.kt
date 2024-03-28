@@ -14,6 +14,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -21,8 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.data.model.PreviewOrderViewModel
+import com.example.capstoneapp.data.model.ProblemViewModel
+import com.example.capstoneapp.data.model.ProblemViewModelFactory
+import com.example.capstoneapp.data.repository.ProblemRepository
 import com.example.capstoneapp.ui.components.AppNavigation
 import com.example.capstoneapp.ui.frame.NotificationScreen
 import com.example.capstoneapp.ui.screens.GuideImage
@@ -40,17 +45,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation()
+                    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+                    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+                    NotificationScreen(problemViewModel.getProblemValue()!!){
+                        AppNavigation(problemViewModel)
+                    }
                 }
             }
         }
     }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-   AppNavigation()
 }
