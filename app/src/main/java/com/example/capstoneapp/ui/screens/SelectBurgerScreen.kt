@@ -160,6 +160,6 @@ fun itemMenu(navController: NavController,viewModel: OrderViewModel) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewItemMenu() {
-    AppNavigation()
+//    AppNavigation()
 }
 
