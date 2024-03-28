@@ -4,19 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.screens.itemMenu
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.data.model.OrderViewModel
 import com.example.capstoneapp.data.model.ProblemViewModel
-import com.example.capstoneapp.data.model.ProblemViewModelFactory
-import com.example.capstoneapp.data.repository.ProblemRepository
 import com.example.capstoneapp.ui.screens.CafeGuideScreenPreview
 import com.example.capstoneapp.ui.screens.GreetingPreview
 import com.example.capstoneapp.ui.screens.OrderScreen
 import com.example.capstoneapp.ui.screens.PaymentScreen
 import com.example.capstoneapp.ui.screens.PracticeHomeScreen
+import com.example.capstoneapp.ui.screens.itemMenu
 import com.example.capstoneapp.ui.screens.touchScreen
 
 @Composable
@@ -42,15 +40,21 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route = "touchToStart"){
-            touchScreen(navController = navController)
+            NotificationScreen{
+                touchScreen(navController = navController)
+            }
         }
 
         composable(route="payment") {
-            PaymentScreen(navController = navController)//SelectSetDessertScreen()
+            NotificationScreen {
+                PaymentScreen(navController = navController)//SelectSetDessertScreen()
+            }
         }
 
         composable(route = "itemMenu"){
-           itemMenu(navController = navController, viewModel)
+            NotificationScreen {
+                itemMenu(navController = navController, viewModel)
+            }
         }
 
         composable(route="setDessert") {
@@ -58,7 +62,9 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route="finalOrder") {
-            OrderScreen(navController = navController,viewModel)
+            NotificationScreen {
+                OrderScreen(navController = navController, viewModel)
+            }
         //SelectSetDessertScreen()
         }
 

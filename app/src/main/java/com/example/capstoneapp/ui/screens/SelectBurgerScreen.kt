@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.data.model.OrderViewModel
 import com.example.capstoneapp.data.repository.MenuItem
@@ -117,8 +119,12 @@ fun itemMenu(navController: NavController,viewModel: OrderViewModel) {
 
         // 주문 목록 표시
         OrderList(orderItems = orderItems )
-
-        Spacer(Modifier.weight(1f)) // This will push the buttons up to be just above the bottom bar
+        Column( //빈공간
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+         // This will push the buttons up to be just above the bottom bar
 
         // 결제 버튼
         Row(
@@ -151,15 +157,5 @@ fun itemMenu(navController: NavController,viewModel: OrderViewModel) {
             //Spacer(modifier = Modifier.height(64.dp))
         }
     }
-}
-
-
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewItemMenu() {
-//    AppNavigation()
 }
 
