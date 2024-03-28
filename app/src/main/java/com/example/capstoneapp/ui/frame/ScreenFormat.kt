@@ -33,12 +33,14 @@ import com.example.capstoneapp.ui.theme.Yellow
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NotificationScreen(problem: Problem, content: @Composable () -> Unit) {
+fun NotificationScreen(
+    problem: Problem,
+    content: @Composable () -> Unit,
+    onAnswerCheckClicked: () -> Unit
+) {
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
 
-    Scaffold(
-        topBar = { TopAppBar() }
-    ) {
+    Scaffold {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -83,7 +85,7 @@ fun NotificationScreen(problem: Problem, content: @Composable () -> Unit) {
 
                 ButtonFormat(
                     modifier = Modifier.weight(1f),
-                    onClick = { /* Handle click */ },
+                    onClick = { onAnswerCheckClicked() },
                     buttonText = "정답확인",
                     backgroundColor = Yellow,
                     contentColor = Color.Black
@@ -123,9 +125,7 @@ fun NotificationScreenPreview() {
                 )
                 .border(3.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
             contentAlignment = Alignment.Center
-        ) {
-            //content()
-        }
+        ) {}
 
         // Buttons
         Spacer(Modifier.weight(1f)) // This will push the buttons up to be just above the bottom bar

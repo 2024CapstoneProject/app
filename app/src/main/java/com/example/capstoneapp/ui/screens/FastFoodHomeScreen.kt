@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.ui.frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.ui.theme.fontFamily
 
@@ -39,7 +38,7 @@ fun PictureButton(onClick: () -> Unit) {
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(100.dp))
         Button(
             onClick = onClick,
             shape = MaterialTheme.shapes.medium,
@@ -123,7 +122,6 @@ fun GreetingPreview() {
     val navController = rememberNavController()
     CapstoneAppTheme {
         Column {
-            TopAppBar()
             PictureButton {}
             PracticeButton {}
             ImageButton {}

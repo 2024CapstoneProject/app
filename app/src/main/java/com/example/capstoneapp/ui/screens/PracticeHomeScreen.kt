@@ -3,6 +3,7 @@ package com.example.capstoneapp.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,14 +25,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.ui.frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
 fun PracticeHomeScreen(navController: NavController) {
     Column {
-//        TopAppBar()
         TextScreen(navController = navController)
     }
 
@@ -39,10 +38,11 @@ fun PracticeHomeScreen(navController: NavController) {
 
 @Composable
 fun TextScreen(navController: NavController) {
-    val menu = "불고기버거 세트, 콜라, 감자튀김"
+    val menu = "불고기버거, 콜라, 감자튀김"
     val place = "매장에서 먹기"
-    val point = "O"
+    val point = "X"
     val pay = "카드 결제"
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -130,7 +130,6 @@ fun TextScreenPreview() {
     val navController = rememberNavController()
     CapstoneAppTheme {
         Column {
-            TopAppBar()
             TextScreen(navController = navController)
         }
     }

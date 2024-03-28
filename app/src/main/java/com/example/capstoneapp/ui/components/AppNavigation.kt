@@ -3,12 +3,15 @@ package com.example.capstoneapp.ui.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.data.model.OrderViewModel
 import com.example.capstoneapp.data.model.ProblemViewModel
+import com.example.capstoneapp.ui.frame.NotificationScreen
 import com.example.capstoneapp.ui.screens.CafeGuideScreenPreview
 import com.example.capstoneapp.ui.screens.GreetingPreview
 import com.example.capstoneapp.ui.screens.OrderScreen
@@ -22,6 +25,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
     val navController = rememberNavController()
     val viewModel: OrderViewModel = viewModel()
     val problem by problemViewModel.problem.observeAsState()
+    val (showBorder, setShowBorder) = remember { mutableStateOf(false) } // 아이콘 테두리 상태 관리
 
     NavHost(
         navController = navController,
@@ -40,21 +44,42 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route = "touchToStart"){
-            NotificationScreen{
-                touchScreen(navController = navController)
-            }
+            setShowBorder(false)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                content = {
+                    touchScreen(navController = navController, showBorder) // 아이콘 테두리 상태 전달
+                },
+                onAnswerCheckClicked = {
+                    setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                }
+            )
         }
 
         composable(route="payment") {
-            NotificationScreen {
-                PaymentScreen(navController = navController)//SelectSetDessertScreen()
-            }
+            setShowBorder(false)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                content = {
+                    PaymentScreen(navController = navController, showBorder)//SelectSetDessertScreen()
+                },
+                onAnswerCheckClicked = {
+                    setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                }
+            )
         }
 
         composable(route = "itemMenu"){
-            NotificationScreen {
-                itemMenu(navController = navController, viewModel)
-            }
+            setShowBorder(false)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                content = {
+                    itemMenu(navController = navController, viewModel, showBorder)//SelectSetDessertScreen()
+                },
+                onAnswerCheckClicked = {
+                    setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                }
+            )
         }
 
         composable(route="setDessert") {
@@ -62,9 +87,16 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route="finalOrder") {
-            NotificationScreen {
-                OrderScreen(navController = navController, viewModel)
-            }
+            setShowBorder(false)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                content = {
+                    OrderScreen(navController = navController, viewModel, showBorder)//SelectSetDessertScreen()
+                },
+                onAnswerCheckClicked = {
+                    setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                }
+            )
         //SelectSetDessertScreen()
         }
 

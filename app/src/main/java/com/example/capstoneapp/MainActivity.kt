@@ -47,9 +47,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
                     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
-                    NotificationScreen(problemViewModel.getProblemValue()!!){
-                        AppNavigation(problemViewModel)
-                    }
+                    AppNavigation(problemViewModel)
                 }
             }
         }
