@@ -1,6 +1,6 @@
 package com.example.capstoneapp.data.Repository
 
-import kotlin.random.Random
+import com.example.capstoneapp.R
 
 object ChatMessageRepository {
 
@@ -16,12 +16,20 @@ object ChatMessageRepository {
         ChatMessage("o","아들","사진 보내주세요","4:01 PM"),
     )
 
+    private val photoList = listOf(
+        R.drawable.sample_1, R.drawable.sample_2, R.drawable.sample_3
+    )
+
     fun getSimpleChat() : List<ChatMessage>{
         return simpleChatMission
     }
 
     fun getPhotoSend() : List<ChatMessage>{
         return photoSendMission
+    }
+
+    fun getPhotoList(): List<Int>{
+        return photoList
     }
 }
 
