@@ -36,9 +36,7 @@ import com.example.capstoneapp.ui.theme.Yellow
 fun NotificationScreen(problem: Problem, content: @Composable () -> Unit) {
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
 
-    Scaffold(
-        topBar = { TopAppBar() }
-    ) {
+    Scaffold {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -123,9 +121,7 @@ fun NotificationScreenPreview() {
                 )
                 .border(3.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
             contentAlignment = Alignment.Center
-        ) {
-            //content()
-        }
+        ) {}
 
         // Buttons
         Spacer(Modifier.weight(1f)) // This will push the buttons up to be just above the bottom bar

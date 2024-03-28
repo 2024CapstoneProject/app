@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.ui.frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 @Composable
@@ -207,7 +206,6 @@ fun CafeGuideScreenPreview(navController: NavController) {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TopAppBar()
             Spacer(modifier = Modifier.height(40.dp))
             GuideImage(currentImageIndex) { newIndex ->
                 currentImageIndex = newIndex
@@ -229,7 +227,6 @@ fun CafeGuideScreenPreviews() {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TopAppBar()
             Spacer(modifier = Modifier.height(40.dp))
             GuideImage(currentImageIndex) { newIndex ->
                 currentImageIndex = newIndex
