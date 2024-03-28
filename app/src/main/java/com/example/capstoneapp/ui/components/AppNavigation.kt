@@ -44,7 +44,6 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route = "touchToStart"){
-            setShowBorder(false)
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
                 content = {
@@ -57,7 +56,6 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route="payment") {
-            setShowBorder(false)
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
                 content = {
@@ -70,7 +68,6 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route = "itemMenu"){
-            setShowBorder(false)
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
                 content = {
@@ -87,7 +84,6 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route="finalOrder") {
-            setShowBorder(false)
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
                 content = {

@@ -69,7 +69,7 @@ fun PaymentPopup(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_adb_24),
+                        painter = painterResource(id = R.drawable.payment),
                         contentDescription = null
                     )
 

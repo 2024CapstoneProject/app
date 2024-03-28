@@ -42,7 +42,7 @@ fun touchScreen(navController: NavController, showBorder: Boolean) {
         Spacer(modifier = Modifier.height(36.dp))
 
         Icon(
-            painter = painterResource(id = R.drawable.baseline_adb_24),
+            painter = painterResource(id = R.drawable.touch_icon),
             contentDescription = null
             // Icon에 별도의 패딩을 적용하지 않음
         )
