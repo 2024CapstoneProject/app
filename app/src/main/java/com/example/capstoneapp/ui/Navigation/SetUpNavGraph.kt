@@ -11,11 +11,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.capstoneapp.data.Repository.ProblemRepository
 import com.example.capstoneapp.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.data.ViewModel.ProblemViewModelFactory
+import com.example.capstoneapp.ui.Screens.ChattingScreen
 import com.example.capstoneapp.ui.Screens.Guide0
 import com.example.capstoneapp.ui.Screens.KakaoGuide0
 import com.example.capstoneapp.ui.Screens.KakaoHomeScreen
 import com.example.capstoneapp.ui.Screens.KakaoPractice0
-import com.example.capstoneapp.ui.Screens.KakaoPractice1
+import com.example.capstoneapp.ui.Screens.PhotoChatPractice
 
 @Composable
 fun SetUpNavGraph(navController: NavHostController) {
@@ -51,9 +52,13 @@ fun SetUpNavGraph(navController: NavHostController) {
         }
 
         //카카오톡 연습 두번째 화면
-        composable(route = "KakaoPractice1") {
+        composable(route = "ChattingScreen") {
 
-            KakaoPractice1(navController = navController, problem!!)
+            ChattingScreen(navController = navController, problem!!)
+        }
+
+        composable(route="PhotoChatPractice"){
+            PhotoChatPractice(navController = navController, problem!!)
         }
     }
 }
