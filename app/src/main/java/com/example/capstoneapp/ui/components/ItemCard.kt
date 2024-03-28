@@ -1,5 +1,6 @@
 package com.example.capstoneapp.ui.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -21,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
 import com.example.capstoneapp.data.repository.MenuItem
+import com.example.capstoneapp.ui.theme.BorderColor
+import com.example.capstoneapp.ui.theme.BorderWidth
 import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
@@ -62,12 +65,14 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit) {
 fun OptionCard(
     onClick: () -> Unit,
     text: String,
-    icon: Painter
+    icon: Painter,
+    showBorder: Boolean
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(18.dp)
             .clickable(onClick = onClick)
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier)
     ) {
         Icon(
             painter = icon,

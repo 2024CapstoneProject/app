@@ -1,6 +1,7 @@
 package com.example.capstoneapp.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,10 +29,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.ui.theme.BorderColor
+import com.example.capstoneapp.ui.theme.BorderWidth
 import com.example.capstoneapp.ui.theme.fontFamily
 
 @Composable
-fun PaymentScreen(navController: NavController) {
+fun PaymentScreen(navController: NavController, showBorder: Boolean) {
     Column(
         modifier = Modifier.padding(16.dp)
             .fillMaxWidth(),
@@ -54,7 +57,8 @@ fun PaymentScreen(navController: NavController) {
                 .padding(horizontal = 16.dp)
                 .clickable {
                     navController.navigate("itemMenu") // Navigate to PaymentScreen
-                }, // Apply horizontal padding
+                }
+                .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier),
             horizontalArrangement = Arrangement.SpaceBetween, // Arrange buttons with space in between
             verticalAlignment = Alignment.CenterVertically
 
@@ -172,5 +176,5 @@ fun PaymentScreen(navController: NavController) {
 @Composable
 fun PaymentPreview() {
     val navController = rememberNavController()
-    PaymentScreen(navController = navController)
+    PaymentScreen(navController = navController, showBorder = true)
 }

@@ -33,7 +33,11 @@ import com.example.capstoneapp.ui.theme.Yellow
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NotificationScreen(problem: Problem, content: @Composable () -> Unit) {
+fun NotificationScreen(
+    problem: Problem,
+    content: @Composable () -> Unit,
+    onAnswerCheckClicked: () -> Unit
+) {
     var openBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     Scaffold {
@@ -81,7 +85,7 @@ fun NotificationScreen(problem: Problem, content: @Composable () -> Unit) {
 
                 ButtonFormat(
                     modifier = Modifier.weight(1f),
-                    onClick = { /* Handle click */ },
+                    onClick = { onAnswerCheckClicked() },
                     buttonText = "정답확인",
                     backgroundColor = Yellow,
                     contentColor = Color.Black

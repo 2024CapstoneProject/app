@@ -38,7 +38,11 @@ import com.example.capstoneapp.ui.frame.KioskButtonFormat
 
 @SuppressLint("RememberReturnType")
 @Composable
-fun OrderScreen(navController: NavController, viewModel: OrderViewModel) {
+fun OrderScreen(
+    navController: NavController,
+    viewModel: OrderViewModel,
+    showBorder: Boolean
+) {
     val orderItems by viewModel.orderItems.observeAsState(initial = listOf())
     val totalAmount by viewModel.totalOrderAmount.observeAsState(0)
     val showDialog = remember { mutableStateOf(false) }
@@ -106,12 +110,14 @@ fun OrderScreen(navController: NavController, viewModel: OrderViewModel) {
                     OptionCard(
                         onClick = {},
                         text = "포장",
-                        icon = painterResource(id = R.drawable.bag)
+                        icon = painterResource(id = R.drawable.bag),
+                        showBorder = false
                     )
                     OptionCard(
                         onClick = {},
                         text = "매장",
-                        icon = painterResource(id = R.drawable.shop)
+                        icon = painterResource(id = R.drawable.shop),
+                        showBorder = showBorder
                     )
                 }
 
@@ -123,12 +129,14 @@ fun OrderScreen(navController: NavController, viewModel: OrderViewModel) {
                     OptionCard(
                         onClick = {},
                         text = "포인트",
-                        icon = painterResource(id = R.drawable.discount)
+                        icon = painterResource(id = R.drawable.discount),
+                        showBorder = false
                     )
                     OptionCard(
                         onClick = {},
                         text = "선택\n없음",
-                        icon = painterResource(id = R.drawable.x)
+                        icon = painterResource(id = R.drawable.x),
+                        showBorder = showBorder
                     )
                 }
 
@@ -140,12 +148,14 @@ fun OrderScreen(navController: NavController, viewModel: OrderViewModel) {
                     OptionCard(
                         onClick = {},
                         text = "신용\n/체크카드",
-                        icon = painterResource(id = R.drawable.cardicon)
+                        icon = painterResource(id = R.drawable.cardicon),
+                        showBorder = showBorder
                     )
                     OptionCard(
                         onClick = {},
                         text = "모바일\n/페이",
-                        icon = painterResource(id = R.drawable.pay)
+                        icon = painterResource(id = R.drawable.pay),
+                        showBorder = false
                     )
                 }
             }
@@ -246,7 +256,7 @@ fun PreviewOrderScreen() {
     // No actual NavController functionality required for preview
 
     val navController = rememberNavController()
-    OrderScreen(navController = navController, mockViewModel)
+//    OrderScreen(navController = navController, mockViewModel)
 }
 
 // Ensure to use the correct package for R.drawable if you're referencing drawables

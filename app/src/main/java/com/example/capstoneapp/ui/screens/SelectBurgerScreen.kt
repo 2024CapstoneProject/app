@@ -1,5 +1,6 @@
 package com.example.capstoneapp.ui.screens
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,9 +33,15 @@ import com.example.capstoneapp.ui.frame.DividerFormat
 import com.example.capstoneapp.ui.components.ItemList
 import com.example.capstoneapp.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.ui.components.OrderList
+import com.example.capstoneapp.ui.theme.BorderColor
+import com.example.capstoneapp.ui.theme.BorderWidth
 
 @Composable
-fun itemMenu(navController: NavController,viewModel: OrderViewModel) {
+fun itemMenu(
+    navController: NavController,
+    viewModel: OrderViewModel,
+    showBorder: Boolean
+) {
     // 주문한 목록
     val orderItems = remember { mutableStateListOf<MenuItem>() }
     var showDialog by remember { mutableStateOf(false) }
@@ -69,7 +76,6 @@ fun itemMenu(navController: NavController,viewModel: OrderViewModel) {
         
         // 메뉴 목록 표
         if (!showDessertScreen) {
-
             Box {
                 CustomizedNavigationBar(
                     menuItems = myMenuItems,
@@ -148,6 +154,7 @@ fun itemMenu(navController: NavController,viewModel: OrderViewModel) {
                 modifier = Modifier
                     .weight(1f)
                     .padding(bottom = 16.dp)
+                    .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier)
                 ,
                 onClick = onButtonClick,
                 buttonText = buttonText,
