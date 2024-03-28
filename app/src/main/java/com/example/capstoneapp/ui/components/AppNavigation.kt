@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.data.model.OrderViewModel
 import com.example.capstoneapp.data.model.ProblemViewModel
+import com.example.capstoneapp.ui.frame.NotificationScreen
 import com.example.capstoneapp.ui.screens.CafeGuideScreenPreview
 import com.example.capstoneapp.ui.screens.GreetingPreview
 import com.example.capstoneapp.ui.screens.OrderScreen
@@ -40,19 +41,19 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route = "touchToStart"){
-            NotificationScreen{
+            NotificationScreen(problemViewModel.getProblemValue()!!){
                 touchScreen(navController = navController)
             }
         }
 
         composable(route="payment") {
-            NotificationScreen {
+            NotificationScreen(problemViewModel.getProblemValue()!!) {
                 PaymentScreen(navController = navController)//SelectSetDessertScreen()
             }
         }
 
         composable(route = "itemMenu"){
-            NotificationScreen {
+            NotificationScreen(problemViewModel.getProblemValue()!!) {
                 itemMenu(navController = navController, viewModel)
             }
         }
@@ -62,7 +63,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route="finalOrder") {
-            NotificationScreen {
+            NotificationScreen(problemViewModel.getProblemValue()!!) {
                 OrderScreen(navController = navController, viewModel)
             }
         //SelectSetDessertScreen()
