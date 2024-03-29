@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
