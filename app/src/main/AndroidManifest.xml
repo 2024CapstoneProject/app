@@ -15,6 +15,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:theme="@style/Theme.CapstoneApp"
             tools:ignore="DuplicateActivity">
