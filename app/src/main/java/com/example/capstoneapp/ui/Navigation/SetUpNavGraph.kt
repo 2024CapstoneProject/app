@@ -13,8 +13,8 @@ import com.example.capstoneapp.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.ui.Screens.ChattingScreen
 import com.example.capstoneapp.ui.Screens.Guide0
-import com.example.capstoneapp.ui.Screens.KakaoGuide0
-import com.example.capstoneapp.ui.Screens.KakaoHomeScreen
+import com.example.capstoneapp.ui.Screens.Kakao_Menu
+import com.example.capstoneapp.ui.Screens.ProtectorHome
 import com.example.capstoneapp.ui.Screens.KakaoPractice0
 import com.example.capstoneapp.ui.Screens.PhotoChatPractice
 
@@ -34,10 +34,13 @@ fun SetUpNavGraph(navController: NavHostController) {
         composable(route = "Guide0") {
             Guide0(navController = navController)
         }
-
-        //카카오톡 가이드, 연습 선택 화면
-        composable(route = "KakaoHomeScreen") {
-            KakaoHomeScreen(navController = navController)
+        //카톡 가이드 첫번째 화면
+        composable(route="Kakao_Menu"){
+            Kakao_Menu(navController = navController)
+        }
+        //위치추적 가이드 첫번째 화면
+        composable(route="ProtectorHome"){
+            ProtectorHome(navController = navController)
         }
 
         //카카오톡 가이드 첫번째 화면

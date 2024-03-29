@@ -73,8 +73,11 @@ fun GuideScreen(navController: NavController) {
                 )
             }
             Button(
-                onClick = { navController.navigate("KakaoHomeScreen") },
-                modifier = Modifier.size(150.dp, 150.dp),
+                onClick = {
+                    navController.navigate("Kakao_menu")
+                },
+                modifier = Modifier
+                    .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -166,7 +169,9 @@ fun GuideScreen(navController: NavController) {
             }
         }
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate("ProtectorHome")
+            },
             modifier = Modifier
                 .size(200.dp, 100.dp)
                 .padding(top = 30.dp),
