@@ -1,0 +1,71 @@
+package com.example.capstoneapp.chatbot.ui.components
+
+import android.util.Log
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
+import com.example.capstoneapp.chatbot.api.RetrofitInstance
+import kotlinx.coroutines.launch
+
+@Composable
+fun ChatUI() {
+    var question by remember { mutableStateOf("") }
+    var response by remember { mutableStateOf("AI의 응답이 여기에 표시됩니다.") }
+    val coroutineScope = rememberCoroutineScope()
+    var errorMessage by remember { mutableStateOf("") }
+    Column(modifier = Modifier.padding(16.dp)) {
+        OutlinedTextField(
+            value = question,
+            onValueChange = { question = it },
+            label = { Text("질문 입력") },
+            modifier = Modifier.padding(bottom = 8.dp),
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = {
+                coroutineScope.launch {
+                    try {
+                        val chatResponse = RetrofitInstance.api.askChatbot(question).execute().body()
+                        response = chatResponse?.responseText ?: "응답을 받지 못했습니다."
+                        errorMessage = "" // 성공 시 에러 메시지 클리어
+                    } catch (e: Exception) {
+                        errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
+                    }
+                }
+            })
+        )
+
+        Button(onClick = {
+            coroutineScope.launch {
+                try {
+                    val chatResponse = RetrofitInstance.api.askChatbot(question).execute().body()
+                    response = chatResponse?.responseText ?: "응답을 받지 못했습니다."
+                    errorMessage = "" // 성공 시 에러 메시지 클리어
+                } catch (e: Exception) {
+                    errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
+                    Log.e("ChatUI", "에러 발생", e)
+                }
+            }
+        }) {
+            Text("질문 전송")
+        }
+
+        if (errorMessage.isNotEmpty()) {
+            Text(text = "Error: $errorMessage", color = Color.Red, modifier = Modifier.padding(top = 8.dp))
+        } else {
+            Text(text = response, modifier = Modifier.padding(top = 8.dp))
+        }
+    }
+}
