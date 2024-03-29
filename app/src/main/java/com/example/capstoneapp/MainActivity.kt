@@ -33,7 +33,10 @@ import com.example.capstoneapp.ui.frame.NotificationScreen
 import com.example.capstoneapp.ui.screens.GuideImage
 import com.example.capstoneapp.ui.screens.OrderScreen
 import com.example.capstoneapp.ui.screens.guideText
+import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,3 +56,22 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+//                 val navController = rememberNavController()
+//                 SetUpNavGraph(navController = navController)
+            }
+        }
+    }
+}
+
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    val navController = rememberNavController()
+//    val viewModel: ProblemViewModel = viewModel()
+//    NotificationScreen(navController,viewModel.getProblemValue()!!){
+//        Text(
+//            text = "문제가 나오는 공간",
+//            modifier = Modifier.padding(16.dp) // Padding inside the rectangle
+//        )
+//    }
+//}
