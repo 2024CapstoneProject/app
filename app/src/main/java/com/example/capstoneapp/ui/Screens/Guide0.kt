@@ -21,14 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.ui.theme.CapstoneAppTheme
 
 @Composable
 fun Guide0(navController:NavController) {
     CapstoneAppTheme {
         Column {
-            TopAppBar()
             GuideScreen(navController)
         }
     }
@@ -185,7 +183,9 @@ fun GuideScreen(navController:NavController) {
             }
         }
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate("ProtectorHome")
+            },
             modifier = Modifier
                 .size(200.dp, 100.dp)
                 .padding(top = 30.dp),

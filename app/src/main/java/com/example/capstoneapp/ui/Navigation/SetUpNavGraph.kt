@@ -18,6 +18,7 @@ import com.example.capstoneapp.data.ViewModel.SharedViewModel
 import com.example.capstoneapp.data.ViewModel.SharedViewModelFactory
 import com.example.capstoneapp.ui.Screens.Guide0
 import com.example.capstoneapp.ui.Screens.Kakao_Menu
+import com.example.capstoneapp.ui.Screens.ProtectorHome
 
 @Composable
 fun SetUpNavGraph(navController:NavHostController) {
@@ -37,6 +38,10 @@ fun SetUpNavGraph(navController:NavHostController) {
         //카톡 가이드 첫번째 화면
         composable(route="Kakao_Menu"){
             Kakao_Menu(navController = navController)
+        }
+        //위치추적 가이드 첫번째 화면
+        composable(route="ProtectorHome"){
+            ProtectorHome(navController = navController)
         }
         //카페 가이드, 연습 선택 화면
         composable(route="CafeHomeScreen"){

@@ -15,13 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.R
 
 @Composable
 fun Kakao_Menu(navController:NavController){
     Column {
-        TopAppBar()
         //가이드모드
         PictureButton {
             //navController.navigate("KioskCafeGuide0")
