@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.ui.Navigation.SetUpNavGraph
-import com.example.capstoneapp.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.cafe.ui.Navigation.SetUpNavGraph
+import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
 
 
 class MainActivity : ComponentActivity() {
