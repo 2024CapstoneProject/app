@@ -7,9 +7,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-interface ChatService {
+public interface ChatService {
     @GET("/api/chat/ask")
     fun askChatbot(@Query("question") question: String): Call<ChatResponse>
+
+    @GET("/api/test")
+    fun test(): Call<String>
+
+
 }
 
 
@@ -26,3 +31,4 @@ object RetrofitInstance {
 data class ChatResponse(
     val responseText: String
 )
+

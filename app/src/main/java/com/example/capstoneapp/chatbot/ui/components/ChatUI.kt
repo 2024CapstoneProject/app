@@ -18,15 +18,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.example.capstoneapp.chatbot.api.ChatService
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 @Composable
-fun ChatUI() {
+fun ChatUI(chatService: ChatService) {
     var question by remember { mutableStateOf("") }
     var response by remember { mutableStateOf("AI의 응답이 여기에 표시됩니다.") }
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf("") }
+
     Column(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
             value = question,
@@ -61,6 +64,35 @@ fun ChatUI() {
         }) {
             Text("질문 전송")
         }
+
+        Button(onClick = {
+            coroutineScope.launch {
+                try {
+                    val result: Response<String> = chatService.test().execute()
+                    if (result.isSuccessful) {
+                        response = result.body() ?: "응답이 비어있습니다."
+                        errorMessage = "" // 성공 시 에러 메시지 클리어
+                    } else {
+                        errorMessage = "Error: ${result.errorBody()?.string()}"
+                    }
+                } catch (e: Exception) {
+                    errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
+                    Log.e("ChatUI", "에러 발생", e)
+                }
+            }
+        }) {
+            Text("테스트")
+        }
+
+        // 응답과 에러 메시지를 화면에 표시
+        Text(text = response, modifier = Modifier.padding(top = 8.dp))
+        if (errorMessage.isNotEmpty()) {
+            Text(text = "Error: $errorMessage", color = Color.Red, modifier = Modifier.padding(top = 8.dp))
+        }
+
+
+
+
 
         if (errorMessage.isNotEmpty()) {
             Text(text = "Error: $errorMessage", color = Color.Red, modifier = Modifier.padding(top = 8.dp))
