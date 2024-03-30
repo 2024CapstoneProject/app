@@ -24,16 +24,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.data.model.PreviewOrderViewModel
-import com.example.capstoneapp.data.model.ProblemViewModel
-import com.example.capstoneapp.data.model.ProblemViewModelFactory
-import com.example.capstoneapp.data.repository.ProblemRepository
-import com.example.capstoneapp.ui.components.AppNavigation
-import com.example.capstoneapp.ui.frame.NotificationScreen
-import com.example.capstoneapp.ui.screens.GuideImage
-import com.example.capstoneapp.ui.screens.OrderScreen
-import com.example.capstoneapp.ui.screens.guideText
-import com.example.capstoneapp.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.fastfood.data.model.PreviewOrderViewModel
+import com.example.capstoneapp.fastfood.data.model.ProblemViewModel
+import com.example.capstoneapp.fastfood.data.model.ProblemViewModelFactory
+import com.example.capstoneapp.fastfood.data.repository.ProblemRepository
+import com.example.capstoneapp.fastfood.ui.components.AppNavigation
+import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.screens.GuideImage
+import com.example.capstoneapp.fastfood.ui.screens.OrderScreen
+import com.example.capstoneapp.fastfood.ui.screens.guideText
+import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
