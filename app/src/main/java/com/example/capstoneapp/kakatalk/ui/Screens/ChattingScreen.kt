@@ -20,12 +20,16 @@ import com.example.capstoneapp.kakatalk.ui.Frame.NotificationScreen
 @Composable
 fun ChattingScreen(navController: NavController, problem: Problem) {
     val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+    val photoList = remember{mutableStateListOf<Int>()}
+
     LaunchedEffect(Unit) {
         chatMessages.addAll(ChatMessageRepository.getSimpleChat())
+        photoList.addAll(ChatMessageRepository.getPhotoList())
+
     }
 
     NotificationScreen(navController = navController, problem = problem) {
-        ChatRoom(chatMessages = chatMessages)
+        ChatRoom(chatMessages = chatMessages,photoList)
     }
 }
 
