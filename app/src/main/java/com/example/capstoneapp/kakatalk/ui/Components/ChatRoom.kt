@@ -64,8 +64,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ChatRoom(
-    chatMessages: MutableList<ChatMessage>,
-    photoList: MutableList<Int>
+    chatMessages: MutableList<ChatMessage>, photoList: MutableList<Int>
 ) {
     val coroutineScope = rememberCoroutineScope()
     val keyboardVisible = isKeyboardVisible()
@@ -90,62 +89,77 @@ fun ChatRoom(
             coroutineScope.launch {
                 // 키보드가 올라올 때 ChatDetail을 스크롤하도록 함
                 if (keyboardVisible) {
-                    listState.scrollToItem(Int.MAX_VALUE)
+                    listState.scrollToItem(chatMessages.size - 1)
                     weight = 0.5f
                 } else {
                     weight = 1f
                 }
             }
-        },photoList)
+        }, photoList)
     }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun TextBox(onNewMessageSent: (ChatMessage) -> Unit,photoList: List<Int>) {
+fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>) {
     val textFieldColors = TextFieldDefaults.colors(
         focusedContainerColor = Color.White,
         focusedIndicatorColor = Color.White,
         unfocusedIndicatorColor = Color.White,
         disabledIndicatorColor = Color.White
     )
+
+    /*
+    * isKeyboardOrButtonOrBox[0] = 옵션 버튼 선택 여부
+    * isKeyboardOrButtonOrBox[1] = 키보드 스크롤 여부
+    * isKeyboardOrButtonOrBox[2] = 앨범 버튼 선택 여부
+    * */
+    val isButtonOrKeyboardOrBox = listOf(remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) },
+        remember { mutableStateOf(false) })
+
     var inputTextState by remember { mutableStateOf(TextFieldValue()) }
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    val isexpanded = remember{ mutableStateOf(false) }
-    var extraPadding : Dp=0.dp
     var keyboardHeight by remember { mutableStateOf(0.dp) }
+
+    var extraPadding: Dp = 0.dp
 
     val context = LocalContext.current
     val activity = context as? ComponentActivity
-    val isKeyboardVisible = remember { mutableStateOf(false) }
+
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
-    val isPhotoButtonClick = remember{ mutableStateOf(false) }
+    var onNewPhotoMessage = remember { mutableStateOf(0) }
 
-    LaunchedEffect(activity){
+    LaunchedEffect(activity) {
         val rootView = activity?.window?.decorView?.rootView
-        rootView?.viewTreeObserver?.addOnGlobalLayoutListener (
-            object: ViewTreeObserver.OnGlobalLayoutListener{
-                override fun onGlobalLayout() {
-                    val insets = rootView.rootWindowInsets
-                    val keyboardHeightNow = insets?.systemWindowInsetBottom ?: 0
-                    keyboardHeight = keyboardHeightNow.dp
-                }
+        rootView?.viewTreeObserver?.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val insets = rootView.rootWindowInsets
+                val keyboardHeightNow = insets?.systemWindowInsetBottom ?: 0
+                keyboardHeight = keyboardHeightNow.dp
             }
-        )
+        })
     }
 
-    if (isexpanded.value) {
-        if(isKeyboardVisible.value)  isexpanded.value = !isexpanded.value
+    /*
+    * 옵션 버튼 선택했을 경우
+    * -> 키보드 스크롤 됐다면 옵션창 닫기
+    * -> 아니라면 키보드 높이만큼 옵션창 높이 설정
+    * 옵션 버튼 선택하지 않았을 경우
+    * -> 옵션창 닫기
+    * */
+    if (isButtonOrKeyboardOrBox[0].value) {
+        if (isButtonOrKeyboardOrBox[1].value) isButtonOrKeyboardOrBox[0].value =
+            !isButtonOrKeyboardOrBox[0].value
         else extraPadding = keyboardHeight
     } else extraPadding = 0.dp
 
-
     Column(
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth(1f)
             .height(80.dp + extraPadding)
@@ -153,6 +167,7 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit,photoList: List<Int>) {
                 color = Color.White,
                 shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
             )
+            .padding(top = 8.dp)
     ) {
         Row(
             modifier = Modifier
@@ -162,21 +177,31 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit,photoList: List<Int>) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = if(isPhotoButtonClick.value)Icons.Filled.ArrowBack else Icons.Filled.Add,
+                //만약 앨범 버튼 선택했을 경우 아이콘 변경
+                imageVector = if (isButtonOrKeyboardOrBox[2].value) Icons.Filled.ArrowBack else Icons.Filled.Add,
                 contentDescription = "add",
                 modifier = Modifier
                     .size(40.dp)
                     .clickable {
+                        /*
+                        * 아이콘 처음 선택했을 경우
+                        * -> 텍스트필드 포커스 해제
+                        * -> 키보드 스크롤 해제
+                        * -> 옵션창 열기
+                        * 두 번 선택시
+                        * -> 앨범 버튼 해제
+                        * -> 옵션창 닫기
+                        * */
                         focusManager.clearFocus()
-                        isKeyboardVisible.value = false
+                        isButtonOrKeyboardOrBox[1].value = false
                         inputTextState = TextFieldValue()
-                        isexpanded.value = !isexpanded.value
-                        isPhotoButtonClick.value = false
+                        isButtonOrKeyboardOrBox[0].value = !isButtonOrKeyboardOrBox[0].value
+                        isButtonOrKeyboardOrBox[2].value = false
 
                     })
             TextField(value = inputTextState,
                 onValueChange = { inputTextState = it },
-                placeholder = { Text(text = "${isKeyboardVisible.value}") },
+                placeholder = { Text(text = "${extraPadding.value}") },
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
@@ -185,9 +210,14 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit,photoList: List<Int>) {
                     )
                     .focusRequester(focusRequester)
                     .onFocusChanged { focusState ->
-                        isKeyboardVisible.value = focusState.isFocused
+                        /*
+                        * 텍스트 필드 포커싱되면
+                        * -> 앨범 닫기
+                        * -> 키보드 스크롤
+                        * */
+                        isButtonOrKeyboardOrBox[1].value = focusState.isFocused
                         if (focusState.isFocused) {
-                            isPhotoButtonClick.value = false
+                            isButtonOrKeyboardOrBox[2].value = false
                             keyboardController?.show()
                         } else {
                             keyboardController?.hide()
@@ -198,7 +228,7 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit,photoList: List<Int>) {
                 textStyle = TextStyle(fontSize = 16.sp),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                 keyboardActions = KeyboardActions(onSend = {
-                    val newMessage = ChatMessage("m", "나", inputTextState.text, "Now")
+                    val newMessage = ChatMessage("m", "나", inputTextState.text, 0, "Now")
                     onNewMessageSent(newMessage)
                     inputTextState = TextFieldValue()
                     keyboardController?.hide()
@@ -209,10 +239,19 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit,photoList: List<Int>) {
                 modifier = Modifier
                     .size(40.dp)
                     .clickable {
-
-                        val newMessage = ChatMessage("m", "나", inputTextState.text, "Now")
+                        /*
+                        * 사진 전송 시 -> 메세지
+                        * */
+                        val newMessage: ChatMessage
+                        if (inputTextState.text == "" && onNewPhotoMessage.value != 0) { //사진 전송할 경우
+                            newMessage = ChatMessage("m", "나", "", onNewPhotoMessage.value, "Now")
+                            isButtonOrKeyboardOrBox[0].value = !isButtonOrKeyboardOrBox[0].value
+                        } else {
+                            newMessage = ChatMessage("m", "나", inputTextState.text, 0, "Now")
+                        }
                         onNewMessageSent(newMessage)
                         inputTextState = TextFieldValue()
+                        onNewPhotoMessage.value = 0
                         keyboardController?.hide()
                     })
         }
@@ -220,12 +259,18 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit,photoList: List<Int>) {
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-        ){
-            if(!isPhotoButtonClick.value) PhotoBox(boxSize = extraPadding){
-                isPhotoButtonClick.value=!isPhotoButtonClick.value
+                .border(
+                    0.dp,
+                    Color.Transparent,
+                    RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+                ), contentAlignment = Alignment.BottomCenter
+        ) {
+            if (!isButtonOrKeyboardOrBox[2].value) PhotoBox(boxSize = extraPadding) {
+                isButtonOrKeyboardOrBox[2].value = !isButtonOrKeyboardOrBox[2].value
             }
-            else if(isPhotoButtonClick.value) photoBlock(extraPadding,photoList)
-
+            else if (isButtonOrKeyboardOrBox[2].value) photoBlock(extraPadding, photoList) {
+                onNewPhotoMessage.value = it
+            }
         }
     }
 }
@@ -243,13 +288,8 @@ fun isKeyboardVisible(): Boolean {
 @Preview
 fun ChatRoomPreview() {
     val chatMessages = remember { mutableStateListOf<ChatMessage>() }
-    val photoList = remember{mutableStateListOf<Int>()}
+    val photoList = remember { mutableStateListOf<Int>() }
 
-    LaunchedEffect(Unit) {
-        chatMessages.addAll(ChatMessageRepository.getSimpleChat())
-        photoList.addAll(ChatMessageRepository.getPhotoList())
-
-    }
-
-    ChatRoom(chatMessages = chatMessages,photoList)
+    chatMessages.addAll(ChatMessageRepository.getSimpleChat())
+    ChatRoom(chatMessages = chatMessages, photoList)
 }

@@ -25,7 +25,6 @@ fun ChattingScreen(navController: NavController, problem: Problem) {
     LaunchedEffect(Unit) {
         chatMessages.addAll(ChatMessageRepository.getSimpleChat())
         photoList.addAll(ChatMessageRepository.getPhotoList())
-
     }
 
     NotificationScreen(navController = navController, problem = problem) {
