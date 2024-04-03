@@ -17,6 +17,7 @@ import com.example.capstoneapp.kakatalk.ui.Screens.KakaoGuide0
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoPractice0
+import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
 
 @Composable
@@ -29,7 +30,7 @@ fun SetUpNavGraph(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     NavHost(
-        navController = navController, startDestination = "Guide0"
+        navController = navController, startDestination = "Kakao_List"
     ) {
         //메인(제일 처음)
         composable(route = "Guide0") {
@@ -47,6 +48,10 @@ fun SetUpNavGraph(navController: NavHostController) {
         //카카오톡 가이드 첫번째 화면
         composable(route = "KakaoGuide0") {
             KakaoGuide0(navController = navController)
+        }
+        //카카오톡 채팅 화면
+        composable(route = "Kakao_List") {
+            Kakao_List(navController = navController,problem!!)
         }
 
         //카카오톡 연습 첫번째 화면
