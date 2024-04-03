@@ -118,7 +118,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
             textAlign = TextAlign.Center,
         )
         StartButton(onClick = {
-            navController.navigate("ChattingScreen")
+            navController.navigate("Kakao_FriendList")
         })
     }
 
