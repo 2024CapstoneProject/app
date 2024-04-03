@@ -11,7 +11,7 @@ public interface ChatService {
     @GET("/api/chat/ask")
     fun askChatbot(@Query("question") question: String): Call<ChatResponse>
 
-    @GET("/api/test")
+    @GET("/api/chat/test")
     fun test(): Call<String>
 
 
@@ -21,7 +21,7 @@ public interface ChatService {
 object RetrofitInstance {
     val api: ChatService by lazy {
         Retrofit.Builder()
-            .baseUrl("http://localhost:8080") // 백엔드 서버의 기본 URL을 설정하세요.
+            .baseUrl("http://10.0.2.2:8080") // 백엔드 서버의 기본 URL을 설정하세요.
             .addConverterFactory(GsonConverterFactory.create()) // JSON 변환을 위해 GsonConverterFactory 사용
             .build()
             .create(ChatService::class.java)

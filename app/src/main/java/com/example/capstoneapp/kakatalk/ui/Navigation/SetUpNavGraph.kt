@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.capstoneapp.kakatalk.data.Repository.ProblemRepository
+import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
 import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Screens.ChattingScreen

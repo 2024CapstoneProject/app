@@ -25,8 +25,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.kakatalk.data.Repository.Problem
-import com.example.capstoneapp.kakatalk.data.Repository.ProblemRepository
+import com.example.capstoneapp.cafe.data.Repository.Problem
+import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
 import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModelFactory
 

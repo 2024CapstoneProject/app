@@ -38,7 +38,10 @@ import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
 
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.Navigation.SetUpNavGraph
-import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.fastfood.chatbot.ui.components.AppContent
+import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
+// 또는
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +61,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 
 //                 val navController = rememberNavController()
@@ -66,4 +71,5 @@ class MainActivity : ComponentActivity() {
 //         }
 //     }
 // }
+
 

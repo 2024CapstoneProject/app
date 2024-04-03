@@ -3,8 +3,8 @@ package com.example.capstoneapp.kakatalk.data.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.capstoneapp.kakatalk.data.Repository.Problem
-import com.example.capstoneapp.kakatalk.data.Repository.ProblemRepository
+import com.example.capstoneapp.cafe.data.Repository.Problem
+import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
