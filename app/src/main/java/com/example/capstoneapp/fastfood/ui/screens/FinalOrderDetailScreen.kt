@@ -47,6 +47,14 @@ fun OrderScreen(
     val totalAmount by viewModel.totalOrderAmount.observeAsState(0)
     val showDialog = remember { mutableStateOf(false) }
 
+    // 각 옵션의 선택 상태를 관리하는 상태 변수
+    val isPackingSelected = remember { mutableStateOf(false) }
+    val isStoreSelected = remember { mutableStateOf(false) }
+    val isPointSelected = remember { mutableStateOf(false) }
+    val isNoneSelected = remember { mutableStateOf(false) }
+    val isCreditCardSelected = remember { mutableStateOf(false) }
+    val isMobilePaySelected = remember { mutableStateOf(false) }
+
     Column(modifier=Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -74,16 +82,12 @@ fun OrderScreen(
                 orderItems.forEach { orderItem ->
                     ItemRow(orderItem.menuItem.name,orderItem.quantity.toString(),"${orderItem.menuItem.price * orderItem.quantity}")
                 }
-               // ItemRow(orderItem.menuItem.name, "1", "6,300")
-               //  ItemRow("콜라", "1", "0")
-               // ItemRow("포테이토", "1", "0")
 
                 Spacer(modifier = Modifier.padding(32.dp))
                 DividerFormat()
                 Spacer(modifier = Modifier.padding(8.dp))
 
                 Column {
-                    // Individual Row for each item in the table
                     SummaryRow(label = "주문금액", amount = totalAmount.toString())
                     SummaryRow(label = "할인금액", amount = "0")
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -108,16 +112,16 @@ fun OrderScreen(
 
                 ) {
                     OptionCard(
-                        onClick = {},
+                        onClick = { isPackingSelected.value = true; isStoreSelected.value = false },
                         text = "포장",
                         icon = painterResource(id = R.drawable.bag),
-                        showBorder = false
+                        showBorder = isPackingSelected.value
                     )
                     OptionCard(
-                        onClick = {},
+                        onClick = { isStoreSelected.value = true; isPackingSelected.value = false },
                         text = "매장",
                         icon = painterResource(id = R.drawable.shop),
-                        showBorder = showBorder
+                        showBorder = isStoreSelected.value
                     )
                 }
 
@@ -127,16 +131,16 @@ fun OrderScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     OptionCard(
-                        onClick = {},
+                        onClick = { isPointSelected.value = true; isNoneSelected.value = false },
                         text = "포인트",
                         icon = painterResource(id = R.drawable.discount),
-                        showBorder = false
+                        showBorder = isPointSelected.value
                     )
                     OptionCard(
-                        onClick = {},
+                        onClick = { isPointSelected.value = false; isNoneSelected.value = true },
                         text = "선택\n없음",
                         icon = painterResource(id = R.drawable.x),
-                        showBorder = showBorder
+                        showBorder = isNoneSelected.value
                     )
                 }
 
@@ -146,16 +150,16 @@ fun OrderScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     OptionCard(
-                        onClick = {},
+                        onClick = { isCreditCardSelected.value = true; isMobilePaySelected.value = false },
                         text = "신용\n/체크카드",
                         icon = painterResource(id = R.drawable.cardicon),
-                        showBorder = showBorder
+                        showBorder = isCreditCardSelected.value
                     )
                     OptionCard(
-                        onClick = {},
+                        onClick = { isCreditCardSelected.value = false; isMobilePaySelected.value = true },
                         text = "모바일\n/페이",
                         icon = painterResource(id = R.drawable.pay),
-                        showBorder = false
+                        showBorder = isMobilePaySelected.value
                     )
                 }
             }
