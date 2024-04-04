@@ -17,9 +17,7 @@ import com.example.capstoneapp.kakatalk.ui.Screens.KakaoGuide0
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoPractice0
-
-import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_FriendList
-
+import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_FriendChatList
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
 
@@ -33,18 +31,18 @@ fun SetUpNavGraph(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     NavHost(
-        navController = navController, startDestination = "Kakao_List"
+        navController = navController, startDestination = "Guide0"
     ) {
         //메인(제일 처음)
         composable(route = "Guide0") {
             Guide0(navController = navController)
         }
         //카톡 가이드 첫번째 화면
-        composable(route="Kakao_Menu"){
+        composable(route = "Kakao_Menu") {
             Kakao_Menu(navController = navController)
         }
         //위치추적 가이드 첫번째 화면
-        composable(route="ProtectorHome"){
+        composable(route = "ProtectorHome") {
             ProtectorHome(navController = navController)
         }
 
@@ -54,7 +52,7 @@ fun SetUpNavGraph(navController: NavHostController) {
         }
         //카카오톡 채팅 화면
         composable(route = "Kakao_List") {
-            Kakao_List(navController = navController,problem!!)
+            Kakao_List(navController = navController, problem!!)
         }
 
         //카카오톡 연습 시작 화면
@@ -65,7 +63,7 @@ fun SetUpNavGraph(navController: NavHostController) {
 
         //카카오톡 연습 화면 - 친구목록
         composable(route = "Kakao_FriendList") {
-            Kakao_FriendList(navController = navController,problem!!)
+            Kakao_FriendChatList(navController = navController, problem!!)
         }
 
         //카카오톡 연습 화면 - 채팅방
@@ -74,7 +72,7 @@ fun SetUpNavGraph(navController: NavHostController) {
             ChattingScreen(navController = navController, problem!!)
         }
 
-        composable(route="PhotoChatPractice"){
+        composable(route = "PhotoChatPractice") {
             PhotoChatPractice(navController = navController, problem!!)
         }
     }
