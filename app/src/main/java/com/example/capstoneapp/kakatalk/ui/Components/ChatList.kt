@@ -1,84 +1,114 @@
 package com.example.capstoneapp.kakatalk.ui.Components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.R
+import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
+import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
 
 @Composable
-fun ChatList(){
-    val navController = rememberNavController()
+fun ChatList(navController: NavController, chatData: List<ChatItemData>, listState: LazyListState) {
 
-    // 예시 데이터
-    val chatData = listOf(
-        ChatItemData(
-            image = painterResource(id = R.drawable.kakaotalk_icon),
-            name = "이소똥",
-            message = "뭐해? 자니....?",
-            date = "2024-04-01"
-        ),
-        ChatItemData(
-            image = painterResource(id = R.drawable.kakaotalk_icon),
-            name = "아들",
-            message = "넵",
-            date = "2024-03-31"
-        ),
-        ChatItemData(
-            image = painterResource(id = R.drawable.kakaotalk_icon),
-            name = "규세경",
-            message = "배고파",
-            date = "2024-03-30"
-        ),
-        ChatItemData(
-            image = painterResource(id = R.drawable.kakaotalk_icon),
-            name = "규세경",
-            message = "배고파",
-            date = "2024-03-30"
-        ),
-        ChatItemData(
-            image = painterResource(id = R.drawable.kakaotalk_icon),
-            name = "규세경",
-            message = "배고파",
-            date = "2024-03-30"
-        ),
-    )
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Color.White)
+    LazyColumn(
+        state = listState, modifier = Modifier.fillMaxWidth()
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.top),
-            contentDescription = "상단바",
-            modifier = Modifier
-                .size(width = 400.dp, height = 60.dp),
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        List(navController = navController, chatData = chatData) {}
-        Spacer(modifier = Modifier.height(10.dp))
-        Image(
-            painter = painterResource(id = R.drawable.bottom),
-            contentDescription = "하단바",
-            modifier = Modifier
-                .size(width = 400.dp, height = 60.dp),
-        )
+        itemsIndexed(chatData) { index, item ->
+            ChatItem(chatItem = item, onItemClick = {
+                if (index == 1) {
+                    navController.navigate("ChattingScreen")
+                }
+            })
+        }
     }
 }
+
+
+@Composable
+fun ChatItem(
+    chatItem: ChatItemData,
+    onItemClick: (ChatItemData) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable { onItemClick(chatItem) }, // 클릭 이벤트 추가
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // 이미지
+        Image(
+            painter = painterResource(id = chatItem.image),
+            contentDescription = "Profile Picture",
+            modifier = Modifier
+                .size(width = 50.dp, height = 50.dp)
+                .padding(end = 16.dp),
+        )
+
+        // 이름 및 대화 내용
+        Column {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                //이름
+                Text(
+                    text = chatItem.name,
+                    fontSize = 24.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
+                // 날짜
+                Text(
+                    text = chatItem.date,
+                    fontSize = 16.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+            //메세지
+            Text(
+                text = chatItem.message,
+                textAlign = TextAlign.Start,
+                fontSize = 20.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
-fun ChatListPreview(){
-    ChatList()
+fun ChatListPreview() {
+    val listState = rememberLazyListState()
+    val chatData = remember { mutableStateListOf<ChatItemData>() }
+    chatData.addAll(FriendChatRoomRepository.getchatData())
+    val navController = rememberNavController()
+
+    ChatList(navController, chatData, listState)
 }
