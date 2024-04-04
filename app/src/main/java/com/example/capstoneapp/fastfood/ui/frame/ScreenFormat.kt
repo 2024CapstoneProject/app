@@ -56,7 +56,7 @@ fun NotificationScreen(
                     .padding(horizontal = 1.dp) // Padding from the left and right
                     .fillMaxHeight(0.85f) // Fill 50% of the height of the parent
                     .background(
-                        color = Color.LightGray, // Change this color to your desired background color
+                        color = Color.White, // Change this color to your desired background color
                         shape = RoundedCornerShape(16.dp) // Rounded corners
                     )
                     .border(2.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
@@ -120,7 +120,7 @@ fun NotificationScreenPreview() {
                 .padding(horizontal = 1.dp) // Padding from the left and right
                 .fillMaxHeight(0.9f) // Fill 50% of the height of the parent
                 .background(
-                    color = Color.LightGray, // Change this color to your desired background color
+                    color = Color.White, // Change this color to your desired background color
                     shape = RoundedCornerShape(16.dp) // Rounded corners
                 )
                 .border(3.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
