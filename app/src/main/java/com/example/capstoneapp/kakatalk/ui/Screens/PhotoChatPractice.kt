@@ -11,13 +11,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
-import com.example.capstoneapp.kakatalk.data.Repository.Problem
-import com.example.capstoneapp.kakatalk.data.Repository.ProblemRepository
+import com.example.capstoneapp.cafe.data.Repository.Problem
+import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
 import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Components.ChatRoom
 import com.example.capstoneapp.kakatalk.ui.Components.photoBlock
-import com.example.capstoneapp.kakatalk.ui.Frame.NotificationScreen
+import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
 
 @Composable
 fun PhotoChatPractice(navController: NavController, problem: Problem){

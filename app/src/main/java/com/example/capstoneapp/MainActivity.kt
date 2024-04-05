@@ -4,8 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.kakatalk.ui.Navigation.SetUpNavGraph
-import com.example.capstoneapp.kakatalk.ui.theme.CapstoneAppTheme
+
+import com.example.capstoneapp.cafe.ui.Navigation.SetUpNavGraph
+import com.example.capstoneapp.fastfood.chatbot.ui.components.AppContent
+import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +21,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
+
 
 //@Preview(showBackground = true)
 //@Composable

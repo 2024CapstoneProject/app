@@ -2,7 +2,7 @@ package com.example.capstoneapp.kakatalk.data.ViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.capstoneapp.kakatalk.data.Repository.ProblemRepository
+import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
 
 class ProblemViewModelFactory(private val problemRepository: ProblemRepository) :
     ViewModelProvider.Factory {
