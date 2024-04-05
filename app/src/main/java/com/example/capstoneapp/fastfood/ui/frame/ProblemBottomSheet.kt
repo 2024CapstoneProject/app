@@ -1,5 +1,11 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
+package com.example.capstoneapp.fastfood.ui.frame
+
+import com.example.capstoneapp.fastfood.data.model.ProblemViewModel
+import com.example.capstoneapp.fastfood.data.model.ProblemViewModelFactory
+import com.example.capstoneapp.fastfood.data.repository.Problem
+import com.example.capstoneapp.fastfood.data.repository.ProblemRepository
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,12 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.capstoneapp.kakatalk.data.Repository.Problem
-import com.example.capstoneapp.kakatalk.data.Repository.ProblemRepository
-import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModel
-import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModelFactory
-import com.example.capstoneapp.kakatalk.ui.Frame.ButtonFormat
-import com.example.capstoneapp.kakatalk.ui.theme.Yellow
+import com.example.capstoneapp.fastfood.ui.theme.Yellow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
