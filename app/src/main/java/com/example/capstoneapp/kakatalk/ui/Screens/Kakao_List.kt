@@ -23,12 +23,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
 import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
-import com.example.capstoneapp.kakatalk.data.Repository.Problem
-import com.example.capstoneapp.kakatalk.data.Repository.ProblemRepository
+import com.example.capstoneapp.cafe.data.Repository.Problem
+import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
 import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Components.ChatList
-import com.example.capstoneapp.kakatalk.ui.Frame.NotificationScreen
+import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
 
 @Composable
 fun Kakao_List(navController: NavController, problem: Problem) {

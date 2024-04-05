@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
 
 import com.example.capstoneapp.cafe.ui.Navigation.SetUpNavGraph
-import com.example.capstoneapp.fastfood.chatbot.ui.components.AppContent
 import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
 
 

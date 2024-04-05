@@ -27,9 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.capstoneapp.ui.Frame.TopAppBar
 import com.example.capstoneapp.R
-import com.example.capstoneapp.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup
+import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
 
 @Composable
 fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
@@ -77,7 +77,7 @@ fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = { onImageIndexChanged(showPreviousImage(imageResources.size, currentImageIndex)) }
+                    onClick = { onImageIndexChanged(taxiShowPreviousImage(imageResources.size, currentImageIndex)) }
                 ) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_back),
@@ -112,7 +112,7 @@ fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 Spacer(modifier = Modifier.width(0.dp))
 
                 IconButton(
-                    onClick = { onImageIndexChanged(showNextImage(imageResources.size, currentImageIndex)) }
+                    onClick = { onImageIndexChanged(taxiShowNextImage(imageResources.size, currentImageIndex)) }
                 ) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_forward),
@@ -277,7 +277,6 @@ fun taxiGuideScreenPreview() {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TopAppBar()
             Spacer(modifier = Modifier.height(40.dp))
             taxiGuideImage(currentImageIndex) { newIndex ->
                 currentImageIndex = newIndex
