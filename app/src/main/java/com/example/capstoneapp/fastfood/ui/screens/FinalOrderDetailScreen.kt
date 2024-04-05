@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -55,11 +56,9 @@ fun OrderScreen(
     val isCreditCardSelected = remember { mutableStateOf(false) }
     val isMobilePaySelected = remember { mutableStateOf(false) }
 
-    Column(modifier=Modifier.fillMaxWidth()) {
-        Spacer(modifier = Modifier.height(20.dp))
-
+    Column(modifier = Modifier.fillMaxSize()) {
+        Spacer(modifier = Modifier.padding(16.dp))
         Row {
-            // Left Section (Placeholder for other content)
             Column(modifier = Modifier
                 .weight(1.1f)
                 .padding(start = 16.dp)
@@ -164,12 +163,12 @@ fun OrderScreen(
                 }
             }
         }
+        Spacer(modifier = Modifier.height(70.dp))
 
         // 결제 버튼
-        Row(
-            modifier = Modifier
+        Row(modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp), // Apply horizontal padding
+                .padding(horizontal = 16.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
         ) {
             KioskButtonFormat(
@@ -252,15 +251,22 @@ fun OrderText(optionText: String) {
         modifier = Modifier.fillMaxWidth()
     )
 }
-@Preview(showBackground = true)
+
+@Preview(showBackground = true, name = "Order Screen Preview")
 @Composable
-fun PreviewOrderScreen() {
-    // Mock data to be displayed in the preview, since we cannot use live data here.
-    val mockViewModel = PreviewOrderViewModel()
-    // No actual NavController functionality required for preview
-
+fun OrderScreenPreview() {
+    // NavController의 모의 인스턴스를 생성합니다.
     val navController = rememberNavController()
-//    OrderScreen(navController = navController, mockViewModel)
-}
 
-// Ensure to use the correct package for R.drawable if you're referencing drawables
+    // 미리보기를 위한 OrderViewModel의 인스턴스를 생성합니다.
+    // 실제로는 PreviewOrderViewModel이나 적절한 모의 객체를 제공해야 합니다.
+    val viewModel = OrderViewModel()
+
+    // OrderScreen 컴포저블을 호출하고 미리보기에 필요한 인자를 전달합니다.
+    // 실제 앱에서는 이 인자들이 상위에서 제공될 것입니다.
+    OrderScreen(
+        navController = navController,
+        viewModel = viewModel,
+        showBorder = true // 또는 미리보기에 맞는 값으로 설정합니다.
+    )
+}

@@ -44,9 +44,7 @@ fun NotificationScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp)
-                .padding(top = 56.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -118,7 +116,7 @@ fun NotificationScreenPreview() {
             modifier = Modifier
                 .fillMaxWidth() // Fill the width of the parent
                 .padding(horizontal = 1.dp) // Padding from the left and right
-                .fillMaxHeight(0.9f) // Fill 50% of the height of the parent
+                .fillMaxHeight(0.9f)
                 .background(
                     color = Color.White, // Change this color to your desired background color
                     shape = RoundedCornerShape(16.dp) // Rounded corners

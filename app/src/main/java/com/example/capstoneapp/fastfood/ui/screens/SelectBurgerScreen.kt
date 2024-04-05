@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -47,20 +49,13 @@ fun itemMenu(
     var showDialog by remember { mutableStateOf(false) }
     var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
     var showDessertScreen by remember { mutableStateOf(false) }
-    //테스트용 메뉴 선택 더미 데이터
-    val dummyOrderItems = listOf(
-        MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24, 7000)
-    )
+
     val onButtonClick = {
         if(showDessertScreen)
             showDessertScreen = false
-        else
-        {
+        else {
             navController.navigate("finalOrder")
-            // Additional logic here if needed, such as navigating back or handling the action
-            //nav -> finalOrderDetailScreen
         }
-
     }
 
     //네비게이션 카테고리 선택
@@ -68,34 +63,31 @@ fun itemMenu(
     val myMenuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
     val buttonText = if (showDessertScreen) "선택완료" else "결제하기"
     Column(
-        modifier = Modifier.padding(0.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxHeight()
     ) {
-        //네비게이션 bar (추천 메뉴, 햄버거 ...)
-
-        
         // 메뉴 목록 표
         if (!showDessertScreen) {
-            Box {
-                CustomizedNavigationBar(
-                    menuItems = myMenuItems,
-                    selectedMenuItem = selectedMenu,
-                    onMenuItemClick = { menuItem ->
-                        selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+            Box(
+                modifier = Modifier
+                    .weight(1.8f) // 화면의 절반을 차지
+                    .fillMaxWidth()
+            ) {
+                Column {
+                    CustomizedNavigationBar(
+                        menuItems = myMenuItems,
+                        selectedMenuItem = selectedMenu,
+                        onMenuItemClick = { menuItem ->
+                            selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+                        }
+                    )
+                    ItemList(selectedMenu = selectedMenu) { selectedItem ->
+                        currentItemForDialog = selectedItem
+                        showDialog = true // 아이템 클릭 시 팝업 표시
                     }
-                )
-                DividerFormat(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                )
+                }
             }
-            // Display the default content
-            // 메뉴 목록 표시
-            ItemList(selectedMenu = selectedMenu) { selectedItem ->
-                currentItemForDialog = selectedItem
-                showDialog = true // 아이템 클릭 시 팝업 표시
-            }
+
 
             if (showDialog) {
                 SetOrSingleChoicePopup(
@@ -104,7 +96,6 @@ fun itemMenu(
                     onDismiss = { showDialog = false },
                     onAddToOrder = { item ->
                         orderItems.add(item)
-
                         viewModel.addMenuItem(item, 1)
                         showDialog = false
                         showDessertScreen = item.id % 2 == 0
@@ -112,37 +103,32 @@ fun itemMenu(
                 )
             }
         } else {
-            // Display the SelectSetDessertScreen content
             SelectSetDessertScreen(
                 onItemSelected = { selectedItem ->
                     orderItems.add(selectedItem)
                     viewModel.addMenuItem(selectedItem, 1)
                 }
-            )// You may need to adjust this part based on your actual content
+            )
         }
 
-        DividerFormat()  // 밑으로 변경 x
-
-        // 주문 목록 표시
-        OrderList(orderItems = orderItems )
-        Column( //빈공간
-            modifier = Modifier.fillMaxWidth()
+        Box(
+            modifier = Modifier
+                .weight(1f) // 화면의 절반을 차지
+                .fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.height(10.dp))
+            DividerFormat()
+            OrderList(orderItems = orderItems)
         }
-         // This will push the buttons up to be just above the bottom bar
+        // 주문 목록 표시
 
         // 결제 버튼
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp), // Apply horizontal padding
+                .padding(horizontal = 16.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
-        ) {
-            KioskButtonFormat(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = 16.dp),
+        ) { KioskButtonFormat(
+                modifier = Modifier.weight(1f),
                 onClick = { /* Handle click */ },
                 buttonText = "취소하기",
                 backgroundColor = Color.DarkGray,
@@ -153,16 +139,29 @@ fun itemMenu(
             KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = 16.dp)
-                    .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier)
-                ,
+                    .then(
+                        if (showBorder) Modifier.border(BorderWidth, BorderColor)
+                        else Modifier
+                    ),
                 onClick = onButtonClick,
                 buttonText = buttonText,
                 backgroundColor = Color.Red,
                 contentColor = Color.Black
             )
-            //Spacer(modifier = Modifier.height(64.dp))
         }
+        Spacer(modifier = Modifier.padding(8.dp))
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun ItemMenuPreview() {
+    val navController = rememberNavController()
+    val viewModel = OrderViewModel()
+
+    itemMenu(
+        navController = navController,
+        viewModel = viewModel,
+        showBorder = true // 또는 미리보기에 맞는 값으로 설정합니다.
+    )
+}

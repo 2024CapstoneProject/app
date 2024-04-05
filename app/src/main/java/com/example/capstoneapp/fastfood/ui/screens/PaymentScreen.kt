@@ -75,11 +75,7 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                    navController.navigate("itemMenu") // Navigate to PaymentScreen
-                },//왼쪽에 padding을 주기 위해
+                modifier = Modifier.weight(1f),
             ) {
                 Text(
                     text = "카드",
