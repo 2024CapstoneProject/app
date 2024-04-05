@@ -8,6 +8,10 @@
         "source": "com.example.capstoneapp-main-46:/mipmap-hdpi/ic_launcher.webp"
     },
     {
+        "merged": "com.example.capstoneapp-merged_res-44:/drawable_ic_kakao.png.flat",
+        "source": "com.example.capstoneapp-main-46:/drawable/ic_kakao.png"
+    },
+    {
         "merged": "com.example.capstoneapp-merged_res-44:/drawable_ic_launcher_background.xml.flat",
         "source": "com.example.capstoneapp-main-46:/drawable/ic_launcher_background.xml"
     },
