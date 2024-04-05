@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -26,23 +26,28 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.example.capstoneapp.R
+import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
+import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
 
 @Composable
-fun PhotoBox(boxSize: Dp,onClick:()->Unit) {
+fun PhotoBox(boxSize: Dp, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .height(boxSize)
@@ -100,16 +105,36 @@ fun PhotoBox(boxSize: Dp,onClick:()->Unit) {
 }
 
 @Composable
-fun photoBlock(boxSize: Dp,photoList : List<Int>){
-    Box(modifier = Modifier
-        .height(boxSize)
-    ){
+fun photoBlock(boxSize: Dp, photoList: List<Int>, onNewPhotoMessage: (Int) -> Unit) {
+    var isPhotoSelect by remember { mutableStateOf(false) }
+    var selectedList = remember { mutableStateListOf<Int>() }
+
+    Box(
+        modifier = Modifier
+            .height(boxSize)
+            .border(
+                0.dp, Color.Transparent, RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+            )
+    ) {
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            state = LazyListState()
-        ){
-            items(photoList){photo ->
-                photoCard(photo)
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(1f),
+            state = LazyListState(),
+        ) {
+            items(photoList.size) { index ->
+                photoCard(photoList[index], index) { photoId, buttonClick ->
+                    if (selectedList.contains(photoId) && !buttonClick) {//선택했다 취소하는 경우
+                        selectedList.remove(photoId)
+                        if (selectedList.isEmpty()) isPhotoSelect = false
+                    } else if (!selectedList.contains(photoId) && buttonClick) {//처음 선택하는 경우
+                        selectedList.add(photoId)
+                        isPhotoSelect = !isPhotoSelect
+                        onNewPhotoMessage(selectedList.get(0))
+                    } else if (selectedList.isEmpty()) { //아무것도 선택하지 않았으면 반드시 false
+                        isPhotoSelect = false
+                    }
+                }
             }
 
         }
@@ -117,8 +142,8 @@ fun photoBlock(boxSize: Dp,photoList : List<Int>){
 }
 
 @Composable
-fun photoCard(photoId: Int) {
-    var buttonClick by rememberSaveable { mutableStateOf(false) }
+fun photoCard(photoId: Int, index: Int, onClick: (Int, Boolean) -> Unit) {
+    var buttonClick by remember { mutableStateOf(false) }
     val ImageBoxcolor: Color
     val buttonColor: Color
     val buttonContainerColor: Color
@@ -128,7 +153,7 @@ fun photoCard(photoId: Int) {
 
     if (buttonClick) {
         ImageBoxcolor = Color.Yellow
-        buttonColor = Color.Yellow
+        buttonColor = Color.Gray
         buttonContainerColor = Color.Yellow
         border = 4.dp
         icon = Icons.Filled.Favorite
@@ -142,10 +167,16 @@ fun photoCard(photoId: Int) {
         alpha = 1f
     }
 
+    val roundedShape =
+        if (index == 0) RoundedCornerShape(bottomStart = 16.dp) else if (index == 2) RoundedCornerShape(
+            bottomEnd = 16.dp
+        ) else RoundedCornerShape(0.dp)
+
     Box(
         modifier = Modifier
-            .width(150.dp)
-            .width(150.dp)
+            .width(132.dp)
+            .fillMaxHeight(1f)
+            .clip(roundedShape)
             .border(border, ImageBoxcolor)
     ) {
 
@@ -153,16 +184,21 @@ fun photoCard(photoId: Int) {
             painter = painterResource(id = photoId),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.alpha(alpha)
+            modifier = Modifier
+                .padding(border)
+                .alpha(alpha)
+                .clip(roundedShape),
         )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            contentAlignment = Alignment.TopEnd){
+                .padding(8.dp), contentAlignment = Alignment.TopEnd
+        ) {
             OutlinedButton(
                 onClick = {
-                    buttonClick=true},
+                    buttonClick = !buttonClick
+                    onClick(photoId, buttonClick)
+                },
                 border = BorderStroke(2.dp, buttonColor),
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
@@ -173,5 +209,29 @@ fun photoCard(photoId: Int) {
 
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun photoBlockPreview() {
+    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+    val photoList = remember { mutableStateListOf<Int>() }
+    photoList.addAll(ChatMessageRepository.getPhotoList())
+
+    photoBlock(132.dp, photoList) {
+
+    }
+}
+
+@Preview
+@Composable
+fun PhotoBoxPreview() {
+    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+    val photoList = remember { mutableStateListOf<Int>() }
+    photoList.addAll(ChatMessageRepository.getPhotoList())
+
+    PhotoBox(132.dp) {
+
     }
 }

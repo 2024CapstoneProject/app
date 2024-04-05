@@ -17,6 +17,8 @@ import com.example.capstoneapp.kakatalk.ui.Screens.KakaoGuide0
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoPractice0
+import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_FriendChatList
+import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
 
 @Composable
@@ -36,11 +38,11 @@ fun SetUpNavGraph(navController: NavHostController) {
             Guide0(navController = navController)
         }
         //카톡 가이드 첫번째 화면
-        composable(route="Kakao_Menu"){
+        composable(route = "Kakao_Menu") {
             Kakao_Menu(navController = navController)
         }
         //위치추적 가이드 첫번째 화면
-        composable(route="ProtectorHome"){
+        composable(route = "ProtectorHome") {
             ProtectorHome(navController = navController)
         }
 
@@ -48,20 +50,29 @@ fun SetUpNavGraph(navController: NavHostController) {
         composable(route = "KakaoGuide0") {
             KakaoGuide0(navController = navController)
         }
+        //카카오톡 채팅 화면
+        composable(route = "Kakao_List") {
+            Kakao_List(navController = navController, problem!!)
+        }
 
-        //카카오톡 연습 첫번째 화면
+        //카카오톡 연습 시작 화면
         composable(route = "KakaoPractice0") {
 
             KakaoPractice0(navController = navController, problem!!)
         }
 
-        //카카오톡 연습 두번째 화면
+        //카카오톡 연습 화면 - 친구목록
+        composable(route = "Kakao_FriendList") {
+            Kakao_FriendChatList(navController = navController, problem!!)
+        }
+
+        //카카오톡 연습 화면 - 채팅방
         composable(route = "ChattingScreen") {
 
             ChattingScreen(navController = navController, problem!!)
         }
 
-        composable(route="PhotoChatPractice"){
+        composable(route = "PhotoChatPractice") {
             PhotoChatPractice(navController = navController, problem!!)
         }
     }

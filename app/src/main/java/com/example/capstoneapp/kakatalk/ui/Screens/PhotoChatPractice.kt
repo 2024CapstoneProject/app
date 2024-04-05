@@ -45,7 +45,8 @@ fun PhotoChatPracticePreview() {
 @Composable
 @Preview
 fun photoCardPreview(){
-    val photoList = remember{mutableStateListOf<Int>()}
+    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+    val photoList = remember{ mutableStateListOf<Int>() }
     photoList.addAll(ChatMessageRepository.getPhotoList())
-    photoBlock(132.dp,photoList)
+    photoBlock(132.dp,photoList){}
 }
