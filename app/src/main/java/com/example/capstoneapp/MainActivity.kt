@@ -3,10 +3,14 @@ package com.example.capstoneapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 
-import com.example.capstoneapp.cafe.ui.Navigation.SetUpNavGraph
 import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.nav.AppNavigation
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 
 class MainActivity : ComponentActivity() {
@@ -15,16 +19,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             CapstoneAppTheme {
                 // A surface container using the 'background' color from the theme
-                val navController = rememberNavController()
-                SetUpNavGraph(navController = navController)
+                //val navController = rememberNavController()
+                //SetUpNavGraph(navController = navController)
+                val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+                val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+                AppNavigation(problemViewModel)
             }
         }
     }
-
-
 }
-
-
 //@Preview(showBackground = true)
 //@Composable
 //fun DefaultPreview() {

@@ -34,7 +34,7 @@ import com.example.capstoneapp.cafe.ui.theme.Yellow
 @Composable
 fun NotificationScreen(
     navController: NavController,
-    problem: com.example.capstoneapp.cafe.data.Repository.Problem,
+    problem: com.example.capstoneapp.nav.repository.Problem,
     content: @Composable () -> Unit
 ) {
 

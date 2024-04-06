@@ -1,4 +1,4 @@
-package com.example.capstoneapp.fastfood.data.repository
+package com.example.capstoneapp.nav.repository
 
 import com.example.capstoneapp.R
 

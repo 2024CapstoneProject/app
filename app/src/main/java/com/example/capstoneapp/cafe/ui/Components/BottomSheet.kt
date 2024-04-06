@@ -30,10 +30,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.capstoneapp.cafe.data.Repository.Problem
-import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
-import com.example.capstoneapp.cafe.data.ViewModel.ProblemViewModel
-import com.example.capstoneapp.cafe.data.ViewModel.ProblemViewModelFactory
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.cafe.ui.Frame.ButtonFormat
 import com.example.capstoneapp.cafe.ui.theme.Yellow
 import kotlinx.coroutines.launch

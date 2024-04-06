@@ -1,11 +1,11 @@
-package com.example.capstoneapp.fastfood.data.model
+package com.example.capstoneapp.nav.viewmodel
 
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.capstoneapp.fastfood.data.repository.Problem
-import com.example.capstoneapp.fastfood.data.repository.ProblemRepository
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

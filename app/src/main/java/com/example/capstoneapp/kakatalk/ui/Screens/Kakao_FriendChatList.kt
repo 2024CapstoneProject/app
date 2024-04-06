@@ -42,10 +42,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
 import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
-import com.example.capstoneapp.cafe.data.Repository.Problem
-import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
-import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModel
-import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModelFactory
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Components.ChatList
 import com.example.capstoneapp.kakatalk.ui.Components.PersonalProfile
 import com.example.capstoneapp.kakatalk.ui.Components.friendList

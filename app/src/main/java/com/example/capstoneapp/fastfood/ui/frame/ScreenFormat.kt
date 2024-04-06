@@ -26,9 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.capstoneapp.fastfood.data.repository.Problem
 import com.example.capstoneapp.fastfood.ui.theme.LightYellow
 import com.example.capstoneapp.fastfood.ui.theme.Yellow
+import com.example.capstoneapp.nav.repository.Problem
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

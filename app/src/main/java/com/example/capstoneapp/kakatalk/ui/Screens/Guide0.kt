@@ -39,7 +39,9 @@ fun GuideScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = {},
+            onClick = {
+                navController.navigate("touchToStart")
+            },
             modifier = Modifier
                 .size(330.dp, 80.dp)
                 .padding(bottom = 20.dp),
@@ -74,7 +76,7 @@ fun GuideScreen(navController: NavController) {
             }
             Button(
                 onClick = {
-                    navController.navigate("Kakao_menu")
+                    navController.navigate("Kakao_List")
                 },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
@@ -96,7 +98,9 @@ fun GuideScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("HamburgerHomeScreen")
+                },
                 modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
