@@ -27,6 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup
 import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
@@ -269,6 +271,11 @@ fun taxiTextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
 @Preview(showBackground = true)
 @Composable
 fun taxiGuideScreenPreview() {
+    val navController = rememberNavController()
+    Taxi_Guide(navController)
+}
+@Composable
+fun Taxi_Guide(navController: NavController){
     CapstoneAppTheme {
         var currentImageIndex by remember { mutableStateOf(0) }
 

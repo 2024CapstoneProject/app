@@ -40,7 +40,6 @@ fun GuideScreen(navController: NavController) {
     ) {
         Button(
             onClick = {
-                navController.navigate("touchToStart")
             },
             modifier = Modifier
                 .size(330.dp, 80.dp)
@@ -62,7 +61,9 @@ fun GuideScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("CafeHomeScreen")
+                },
                 modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
@@ -76,7 +77,7 @@ fun GuideScreen(navController: NavController) {
             }
             Button(
                 onClick = {
-                    navController.navigate("Kakao_List")
+                    navController.navigate("Kakao_Menu")
                 },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
@@ -126,7 +127,9 @@ fun GuideScreen(navController: NavController) {
                 }
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Taxi_Guide")
+                },
                 modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)

@@ -35,6 +35,7 @@ import com.example.capstoneapp.fastfood.ui.screens.touchScreen
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Screens.ChattingScreen
+import com.example.capstoneapp.kakatalk.ui.Screens.GuideScreen
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoGuide0
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoPractice0
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_FriendChatList
@@ -42,6 +43,7 @@ import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
 import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
+import com.example.capstoneapp.ui.Screens.Taxi_Guide
 
 @Composable
 fun AppNavigation(problemViewModel : ProblemViewModel) {
@@ -129,7 +131,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         // Define other routes...
         //메인(제일 처음)
         composable(route = "Guide0") {
-            Guide0(navController = navController)
+            GuideScreen(navController = navController)
         }
 
         //카페 가이드, 연습 선택 화면
@@ -177,10 +179,6 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         composable(route = "Kakao_Menu") {
             Kakao_Menu(navController = navController)
         }
-        //위치추적 가이드 첫번째 화면
-        composable(route = "ProtectorHome") {
-            ProtectorHome(navController = navController)
-        }
 
         //카카오톡 가이드 첫번째 화면
         composable(route = "KakaoGuide0") {
@@ -210,6 +208,16 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
 
         composable(route = "PhotoChatPractice") {
             PhotoChatPractice(navController = navController, problem!!)
+        }
+
+        //위치추적 첫번째 화면
+        composable(route = "ProtectorHome") {
+            ProtectorHome(navController = navController)
+        }
+
+        //택시 가이드 첫번째 화면
+        composable(route = "Taxi_Guide") {
+            Taxi_Guide(navController = navController)
         }
     }
 }
