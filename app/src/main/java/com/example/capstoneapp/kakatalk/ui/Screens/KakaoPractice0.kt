@@ -49,37 +49,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "메뉴 : ${problem.menu}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = "장소 : ${problem.place}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = "포인트 적립 여부 : ${problem.point}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = "결제 방식 : ${problem.pay}",
+            text = "문제 : ${problem.menu}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -91,7 +61,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
 
         Image(
             painter = painterResource(R.drawable.kakaotalk_icon),
-            contentDescription = "cafe image",
+            contentDescription = "kakao image",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 50.dp),
