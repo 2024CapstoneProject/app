@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.capstoneapp.fastfood.chatbot.api.ChatService
 import com.example.capstoneapp.fastfood.chatbot.api.RetrofitInstance
@@ -68,7 +69,7 @@ fun ChatUI(chatService: ChatService) {
         Button(onClick = {
             coroutineScope.launch {
                 try {
-                    val result: Response<String> = chatService.test().execute()
+                    val result: Response<String> = chatService.test()
                     if (result.isSuccessful) {
                         response = result.body() ?: "응답이 비어있습니다."
                         errorMessage = "" // 성공 시 에러 메시지 클리어
@@ -100,4 +101,10 @@ fun ChatUI(chatService: ChatService) {
             Text(text = response, modifier = Modifier.padding(top = 8.dp))
         }
     }
+}
+
+@Preview
+@Composable
+fun ChatUIPreview() {
+    ChatUI(RetrofitInstance.api)
 }
