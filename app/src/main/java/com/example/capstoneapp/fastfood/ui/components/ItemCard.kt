@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
-import com.example.capstoneapp.fastfood.data.repository.MenuItem
+import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily

@@ -1,4 +1,4 @@
-package com.example.capstoneapp.cafe.data.ViewModel
+package com.example.capstoneapp.kakatalk.data.ViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

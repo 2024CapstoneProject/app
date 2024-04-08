@@ -1,25 +1,22 @@
-package com.example.capstoneapp.cafe.data.Repository
-
+package com.example.capstoneapp.nav.repository
 
 import kotlin.random.Random
 
-
 object ProblemRepository {
-
     private var menuList = listOf(
-        "아메리카노", "카페라떼", "바닐라라떼", "녹차", "캐모마일"
+        "불고기버거, 콜라, 감자튀김"
     )
 
     private var placeList = listOf(
-        "매장에서 먹기", "포장하기"
+        "매장에서 먹기"
     )
 
     private var isPoint = listOf(
-        "O", "X"
+        "X"
     )
 
     private var payList = listOf(
-        "카드 결제", "현금 결제"
+        "카드 결제"
     )
 
     fun createProblem(): Problem {
@@ -35,8 +32,6 @@ object ProblemRepository {
             pay = payList[randomPayIndex]
         )
     }
-
-
 }
 
 data class Problem(

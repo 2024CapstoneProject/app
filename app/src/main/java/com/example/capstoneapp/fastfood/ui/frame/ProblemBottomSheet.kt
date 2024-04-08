@@ -2,10 +2,10 @@
 
 package com.example.capstoneapp.fastfood.ui.frame
 
-import com.example.capstoneapp.fastfood.data.model.ProblemViewModel
-import com.example.capstoneapp.fastfood.data.model.ProblemViewModelFactory
-import com.example.capstoneapp.fastfood.data.repository.Problem
-import com.example.capstoneapp.fastfood.data.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

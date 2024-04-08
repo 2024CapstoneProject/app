@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.R
-import com.example.capstoneapp.fastfood.data.repository.MenuItem
+import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.fastfood.ui.components.CustomizedNavigationBar
 import com.example.capstoneapp.fastfood.ui.frame.DividerFormat
 import com.example.capstoneapp.fastfood.ui.components.ItemList

@@ -25,9 +25,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
-import com.example.capstoneapp.fastfood.data.repository.MenuItem
-import com.example.capstoneapp.fastfood.data.repository.OrderItem
-import com.example.capstoneapp.fastfood.ui.components.AppNavigation
+import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.OrderItem
 import com.example.capstoneapp.fastfood.ui.components.CustomizedNavigationBar
 import com.example.capstoneapp.fastfood.ui.frame.DividerFormat
 import com.example.capstoneapp.fastfood.ui.components.ItemList

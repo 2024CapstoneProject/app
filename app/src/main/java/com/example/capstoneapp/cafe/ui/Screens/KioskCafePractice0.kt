@@ -25,10 +25,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.cafe.data.Repository.Problem
-import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
-import com.example.capstoneapp.cafe.data.ViewModel.ProblemViewModel
-import com.example.capstoneapp.cafe.data.ViewModel.ProblemViewModelFactory
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 @Composable
 fun KioskCafePractice0(navController: NavController, problem: Problem) {

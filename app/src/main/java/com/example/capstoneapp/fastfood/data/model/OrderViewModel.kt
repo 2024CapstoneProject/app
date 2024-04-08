@@ -3,8 +3,8 @@ package com.example.capstoneapp.fastfood.data.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.capstoneapp.fastfood.data.repository.MenuItem
-import com.example.capstoneapp.fastfood.data.repository.OrderItem
+import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.OrderItem
 
 open class OrderViewModel : ViewModel() {
     private val _orderItems = MutableLiveData<List<OrderItem>>()

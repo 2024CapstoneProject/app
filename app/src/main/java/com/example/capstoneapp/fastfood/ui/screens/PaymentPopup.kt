@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.capstoneapp.R
-import com.example.capstoneapp.fastfood.data.repository.MenuItem
-import com.example.capstoneapp.fastfood.data.repository.MenuItemsRepository.getMenuItemById
+import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.MenuItemsRepository.getMenuItemById
 import com.example.capstoneapp.fastfood.ui.components.ItemCard
 import com.example.capstoneapp.fastfood.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily

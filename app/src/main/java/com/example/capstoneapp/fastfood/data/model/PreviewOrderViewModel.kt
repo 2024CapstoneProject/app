@@ -1,8 +1,8 @@
 package com.example.capstoneapp.fastfood.data.model
 
 import com.example.capstoneapp.R
-import com.example.capstoneapp.fastfood.data.repository.MenuItem
-import com.example.capstoneapp.fastfood.data.repository.OrderItem
+import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.OrderItem
 
 class PreviewOrderViewModel : OrderViewModel() {
     init {
