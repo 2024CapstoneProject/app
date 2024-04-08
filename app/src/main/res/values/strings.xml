@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">CapstoneApp</string>
+
+    <string name="touch_text">햄버거 가게</string>
+    <string name="payment_text">현금 결제</string>
+    <string name="burger_text">카드 결제&amp;쿠폰 사용 선택</string>
+    <string name="set_text">카드 결제 진행</string>
+    <string name="dessert_text">햄버거 가게</string>
+    <string name="drink_text">현금 결제</string>
+    <string name="receipt_text">카드 결제&amp;쿠폰 사용 선택</string>
+
+    <string name="ex1_text">메가커피</string>
+    <string name="cash_text">현금 결제</string>
+    <string name="kiosk_text">카드 결제&amp;쿠폰 사용 선택</string>
+
+    <string name="card_text">카드 결제 진행</string>
 </resources>
