@@ -26,7 +26,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.capstoneapp.cafe.data.Repository.Problem
 import com.example.capstoneapp.cafe.ui.theme.LightYellow
 import com.example.capstoneapp.cafe.ui.theme.Yellow
 
@@ -35,7 +34,7 @@ import com.example.capstoneapp.cafe.ui.theme.Yellow
 @Composable
 fun NotificationScreen(
     navController: NavController,
-    problem: Problem,
+    problem: com.example.capstoneapp.nav.repository.Problem,
     content: @Composable () -> Unit
 ) {
 

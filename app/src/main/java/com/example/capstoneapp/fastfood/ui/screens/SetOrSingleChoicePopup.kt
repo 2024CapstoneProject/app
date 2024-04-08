@@ -29,8 +29,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.fastfood.data.repository.MenuItem
-import com.example.capstoneapp.fastfood.data.repository.MenuItemsRepository.getMenuItemById
+import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.MenuItemsRepository.getMenuItemById
 import com.example.capstoneapp.fastfood.ui.components.ItemCard
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 

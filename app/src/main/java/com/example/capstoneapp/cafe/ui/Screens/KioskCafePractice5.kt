@@ -31,12 +31,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.cafe.data.Repository.Problem
-import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
-import com.example.capstoneapp.cafe.data.ViewModel.MenuItemsViewModel
-import com.example.capstoneapp.cafe.data.ViewModel.MenuItemsViewModelFactory
-import com.example.capstoneapp.cafe.data.ViewModel.ProblemViewModel
-import com.example.capstoneapp.cafe.data.ViewModel.ProblemViewModelFactory
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
+import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
 
@@ -201,7 +200,8 @@ fun MenuText5() {
 @Composable
 fun Kiosk5PreView() {
     val navController = rememberNavController()
-    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+    val problemViewModelFactory =
+        com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)

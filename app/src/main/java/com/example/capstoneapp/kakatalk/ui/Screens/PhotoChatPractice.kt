@@ -11,10 +11,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
-import com.example.capstoneapp.cafe.data.Repository.Problem
-import com.example.capstoneapp.cafe.data.Repository.ProblemRepository
-import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModel
-import com.example.capstoneapp.kakatalk.data.ViewModel.ProblemViewModelFactory
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Components.ChatRoom
 import com.example.capstoneapp.kakatalk.ui.Components.photoBlock
 import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
@@ -45,7 +45,8 @@ fun PhotoChatPracticePreview() {
 @Composable
 @Preview
 fun photoCardPreview(){
-    val photoList = remember{mutableStateListOf<Int>()}
+    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+    val photoList = remember{ mutableStateListOf<Int>() }
     photoList.addAll(ChatMessageRepository.getPhotoList())
-    photoBlock(132.dp,photoList)
+    photoBlock(132.dp,photoList){}
 }

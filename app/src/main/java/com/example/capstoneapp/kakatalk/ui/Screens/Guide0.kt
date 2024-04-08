@@ -39,7 +39,8 @@ fun GuideScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = {},
+            onClick = {
+            },
             modifier = Modifier
                 .size(330.dp, 80.dp)
                 .padding(bottom = 20.dp),
@@ -60,7 +61,9 @@ fun GuideScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("CafeHomeScreen")
+                },
                 modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
@@ -74,7 +77,7 @@ fun GuideScreen(navController: NavController) {
             }
             Button(
                 onClick = {
-                    navController.navigate("Kakao_menu")
+                    navController.navigate("Kakao_Menu")
                 },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
@@ -96,7 +99,9 @@ fun GuideScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("HamburgerHomeScreen")
+                },
                 modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
@@ -122,7 +127,9 @@ fun GuideScreen(navController: NavController) {
                 }
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Taxi_Guide")
+                },
                 modifier = Modifier.size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
