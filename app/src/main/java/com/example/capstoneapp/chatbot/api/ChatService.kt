@@ -1,4 +1,4 @@
-package com.example.capstoneapp.fastfood.chatbot.api
+package com.example.capstoneapp.chatbot.api
 
 import retrofit2.http.GET
 import retrofit2.http.Query

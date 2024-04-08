@@ -1,4 +1,4 @@
-package com.example.capstoneapp.fastfood.chatbot.ui.components
+package com.example.capstoneapp.chatbot.ui.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -19,8 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.capstoneapp.fastfood.chatbot.api.ChatService
-import com.example.capstoneapp.fastfood.chatbot.api.RetrofitInstance
+import com.example.capstoneapp.chatbot.api.ChatService
+import com.example.capstoneapp.chatbot.api.RetrofitInstance
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
