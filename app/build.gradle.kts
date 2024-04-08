@@ -1,6 +1,13 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
+fun getApiKey(propertyKey:String):String{
+    return gradleLocalProperties(rootDir).getProperty(propertyKey)
+}
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -8,6 +15,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
+        buildConfigField("String","google_map_key",getApiKey("google_map_key"))
         applicationId = "com.example.capstoneapp"
         minSdk = 29
         targetSdk = 34
