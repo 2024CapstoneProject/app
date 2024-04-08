@@ -12,13 +12,11 @@ import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             CapstoneAppTheme {
-                // A surface container using the 'background' color from the theme
                 //val navController = rememberNavController()
                 //SetUpNavGraph(navController = navController)
                 val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)

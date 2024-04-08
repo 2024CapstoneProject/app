@@ -28,7 +28,6 @@ fun ItemList(selectedMenu: String, onItemClicked: (MenuItem) -> Unit) {
         modifier = Modifier
             // Column 내 나머지 공간을 채우도록 설정
             .fillMaxWidth()
-            .height(200.dp)
     ) {
         LazyColumn(modifier = Modifier.padding(start = 50.dp, end = 50.dp)) {
             // 항목들을 2개씩 묶어서 새로운 리스트를 생성합니다.
