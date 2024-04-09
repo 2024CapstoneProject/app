@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -35,75 +34,7 @@ import androidx.compose.ui.unit.sp
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ProtectRegisterScreen(content: @Composable () -> Unit) {
-    Scaffold(
-        topBar = {
-
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 56.dp)
-                .padding(bottom = 128.dp)
-                .padding(top = 184.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth() // Fill the width of the parent
-                    .padding(horizontal = 1.dp) // Padding from the left and right
-                    .fillMaxHeight(0.3f) // Fill the height of the parent
-                    .weight(1f)
-                    .background(
-                        color = Color.LightGray, // Change this color to your desired background color
-                        shape = RoundedCornerShape(16.dp) // Rounded corners
-                    )
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
-                contentAlignment = Alignment.Center
-            ) {
-                //content()
-            }
-            Spacer(modifier = Modifier.height(2.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth() // Fill the width of the parent
-                    .padding(horizontal = 1.dp) // Padding from the left and right
-                    .fillMaxHeight(0.3f) // Fill the height of the parent
-                    .weight(1f)
-                    .background(
-                        color = Color.LightGray, // Change this color to your desired background color
-                        shape = RoundedCornerShape(16.dp) // Rounded corners
-                    )
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
-                contentAlignment = Alignment.Center
-            ) {
-                //content()
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth() // Fill the width of the parent
-                    .padding(horizontal = 1.dp) // Padding from the left and right
-                    .fillMaxHeight(0.3f) // Fill the height of the parent
-                    .weight(1f)
-                    .background(
-                        color = Color.LightGray, // Change this color to your desired background color
-                        shape = RoundedCornerShape(16.dp) // Rounded corners
-                    )
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
-                contentAlignment = Alignment.Center
-            ) {
-                //content()
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun ProtectRegisterScreenPreview() {
+fun ProtectRegisterScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -228,4 +159,77 @@ fun ProtectRegisterScreenPreview() {
             }
         }
     }
+
 }
+
+@Preview
+@Composable
+fun ProtectRegisterScreenPreview() {
+    ProtectRegisterScreen()
+
+}
+
+
+//    Scaffold(
+//        topBar = {
+//
+//        }
+//    ) {
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(horizontal = 56.dp)
+//                .padding(bottom = 128.dp)
+//                .padding(top = 184.dp),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.spacedBy(16.dp)
+//        ) {
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth() // Fill the width of the parent
+//                    .padding(horizontal = 1.dp) // Padding from the left and right
+//                    .fillMaxHeight(0.3f) // Fill the height of the parent
+//                    .weight(1f)
+//                    .background(
+//                        color = Color.LightGray, // Change this color to your desired background color
+//                        shape = RoundedCornerShape(16.dp) // Rounded corners
+//                    )
+//                    .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
+//                contentAlignment = Alignment.Center
+//            ) {
+//                //content()
+//            }
+//            Spacer(modifier = Modifier.height(2.dp))
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth() // Fill the width of the parent
+//                    .padding(horizontal = 1.dp) // Padding from the left and right
+//                    .fillMaxHeight(0.3f) // Fill the height of the parent
+//                    .weight(1f)
+//                    .background(
+//                        color = Color.LightGray, // Change this color to your desired background color
+//                        shape = RoundedCornerShape(16.dp) // Rounded corners
+//                    )
+//                    .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
+//                contentAlignment = Alignment.Center
+//            ) {
+//                //content()
+//            }
+//            Spacer(modifier = Modifier.height(24.dp))
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth() // Fill the width of the parent
+//                    .padding(horizontal = 1.dp) // Padding from the left and right
+//                    .fillMaxHeight(0.3f) // Fill the height of the parent
+//                    .weight(1f)
+//                    .background(
+//                        color = Color.LightGray, // Change this color to your desired background color
+//                        shape = RoundedCornerShape(16.dp) // Rounded corners
+//                    )
+//                    .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
+//                contentAlignment = Alignment.Center
+//            ) {
+//                //content()
+//            }
+//        }
+//    }

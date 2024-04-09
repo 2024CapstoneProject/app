@@ -1,5 +1,6 @@
 package com.example.capstoneapp.nav
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -11,6 +12,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.Map.screens.ProtectListScreen
+import com.example.capstoneapp.Map.screens.ProtectRegisterScreen
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
@@ -46,7 +49,7 @@ import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
 import com.example.capstoneapp.ui.Screens.Taxi_Guide
 
 @Composable
-fun AppNavigation(problemViewModel : ProblemViewModel) {
+fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
     val navController = rememberNavController()
     val viewModel: OrderViewModel = viewModel()
     val (showBorder, setShowBorder) = remember { mutableStateOf(false) } // 아이콘 테두리 상태 관리
@@ -213,6 +216,16 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         //위치추적 첫번째 화면
         composable(route = "ProtectorHome") {
             ProtectorHome(navController = navController)
+        }
+
+        //위치 추적 (피)보호자 등록 화면
+        composable(route = "ProtectRegisterScreen") {
+            ProtectRegisterScreen()
+        }
+
+        //위치 추적 (피)보호자 조회 화면
+        composable(route = "ProtectListScreen") {
+            ProtectListScreen(context)
         }
 
         //택시 가이드 첫번째 화면
