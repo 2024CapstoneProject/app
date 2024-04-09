@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.capstoneapp.Frame.NotificationScreen
-import com.example.capstoneapp.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.Map.frame.NotificationScreen
+import com.example.capstoneapp.Map.theme.CapstoneAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

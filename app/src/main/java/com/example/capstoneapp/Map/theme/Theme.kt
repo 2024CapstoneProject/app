@@ -1,4 +1,4 @@
-package com.example.capstoneapp.ui.theme
+package com.example.capstoneapp.Map.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,7 +1,7 @@
-package com.example.capstoneapp.Screens
+package com.example.capstoneapp.Map.screens
 
 import android.annotation.SuppressLint
-import android.text.style.BackgroundColorSpan
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,28 +14,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.capstoneapp.Frame.TopAppBar
+import androidx.compose.ui.viewinterop.AndroidView
+import com.example.capstoneapp.Map.frame.TopAppBar
+import com.example.capstoneapp.R
+import com.google.android.gms.maps.MapView
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ProtectEditScreen(content: @Composable () -> Unit) {
+fun ProtectMapScreen(content: @Composable () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar()
@@ -103,16 +101,35 @@ fun ProtectEditScreen(content: @Composable () -> Unit) {
 
 @Preview
 @Composable
-fun ProtectEditScreenPreview() {
+fun ProtectMapScreenPreview() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 56.dp)
-            .padding(bottom = 128.dp)
-            .padding(top = 184.dp),
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 16.dp)
+            .padding(top = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "Icon",
+                    modifier = Modifier.size(48.dp)
+                )
+                Column(modifier = Modifier.padding(start = 16.dp)) {
+                    Text("이소윤", fontWeight = FontWeight.ExtraBold)
+                    Text("본인", fontWeight = FontWeight.ExtraBold)
+                }
+                Spacer(modifier = Modifier.weight(1f))
+            }
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth() // Fill the width of the parent
@@ -120,97 +137,22 @@ fun ProtectEditScreenPreview() {
                 .fillMaxHeight() // Fill the height of the parent
                 .weight(1f)
                 .background(
-                    color = Color.White, // Change this color to your desired background color
+                    color = Color.LightGray, // Change this color to your desired background color
                     shape = RoundedCornerShape(16.dp) // Rounded corners
                 )
-                .border(1.dp, Color.White, RoundedCornerShape(16.dp)),// Border
+                .border(1.dp, Color.LightGray, RoundedCornerShape(16.dp)),// Border
             contentAlignment = Alignment.Center
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .fillMaxHeight(0.3f)
-                        .background(color = Color.White)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("이름", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
-                        Spacer(modifier = Modifier.width(16.dp))
-                        TextField(value = "", onValueChange = {}, shape = MaterialTheme.shapes.medium)
+            AndroidView(
+                factory = { context ->
+                    MapView(context).apply {
+                        // Initialize MapView
+                        onCreate(null)
+                        // You can customize MapView settings here
                     }
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .fillMaxHeight(0.3f)
-                        .background(color = Color.White)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("관계", fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
-                        Spacer(modifier = Modifier.width(16.dp))
-                        TextField(value = "", onValueChange = {}, shape = MaterialTheme.shapes.medium)
-                    }
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .fillMaxHeight(0.3f)
-                        .background(color = Color.White)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(Color.LightGray),
-                            shape = RoundedCornerShape(16.dp),
-                            modifier = Modifier.padding(8.dp).weight(0.5f)
-                        ) {
-                            Text(
-                                "수정",
-                                modifier = Modifier.fillMaxWidth(),
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                textAlign = TextAlign.Center,
-                                color = Color.Black
-                            )
-                        }
-                        Button(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(Color.LightGray),
-                            shape = RoundedCornerShape(16.dp),
-                            modifier = Modifier.padding(8.dp).weight(0.5f)
-                        ) {
-                            Text(
-                                "삭제",
-                                modifier = Modifier.fillMaxWidth(),
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                textAlign = TextAlign.Center,
-                                color = Color.Black
-                            )
-                        }
-                    }
-                }
-            }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
         }
-        Spacer(modifier = Modifier.height(200.dp))
     }
 }

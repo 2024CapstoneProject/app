@@ -1,4 +1,4 @@
-package com.example.capstoneapp.Frame
+package com.example.capstoneapp.Map.frame
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.capstoneapp.ui.theme.LightYellow
-import com.example.capstoneapp.ui.theme.Yellow
+import com.example.capstoneapp.Map.theme.LightYellow
+import com.example.capstoneapp.Map.theme.Yellow
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

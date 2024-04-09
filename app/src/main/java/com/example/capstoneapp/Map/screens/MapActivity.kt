@@ -1,4 +1,4 @@
-package com.example.capstoneapp.Screens
+package com.example.capstoneapp.Map.screens
 
 import com.example.capstoneapp.MapViewActivity
 import android.content.Intent

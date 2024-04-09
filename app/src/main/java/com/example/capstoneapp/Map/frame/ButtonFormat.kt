@@ -1,4 +1,4 @@
-package com.example.capstoneapp.Frame
+package com.example.capstoneapp.Map.frame
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
