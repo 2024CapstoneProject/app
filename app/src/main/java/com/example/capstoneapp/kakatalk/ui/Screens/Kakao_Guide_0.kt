@@ -65,10 +65,13 @@ fun KakaoGuide0(navController: NavController) {
 @Composable
 fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
     val imageResources = listOf(
-        R.drawable.cafe_guide_ex1,
-        R.drawable.cafe_guide_cash,
-        R.drawable.cafe_guide_kiosk,
-        R.drawable.cafe_guide_card
+        R.drawable.kakao_guide_000,
+        R.drawable.kakao_guide_001,
+        R.drawable.kakao_guide_002,
+        R.drawable.kakao_guide_004,
+        R.drawable.kakao_guide_003,
+        R.drawable.kakao_guide_005,
+        R.drawable.kakao_guide_006,
     )
     val currentImageResourceId = imageResources[currentImageIndex]
     val context = LocalContext.current
@@ -158,10 +161,13 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 @Composable
 fun getResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.cafe_guide_ex1 -> context.getString(R.string.ex1_text)
-        R.drawable.cafe_guide_cash -> context.getString(R.string.cash_text)
-        R.drawable.cafe_guide_kiosk -> context.getString(R.string.kiosk_text)
-        R.drawable.cafe_guide_card -> context.getString(R.string.card_text)
+        R.drawable.kakao_guide_000 -> "카카오톡"
+        R.drawable.kakao_guide_001 -> "친구 목록"
+        R.drawable.kakao_guide_002 -> "프로필 확인"
+        R.drawable.kakao_guide_004 -> "채팅 보내기"
+        R.drawable.kakao_guide_003 -> "사진 보내기 1"
+        R.drawable.kakao_guide_005 -> "사진 보내기 2"
+        R.drawable.kakao_guide_006 -> "사진 보내기 3"
         else -> "Unknown"
     }
 }
@@ -201,9 +207,12 @@ fun EnlargedImagePopup(imageResource: Int, onClose: () -> Unit) {
 fun guideText(currentImageIndex: Int) {
     val textList = listOf(
         Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
-        Triple("현금 결제이시면", "키오스크가 아니라", "카운터에서 주문해주세요"),
-        Triple("\"카드\"결제이시면 파란색을", "\"쿠폰\"을 사용하시려면 초록색을", "눌러주세요."),
-        Triple("이 창이 뜨면 카드를 넣어주세요.", "화면 오른쪽 아래에", "카드 투입구가 있습니다.")
+        Triple("카카오톡을 실행하면", "친구목록이 나타납니다.", "원하는 사람의 이름을 눌러주세요."),
+        Triple("프로필을 확인할 수 있습니다.", "\"메세지\"를 보내고 싶으시다면,", "\"채팅\"을 눌러주세요."),
+        Triple("보내고 싶은 말을 입력해주세요.", "입력이 끝났다면, 오른쪽에 있는", "화살표 모양 버튼을 눌러주세요"),
+        Triple("화면 왼쪽 아래에 있는", "+ 버튼을 눌러주세요.", ""),
+        Triple("\"앨범\"을 눌러주세요", "", ""),
+        Triple("원하는 사진을 선택해주세요.", "최대 30장까지 선택할 수 있습니다.", "사진을 선택했다면 화살표를 눌러주세요.")
     )
 
     Column(
@@ -213,17 +222,17 @@ fun guideText(currentImageIndex: Int) {
         val (text1, text2, text3) = textList[currentImageIndex]
         TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
-                "현금 결제" to Color.Green, "카드" to Color.Blue, "파란색" to Color.Blue
+                "프로필" to Color.Green, "앨범" to Color.Blue, "사진" to Color.Blue
             )
         )
         TextWithColoredWords(
             text = text2, wordsToColor = mapOf(
-                "쿠폰" to Color.Green, "초록색" to Color.Green, "화면 오른쪽 아래" to Color.Red
+                "친구목록" to Color.Blue, "메세지" to Color.Blue, "화면 오른쪽 아래" to Color.Red,"최대 30장" to Color.Red
             )
         )
         TextWithColoredWords(
             text = text3, wordsToColor = mapOf(
-                "카운터" to Color.Green
+                "이름" to Color.Red, "채팅" to Color.Red,"화살표" to Color.Green
             )
         )
     }
