@@ -16,7 +16,6 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 import com.example.capstoneapp.cafe.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.cafe.ui.Screens.CafeKioskScreen
-import com.example.capstoneapp.cafe.ui.Screens.Guide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5

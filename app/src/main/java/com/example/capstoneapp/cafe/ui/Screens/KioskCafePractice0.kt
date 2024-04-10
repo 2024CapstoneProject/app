@@ -50,7 +50,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "메뉴 : ${problem.menu}",
+            text = "메뉴 : ${problem.c_menu}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -60,7 +60,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "장소 : ${problem.place}",
+            text = "장소 : ${problem.c_place}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -70,7 +70,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "포인트 적립 여부 : ${problem.point}",
+            text = "포인트 적립 여부 : ${problem.c_point}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -80,7 +80,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "결제 방식 : ${problem.pay}",
+            text = "결제 방식 : ${problem.c_pay}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
