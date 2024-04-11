@@ -29,8 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.nav.repository.MenuItem
-import com.example.capstoneapp.fastfood.ui.screens.itemMenu
-import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
 @Composable
 fun OrderList(orderItems: List<MenuItem>) {

@@ -16,7 +16,6 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 import com.example.capstoneapp.cafe.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.cafe.ui.Screens.CafeKioskScreen
-import com.example.capstoneapp.cafe.ui.Screens.Guide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
@@ -30,8 +29,8 @@ import com.example.capstoneapp.fastfood.ui.screens.GreetingPreview
 import com.example.capstoneapp.fastfood.ui.screens.OrderScreen
 import com.example.capstoneapp.fastfood.ui.screens.PaymentScreen
 import com.example.capstoneapp.fastfood.ui.screens.PracticeHomeScreen
-import com.example.capstoneapp.fastfood.ui.screens.itemMenu
-import com.example.capstoneapp.fastfood.ui.screens.touchScreen
+import com.example.capstoneapp.fastfood.ui.screens.ItemMenu
+import com.example.capstoneapp.fastfood.ui.screens.TouchScreen
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Screens.ChattingScreen
@@ -52,13 +51,14 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
     val (showBorder, setShowBorder) = remember { mutableStateOf(false) } // 아이콘 테두리 상태 관리
 
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-    val problemViewModel: com.example.capstoneapp.nav.viewmodel.ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val problem by problemViewModel.problem.observeAsState()
 
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
     NavHost(
         navController = navController,
         startDestination = "Guide0"
@@ -75,60 +75,55 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
             PracticeHomeScreen(navController = navController)
         }
 
-        composable(route = "touchToStart"){
-            setShowBorder(false)
+        composable(route = "touchToStart") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
-                content = {
-                    touchScreen(navController = navController, showBorder) // 아이콘 테두리 상태 전달
-                }
-            ) {
-                setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                content = { TouchScreen(navController = navController, showBorder) }
+            ) { setShowBorder(true) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
             }
         }
 
-        composable(route="payment") {
-            setShowBorder(false)
+        composable(route = "payment") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
-                content = {
-                    PaymentScreen(navController = navController, showBorder)//SelectSetDessertScreen()
-                }
-            ) {
-                setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                content = { PaymentScreen(navController = navController, showBorder) }
+            ) { setShowBorder(true) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
             }
         }
 
         composable(route = "itemMenu"){
-            setShowBorder(false)
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
-                content = {
-                    itemMenu(navController = navController, viewModel, showBorder)//SelectSetDessertScreen()
-                }
-            ) {
-                setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                content = { ItemMenu(navController = navController, viewModel, showBorder) }
+            ) { setShowBorder(true) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
             }
         }
 
-        composable(route="setDessert") {
+        composable(route = "setDessert") {
             //SelectSetDessertScreen()
         }
 
-        composable(route="finalOrder") {
-            setShowBorder(false)
+        composable(route = "finalOrder") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
-                content = {
-                    OrderScreen(navController = navController, viewModel, showBorder)//SelectSetDessertScreen()
-                }
-            ) {
-                setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                content = { OrderScreen(navController = navController, viewModel, showBorder) }
+            ) { setShowBorder(true) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
             }
-            //SelectSetDessertScreen()
         }
 
-        // Define other routes...
+
         //메인(제일 처음)
         composable(route = "Guide0") {
             GuideScreen(navController = navController)

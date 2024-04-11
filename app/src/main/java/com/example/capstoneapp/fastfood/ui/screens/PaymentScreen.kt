@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
@@ -58,7 +59,7 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
                 .clickable {
                     navController.navigate("itemMenu") // Navigate to PaymentScreen
                 }
-                .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier),
+                .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
             horizontalArrangement = Arrangement.SpaceBetween, // Arrange buttons with space in between
             verticalAlignment = Alignment.CenterVertically
 
