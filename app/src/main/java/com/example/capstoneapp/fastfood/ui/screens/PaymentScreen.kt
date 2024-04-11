@@ -65,7 +65,7 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
 
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.baseline_adb_24),
+                painter = painterResource(id = R.drawable.cardicon),
                 contentDescription = null,
 
                 modifier = Modifier
@@ -75,11 +75,7 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                    navController.navigate("itemMenu") // Navigate to PaymentScreen
-                },//왼쪽에 padding을 주기 위해
+                modifier = Modifier.weight(1f),
             ) {
                 Text(
                     text = "카드",
@@ -121,7 +117,7 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
                 modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_adb_24),
+                    painter = painterResource(id = R.drawable.pay),
                     contentDescription = null,
                     modifier = Modifier
                         .width(80.dp) // 아이콘의 너비를 48dp로 설정
@@ -150,7 +146,7 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
                 modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_adb_24),
+                    painter = painterResource(id = R.drawable.cash),
                     contentDescription = null,
                     modifier = Modifier
                         .width(80.dp) // 아이콘의 너비를 48dp로 설정

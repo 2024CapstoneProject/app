@@ -68,11 +68,14 @@ fun OptionCard(
     icon: Painter,
     showBorder: Boolean
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(18.dp)
             .clickable(onClick = onClick)
-            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier)
+            .then(
+                if (showBorder) Modifier.border(BorderWidth, BorderColor)
+                else Modifier)
     ) {
         Icon(
             painter = icon,

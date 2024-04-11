@@ -1,29 +1,27 @@
 package com.example.capstoneapp.fastfood.ui.screens
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -50,6 +48,9 @@ fun PaymentPopup(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
             ) {
                 Column(
                     modifier = Modifier
@@ -68,9 +69,12 @@ fun PaymentPopup(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_adb_24),
-                        contentDescription = null
+                    Image(
+                        painter = painterResource(id = R.drawable.put_ic_card),
+                        contentDescription = null, // 접근성을 위한 설명 추가, 필요하지 않다면 null 처리
+                        modifier = Modifier
+                            .fillMaxWidth() // 가로를 최대로 설정
+                            .aspectRatio(1.4f) // 가로세로비를 1.6:1로 설정
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
