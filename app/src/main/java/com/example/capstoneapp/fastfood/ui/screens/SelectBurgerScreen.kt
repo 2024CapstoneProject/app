@@ -74,12 +74,16 @@ fun ItemMenu(
                         menuItems = myMenuItems,
                         selectedMenuItem = selectedMenu,
                         onMenuItemClick = { menuItem ->
-                            selectedMenu = menuItem // 메뉴 항목 클릭 시 선택된 메뉴 업데이트
+                            if (menuItem == "햄버거") { // "햄버거" 메뉴만 선택 가능
+                                selectedMenu = menuItem
+                            }
                         }
                     )
                     ItemList(selectedMenu = selectedMenu) { selectedItem ->
-                        currentItemForDialog = selectedItem
-                        showDialog = true // 아이템 클릭 시 팝업 표시
+                        if (selectedMenu == "햄버거") { // "햄버거" 메뉴가 선택되었을 때만 클릭 이벤트 활성화
+                            currentItemForDialog = selectedItem
+                            showDialog = true // 아이템 클릭 시 팝업 표시
+                        }
                     }
                 }
             }
