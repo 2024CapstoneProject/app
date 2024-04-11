@@ -32,7 +32,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
-import com.example.capstoneapp.fastfood.data.model.PreviewOrderViewModel
 import com.example.capstoneapp.fastfood.ui.components.OptionCard
 import com.example.capstoneapp.fastfood.ui.frame.DividerFormat
 import com.example.capstoneapp.fastfood.ui.frame.KioskButtonFormat
@@ -114,13 +113,13 @@ fun OrderScreen(
                         onClick = { isPackingSelected.value = true; isStoreSelected.value = false },
                         text = "포장",
                         icon = painterResource(id = R.drawable.bag),
-                        showBorder = isPackingSelected.value
+                        showBorder = false
                     )
                     OptionCard(
                         onClick = { isStoreSelected.value = true; isPackingSelected.value = false },
                         text = "매장",
                         icon = painterResource(id = R.drawable.shop),
-                        showBorder = isStoreSelected.value
+                        showBorder = showBorder
                     )
                 }
 
@@ -133,13 +132,13 @@ fun OrderScreen(
                         onClick = { isPointSelected.value = true; isNoneSelected.value = false },
                         text = "포인트",
                         icon = painterResource(id = R.drawable.discount),
-                        showBorder = isPointSelected.value
+                        showBorder = false
                     )
                     OptionCard(
                         onClick = { isPointSelected.value = false; isNoneSelected.value = true },
                         text = "선택\n없음",
                         icon = painterResource(id = R.drawable.x),
-                        showBorder = isNoneSelected.value
+                        showBorder = showBorder
                     )
                 }
 
@@ -152,13 +151,13 @@ fun OrderScreen(
                         onClick = { isCreditCardSelected.value = true; isMobilePaySelected.value = false },
                         text = "신용\n/체크카드",
                         icon = painterResource(id = R.drawable.cardicon),
-                        showBorder = isCreditCardSelected.value
+                        showBorder = showBorder
                     )
                     OptionCard(
                         onClick = { isCreditCardSelected.value = false; isMobilePaySelected.value = true },
                         text = "모바일\n/페이",
                         icon = painterResource(id = R.drawable.pay),
-                        showBorder = isMobilePaySelected.value
+                        showBorder = false
                     )
                 }
             }

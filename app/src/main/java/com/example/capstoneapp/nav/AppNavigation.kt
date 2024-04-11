@@ -98,7 +98,6 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
 
         composable(route = "itemMenu"){
-            setShowBorder(false)
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
                 content = { ItemMenu(navController = navController, viewModel, showBorder) }
@@ -109,12 +108,11 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
             }
         }
 
-        composable(route="setDessert") {
+        composable(route = "setDessert") {
             //SelectSetDessertScreen()
         }
 
-        composable(route="finalOrder") {
-            setShowBorder(false)
+        composable(route = "finalOrder") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
                 content = { OrderScreen(navController = navController, viewModel, showBorder) }
