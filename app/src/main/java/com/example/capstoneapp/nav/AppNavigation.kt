@@ -41,7 +41,10 @@ import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_FriendChatList
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
-import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
+import com.example.capstoneapp.protector.screens.ProtectorEdit
+import com.example.capstoneapp.protector.screens.ProtectorHome
+import com.example.capstoneapp.protector.screens.ProtectorList
+import com.example.capstoneapp.protector.screens.ProtectorRegister
 import com.example.capstoneapp.ui.Screens.Taxi_Guide
 
 @Composable
@@ -208,6 +211,21 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         //위치추적 첫번째 화면
         composable(route = "ProtectorHome") {
             ProtectorHome(navController = navController)
+        }
+
+        //위치추적 등록 화면
+        composable(route = "ProtectorRegister") {
+            ProtectorRegister(navController = navController)
+        }
+
+        //위치추적 목록 화면
+        composable(route = "ProtectorList") {
+            ProtectorList(navController = navController)
+        }
+
+        //위치추적 수정 화면
+        composable(route = "ProtectorEdit") {
+            ProtectorEdit(navController = navController)
         }
 
         //택시 가이드 첫번째 화면

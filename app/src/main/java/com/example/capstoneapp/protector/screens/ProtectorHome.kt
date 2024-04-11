@@ -1,4 +1,4 @@
-package com.example.capstoneapp.kakatalk.ui.Screens
+package com.example.capstoneapp.protector.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -31,11 +31,11 @@ fun ProtectorHome(navController:NavController){
     Column {
         //가이드모드
         RegisterButtonProtect {
-            //navController.navigate("KioskCafeGuide0")
+            navController.navigate("ProtectorRegister")
         }
         //연습모드
         ListButtonProtect {
-            //navController.navigate("KioskCafePractice0")
+            navController.navigate("ProtectorList")
         }
         //이미지(onclick 기능 필요없음)
         ImageButtonProtect {
