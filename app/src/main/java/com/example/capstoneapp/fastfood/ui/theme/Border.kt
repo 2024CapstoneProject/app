@@ -5,4 +5,3 @@ import androidx.compose.ui.unit.dp
 
 val BorderWidth = 2.dp
 val BorderColor = Color.Blue
-//val InnerPadding = 2.dp

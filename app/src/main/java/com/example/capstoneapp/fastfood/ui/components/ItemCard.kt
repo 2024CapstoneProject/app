@@ -20,11 +20,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.capstoneapp.R
-import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.nav.repository.MenuItem
 
 @Composable
 fun ItemCard(item: MenuItem, onClick: () -> Unit) {
@@ -73,9 +72,7 @@ fun OptionCard(
         modifier = Modifier
             .padding(18.dp)
             .clickable(onClick = onClick)
-            .then(
-                if (showBorder) Modifier.border(BorderWidth, BorderColor)
-                else Modifier)
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier)
     ) {
         Icon(
             painter = icon,

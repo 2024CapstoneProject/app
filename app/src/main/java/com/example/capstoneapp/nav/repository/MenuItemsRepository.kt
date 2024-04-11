@@ -4,28 +4,28 @@ import com.example.capstoneapp.R
 
 object MenuItemsRepository {
     private var hamburgerMenuItems = listOf(
-        MenuItem(1, "불고기 버거", R.drawable.baseline_adb_24, 7000),
-        MenuItem(2, "불고기 버거 세트", R.drawable.baseline_adb_24, 10000),
-        MenuItem(3, "새우버거", R.drawable.baseline_adb_24, 7000),
-        MenuItem(4, "새우버거 세트", R.drawable.baseline_adb_24, 10000),
-        MenuItem(5, "치즈버거", R.drawable.baseline_adb_24, 7000),
-        MenuItem(6, "치즈버거 세트", R.drawable.baseline_adb_24, 10000),
-        MenuItem(7, "치킨버거", R.drawable.baseline_adb_24, 7000),
-        MenuItem(8, "치킨버거 세트", R.drawable.baseline_adb_24, 10000)
+        MenuItem(1, "불고기 버거", R.drawable.hamburger, 7000),
+        MenuItem(2, "불고기 버거 세트", R.drawable.burger_set, 10000),
+        MenuItem(3, "새우버거", R.drawable.hamburger, 7000),
+        MenuItem(4, "새우버거 세트", R.drawable.burger_set, 10000),
+        MenuItem(5, "치즈버거", R.drawable.hamburger, 7000),
+        MenuItem(6, "치즈버거 세트", R.drawable.burger_set, 10000),
+        MenuItem(7, "치킨버거", R.drawable.hamburger, 7000),
+        MenuItem(8, "치킨버거 세트", R.drawable.burger_set, 10000)
     )
 
     private var dessertMenuItems = listOf(
-        MenuItem(1, "감자튀김", R.drawable.baseline_adb_24, 0),
-        MenuItem(3, "양념감자", R.drawable.baseline_adb_24, 500),
-        MenuItem(5, "치킨텐더", R.drawable.baseline_adb_24, 800),
-        MenuItem(7, "치즈스틱", R.drawable.baseline_adb_24, 800),
+        MenuItem(1, "감자튀김", R.drawable.fries, 0),
+        MenuItem(3, "양념감자", R.drawable.fries, 500),
+        MenuItem(5, "치킨텐더", R.drawable.chicken_nugget, 800),
+        MenuItem(7, "치즈스틱", R.drawable.cheese_stick, 800),
     )
 
     private var drinkMenuItems = listOf(
-        MenuItem(1, "콜라", R.drawable.baseline_adb_24, 0),
-        MenuItem(3, "사이다", R.drawable.baseline_adb_24, 0),
-        MenuItem(5, "제로콜라", R.drawable.baseline_adb_24, 0),
-        MenuItem(7, "오랜지 주스", R.drawable.baseline_adb_24, 300),
+        MenuItem(1, "콜라", R.drawable.coke, 0),
+        MenuItem(3, "사이다", R.drawable.soda, 0),
+        MenuItem(5, "제로콜라", R.drawable.coke, 0),
+        MenuItem(7, "오랜지 주스", R.drawable.juice, 300),
     )
 
     fun getItemsForMenu(selectedMenu: String): List<MenuItem> {
@@ -53,6 +53,7 @@ data class MenuItem(
     val iconResourceId: Int,
     val price: Int
 )
+
 data class OrderItem(
     val menuItem: MenuItem,
     var quantity: Int // 주문 수량
