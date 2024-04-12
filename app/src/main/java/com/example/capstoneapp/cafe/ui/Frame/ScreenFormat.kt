@@ -28,13 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.capstoneapp.cafe.ui.theme.LightYellow
 import com.example.capstoneapp.cafe.ui.theme.Yellow
+import com.example.capstoneapp.nav.repository.Problem
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NotificationScreen(
     navController: NavController,
-    problem: com.example.capstoneapp.nav.repository.Problem,
+    problem: Problem,
     content: @Composable () -> Unit
 ) {
 

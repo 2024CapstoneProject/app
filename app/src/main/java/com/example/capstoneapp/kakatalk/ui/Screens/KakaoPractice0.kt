@@ -49,7 +49,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "문제 : ${problem.menu}",
+            text = "문제 : ${problem.person}에게 ${problem.order}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
