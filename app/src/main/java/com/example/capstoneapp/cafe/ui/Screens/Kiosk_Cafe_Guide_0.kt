@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
@@ -128,7 +129,7 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 Image(
                     painter = painterResource(id = imageResources[currentImageIndex]),
                     contentDescription = null,
-                    modifier = imageModifier
+                    modifier = Modifier.size(width = 250.dp, height = 500.dp)
                 )
 
                 Spacer(modifier = Modifier.width(0.dp))
