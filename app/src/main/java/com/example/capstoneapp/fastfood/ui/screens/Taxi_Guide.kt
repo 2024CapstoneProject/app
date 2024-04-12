@@ -69,10 +69,8 @@ fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 text = imageName,
                 style = TextStyle(fontSize = 30.sp),
                 fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 20.dp)
             )
-            Spacer(modifier = Modifier.height(10.dp))
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
@@ -108,7 +106,7 @@ fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 Image(
                     painter = painterResource(id = imageResources[currentImageIndex]),
                     contentDescription = null,
-                    modifier = imageModifier
+                    modifier = Modifier.size(width = 250.dp, height = 500.dp)
                 )
 
                 Spacer(modifier = Modifier.width(0.dp))
@@ -190,9 +188,7 @@ fun taxiGuideText(currentImageIndex: Int) {
     )
 
     Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 30.dp),
+        modifier = Modifier,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ){
         val (text1, text2, text3) = textList[currentImageIndex]
@@ -260,7 +256,7 @@ fun taxiTextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
         text = spannableString,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(0.dp),
+            .padding(4.dp),
         fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         color = Color.Black,
