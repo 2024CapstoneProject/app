@@ -1,6 +1,7 @@
 package com.example.capstoneapp.cafe.ui.Components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,11 +48,14 @@ import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.data.Repository.MenuItem
 import com.example.capstoneapp.cafe.ui.Frame.ButtonFormat
 import com.example.capstoneapp.cafe.ui.theme.LightYellow
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import kotlinx.coroutines.delay
 
 @Composable
 fun totalOrder(
-    totalCount:Int, ResetOrPayOrder: (Pair<Boolean,Boolean>) -> Unit
+    totalCount:Int, ResetOrPayOrder: (Pair<Boolean,Boolean>) -> Unit,showBorder:Boolean
 ) {
     //타이머 120초
     var remainingTime by remember { mutableStateOf(120) }
@@ -187,7 +191,8 @@ fun totalOrder(
 
                 Button(modifier = Modifier
                     .wrapContentWidth()
-                    .height(72.dp),
+                    .height(72.dp)
+                    .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
                     shape = MaterialTheme.shapes.small,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Gray, contentColor = Color.White
@@ -272,9 +277,5 @@ fun preview() {
             R.drawable.cafe_icon,
             7000
         ), 1))
-    totalOrder(1) {
-        if (it.first) {
-            orderItems.clear()
-        }
-    }
+    totalOrder(1, { if (it.first) { orderItems.clear()} },true)
 }

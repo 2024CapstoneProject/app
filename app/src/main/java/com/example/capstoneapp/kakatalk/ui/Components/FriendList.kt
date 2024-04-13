@@ -28,9 +28,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
-fun friendList(friendList: List<Pair<Int, String>>, listState: LazyListState) {
+fun friendList(friendList: List<Pair<Int, String>>, listState: LazyListState,showBorder:Boolean) {
     Spacer(
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -42,25 +45,28 @@ fun friendList(friendList: List<Pair<Int, String>>, listState: LazyListState) {
     LazyColumn(
         state = listState,
         modifier = Modifier.fillMaxWidth()
+            .clickable{},
     ) {
         itemsIndexed(friendList) { index, item ->
             PersonalProfile(
                 painter = painterResource(id = item.first),
-                name = item.second
+                name = item.second,
+                showBorder = showBorder && index == 2//테두리 설정
             )
         }
     }
 }
 
 @Composable
-fun PersonalProfile(painter: Painter, name: String) {
+fun PersonalProfile(painter: Painter, name: String,showBorder:Boolean) {
     //프로필 기본 설정
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(12.dp)
-            .clickable { },
+            .clickable { }
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
