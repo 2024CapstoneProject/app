@@ -50,9 +50,12 @@ import com.example.capstoneapp.kakatalk.ui.Components.ChatList
 import com.example.capstoneapp.kakatalk.ui.Components.PersonalProfile
 import com.example.capstoneapp.kakatalk.ui.Components.friendList
 import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
-fun Kakao_FriendChatList(navController: NavController, problem: Problem) {
+fun Kakao_FriendChatList(navController: NavController, problem: Problem,showBorder: Boolean) {
     val chatData = remember { mutableStateListOf<ChatItemData>() }
     val friendList = remember { mutableStateListOf<Pair<Int, String>>() }
 
@@ -60,15 +63,12 @@ fun Kakao_FriendChatList(navController: NavController, problem: Problem) {
         chatData.addAll(FriendChatRoomRepository.getchatData())
         friendList.addAll(FriendChatRoomRepository.getfriendList())
     }
-
-    NotificationScreen(navController = navController, problem = problem) {
-        FriendChatList(navController, chatData, friendList)
-    }
+    FriendChatList(navController, chatData, friendList,showBorder)
 }
 
 @Composable
 fun FriendChatList(
-    navController: NavController, chatData: List<ChatItemData>, friendList: List<Pair<Int, String>>
+    navController: NavController, chatData: List<ChatItemData>, friendList: List<Pair<Int, String>>,showBorder:Boolean
 ) {
     var weight: Float = 1f
     val listState = rememberLazyListState()
@@ -114,17 +114,22 @@ fun FriendChatList(
                 "친구" -> {
                     PersonalProfile(
                         painter = painterResource(id = R.drawable.sample_3),
-                        name = "김희연"
+                        name = "김희연",
+                        false
                     )
 
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
+                            .clickable {
+                                navController.navigate("itemMenu") // Navigate to PaymentScreen
+                            },
                     ) {
                         friendList(
                             friendList = friendList,
-                            listState = listState
+                            listState = listState,
+                            showBorder
                         )
                     }
                 }
@@ -138,7 +143,8 @@ fun FriendChatList(
                         ChatList(
                             navController = navController,
                             chatData = chatData,
-                            listState = listState
+                            listState = listState,
+                            showBorder
                         )
                     }
                 }
@@ -212,6 +218,6 @@ fun Kakao_FriendList_Preview() {
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     Kakao_FriendChatList(
-        navController = navController, problem = problemViewModel.getProblemValue()!!
+        navController = navController, problem = problemViewModel.getProblemValue()!!,false
     )
 }

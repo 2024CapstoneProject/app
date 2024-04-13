@@ -1,5 +1,6 @@
 package com.example.capstoneapp.cafe.ui.Screens
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,78 +39,78 @@ import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
-import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 
 @Composable
 fun KioskCafePractice6(
-    navController: NavController, menuItemsViewModel: MenuItemsViewModel, problem: Problem
+    navController: NavController, menuItemsViewModel: MenuItemsViewModel, problem: Problem,showBorder:Boolean
 ) {
-    NotificationScreen(navController, problem) {
-        Column {
-            CafeMenuBarFormat {
-                MenuText6()
-            }
-            Screen6(navController, menuItemsViewModel)
+    Column {
+        CafeMenuBarFormat {
+            MenuText6()
         }
+        Screen6(navController, menuItemsViewModel,showBorder)
     }
 }
 
 @Composable
-fun Screen6(navController: NavController, viewModel: MenuItemsViewModel) {
+fun Screen6(navController: NavController, viewModel: MenuItemsViewModel,showBorder:Boolean) {
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(0.dp),
-    ) {
-        PayButton(navController, onClick = {
-
-        })
-        Row(
+    Surface(color = Color(0xFFCACACA)){
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+                .fillMaxSize()
+                .padding(vertical = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(0.dp),
+        ) {
+            PayButton(navController, onClick = {},showBorder)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(),
+                horizontalArrangement = Arrangement.SpaceBetween,
 
-            ) {
-            Text(
-                text = "금액",
-                modifier = Modifier
-                    .padding(start = 30.dp)
-                    .align(Alignment.CenterVertically)
-                    .weight(1f),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-            )
-            Text(
-                text = totalAmount.toString(),
-                modifier = Modifier
-                    .padding(end = 5.dp)
-                    .align(Alignment.CenterVertically),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Red
-            )
-            Text(
-                text = "원",
-                modifier = Modifier
-                    .padding(end = 30.dp)
-                    .align(Alignment.CenterVertically),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
+                ) {
+                Text(
+                    text = "금액",
+                    modifier = Modifier
+                        .padding(start = 30.dp)
+                        .align(Alignment.CenterVertically)
+                        .weight(1f),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                )
+                Text(
+                    text = totalAmount.toString(),
+                    modifier = Modifier
+                        .padding(end = 5.dp)
+                        .align(Alignment.CenterVertically),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Red
+                )
+                Text(
+                    text = "원",
+                    modifier = Modifier
+                        .padding(end = 30.dp)
+                        .align(Alignment.CenterVertically),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
+
         }
-
     }
 }
 
 @Composable
-fun PayButton(navController: NavController, onClick: () -> Unit) {
+fun PayButton(navController: NavController, onClick: () -> Unit,showBorder: Boolean) {
     var dialog7 by remember { mutableStateOf(false) }
     var dialog10 by remember { mutableStateOf(false) }
     var dialog11 by remember { mutableStateOf(false) }
@@ -123,7 +125,9 @@ fun PayButton(navController: NavController, onClick: () -> Unit) {
             onClick = {
                 dialog11 = true
             },
-            modifier = Modifier.size(200.dp, 150.dp),
+            modifier = Modifier.size(200.dp, 150.dp).then(if (showBorder) Modifier.border(
+                BorderWidth, BorderColor, BorderShape
+            ) else Modifier),
             colors = ButtonDefaults.buttonColors(Color.Gray),
             shape = RoundedCornerShape(0.dp)
         ) {
@@ -181,5 +185,5 @@ fun Kiosk6PreView() {
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
 
-    KioskCafePractice6(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!)
+    KioskCafePractice6(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!,true)
 }

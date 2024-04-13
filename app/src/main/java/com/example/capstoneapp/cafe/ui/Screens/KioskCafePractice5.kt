@@ -1,5 +1,6 @@
 package com.example.capstoneapp.cafe.ui.Screens
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,150 +39,153 @@ import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
-import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
 fun KioskCafePractice5(
-    navController: NavController, menuItemsViewModel: MenuItemsViewModel, problem: Problem
-) {
-    NotificationScreen(navController, problem) {
-        Column(modifier = Modifier.fillMaxHeight()) {
-            CafeMenuBarFormat {
-                MenuText5()
-            }
-            Screen5(navController, menuItemsViewModel)
+    navController: NavController, menuItemsViewModel: MenuItemsViewModel, problem: Problem,showBorder:Boolean
+){
+    Column(modifier = Modifier.fillMaxHeight()) {
+        CafeMenuBarFormat {
+            MenuText5()
         }
+        Screen5(navController, menuItemsViewModel,showBorder)
     }
 }
 
 @Composable
-fun Screen5(navController: NavController, viewModel: MenuItemsViewModel) {
+fun Screen5(navController: NavController, viewModel: MenuItemsViewModel,showBorder: Boolean) {
 
     val orderItems by viewModel.orderItems.observeAsState()
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(276.dp)
+    Surface(color = Color(0xFFCACACA)){
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-
-            LazyColumn(
+            Box(
                 modifier = Modifier
-                    .height(280.dp)
                     .fillMaxWidth()
+                    .height(276.dp)
             ) {
-                orderItems?.size?.let {
-                    items(it) {
-                        val item = orderItems!![it]
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            Text(
-                                text = item.first.name,
-                                modifier = Modifier
-                                    .padding(start = 30.dp, top = 10.dp)
-                                    .align(Alignment.CenterVertically),
-                                fontSize = 25.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black,
-                            )
-                            Text(
-                                text = item.second.toString(),
-                                modifier = Modifier
-                                    .padding(end = 30.dp, top = 10.dp)
-                                    .align(Alignment.CenterVertically),
-                                fontSize = 25.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                            )
+
+                LazyColumn(
+                    modifier = Modifier
+                        .height(280.dp)
+                        .fillMaxWidth()
+                ) {
+                    orderItems?.size?.let {
+                        items(it) {
+                            val item = orderItems!![it]
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Text(
+                                    text = item.first.name,
+                                    modifier = Modifier
+                                        .padding(start = 30.dp, top = 10.dp)
+                                        .align(Alignment.CenterVertically),
+                                    fontSize = 25.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black,
+                                )
+                                Text(
+                                    text = item.second.toString(),
+                                    modifier = Modifier
+                                        .padding(end = 30.dp, top = 10.dp)
+                                        .align(Alignment.CenterVertically),
+                                    fontSize = 25.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                            }
                         }
                     }
+
                 }
-
             }
-        }
 
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 80.dp),
-        ) {
-            Text(
-                text = "금액",
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
-                    .padding(start = 30.dp)
-                    .align(Alignment.CenterVertically)
-                    .weight(1f),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-            )
-            Text(
-                text = totalAmount.toString(),
-                modifier = Modifier
-                    .padding(end = 5.dp)
-                    .align(Alignment.CenterVertically),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Red
-            )
-            Text(
-                text = "원",
-                modifier = Modifier
-                    .padding(end = 30.dp)
-                    .align(Alignment.CenterVertically),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 40.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Button(
-                onClick = {
-                    navController.navigate("KioskCafePractice6")
-                },
-                modifier = Modifier.size(150.dp, 80.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFFFFCA0D)),
-                shape = RoundedCornerShape(16.dp)
+                    .fillMaxWidth()
+                    .padding(top = 80.dp),
             ) {
                 Text(
-                    text = "먹고가기",
-                    fontSize = 24.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-
+                    text = "금액",
+                    modifier = Modifier
+                        .padding(start = 30.dp)
+                        .align(Alignment.CenterVertically)
+                        .weight(1f),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                )
+                Text(
+                    text = totalAmount.toString(),
+                    modifier = Modifier
+                        .padding(end = 5.dp)
+                        .align(Alignment.CenterVertically),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Red
+                )
+                Text(
+                    text = "원",
+                    modifier = Modifier
+                        .padding(end = 30.dp)
+                        .align(Alignment.CenterVertically),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
                 )
             }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(
-                onClick = { navController.navigate("KioskCafePractice6") },
-                modifier = Modifier.size(150.dp, 80.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFFFB2929)),
-                shape = RoundedCornerShape(16.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 40.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "포장하기",
-                    fontSize = 24.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
+                Button(
+                    onClick = {
+                        navController.navigate("KioskCafePractice6")
+                    },
+                    modifier = Modifier.size(150.dp, 80.dp)
+                        .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFFCA0D)),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Text(
+                        text = "먹고가기",
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                Button(
+                    onClick = { navController.navigate("KioskCafePractice6") },
+                    modifier = Modifier.size(150.dp, 80.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFB2929)),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Text(
+                        text = "포장하기",
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
+
 }
 
 @Composable
@@ -206,6 +211,6 @@ fun Kiosk5PreView() {
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
 
-    KioskCafePractice5(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!)
+    KioskCafePractice5(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!,true)
 
 }

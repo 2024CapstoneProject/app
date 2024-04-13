@@ -1,6 +1,7 @@
 package com.example.capstoneapp.kakatalk.ui.Components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,11 +28,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
 import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
 
 @Composable
-fun ChatList(navController: NavController, chatData: List<ChatItemData>, listState: LazyListState) {
+fun ChatList(navController: NavController, chatData: List<ChatItemData>, listState: LazyListState,showBorder:Boolean) {
 
     LazyColumn(
         state = listState, modifier = Modifier.fillMaxWidth()
@@ -41,7 +45,7 @@ fun ChatList(navController: NavController, chatData: List<ChatItemData>, listSta
                 if (index == 1) {
                     navController.navigate("ChattingScreen")
                 }
-            })
+            },showBorder = showBorder && index == 1 )
         }
     }
 }
@@ -50,13 +54,15 @@ fun ChatList(navController: NavController, chatData: List<ChatItemData>, listSta
 @Composable
 fun ChatItem(
     chatItem: ChatItemData,
-    onItemClick: (ChatItemData) -> Unit
+    onItemClick: (ChatItemData) -> Unit,
+    showBorder:Boolean
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable { onItemClick(chatItem) }, // 클릭 이벤트 추가
+            .clickable { onItemClick(chatItem) }
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier), // 클릭 이벤트 추가
         verticalAlignment = Alignment.CenterVertically
     ) {
         // 이미지
@@ -110,5 +116,5 @@ fun ChatListPreview() {
     chatData.addAll(FriendChatRoomRepository.getchatData())
     val navController = rememberNavController()
 
-    ChatList(navController, chatData, listState)
+    ChatList(navController, chatData, listState,true)
 }

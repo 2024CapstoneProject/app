@@ -14,8 +14,8 @@ import com.example.capstoneapp.cafe.data.Repository.MenuItem
 import com.example.capstoneapp.cafe.data.Repository.MenuItemsRepository
 
 @Composable
-fun CafeMenuList(selectedMenu : String,onItemClicked:(com.example.capstoneapp.cafe.data.Repository.MenuItem) ->Unit) {
-    val items = com.example.capstoneapp.cafe.data.Repository.MenuItemsRepository.getItemsForMenu(selectedMenu)
+fun CafeMenuList(selectedMenu : String,onItemClicked:(MenuItem) ->Unit, showBorder:Boolean) {
+    val items = MenuItemsRepository.getItemsForMenu(selectedMenu)
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -25,12 +25,12 @@ fun CafeMenuList(selectedMenu : String,onItemClicked:(com.example.capstoneapp.ca
 
         val rows = items.chunked(2)
 
-        rows.forEach { rowItems ->
+        rows.forEachIndexed() { rowIndex,rowItems ->
             Row {
-                rowItems.forEach { item ->
+                rowItems.forEachIndexed() { itemIndex,item ->
                     ItemCard(item = item, onClick =  {
                         onItemClicked(item)
-                    })
+                    }, showBorder = showBorder && rowIndex == 0 && itemIndex == 0)
                 }
                 if (rowItems.size < 2) {
                     Spacer(modifier = Modifier.width(16.dp))
@@ -43,5 +43,5 @@ fun CafeMenuList(selectedMenu : String,onItemClicked:(com.example.capstoneapp.ca
 @Preview
 @Composable
 fun CafeMenuListPreview(){
-    CafeMenuList("커피(HOT)", onItemClicked = {})
+    CafeMenuList("커피(HOT)", onItemClicked = {},true)
 }

@@ -25,9 +25,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.cafe.data.Repository.MenuItem
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
-fun ItemCard(item: MenuItem, onClick :()->Unit){
+fun ItemCard(item: MenuItem, onClick :()->Unit,showBorder:Boolean){
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -38,6 +41,7 @@ fun ItemCard(item: MenuItem, onClick :()->Unit){
             .background(Color.White)
             .border(1.dp, Color.Black)
             .clickable(onClick = onClick)
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
     ){
         Icon(
             painter = painterResource(id = item.iconResourceId),

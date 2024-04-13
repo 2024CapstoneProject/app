@@ -31,12 +31,12 @@ import com.example.capstoneapp.kakatalk.ui.Components.ChatList
 import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
 
 @Composable
-fun Kakao_List(navController: NavController, problem: Problem) {
+fun Kakao_List(navController: NavController, problem: Problem,showBorder:Boolean) {
     val listState = rememberLazyListState()
     val chatData = remember { mutableStateListOf<ChatItemData>() }
     chatData.addAll(FriendChatRoomRepository.getchatData())
     NotificationScreen(navController = navController, problem = problem) {
-        ChatList(navController, chatData, listState)
+        ChatList(navController, chatData, listState,showBorder)
     }
 }
 
@@ -46,7 +46,7 @@ fun KakaoListPreview() {
     val navController = rememberNavController()
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
-    Kakao_List(navController = navController, problem = problemViewModel.getProblemValue()!!)
+    Kakao_List(navController = navController, problem = problemViewModel.getProblemValue()!!,true)
 }
 
 @Preview
@@ -70,7 +70,7 @@ fun imagePreview() {
                 .size(width = 400.dp, height = 60.dp),
         )
         Spacer(modifier = Modifier.height(10.dp))
-        ChatList(navController, chatData, listState)
+        ChatList(navController, chatData, listState,true)
         Spacer(modifier = Modifier.height(10.dp))
         Image(
             painter = painterResource(id = R.drawable.bottom),

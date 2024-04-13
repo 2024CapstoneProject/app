@@ -157,17 +157,28 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
                     menuItemsViewModel.clearMenuItem()
                 }
             }
-            CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                content = { CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!,showBorder) }
+            ) { setShowBorder(true) }
         }
 
         //카페 연습 메뉴 확인 화면
         composable(route = "KioskCafePractice5") {
-            KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                content = { KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!,showBorder) }
+            ) { setShowBorder(true) }
+
         }
 
         //카페 연습 결제 선택 화면
         composable(route = "KioskCafePractice6") {
-            KioskCafePractice6(navController = navController, menuItemsViewModel, problem!!)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                content = { KioskCafePractice6(navController = navController, menuItemsViewModel, problem!!,showBorder) }
+            ) { setShowBorder(true) }
+
         }
 
         //카톡 가이드 첫번째 화면
@@ -181,7 +192,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
         //카카오톡 채팅 화면
         composable(route = "Kakao_List") {
-            Kakao_List(navController = navController, problem!!)
+            Kakao_List(navController = navController, problem!!,showBorder)
         }
 
         //카카오톡 연습 시작 화면
@@ -192,7 +203,14 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
 
         //카카오톡 연습 화면 - 친구목록
         composable(route = "Kakao_FriendList") {
-            Kakao_FriendChatList(navController = navController, problem!!)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                content = { Kakao_FriendChatList(navController = navController, problem!!,showBorder) }
+            ) { setShowBorder(true) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
         }
 
         //카카오톡 연습 화면 - 채팅방
