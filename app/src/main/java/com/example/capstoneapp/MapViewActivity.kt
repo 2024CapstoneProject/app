@@ -17,6 +17,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.example.capstoneapp.Map.api.LocationData
+import com.example.capstoneapp.Map.api.RetrofitClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -32,6 +34,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import java.util.Locale
 
@@ -88,15 +93,27 @@ class MapViewActivity : FragmentActivity(), OnMapReadyCallback {
             p0.let {
                 val locationList = it.locations
                 if (locationList.isNotEmpty()) {
-                    location = locationList[locationList.size - 1]
-                    Log.d("Location",location.latitude.toString())
-                    Log.d("Location",location.longitude.toString())
+                    val location = locationList.last()
+                    val currentPosition = LatLng(location.latitude, location.longitude)
 
-                    currentPosition = LatLng(location.latitude, location.longitude)
-                    Log.d(TAG,location.latitude.toString()+" "+location.longitude)
-                    val markerTitle = getCurrentAddress(currentPosition!!)
-                    val markerSnippet =
-                        "위도:${location.latitude} 경도:${location.longitude}"
+                    // 백엔드 서버에 위치 정보 업데이트 요청
+                    val locationData = LocationData(userId = 1, // 사용자 ID는 앱 로직에 따라 결정됩니다.
+                        latitude = location.latitude,
+                        longitude = location.longitude)
+                    RetrofitClient.instance.updateLocation(locationData).enqueue(object :
+                        Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            Log.d(TAG, "Location updated successfully")
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Log.e(TAG, "Failed to update location", t)
+                        }
+                    })
+
+                    // 현재 위치에 마커 설정 및 카메라 이동
+                    val markerTitle = getCurrentAddress(currentPosition)
+                    val markerSnippet = "위도:${location.latitude} 경도:${location.longitude}"
                     setCurrentLocation(location, markerTitle, markerSnippet)
                     mCurrentLocation = location
                 }
