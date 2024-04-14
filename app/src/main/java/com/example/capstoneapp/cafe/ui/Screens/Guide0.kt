@@ -175,7 +175,7 @@ fun GuideScreen(navController:NavController) {
             }
         }
         Button(
-            onClick = {},
+            onClick = { navController.navigate("ProtectorHome") },
             modifier = Modifier
                 .size(200.dp, 100.dp)
                 .padding(top = 30.dp),

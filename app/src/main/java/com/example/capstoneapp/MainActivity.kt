@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                 //SetUpNavGraph(navController = navController)
                 val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
                 val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
-                AppNavigation(problemViewModel)
+                AppNavigation(problemViewModel,this)
             }
         }
     }
