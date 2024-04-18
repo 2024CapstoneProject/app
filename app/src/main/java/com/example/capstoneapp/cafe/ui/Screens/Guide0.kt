@@ -11,6 +11,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.mainPage.VoiceRecogPopup
 
 @Composable
 fun Guide0(navController:NavController) {
@@ -32,6 +37,7 @@ fun Guide0(navController:NavController) {
 
 @Composable
 fun GuideScreen(navController:NavController) {
+    var showVoiceRecogPopup by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -40,7 +46,10 @@ fun GuideScreen(navController:NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = {},
+            onClick = {
+                showVoiceRecogPopup = true
+                println("AI 도우미 서비스 버튼 클릭됨")
+            },
             modifier = Modifier
                 .size(330.dp, 80.dp)
                 .padding(bottom = 20.dp),
@@ -54,6 +63,17 @@ fun GuideScreen(navController:NavController) {
                 fontWeight = FontWeight.ExtraBold
             )
         }
+
+        if (showVoiceRecogPopup) {
+            VoiceRecogPopup(
+                showDialog = showVoiceRecogPopup,
+                onDismiss = {
+                    println("AI 도우미 팝업 닫힘")
+                    showVoiceRecogPopup = false
+                }
+            )
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
