@@ -43,7 +43,9 @@ import kotlinx.coroutines.launch
 fun BottomSheetScreen(
     openBottomSheet: Boolean,
     problem: Problem,
-    onOpenBottomSheetChange: (Boolean) -> Unit
+    screenType: Int,
+    onOpenBottomSheetChange: (Boolean) -> Unit,
+
 ) {
     val skipPartiallyExpanded by remember { mutableStateOf(false) }
     val edgeToEdgeEnabled by remember { mutableStateOf(false) }
@@ -127,6 +129,6 @@ fun BottomSheetPreview() {
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val problem = remember { problemViewModel.getProblemValue() }
     BottomSheetScreen(
-        openBottomSheet = openBottomSheet, problem = problem!!
+        openBottomSheet = openBottomSheet, problem = problem!!,1
     ) { openBottomSheet = it }
 }

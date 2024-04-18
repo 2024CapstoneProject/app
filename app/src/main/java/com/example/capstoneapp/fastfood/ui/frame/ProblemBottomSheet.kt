@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 fun BottomSheetScreen(
     openBottomSheet: Boolean,
     problem: Problem,
+    screenType: Int,
     onOpenBottomSheetChange: (Boolean) -> Unit
 ) {
     val skipPartiallyExpanded by remember { mutableStateOf(false) }
@@ -69,7 +70,7 @@ fun BottomSheetScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                ProblemBox(problem)
+                ProblemBox(problem,screenType)
                 ButtonFormat(
                     modifier = Modifier.height(64.dp), onClick = {
                         scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
@@ -85,39 +86,94 @@ fun BottomSheetScreen(
 }
 
 @Composable
-fun ProblemBox(problem: Problem) {
+fun ProblemBox(problem: Problem,screenType: Int) {
+    when (screenType){
+        1 -> {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 16.dp)
+            ) {
+                Text(
+                    text = "메뉴 : ${problem.menu}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "장소 : ${problem.place}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "포인트 적립 여부 : ${problem.point}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "결제 방식 : ${problem.pay}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Spacer(Modifier.padding(bottom = 20.dp))
+            }
+        }
+        2 -> {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 16.dp)
+            ) {
+                Text(
+                    text = "메뉴 : ${problem.c_menu}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "장소 : ${problem.c_place}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "포인트 적립 여부 : ${problem.c_point}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "결제 방식 : ${problem.c_pay}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Spacer(Modifier.padding(bottom = 20.dp))
+            }
+        }
+        3 -> {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 16.dp)
+            ) {
+                Text(
+                    text = "문제 : ${problem.person}에게 ${problem.order}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Spacer(Modifier.padding(bottom = 20.dp))
+            }
+        }
+        else -> {
 
-    Column(
-        modifier = Modifier
-            .wrapContentSize()
-            .padding(bottom = 16.dp)
-    ) {
-        Text(
-            text = "메뉴 : ${problem.menu}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.SansSerif
-        )
-        Text(
-            text = "장소 : ${problem.place}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.SansSerif
-        )
-        Text(
-            text = "포인트 적립 여부 : ${problem.point}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.SansSerif
-        )
-        Text(
-            text = "결제 방식 : ${problem.pay}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.SansSerif
-        )
-        Spacer(Modifier.padding(bottom = 20.dp))
+        }
     }
+
 }
 
 @Preview
@@ -128,6 +184,7 @@ fun BottomSheetPreview() {
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val problem = remember { problemViewModel.getProblemValue() }
     BottomSheetScreen(
-        openBottomSheet = openBottomSheet, problem = problem!!
+        openBottomSheet = openBottomSheet, problem = problem!!,
+        1
     ) { openBottomSheet = it }
 }
