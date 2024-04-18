@@ -81,6 +81,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         composable(route = "touchToStart") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
+                screenType=1,
                 content = { TouchScreen(navController = navController, showBorder) }
             ) { setShowBorder(true) }
 
@@ -92,6 +93,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         composable(route = "payment") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
+                screenType=1,
                 content = { PaymentScreen(navController = navController, showBorder) }
             ) { setShowBorder(true) }
 
@@ -103,6 +105,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         composable(route = "itemMenu"){
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
+                screenType=1,
                 content = { ItemMenu(navController = navController, viewModel, showBorder) }
             ) { setShowBorder(true) }
 
@@ -118,6 +121,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         composable(route = "finalOrder") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
+                screenType=1,
                 content = { OrderScreen(navController = navController, viewModel, showBorder) }
             ) { setShowBorder(true) }
 
@@ -162,6 +166,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
             }
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
+                screenType = 2,
                 content = { CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!,showBorder) }
             ) { setShowBorder(true) }
         }
@@ -170,6 +175,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         composable(route = "KioskCafePractice5") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
+                screenType=2,
                 content = { KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!,showBorder) }
             ) { setShowBorder(true) }
 
@@ -179,6 +185,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         composable(route = "KioskCafePractice6") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
+                screenType=2,
                 content = { KioskCafePractice6(navController = navController, menuItemsViewModel, problem!!,showBorder) }
             ) { setShowBorder(true) }
 
@@ -208,6 +215,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         composable(route = "Kakao_FriendList") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
+                screenType=3,
                 content = { Kakao_FriendChatList(navController = navController, problem!!,showBorder) }
             ) { setShowBorder(true) }
 

@@ -35,6 +35,7 @@ import com.example.capstoneapp.nav.repository.Problem
 @Composable
 fun NotificationScreen(
     problem: Problem,
+    screenType: Int,
     content: @Composable () -> Unit,
     onAnswerCheckClicked: () -> Unit
 ) {
@@ -94,7 +95,8 @@ fun NotificationScreen(
         if (openBottomSheet){
             BottomSheetScreen(
                 openBottomSheet = openBottomSheet,
-                problem = problem
+                problem = problem,
+                screenType
             ) { openBottomSheet = it }
         }
     }
