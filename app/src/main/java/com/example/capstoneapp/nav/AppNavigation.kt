@@ -19,6 +19,7 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 import com.example.capstoneapp.cafe.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.cafe.ui.Screens.CafeKioskScreen
+import com.example.capstoneapp.cafe.ui.Screens.GuideScreen
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
@@ -37,7 +38,6 @@ import com.example.capstoneapp.fastfood.ui.screens.TouchScreen
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Screens.ChattingScreen
-import com.example.capstoneapp.kakatalk.ui.Screens.GuideScreen
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoGuide0
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoPractice0
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_FriendChatList
