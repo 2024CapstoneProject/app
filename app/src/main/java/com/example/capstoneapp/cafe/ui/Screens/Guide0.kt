@@ -26,7 +26,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.chatbot.api.AudioUploader
+
+import com.example.capstoneapp.chatbot.api.ChatService
 import com.example.capstoneapp.mainPage.VoiceRecogPopup
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Composable
 fun Guide0(navController:NavController) {
@@ -36,8 +41,9 @@ fun Guide0(navController:NavController) {
 }
 
 @Composable
-fun GuideScreen(navController:NavController) {
+fun GuideScreen(navController:NavController,) {
     var showVoiceRecogPopup by remember { mutableStateOf(false) }
+    val audioUploader = remember { setupAudioUploader() }
 
     Column(
         modifier = Modifier
@@ -70,7 +76,8 @@ fun GuideScreen(navController:NavController) {
                 onDismiss = {
                     println("AI 도우미 팝업 닫힘")
                     showVoiceRecogPopup = false
-                }
+                },
+                audioUploader = audioUploader // Pass the AudioUploader instance
             )
         }
 
@@ -218,5 +225,14 @@ fun GuideScreen(navController:NavController) {
 fun GuideScreenPreview() {
     val navController = rememberNavController()
     Guide0(navController = navController)
+}
+
+fun setupAudioUploader(): AudioUploader {
+    val retrofit = Retrofit.Builder()
+        .baseUrl("http://118.67.135.211:9000")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+    val chatService = retrofit.create(ChatService::class.java)
+    return AudioUploader(chatService)
 }
 

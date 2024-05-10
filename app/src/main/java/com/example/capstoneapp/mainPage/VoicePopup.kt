@@ -1,5 +1,6 @@
 package com.example.capstoneapp.mainPage
 
+import android.content.pm.PackageManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -23,20 +24,39 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.Manifest
+import android.app.Activity
+import android.util.Log
 import com.example.capstoneapp.R
+import com.example.capstoneapp.chatbot.api.AudioRecorder
+import com.example.capstoneapp.chatbot.api.AudioUploader
+import com.example.capstoneapp.chatbot.api.ChatService
+import com.example.capstoneapp.fastfood.ui.screens.CancelButton
+
+
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import kotlin.math.log
+
 
 @Composable
 fun VoiceRecogPopup(
     showDialog: Boolean,
     onDismiss: () -> Unit,
+    audioUploader: AudioUploader
 ) {
+    val context = LocalContext.current // 현재 Compose 환경의 Context를 가져옵니다.
+    val recorder = remember { AudioRecorder(context) } // AudioRecorder 인스턴스 생성
+    var recordingState by remember { mutableStateOf(false) }
+
     if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
             Card(
@@ -72,46 +92,77 @@ fun VoiceRecogPopup(
                     )
 
                     Spacer(modifier = Modifier.height(64.dp))
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        // UI elements like Text, Image
 
-                    // 취소 버튼 추가
+                        Button(onClick = {
+                            val activity = context as? Activity
+                            if (!recordingState) {
+                                if (ContextCompat.checkSelfPermission(
+                                        context,
+                                        Manifest.permission.RECORD_AUDIO
+                                    ) != PackageManager.PERMISSION_GRANTED
+                                ) {
+                                    // 권한이 없으면 권한 요청
+                                    activity?.let {
+                                        ActivityCompat.requestPermissions(
+                                            it,
+                                            arrayOf(Manifest.permission.RECORD_AUDIO),
+                                            1  // RECORD_AUDIO_REQUEST_CODE 대신에 직접 1 사용
+                                        )
+                                    } ?: Log.e("AudioRecorder", "Activity reference is null")
+                                } else {
+                                    // 권한이 이미 있으면 녹음 시작
+                                    recorder.startRecording()
+                                    Log.d("AudioRecorder", "Recording started")
+                                    recordingState = true
+                                }
+                            } else {
+                                // 녹음 중지 및 파일 처리
+                                val recordedFile = recorder.stopRecording()
+                                Log.d("AudioRecorder", "Recording stopped")
+                                recordingState = false
+                                recordedFile?.let { file ->
+                                    audioUploader.uploadAudioFile(file)
+                                    Log.d("AudioRecorder", "File uploaded")
+                                }
+                                onDismiss()
+                            }
+                        }) {
+                            Text(if (recordingState) "녹음 중지" else "녹음 시작")
+                        }
+
+                    }
                     CancelButton(onDismiss)
                 }
             }
         }
     }
-}
 
 
-@Composable
-fun CancelButton(onDismiss: () -> Unit) {
-    Button(
-        shape = MaterialTheme.shapes.medium,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent, // 배경색을 투명으로 설정
-            contentColor = Color.Black // 텍스트 색상
-        ),
-        border = BorderStroke(1.dp, Color.LightGray), // 테두리 설정
-        onClick = onDismiss
-    ) {
-        Text(
-            text = "취소",
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.Black, // 텍스트 색상을 흑색으로 설정
-            fontFamily = fontFamily,
-            fontSize = 14.sp,
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun VoiceRecogPopupPreview() {
-    var showDialog by remember { mutableStateOf(true) }
-
-    if (showDialog) {
-        VoiceRecogPopup(
-            showDialog = showDialog,
-            onDismiss = { showDialog = false }
-        )
+    @Composable
+    fun CancelButton(onDismiss: () -> Unit) {
+        Button(
+            shape = MaterialTheme.shapes.medium,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent, // 배경색을 투명으로 설정
+                contentColor = Color.Black // 텍스트 색상
+            ),
+            border = BorderStroke(1.dp, Color.LightGray), // 테두리 설정
+            onClick = onDismiss
+        ) {
+            Text(
+                text = "취소",
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.Black, // 텍스트 색상을 흑색으로 설정
+                fontFamily = fontFamily,
+                fontSize = 14.sp,
+            )
+        }
     }
 }
