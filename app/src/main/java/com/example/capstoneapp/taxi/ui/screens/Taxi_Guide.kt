@@ -1,10 +1,18 @@
-package com.example.capstoneapp.ui.Screens
+package com.example.capstoneapp.taxi.ui.screens
 
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,8 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -27,14 +35,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup
-import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
 
 @Composable
-fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
+fun Taxi_Guide(navController: NavController) {
+    var currentImageIndex by remember { mutableStateOf(0) }
+    var isImageClicked by remember { mutableStateOf(false) }
+    var clickedImageResource by remember { mutableStateOf(0) }
+
     val imageResources = listOf(
         R.drawable.taxi_guide_000,
         R.drawable.taxi_guide_001,
@@ -55,9 +66,49 @@ fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
         R.drawable.taxi_guide_016,
         R.drawable.taxi_guide_017
     )
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize(1f),
+    ) {
+        guideImage(
+            currentImageIndex = currentImageIndex,
+            imageResources = imageResources, // 이미지 리소스를 함수로 전달
+            onImageIndexChanged = { newIndex ->
+                currentImageIndex = newIndex
+            },
+            onImageClicked = {
+                isImageClicked = true
+                clickedImageResource = imageResources[currentImageIndex]
+            }
+        )
+        guideText(currentImageIndex)
+    }
+
+    if (isImageClicked) {
+        com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup(
+            imageResource = clickedImageResource,
+            onClose = {
+                isImageClicked = false
+            }
+        )
+    }
+}
+
+/*
+* 가이드 이미지, 화살표 버튼
+* */
+@Composable
+fun guideImage(
+    currentImageIndex: Int,
+    imageResources: List<Int>,
+    onImageIndexChanged: (Int) -> Unit,
+    onImageClicked: () -> Unit
+) {
     val currentImageResourceId = imageResources[currentImageIndex]
     val context = LocalContext.current
-    val imageName = taxiGetResourceName(currentImageResourceId, context)
+    val imageName = getResourceName(currentImageResourceId, context)
 
     MaterialTheme {
         Column(
@@ -71,14 +122,19 @@ fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
-                    onClick = { onImageIndexChanged(taxiShowPreviousImage(imageResources.size, currentImageIndex)) }
-                ) {
+                IconButton(onClick = {
+                    onImageIndexChanged(
+                        showPreviousImage(
+                            imageResources.size, currentImageIndex
+                        )
+                    )
+                }) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_back),
                         contentDescription = "Previous"
@@ -87,44 +143,30 @@ fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 
                 Spacer(modifier = Modifier.width(0.dp))
 
-                val isImageClicked = remember { mutableStateOf(false) }
-                val modifier = if (isImageClicked.value) {
-                    Modifier.clickable { /* Do nothing */ }
-                } else {
-                    Modifier.clickable {
-                        isImageClicked.value = true
-                    }
+                Box(
+                    modifier = Modifier.clickable(onClick = onImageClicked)
+                ) {
+                    Image(
+                        painter = painterResource(id = imageResources[currentImageIndex]),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(width = 250.dp, height = 500.dp)
+                    )
                 }
-
-                val imageModifier = Modifier
-                    .weight(3f)
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(20.dp))
-                    .then(modifier)
-
-                Image(
-                    painter = painterResource(id = imageResources[currentImageIndex]),
-                    contentDescription = null,
-                    modifier = Modifier.size(width = 250.dp, height = 500.dp)
-                )
 
                 Spacer(modifier = Modifier.width(0.dp))
 
-                IconButton(
-                    onClick = { onImageIndexChanged(taxiShowNextImage(imageResources.size, currentImageIndex)) }
-                ) {
+                IconButton(onClick = {
+                    onImageIndexChanged(
+                        showNextImage(
+                            imageResources.size, currentImageIndex
+                        )
+                    )
+                }) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_forward),
                         contentDescription = "Next"
                     )
-                }
-
-                // 이미지가 클릭되었을 때만 팝업을 표시
-                if (isImageClicked.value) {
-                    EnlargedImagePopup(currentImageResourceId) {
-                        isImageClicked.value = false // 팝업 닫히면 클릭 상태를 초기화
-                    }
                 }
             }
         }
@@ -132,7 +174,7 @@ fun taxiGuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 }
 
 @Composable
-fun taxiGetResourceName(resourceId: Int, context: Context): String {
+fun getResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
         R.drawable.taxi_guide_000 -> context.getString(R.string.taxi_guide_000_text)
         R.drawable.taxi_guide_001 -> context.getString(R.string.taxi_guide_001_text)
@@ -156,16 +198,39 @@ fun taxiGetResourceName(resourceId: Int, context: Context): String {
     }
 }
 
-fun taxiShowNextImage(size: Int, currentIndex: Int): Int {
+/*다음 이미지로 변경*/
+fun showNextImage(size: Int, currentIndex: Int): Int {
     return (currentIndex + 1) % size
 }
 
-fun taxiShowPreviousImage(size: Int, currentIndex: Int): Int {
+/*이전 이미지로 변경*/
+fun showPreviousImage(size: Int, currentIndex: Int): Int {
     return if (currentIndex == 0) size - 1 else currentIndex - 1
 }
 
 @Composable
-fun taxiGuideText(currentImageIndex: Int) {
+fun EnlargedImagePopup(imageResource: Int, onClose: () -> Unit) {
+    Dialog(onDismissRequest = onClose) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Image(
+                painter = painterResource(id = imageResource),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { /* Do nothing on click */ },
+                contentScale = ContentScale.Fit // 이미지가 화면에 맞게 최대로 확대됨
+            )
+        }
+    }
+}
+
+/*가이드 텍스트*/
+@Composable
+fun guideText(currentImageIndex: Int) {
     val textList = listOf(
         Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
         Triple("카카오택시 로그인화면 입니다.", "카카오계정으로 시작하기를", "눌러주세요."),
@@ -187,14 +252,15 @@ fun taxiGuideText(currentImageIndex: Int) {
         Triple("이 창은 취소하기 전 확인하는 창입니다.", "정말로 호출 취소를 원한다면", "호출취소를 눌러주세요.")
     )
 
-    Column (
+    Column(
         modifier = Modifier,
         verticalArrangement = Arrangement.spacedBy(0.dp),
-    ){
+    ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        taxiTextWithColoredWords(
+        TextWithColoredWords(
             text = text1,
             wordsToColor = mapOf(
+                "사진" to Color.Blue,
                 "로그인화면" to Color.Green,
                 "위치 허용 화면" to Color.Green,
                 "출발 위치" to Color.Green,
@@ -206,7 +272,7 @@ fun taxiGuideText(currentImageIndex: Int) {
                 "취소하는" to Color.Green
             )
         )
-        taxiTextWithColoredWords(
+        TextWithColoredWords(
             text = text2,
             wordsToColor = mapOf(
                 "카카오계정으로 시작하기" to Color.Red,
@@ -224,9 +290,9 @@ fun taxiGuideText(currentImageIndex: Int) {
                 "직접결제" to Color.Red,
                 "변경된 후" to Color.Red,
                 "호출을 취소" to Color.Red
-                )
+            )
         )
-        taxiTextWithColoredWords(
+        TextWithColoredWords(
             text = text3,
             wordsToColor = mapOf(
                 "닫기" to Color.Red,
@@ -234,13 +300,14 @@ fun taxiGuideText(currentImageIndex: Int) {
                 "적용하기" to Color.Red,
                 "호출하기" to Color.Red,
                 "호출취소" to Color.Red
-                )
+            )
         )
     }
 }
 
+/*텍스트 디자인*/
 @Composable
-fun taxiTextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
+fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
     val spannableString = buildAnnotatedString {
         append(text)
         wordsToColor.forEach { (word, color) ->
@@ -269,23 +336,4 @@ fun taxiTextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
 fun taxiGuideScreenPreview() {
     val navController = rememberNavController()
     Taxi_Guide(navController)
-}
-@Composable
-fun Taxi_Guide(navController: NavController){
-    CapstoneAppTheme {
-        var currentImageIndex by remember { mutableStateOf(0) }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(40.dp))
-            taxiGuideImage(currentImageIndex) { newIndex ->
-                currentImageIndex = newIndex
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            taxiGuideText(currentImageIndex)
-        }
-    }
 }

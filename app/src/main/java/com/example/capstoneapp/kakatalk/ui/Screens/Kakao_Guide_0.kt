@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -47,24 +44,9 @@ import com.example.capstoneapp.R
 @Composable
 fun KakaoGuide0(navController: NavController) {
     var currentImageIndex by remember { mutableStateOf(0) }
+    var isImageClicked by remember { mutableStateOf(false) }
+    var clickedImageResource by remember { mutableStateOf(0) }
 
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize(1f),
-    ) {
-        guideImage(currentImageIndex) { newIndex ->
-            currentImageIndex = newIndex
-        }
-        guideText(currentImageIndex)
-    }
-}
-
-/*
-* 가이드 이미지, 화살표 버튼
-* */
-@Composable
-fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
     val imageResources = listOf(
         R.drawable.kakao_guide_000,
         R.drawable.kakao_guide_001,
@@ -74,6 +56,46 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
         R.drawable.kakao_guide_005,
         R.drawable.kakao_guide_006,
     )
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize(1f),
+    ) {
+        guideImage(
+            currentImageIndex = currentImageIndex,
+            imageResources = imageResources, // 이미지 리소스를 함수로 전달
+            onImageIndexChanged = { newIndex ->
+                currentImageIndex = newIndex
+            },
+            onImageClicked = {
+                isImageClicked = true
+                clickedImageResource = imageResources[currentImageIndex]
+            }
+        )
+        guideText(currentImageIndex)
+    }
+
+    if (isImageClicked) {
+        com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup(
+            imageResource = clickedImageResource,
+            onClose = {
+                isImageClicked = false
+            }
+        )
+    }
+}
+
+/*
+* 가이드 이미지, 화살표 버튼
+* */
+@Composable
+fun guideImage(
+    currentImageIndex: Int,
+    imageResources: List<Int>,
+    onImageIndexChanged: (Int) -> Unit,
+    onImageClicked: () -> Unit
+) {
     val currentImageResourceId = imageResources[currentImageIndex]
     val context = LocalContext.current
     val imageName = getResourceName(currentImageResourceId, context)
@@ -98,7 +120,7 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
             ) {
                 IconButton(onClick = {
                     onImageIndexChanged(
-                        showPreviousImage(
+                        com.example.capstoneapp.cafe.ui.Screens.showPreviousImage(
                             imageResources.size, currentImageIndex
                         )
                     )
@@ -111,33 +133,21 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 
                 Spacer(modifier = Modifier.width(0.dp))
 
-                val isImageClicked = remember { mutableStateOf(false) }
-                val modifier = if (isImageClicked.value) {
-                    Modifier.clickable { /* Do nothing */ }
-                } else {
-                    Modifier.clickable {
-                        isImageClicked.value = true
-                    }
+                Box(
+                    modifier = Modifier.clickable(onClick = onImageClicked)
+                ) {
+                    Image(
+                        painter = painterResource(id = imageResources[currentImageIndex]),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 250.dp, height = 500.dp)
+                    )
                 }
-
-                val imageModifier = Modifier
-                    .weight(3f)
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(20.dp))
-                    .then(modifier)
-
-                Image(
-                    painter = painterResource(id = imageResources[currentImageIndex]),
-                    contentDescription = null,
-                    modifier = Modifier.size(width = 250.dp, height = 500.dp)
-                )
 
                 Spacer(modifier = Modifier.width(0.dp))
 
                 IconButton(onClick = {
                     onImageIndexChanged(
-                        showNextImage(
+                        com.example.capstoneapp.cafe.ui.Screens.showNextImage(
                             imageResources.size, currentImageIndex
                         )
                     )
@@ -146,13 +156,6 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                         painter = painterResource(id = R.mipmap.arrow_forward),
                         contentDescription = "Next"
                     )
-                }
-
-                // 이미지가 클릭되었을 때만 팝업을 표시
-                if (isImageClicked.value) {
-                    EnlargedImagePopup(currentImageResourceId) {
-                        isImageClicked.value = false // 팝업 닫히면 클릭 상태를 초기화
-                    }
                 }
             }
         }
@@ -170,36 +173,6 @@ fun getResourceName(resourceId: Int, context: Context): String {
         R.drawable.kakao_guide_005 -> "사진 보내기 2"
         R.drawable.kakao_guide_006 -> "사진 보내기 3"
         else -> "Unknown"
-    }
-}
-
-/*다음 이미지로 변경*/
-fun showNextImage(size: Int, currentIndex: Int): Int {
-    return (currentIndex + 1) % size
-}
-
-/*이전 이미지로 변경*/
-fun showPreviousImage(size: Int, currentIndex: Int): Int {
-    return if (currentIndex == 0) size - 1 else currentIndex - 1
-}
-
-@Composable
-fun EnlargedImagePopup(imageResource: Int, onClose: () -> Unit) {
-    Dialog(onDismissRequest = onClose) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Image(
-                painter = painterResource(id = imageResource),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable { /* Do nothing on click */ },
-                contentScale = ContentScale.Fit // 이미지가 화면에 맞게 최대로 확대됨
-            )
-        }
     }
 }
 
@@ -221,48 +194,22 @@ fun guideText(currentImageIndex: Int) {
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
                 "프로필" to Color.Green, "앨범" to Color.Blue, "사진" to Color.Blue
             )
         )
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text2, wordsToColor = mapOf(
                 "친구목록" to Color.Blue, "메세지" to Color.Blue, "화면 오른쪽 아래" to Color.Red,"최대 30장" to Color.Red
             )
         )
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text3, wordsToColor = mapOf(
                 "이름" to Color.Red, "채팅" to Color.Red,"화살표" to Color.Green
             )
         )
     }
-}
-
-/*텍스트 디자인*/
-@Composable
-fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
-    val spannableString = buildAnnotatedString {
-        append(text)
-        wordsToColor.forEach { (word, color) ->
-            val startIndex = text.indexOf(word)
-            if (startIndex >= 0) {
-                val endIndex = startIndex + word.length
-                addStyle(SpanStyle(color = color), startIndex, endIndex)
-            }
-        }
-    }
-
-    Text(
-        text = spannableString,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(4.dp),
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.Black,
-        textAlign = TextAlign.Center,
-    )
 }
 
 @Preview(showBackground = true)

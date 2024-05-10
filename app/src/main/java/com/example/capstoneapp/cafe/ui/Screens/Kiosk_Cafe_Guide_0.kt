@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -47,18 +44,43 @@ import com.example.capstoneapp.R
 @Composable
 fun KioskCafeGuide0(navController: NavController) {
     var currentImageIndex by remember { mutableStateOf(0) }
+    var isImageClicked by remember { mutableStateOf(false) }
+    var clickedImageResource by remember { mutableStateOf(0) }
+
+    // 이미지 리소스 리스트를 함수 외부에서 정의
+    val imageResources = listOf(
+        R.drawable.cafe_guide_ex1,
+        R.drawable.cafe_guide_cash,
+        R.drawable.cafe_guide_kiosk,
+        R.drawable.cafe_guide_card
+    )
 
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize(1f),
     ) {
-        //TopAppBar(navController)
-        //TopAppBar()
-        guideImage(currentImageIndex) { newIndex ->
-            currentImageIndex = newIndex
-        }
+        guideImage(
+            currentImageIndex = currentImageIndex,
+            imageResources = imageResources, // 이미지 리소스를 함수로 전달
+            onImageIndexChanged =  { newIndex ->
+                currentImageIndex = newIndex
+            },
+            onImageClicked = {
+                isImageClicked = true
+                clickedImageResource = imageResources[currentImageIndex]
+            }
+        )
         guideText(currentImageIndex)
+    }
+
+    if (isImageClicked) {
+        EnlargedImagePopup(
+            imageResource = clickedImageResource,
+            onClose = {
+                isImageClicked = false
+            }
+        )
     }
 }
 
@@ -66,13 +88,12 @@ fun KioskCafeGuide0(navController: NavController) {
 * 가이드 이미지, 화살표 버튼
 * */
 @Composable
-fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
-    val imageResources = listOf(
-        R.drawable.cafe_guide_ex1,
-        R.drawable.cafe_guide_cash,
-        R.drawable.cafe_guide_kiosk,
-        R.drawable.cafe_guide_card
-    )
+fun guideImage(
+    currentImageIndex: Int,
+    imageResources: List<Int>,
+    onImageIndexChanged: (Int) -> Unit,
+    onImageClicked: () -> Unit
+) {
     val currentImageResourceId = imageResources[currentImageIndex]
     val context = LocalContext.current
     val imageName = getResourceName(currentImageResourceId, context)
@@ -110,27 +131,15 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 
                 Spacer(modifier = Modifier.width(0.dp))
 
-                val isImageClicked = remember { mutableStateOf(false) }
-                val modifier = if (isImageClicked.value) {
-                    Modifier.clickable { /* Do nothing */ }
-                } else {
-                    Modifier.clickable {
-                        isImageClicked.value = true
-                    }
+                Box(
+                    modifier = Modifier.clickable(onClick = onImageClicked)
+                ) {
+                    Image(
+                        painter = painterResource(id = imageResources[currentImageIndex]),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 250.dp, height = 500.dp)
+                    )
                 }
-
-                val imageModifier = Modifier
-                    .weight(3f)
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(20.dp))
-                    .then(modifier)
-
-                Image(
-                    painter = painterResource(id = imageResources[currentImageIndex]),
-                    contentDescription = null,
-                    modifier = Modifier.size(width = 250.dp, height = 500.dp)
-                )
 
                 Spacer(modifier = Modifier.width(0.dp))
 
@@ -145,13 +154,6 @@ fun guideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                         painter = painterResource(id = R.mipmap.arrow_forward),
                         contentDescription = "Next"
                     )
-                }
-
-                // 이미지가 클릭되었을 때만 팝업을 표시
-                if (isImageClicked.value) {
-                    EnlargedImagePopup(currentImageResourceId) {
-                        isImageClicked.value = false // 팝업 닫히면 클릭 상태를 초기화
-                    }
                 }
             }
         }
@@ -264,5 +266,4 @@ fun cafeGuideScreenPreview() {
     val navController = rememberNavController()
     var currentImageIndex by remember { mutableStateOf(0) }
     KioskCafeGuide0(navController)
-
 }

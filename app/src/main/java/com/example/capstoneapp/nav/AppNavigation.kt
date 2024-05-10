@@ -28,7 +28,7 @@ import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
-import com.example.capstoneapp.fastfood.ui.screens.CafeGuideScreenPreview
+import com.example.capstoneapp.fastfood.ui.screens.FastfoodGuideScreenPreview
 import com.example.capstoneapp.fastfood.ui.screens.GreetingPreview
 import com.example.capstoneapp.fastfood.ui.screens.OrderScreen
 import com.example.capstoneapp.fastfood.ui.screens.PaymentScreen
@@ -45,7 +45,8 @@ import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
 import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
-import com.example.capstoneapp.ui.Screens.Taxi_Guide
+
+import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
 
 @Composable
 fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
@@ -71,7 +72,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         }
 
         composable(route = "HamburgerGuideScreen"){
-            CafeGuideScreenPreview(navController = navController)
+            FastfoodGuideScreenPreview(navController = navController)
         }
 
         composable(route = "HamburgerPracticeHomeScreen"){

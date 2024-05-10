@@ -1,4 +1,4 @@
-package com.example.capstoneapp.fastfood.ui.screens
+package com.example.capstoneapp.phone.ui.screens
 
 import android.content.Context
 import androidx.compose.foundation.Image
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,22 +42,27 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup
+
 
 @Composable
-fun FastfoodGuideScreenPreview(navController: NavController) {
+fun PhoneContactGuide(navController: NavController) {
     var currentImageIndex by remember { mutableStateOf(0) }
     var isImageClicked by remember { mutableStateOf(false) }
     var clickedImageResource by remember { mutableStateOf(0) }
 
     val imageResources = listOf(
-        R.drawable.touch,
-        R.drawable.payment,
-        R.drawable.burger,
-        R.drawable.set,
-        R.drawable.dessert,
-        R.drawable.drink,
-        R.drawable.receipt,
-        R.drawable.card
+        R.drawable.contact_guide_000,
+        R.drawable.contact_guide_001,
+        R.drawable.contact_guide_002,
+        R.drawable.contact_guide_003,
+        R.drawable.contact_guide_004,
+        R.drawable.contact_guide_005,
+        R.drawable.contact_guide_006,
+        R.drawable.contact_guide_007,
+        R.drawable.contact_guide_008,
+        R.drawable.contact_guide_009,
+        R.drawable.contact_guide_010
     )
 
     Column(
@@ -64,7 +70,7 @@ fun FastfoodGuideScreenPreview(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize(1f),
     ) {
-        guideImage(
+        contactguideImage(
             currentImageIndex = currentImageIndex,
             imageResources = imageResources, // 이미지 리소스를 함수로 전달
             onImageIndexChanged = { newIndex ->
@@ -75,7 +81,7 @@ fun FastfoodGuideScreenPreview(navController: NavController) {
                 clickedImageResource = imageResources[currentImageIndex]
             }
         )
-        guideText(currentImageIndex)
+        contactGuideText(currentImageIndex)
     }
 
     if (isImageClicked) {
@@ -88,8 +94,11 @@ fun FastfoodGuideScreenPreview(navController: NavController) {
     }
 }
 
+/*
+* 가이드 이미지, 화살표 버튼
+* */
 @Composable
-fun guideImage(
+fun contactguideImage(
     currentImageIndex: Int,
     imageResources: List<Int>,
     onImageIndexChanged: (Int) -> Unit,
@@ -97,7 +106,7 @@ fun guideImage(
 ) {
     val currentImageResourceId = imageResources[currentImageIndex]
     val context = LocalContext.current
-    val imageName = getResourceName(currentImageResourceId, context)
+    val imageName = contactgetResourceName(currentImageResourceId, context)
 
     MaterialTheme {
         Column(
@@ -129,6 +138,7 @@ fun guideImage(
                         contentDescription = "Previous"
                     )
                 }
+
                 Spacer(modifier = Modifier.width(0.dp))
 
                 Box(
@@ -140,6 +150,7 @@ fun guideImage(
                         modifier = Modifier.size(width = 250.dp, height = 500.dp)
                     )
                 }
+
                 Spacer(modifier = Modifier.width(0.dp))
 
                 IconButton(onClick = {
@@ -160,31 +171,38 @@ fun guideImage(
 }
 
 @Composable
-fun getResourceName(resourceId: Int, context: Context): String {
+fun contactgetResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.touch -> context.getString(R.string.touch_text)
-        R.drawable.payment -> context.getString(R.string.payment_text)
-        R.drawable.burger -> context.getString(R.string.burger_text)
-        R.drawable.set -> context.getString(R.string.set_text)
-        R.drawable.dessert -> context.getString(R.string.dessert_text)
-        R.drawable.drink -> context.getString(R.string.drink_text)
-        R.drawable.receipt -> context.getString(R.string.receipt_text)
-        R.drawable.card -> context.getString(R.string.card_text)
+        R.drawable.contact_guide_000 -> "연락처"
+        R.drawable.contact_guide_001 -> "기본 화면"
+        R.drawable.contact_guide_002 -> "연락처 추가"
+        R.drawable.contact_guide_003 -> "연락처 추가"
+        R.drawable.contact_guide_004 -> "연락처 입력&저장"
+        R.drawable.contact_guide_005 -> "연락처 저장 완료"
+        R.drawable.contact_guide_006 -> "연락처 편집"
+        R.drawable.contact_guide_007 -> "연락처 편집"
+        R.drawable.contact_guide_008 -> "연락처 삭제"
+        R.drawable.contact_guide_009 -> "연락처 삭제"
+        R.drawable.contact_guide_010 -> "연락처 삭제"
         else -> "Unknown"
     }
 }
 
+/*가이드 텍스트*/
 @Composable
-fun guideText(currentImageIndex: Int) {
+fun contactGuideText(currentImageIndex: Int) {
     val textList = listOf(
         Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
-        Triple("카드, 디지털 교환권, 현금 중", "원하시는 결제 방법을", "선택해주세요."),
-        Triple("원하시는 햄버거 메뉴를 골라주세요.", "선택된 메뉴는", "하단 목록에 표시됩니다."),
-        Triple("버거 단품 또는", "음료와 디저트가 있는 세트 메뉴를", "선택하실 수 있습니다."),
-        Triple("세트 구성에 포함된", "세트 디저트를 선택해주세요.", "일부 메뉴는 추가 금액이 있습니다."),
-        Triple("세트 구성에 포함된", "세트 드링크를 선택해주세요.", "일부 메뉴는 추가 금액이 있습니다."),
-        Triple("좌측엔 선택하신 메뉴 목록이,", "우측에는 포장/매장, 할인과 적립,", "결제 방법을 선택할 수 있습니다."),
-        Triple("해당 그림이 나타나면", "키오스크 하단에 있는 카드 투입구에", "카드를 넣어 주세요.")
+        Triple("기본 홈 화면입니다.", "아래 전화 버튼을", "눌러주세요."),
+        Triple("연락처를 추가하는 방법입니다.", "아래의 \"연락처\"를 눌러주세요.", ""),
+        Triple("상단의 +를 눌러주세요", "연락처를 추가할 수 있습니다.", ""),
+        Triple("이름과 전화번호 등을 입력해주세요.", "입력이 끝나면", "하단의 \"저장\"을 눌러주세요."),
+        Triple("", "연락처가 저장되었습니다!", ""),
+        Triple("연락처를 변경하는 방법입니다.", "하단의 \"편집을\" 눌러주세요.", ""),
+        Triple("이름과 전화번호 등을 입력해주세요.", "입력이 끝나면", "하단의 \"저장\"을 눌러주세요."),
+        Triple("연락처를 삭제하는 법입니다.", "하단의 \"더보기\"를 눌러주세요.", ""),
+        Triple("", "\"삭제\" 버튼을 눌러주세요.", ""),
+        Triple("\"휴지통으로 이동\"을 눌러주세요.", "연락처가 삭제됩니다.", ""),
     )
 
     Column(
@@ -193,25 +211,20 @@ fun guideText(currentImageIndex: Int) {
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
-            text = text1,
-            wordsToColor = mapOf(
-                "현금 결제" to Color.Green,
-                "카드" to Color.Blue,
-                "파란색" to Color.Blue
+            text = text1, wordsToColor = mapOf(
+                "사진" to Color.Blue, "추가" to Color.Blue, "+" to Color.Red,
+                "변경" to Color.Blue, "삭제" to Color.Blue, "휴지통으로 이동" to Color.Red
             )
         )
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
-            text = text2,
-            wordsToColor = mapOf(
-                "쿠폰" to Color.Green,
-                "초록색" to Color.Green,
-                "화면 오른쪽 아래" to Color.Red
+            text = text2, wordsToColor = mapOf(
+                "전화" to Color.Green, "연락처" to Color.Red, "편집" to Color.Red,
+                "더보기" to Color.Red, "삭제" to Color.Red
             )
         )
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
-            text = text3,
-            wordsToColor = mapOf(
-                "카운터" to Color.Green
+            text = text3, wordsToColor = mapOf(
+                "저장" to Color.Red
             )
         )
     }
@@ -219,9 +232,8 @@ fun guideText(currentImageIndex: Int) {
 
 @Preview(showBackground = true)
 @Composable
-fun FastfoodGuideScreenPreviews() {
+fun contactGuideScreenPreview() {
     val navController = rememberNavController()
     var currentImageIndex by remember { mutableStateOf(0) }
-    FastfoodGuideScreenPreview(navController)
+    PhoneContactGuide(navController)
 }
-
