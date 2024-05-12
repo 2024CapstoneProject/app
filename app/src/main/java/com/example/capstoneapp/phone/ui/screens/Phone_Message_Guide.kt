@@ -37,23 +37,33 @@ import com.example.capstoneapp.R
 
 
 @Composable
-fun PhoneContactGuide(navController: NavController) {
+fun PhoneMessageGuide(navController: NavController) {
     var currentImageIndex by remember { mutableStateOf(0) }
     var isImageClicked by remember { mutableStateOf(false) }
     var clickedImageResource by remember { mutableStateOf(0) }
 
     val imageResources = listOf(
-        R.drawable.contact_guide_000,
-        R.drawable.contact_guide_001,
-        R.drawable.contact_guide_002,
-        R.drawable.contact_guide_003,
-        R.drawable.contact_guide_004,
-        R.drawable.contact_guide_005,
-        R.drawable.contact_guide_006,
-        R.drawable.contact_guide_007,
-        R.drawable.contact_guide_008,
-        R.drawable.contact_guide_009,
-        R.drawable.contact_guide_010
+        R.drawable.message_guide_000,
+        R.drawable.message_guide_001,
+        R.drawable.message_guide_002,
+        R.drawable.message_guide_003,
+        R.drawable.message_guide_004,
+        R.drawable.message_guide_005,
+        R.drawable.message_guide_006,
+        R.drawable.message_guide_007,
+        R.drawable.message_guide_008,
+        R.drawable.message_guide_009,
+        R.drawable.message_guide_010,
+        R.drawable.message_guide_011,
+        R.drawable.message_guide_012,
+        R.drawable.message_guide_013,
+        R.drawable.message_guide_014,
+        R.drawable.message_guide_015,
+        R.drawable.message_guide_016,
+        R.drawable.message_guide_017,
+        R.drawable.message_guide_018,
+        R.drawable.message_guide_019,
+        R.drawable.message_guide_020
     )
 
     Column(
@@ -61,7 +71,7 @@ fun PhoneContactGuide(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize(1f),
     ) {
-        contactGuideImage(
+        messageGuideImage(
             currentImageIndex = currentImageIndex,
             imageResources = imageResources, // 이미지 리소스를 함수로 전달
             onImageIndexChanged = { newIndex ->
@@ -72,7 +82,7 @@ fun PhoneContactGuide(navController: NavController) {
                 clickedImageResource = imageResources[currentImageIndex]
             }
         )
-        contactGuideText(currentImageIndex)
+        messageGuideText(currentImageIndex)
     }
 
     if (isImageClicked) {
@@ -89,7 +99,7 @@ fun PhoneContactGuide(navController: NavController) {
 * 가이드 이미지, 화살표 버튼
 * */
 @Composable
-fun contactGuideImage(
+fun messageGuideImage(
     currentImageIndex: Int,
     imageResources: List<Int>,
     onImageIndexChanged: (Int) -> Unit,
@@ -97,7 +107,7 @@ fun contactGuideImage(
 ) {
     val currentImageResourceId = imageResources[currentImageIndex]
     val context = LocalContext.current
-    val imageName = contactGetResourceName(currentImageResourceId, context)
+    val imageName = messageGetResourceName(currentImageResourceId, context)
 
     MaterialTheme {
         Column(
@@ -162,38 +172,58 @@ fun contactGuideImage(
 }
 
 @Composable
-fun contactGetResourceName(resourceId: Int, context: Context): String {
+fun messageGetResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.contact_guide_000 -> "연락처"
-        R.drawable.contact_guide_001 -> "기본 화면"
-        R.drawable.contact_guide_002 -> "연락처 추가"
-        R.drawable.contact_guide_003 -> "연락처 추가"
-        R.drawable.contact_guide_004 -> "연락처 입력&저장"
-        R.drawable.contact_guide_005 -> "연락처 저장 완료"
-        R.drawable.contact_guide_006 -> "연락처 편집"
-        R.drawable.contact_guide_007 -> "연락처 편집"
-        R.drawable.contact_guide_008 -> "연락처 삭제"
-        R.drawable.contact_guide_009 -> "연락처 삭제"
-        R.drawable.contact_guide_010 -> "연락처 삭제"
+        R.drawable.message_guide_000 -> "메시지"
+        R.drawable.message_guide_001 -> "기본 화면"
+        R.drawable.message_guide_002 -> "메시지 보내기"
+        R.drawable.message_guide_003 -> "1:1 대화 & 단체 문자"
+        R.drawable.message_guide_004 -> "대화 상대 선택"
+        R.drawable.message_guide_005 -> "메시지 작성"
+        R.drawable.message_guide_006 -> "메시지 보내기"
+        R.drawable.message_guide_007 -> "기타 보내기"
+        R.drawable.message_guide_008 -> "기타 보내기"
+        R.drawable.message_guide_009 -> "카메라 찍어서 보내기"
+        R.drawable.message_guide_010 -> "사진 촬영 & 동영상 촬영"
+        R.drawable.message_guide_011 -> "카메라 찍어서 보내기"
+        R.drawable.message_guide_012 -> "카메라 찍어서 보내기"
+        R.drawable.message_guide_013 -> "카메라 찍어서 보내기"
+        R.drawable.message_guide_014 -> "카메라 찍어서 보내기"
+        R.drawable.message_guide_015 -> "갤러리 이미지 보내기"
+        R.drawable.message_guide_016 -> "갤러리 이미지 보내기"
+        R.drawable.message_guide_017 -> "갤러리 이미지 보내기"
+        R.drawable.message_guide_018 -> "기타 기능"
+        R.drawable.message_guide_019 -> "기타 기능 중 메시지 삭제"
+        R.drawable.message_guide_020 -> "기타 기능 중 메시지 삭제"
         else -> "Unknown"
     }
 }
 
 /*가이드 텍스트*/
 @Composable
-fun contactGuideText(currentImageIndex: Int) {
+fun messageGuideText(currentImageIndex: Int) {
     val textList = listOf(
         Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
-        Triple("기본 홈 화면입니다.", "아래 전화 버튼을", "눌러주세요."),
-        Triple("연락처를 추가하는 방법입니다.", "아래의 \"연락처\"를 눌러주세요.", ""),
-        Triple("상단의 +를 눌러주세요", "연락처를 추가할 수 있습니다.", ""),
-        Triple("이름과 전화번호 등을 입력해주세요.", "입력이 끝나면", "하단의 \"저장\"을 눌러주세요."),
-        Triple("", "연락처가 저장되었습니다!", ""),
-        Triple("연락처를 변경하는 방법입니다.", "하단의 \"편집을\" 눌러주세요.", ""),
-        Triple("이름과 전화번호 등을 입력해주세요.", "입력이 끝나면", "하단의 \"저장\"을 눌러주세요."),
-        Triple("연락처를 삭제하는 법입니다.", "하단의 \"더보기\"를 눌러주세요.", ""),
-        Triple("", "\"삭제\" 버튼을 눌러주세요.", ""),
-        Triple("\"휴지통으로 이동\"을 눌러주세요.", "연락처가 삭제됩니다.", ""),
+        Triple("기본 홈 화면입니다.", "아래 메시지 버튼을", "눌러주세요."),
+        Triple("메시지를 보내는 방법입니다.", "아래의 \"메시지\"버튼을 눌러주세요.", ""),
+        Triple("1:1 대화나 단체 문자로 메시지를 보냅니다.", "1:1로 문자를 보내는 예시입니다.", "\"1:1 대화\"를 눌러주세요."),
+        Triple("이름이나 전화번호를 입력해주세요.", "또는 목록에서 연락처를 선택해주세요", ""),
+        Triple("상대에게 보낼 메시지를 입력해주세요.", "입력이 끝나면", "오른쪽에 \"보내기\"버튼을 눌러주세요."),
+        Triple("메시지가 보내졌습니다!", "", ""),
+        Triple("하단의 \"+\"버튼을 누르면", "다른 연락처, 이미지 등을", "보낼 수 있습니다."),
+        Triple("\"+\"버튼을 눌렀을 때", "화면에 보이는 것들을 보낼 수 있습니다.", ""),
+        Triple("하단의 \"카메라\"버튼은 누르면", "사진이나 동영상을 찍어", "메시지를 보낼 수 있습니다."),
+        Triple("사진 또는 동영상을 선택합니다.", "", ""),
+        Triple("보내고 싶은 사진을 촬영해주세요.", "하단 가운데에 있는 하얀 원을 누르면 촬영이 됩니다.", ""),
+        Triple("다시 시도 또는 확인을 눌러주세요.", "다시 시도는 재촬영을 합니다.", "확인은 촬영한 사진을 보냅니다."),
+        Triple("하단 오른쪽에 \"보내기\"버튼을 눌러주세요.", "사진이 보내집니다.", ""),
+        Triple("촬영한 사진이 보내졌습니다!", "", ""),
+        Triple("하단의 \"이미지\"버튼을 누르면", "갤러리에 저장되어 있는", "사진을 보낼 수 있습니다."),
+        Triple("보내고 싶은 사진을 선택 후", "하단 오른쪽에 \"보내기\"버튼을 눌러주세요.", ""),
+        Triple("선택한 사진이 보내졌습니다!", "", ""),
+        Triple("상단의 \"세로로 된 점 3개\"를 누르면", "메시지를 삭제하거나.", "메시지를 검색할 수 있습니다."),
+        Triple("메시지를 삭제하는 방법입니다.", "\"메시지 삭제\"를 눌러주세요.", ""),
+        Triple("삭제할 메시지를 선택한 후", "\"모두 삭제\"를 눌러주세요.", "메시지가 삭제됩니다."),
     )
 
     Column(
@@ -203,19 +233,21 @@ fun contactGuideText(currentImageIndex: Int) {
         val (text1, text2, text3) = textList[currentImageIndex]
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
-                "사진" to Color.Blue, "추가" to Color.Blue, "+" to Color.Red,
-                "변경" to Color.Blue, "삭제" to Color.Blue, "휴지통으로 이동" to Color.Red
+                "사진" to Color.Blue, "1:1 대화" to Color.Blue, "단체 문자" to Color.Blue,
+                "+" to Color.Red, "카메라" to Color.Red, "선택" to Color.Blue, "촬영" to Color.Blue,
+                "다시 시도" to Color.Blue, "확인" to Color.Blue, "보내기" to Color.Red,
+                "이미지" to Color.Red, "세로로 된 점 3개" to Color.Red, "동영상" to Color.Blue
             )
         )
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text2, wordsToColor = mapOf(
-                "전화" to Color.Green, "연락처" to Color.Red, "편집" to Color.Red,
-                "더보기" to Color.Red, "삭제" to Color.Red
+                "메시지" to Color.Blue, "하얀 원" to Color.Red, "갤러리" to Color.Blue,
+                "보내기" to Color.Red, "메시지 삭제" to Color.Red, "모두 삭제" to Color.Red
             )
         )
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text3, wordsToColor = mapOf(
-                "저장" to Color.Red
+                "1:1 대화" to Color.Red, "보내기" to Color.Red,
             )
         )
     }
@@ -223,8 +255,8 @@ fun contactGuideText(currentImageIndex: Int) {
 
 @Preview(showBackground = true)
 @Composable
-fun contactGuideScreenPreview() {
+fun messageGuideScreenPreview() {
     val navController = rememberNavController()
     var currentImageIndex by remember { mutableStateOf(0) }
-    PhoneContactGuide(navController)
+    PhoneMessageGuide(navController)
 }

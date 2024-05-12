@@ -99,7 +99,7 @@ fun PhoneGuideScreen(navController:NavController) {
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Text(
-                    text = "문자",
+                    text = "메시지",
                     fontSize = 27.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.ExtraBold
