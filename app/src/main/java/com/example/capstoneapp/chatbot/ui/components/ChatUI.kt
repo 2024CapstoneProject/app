@@ -125,6 +125,30 @@ fun ChatUI(chatService: ChatService) {
                 .fillMaxWidth(),
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = {
+                if (question.isNotBlank()) {
+                    coroutineScope.launch {
+                        try {
+                            val userMessage = question
+                            userMessages = userMessages + userMessage
+                            question = "" // Clear the input field immediately
+                            val chatResponse = chatService.askChatbot(userMessage)
+                            if (chatResponse.isSuccessful) {
+                                aiResponses = aiResponses + (chatResponse.body()?.question ?: "응답을 받지 못했습니다.")
+                                errorMessage = ""
+                            } else {
+                                errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
+                            }
+                        } catch (e: Exception) {
+                            errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
+                            Log.e("ChatUI", "Error occurred", e)
+                        }
+                    }
+                }
+            })
+        )
+
+        Button(
+            onClick = {
                 coroutineScope.launch {
                     try {
                         val userMessage = question
@@ -142,28 +166,9 @@ fun ChatUI(chatService: ChatService) {
                         Log.e("ChatUI", "Error occurred", e)
                     }
                 }
-            })
-        )
-
-        Button(onClick = {
-            coroutineScope.launch {
-                try {
-                    val userMessage = question
-                    userMessages = userMessages + userMessage
-                    question = "" // Clear the input field immediately
-                    val chatResponse = chatService.askChatbot(userMessage)
-                    if (chatResponse.isSuccessful) {
-                        aiResponses = aiResponses + (chatResponse.body()?.question ?: "응답을 받지 못했습니다.")
-                        errorMessage = ""
-                    } else {
-                        errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
-                    }
-                } catch (e: Exception) {
-                    errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
-                    Log.e("ChatUI", "Error occurred", e)
-                }
-            }
-        }) {
+            },
+            enabled = question.isNotBlank() // 버튼 활성화 여부 결정
+        ) {
             Text("질문 전송", fontSize = fontSize)
         }
 
