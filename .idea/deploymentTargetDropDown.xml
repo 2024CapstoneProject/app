@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="GreetingPreview">
+      <entry key="ChatUIPreview">
         <State />
       </entry>
-      <entry key="PreviewItemMenu">
+      <entry key="GreetingPreview">
         <State />
       </entry>
       <entry key="app">

@@ -3,9 +3,12 @@ package com.example.capstoneapp.chatbot.ui.components
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -20,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,32 +35,58 @@ import retrofit2.Response
 @Composable
 fun ChatUI(chatService: ChatService) {
     var question by remember { mutableStateOf("") }
-    var response by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf("") }
-    var userMessage by remember { mutableStateOf("") }
+
+    // 초기 예시 메시지 설정
+    val initialUserMessages = listOf("안녕하세요!", "날씨는 어때요?")
+    val initialAiResponses = listOf("안녕하세요! 무엇을 도와드릴까요?", "오늘의 날씨는 맑습니다.")
+
+    var userMessages by remember { mutableStateOf(initialUserMessages) }
+    var aiResponses by remember { mutableStateOf(initialAiResponses) }
 
     Column(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start,
     ) {
-        if (userMessage.isNotEmpty()) {
-            Text(
-                text = "User: $userMessage",
-                modifier = Modifier.padding(bottom = 8.dp),
-                color = Color.Blue
-            )
-        }
-
-        if (response.isNotEmpty()) {
-            Text(
-                text = "AI: $response",
-                modifier = Modifier.padding(bottom = 8.dp),
-                color = Color.Green
-            )
+        LazyColumn(
+            modifier = Modifier.weight(1f).fillMaxWidth()
+        ) {
+            items(userMessages.size) { index ->
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(
+                            text = "User: ${userMessages[index]}",
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                                .widthIn(max = (LocalConfiguration.current.screenWidthDp.dp * 2 / 3)),
+                            color = Color.Black
+                        )
+                    }
+                    if (aiResponses.size > index) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Text(
+                                text = "AI: ${aiResponses[index]}",
+                                modifier = Modifier
+                                    .padding(bottom = 8.dp)
+                                    .widthIn(max = (LocalConfiguration.current.screenWidthDp.dp * 2 / 3)),
+                                color = Color.Blue
+                            )
+                        }
+                    }
+                }
+            }
         }
 
         OutlinedTextField(
@@ -70,11 +100,12 @@ fun ChatUI(chatService: ChatService) {
             keyboardActions = KeyboardActions(onDone = {
                 coroutineScope.launch {
                     try {
-                        userMessage = question
+                        val userMessage = question
+                        userMessages = userMessages + userMessage
                         question = "" // Clear the input field immediately
-                        val chatResponse = chatService.askChatbotTest(userMessage)
+                        val chatResponse = chatService.askChatbot(userMessage)
                         if (chatResponse.isSuccessful) {
-                            response = chatResponse.body()?.question ?: "응답을 받지 못했습니다."
+                            aiResponses = aiResponses + (chatResponse.body()?.question ?: "응답을 받지 못했습니다.")
                             errorMessage = ""
                         } else {
                             errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
@@ -89,11 +120,12 @@ fun ChatUI(chatService: ChatService) {
         Button(onClick = {
             coroutineScope.launch {
                 try {
-                    userMessage = question
+                    val userMessage = question
+                    userMessages = userMessages + userMessage
                     question = "" // Clear the input field immediately
-                    val chatResponse = chatService.askChatbotTest(userMessage)
+                    val chatResponse = chatService.askChatbot(userMessage)
                     if (chatResponse.isSuccessful) {
-                        response = chatResponse.body()?.question ?: "응답을 받지 못했습니다."
+                        aiResponses = aiResponses + (chatResponse.body()?.question ?: "응답을 받지 못했습니다.")
                         errorMessage = ""
                     } else {
                         errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
