@@ -42,10 +42,13 @@ fun ChatUI(chatService: ChatService) {
     var errorMessage by remember { mutableStateOf("") }
 
     // 초기 AI 메시지 설정
-    val initialUserMessages = listOf("안녕하세요!", "날씨는 어때요?")
-    val initialAiResponses = listOf("안녕하세요! 무엇을 도와드릴까요?", "오늘의 날씨는 맑습니다.")
+    val initialAiResponses = listOf(
+        "안녕하세요! 키오스크 주문에 어려움을 겪고 계신가요?",
+        "패스트푸드점 또는 카페에서의 주문을 도와드릴게요.",
+        "주문을 원하시면 \"주문할래요\"를 입력해주세요."
+    )
 
-    var userMessages by remember { mutableStateOf(initialUserMessages) }
+    var userMessages by remember { mutableStateOf(listOf<String>()) }
     var aiResponses by remember { mutableStateOf(initialAiResponses) }
 
     Column(
@@ -58,6 +61,24 @@ fun ChatUI(chatService: ChatService) {
         LazyColumn(
             modifier = Modifier.weight(1f).fillMaxWidth()
         ) {
+            // AI 초기 응답 추가
+            items(initialAiResponses.size) { index ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = "AI\n${initialAiResponses[index]}",
+                        fontSize = fontSize,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                            .widthIn(max = (LocalConfiguration.current.screenWidthDp.dp * 2 / 3)),
+                        color = Color.Blue
+                    )
+                }
+            }
+
+            // 사용자 메시지와 AI 응답 추가
             items(userMessages.size) { index ->
                 Column(
                     modifier = Modifier.fillMaxWidth()
@@ -67,7 +88,7 @@ fun ChatUI(chatService: ChatService) {
                         horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
-                            text = "User:\n${userMessages[index]}",
+                            text = "User\n${userMessages[index]}",
                             fontSize = fontSize,
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
@@ -75,13 +96,13 @@ fun ChatUI(chatService: ChatService) {
                             color = Color.Black
                         )
                     }
-                    if (aiResponses.size > index) {
+                    if (aiResponses.size > index + initialAiResponses.size) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
                         ) {
                             Text(
-                                text = "AI:\n${aiResponses[index]}",
+                                text = "AI\n${aiResponses[index + initialAiResponses.size]}",
                                 fontSize = fontSize,
                                 modifier = Modifier
                                     .padding(bottom = 8.dp)
@@ -118,6 +139,7 @@ fun ChatUI(chatService: ChatService) {
                         }
                     } catch (e: Exception) {
                         errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
+                        Log.e("ChatUI", "Error occurred", e)
                     }
                 }
             })
@@ -138,7 +160,7 @@ fun ChatUI(chatService: ChatService) {
                     }
                 } catch (e: Exception) {
                     errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
-                    Log.e("ChatUI", "에러 발생", e)
+                    Log.e("ChatUI", "Error occurred", e)
                 }
             }
         }) {
