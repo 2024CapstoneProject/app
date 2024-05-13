@@ -28,16 +28,14 @@ import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Components.ChatList
-import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
 
 @Composable
 fun Kakao_List(navController: NavController, problem: Problem,showBorder:Boolean) {
     val listState = rememberLazyListState()
     val chatData = remember { mutableStateListOf<ChatItemData>() }
     chatData.addAll(FriendChatRoomRepository.getchatData())
-    NotificationScreen(navController = navController, problem = problem) {
-        ChatList(navController, chatData, listState,showBorder)
-    }
+    ChatList(navController, chatData, listState,showBorder)
 }
 
 @Preview

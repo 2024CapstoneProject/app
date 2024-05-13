@@ -44,10 +44,9 @@ fun TextScreen(navController: NavController) {
     val pay = "카드 결제"
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 60.dp),
-        verticalArrangement = Arrangement.spacedBy(0.dp), // 수직 방향으로 요소를 동일한 간격으로 배치합니다.
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = "메뉴 : $menu",
