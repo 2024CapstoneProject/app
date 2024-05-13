@@ -51,7 +51,9 @@ fun PhoneGuideScreen(navController:NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Phone_Call_Guide")
+                },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
@@ -71,7 +73,9 @@ fun PhoneGuideScreen(navController:NavController) {
                 }
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Phone_Contact_Guide")
+                },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
@@ -92,7 +96,9 @@ fun PhoneGuideScreen(navController:NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Phone_Message_Guide")
+                },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
