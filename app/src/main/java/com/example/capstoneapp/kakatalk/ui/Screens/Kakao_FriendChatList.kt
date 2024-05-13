@@ -49,10 +49,6 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Components.ChatList
 import com.example.capstoneapp.kakatalk.ui.Components.PersonalProfile
 import com.example.capstoneapp.kakatalk.ui.Components.friendList
-import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
-import com.example.capstoneapp.fastfood.ui.theme.BorderColor
-import com.example.capstoneapp.fastfood.ui.theme.BorderShape
-import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
 fun Kakao_FriendChatList(navController: NavController, problem: Problem,showBorder: Boolean) {

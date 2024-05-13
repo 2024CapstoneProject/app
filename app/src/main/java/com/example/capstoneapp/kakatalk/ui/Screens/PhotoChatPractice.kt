@@ -17,7 +17,6 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Components.ChatRoom
 import com.example.capstoneapp.kakatalk.ui.Components.photoBlock
-import com.example.capstoneapp.cafe.ui.Frame.NotificationScreen
 
 @Composable
 fun PhotoChatPractice(navController: NavController, problem: Problem){
@@ -27,10 +26,7 @@ fun PhotoChatPractice(navController: NavController, problem: Problem){
         photoMessages.addAll(ChatMessageRepository.getPhotoSend())
         photoList.addAll(ChatMessageRepository.getPhotoList())
     }
-
-    NotificationScreen(navController = navController, problem = problem) {
-        ChatRoom(chatMessages = photoMessages,photoList)
-    }
+    ChatRoom(chatMessages = photoMessages,photoList)
 }
 
 @Composable
