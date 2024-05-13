@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.chatbot.api.ChatService
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
 import kotlinx.coroutines.launch
@@ -34,11 +36,12 @@ import retrofit2.Response
 
 @Composable
 fun ChatUI(chatService: ChatService) {
+    val fontSize = 18.sp
     var question by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf("") }
 
-    // 초기 예시 메시지 설정
+    // 초기 AI 메시지 설정
     val initialUserMessages = listOf("안녕하세요!", "날씨는 어때요?")
     val initialAiResponses = listOf("안녕하세요! 무엇을 도와드릴까요?", "오늘의 날씨는 맑습니다.")
 
@@ -64,7 +67,8 @@ fun ChatUI(chatService: ChatService) {
                         horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
-                            text = "User: ${userMessages[index]}",
+                            text = "User:\n${userMessages[index]}",
+                            fontSize = fontSize,
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
                                 .widthIn(max = (LocalConfiguration.current.screenWidthDp.dp * 2 / 3)),
@@ -77,7 +81,8 @@ fun ChatUI(chatService: ChatService) {
                             horizontalArrangement = Arrangement.End
                         ) {
                             Text(
-                                text = "AI: ${aiResponses[index]}",
+                                text = "AI:\n${aiResponses[index]}",
+                                fontSize = fontSize,
                                 modifier = Modifier
                                     .padding(bottom = 8.dp)
                                     .widthIn(max = (LocalConfiguration.current.screenWidthDp.dp * 2 / 3)),
@@ -92,7 +97,8 @@ fun ChatUI(chatService: ChatService) {
         OutlinedTextField(
             value = question,
             onValueChange = { question = it },
-            label = { Text("질문 입력") },
+            label = { Text("질문 입력", fontSize = fontSize) },
+            textStyle = LocalTextStyle.current.copy(fontSize = fontSize),
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .fillMaxWidth(),
@@ -136,12 +142,13 @@ fun ChatUI(chatService: ChatService) {
                 }
             }
         }) {
-            Text("질문 전송")
+            Text("질문 전송", fontSize = fontSize)
         }
 
         if (errorMessage.isNotEmpty()) {
             Text(
                 text = "Error: $errorMessage",
+                fontSize = fontSize,
                 color = Color.Red,
                 modifier = Modifier.padding(top = 8.dp)
             )
