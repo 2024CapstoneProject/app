@@ -29,13 +29,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.capstoneapp.chatbot.api.ChatService
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 @Composable
-fun ChatUI(chatService: ChatService) {
+fun ChatUI(navController: NavController, chatService: ChatService) {
     val fontSize = 18.sp
     var question by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
@@ -181,10 +182,4 @@ fun ChatUI(chatService: ChatService) {
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ChatUIPreview() {
-    ChatUI(RetrofitInstance.api)
 }

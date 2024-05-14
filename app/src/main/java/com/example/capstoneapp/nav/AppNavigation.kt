@@ -1,5 +1,6 @@
 package com.example.capstoneapp.nav
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +25,8 @@ import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
+import com.example.capstoneapp.chatbot.api.RetrofitInstance
+import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 
@@ -48,8 +51,9 @@ import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
 
 import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
 
+@SuppressLint("RememberReturnType")
 @Composable
-fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
+fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
     val navController = rememberNavController()
     val viewModel: OrderViewModel = viewModel()
     val (showBorder, setShowBorder) = remember { mutableStateOf(false) } // 아이콘 테두리 상태 관리
@@ -253,6 +257,11 @@ fun AppNavigation(problemViewModel : ProblemViewModel,context: Context) {
         //택시 가이드 첫번째 화면
         composable(route = "Taxi_Guide") {
             Taxi_Guide(navController = navController)
+        }
+
+        val chatService = RetrofitInstance.api
+        composable("chatUI") {
+            ChatUI(navController, chatService)
         }
     }
 }

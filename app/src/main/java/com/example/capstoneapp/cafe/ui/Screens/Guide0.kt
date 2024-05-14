@@ -52,10 +52,7 @@ fun GuideScreen(navController:NavController,) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = {
-                showVoiceRecogPopup = true
-                println("AI 도우미 서비스 버튼 클릭됨")
-            },
+            onClick = { navController.navigate("chatUI") },
             modifier = Modifier
                 .size(330.dp, 80.dp)
                 .padding(bottom = 20.dp),
