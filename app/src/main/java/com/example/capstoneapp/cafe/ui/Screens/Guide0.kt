@@ -47,7 +47,7 @@ fun GuideScreen(navController:NavController,) {
 
     Column(
         modifier = Modifier
-            .padding(top = 20.dp, bottom = 20.dp),
+            .padding(top = 50.dp, bottom = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -90,7 +90,9 @@ fun GuideScreen(navController:NavController,) {
                 )
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Kakao_Menu")
+                },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
@@ -111,7 +113,9 @@ fun GuideScreen(navController:NavController,) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("HamburgerHomeScreen")
+                },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
@@ -138,7 +142,9 @@ fun GuideScreen(navController:NavController,) {
                 }
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Taxi_Guide")
+                },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),

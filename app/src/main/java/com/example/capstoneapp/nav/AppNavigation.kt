@@ -49,6 +49,10 @@ import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
 import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
+import com.example.capstoneapp.phone.ui.screens.PhoneCallGuide
+import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
+import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
+import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
 
 import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
 
@@ -89,7 +93,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=1,
                 content = { TouchScreen(navController = navController, showBorder) }
-            ) { setShowBorder(true) }
+            ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {
                 setShowBorder(false)
@@ -101,7 +105,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=1,
                 content = { PaymentScreen(navController = navController, showBorder) }
-            ) { setShowBorder(true) }
+            ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {
                 setShowBorder(false)
@@ -113,7 +117,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=1,
                 content = { ItemMenu(navController = navController, viewModel, showBorder) }
-            ) { setShowBorder(true) }
+            ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {
                 setShowBorder(false)
@@ -129,7 +133,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=1,
                 content = { OrderScreen(navController = navController, viewModel, showBorder) }
-            ) { setShowBorder(true) }
+            ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {
                 setShowBorder(false)
@@ -174,7 +178,8 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType = 2,
                 content = { CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!,showBorder) }
-            ) { setShowBorder(true) }
+            ) { setShowBorder(!showBorder)
+            }
         }
 
         //카페 연습 메뉴 확인 화면
@@ -183,7 +188,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=2,
                 content = { KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!,showBorder) }
-            ) { setShowBorder(true) }
+            ) { setShowBorder(!showBorder) }
 
         }
 
@@ -193,7 +198,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=2,
                 content = { KioskCafePractice6(navController = navController, menuItemsViewModel, problem!!,showBorder) }
-            ) { setShowBorder(true) }
+            ) { setShowBorder(!showBorder) }
 
         }
 
@@ -208,7 +213,16 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
         }
         //카카오톡 채팅 화면
         composable(route = "Kakao_List") {
-            Kakao_List(navController = navController, problem!!,showBorder)
+
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType=3,
+                content = { Kakao_List(navController = navController, problem!!,showBorder)}
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
         }
 
         //카카오톡 연습 시작 화면
@@ -223,7 +237,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=3,
                 content = { Kakao_FriendChatList(navController = navController, problem!!,showBorder) }
-            ) { setShowBorder(true) }
+            ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {
                 setShowBorder(false)
@@ -232,12 +246,29 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
 
         //카카오톡 연습 화면 - 채팅방
         composable(route = "ChattingScreen") {
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType=3,
+                content = { ChattingScreen(navController = navController, problem!!) }
+            ) { setShowBorder(!showBorder) }
 
-            ChattingScreen(navController = navController, problem!!)
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+
         }
 
         composable(route = "PhotoChatPractice") {
-            PhotoChatPractice(navController = navController, problem!!)
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType=3,
+                content = { PhotoChatPractice(navController = navController, problem!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+
         }
 
         //위치추적 첫번째 화면
@@ -263,6 +294,22 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
         val chatService = RetrofitInstance.api
         composable("chatUI") {
             ChatUI(navController, chatService)
+        }
+
+        composable(route = "Phone_Call_Guide"){
+            PhoneCallGuide(navController = navController)
+        }
+
+        composable(route = "Phone_Guide"){
+            PhoneGuide0(navController = navController)
+        }
+
+        composable(route = "Phone_Contact_Guide"){
+            PhoneContactGuide(navController = navController)
+        }
+
+        composable(route = "Phone_Message_Guide"){
+            PhoneMessageGuide(navController = navController)
         }
     }
 }

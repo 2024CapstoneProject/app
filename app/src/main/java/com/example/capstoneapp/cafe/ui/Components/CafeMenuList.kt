@@ -16,6 +16,7 @@ import com.example.capstoneapp.cafe.data.Repository.MenuItemsRepository
 @Composable
 fun CafeMenuList(selectedMenu : String,onItemClicked:(MenuItem) ->Unit, showBorder:Boolean) {
     val items = MenuItemsRepository.getItemsForMenu(selectedMenu)
+    val coffeeIceMenuItems = MenuItemsRepository.getItemsForMenu("커피(ICE)")
 
     Column(
         horizontalAlignment = Alignment.Start,
@@ -28,9 +29,11 @@ fun CafeMenuList(selectedMenu : String,onItemClicked:(MenuItem) ->Unit, showBord
         rows.forEachIndexed() { rowIndex,rowItems ->
             Row {
                 rowItems.forEachIndexed() { itemIndex,item ->
+
                     ItemCard(item = item, onClick =  {
                         onItemClicked(item)
-                    }, showBorder = showBorder && rowIndex == 0 && itemIndex == 0)
+                    }, showBorder = showBorder && rowIndex == 0 && itemIndex == 0 &&
+                            item in coffeeIceMenuItems)
                 }
                 if (rowItems.size < 2) {
                     Spacer(modifier = Modifier.width(16.dp))
