@@ -4,9 +4,12 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
@@ -30,8 +33,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.capstoneapp.chatbot.api.AudioUploader
 import com.example.capstoneapp.chatbot.api.ChatService
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
+import com.example.capstoneapp.mainPage.VoicePopup
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -41,6 +46,8 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
     var question by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf("") }
+    var showVoiceRecogPopup by remember { mutableStateOf(false) }
+    val audioUploader = remember { AudioUploader(chatService) }
 
     // 초기 AI 메시지 설정
     val initialAiResponses = listOf(
@@ -148,29 +155,49 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
             })
         )
 
-        Button(
-            onClick = {
-                coroutineScope.launch {
-                    try {
-                        val userMessage = question
-                        userMessages = userMessages + userMessage
-                        question = "" // Clear the input field immediately
-                        val chatResponse = chatService.askChatbot(userMessage)
-                        if (chatResponse.isSuccessful) {
-                            aiResponses = aiResponses + (chatResponse.body()?.question ?: "응답을 받지 못했습니다.")
-                            errorMessage = ""
-                        } else {
-                            errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
-                        }
-                    } catch (e: Exception) {
-                        errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
-                        Log.e("ChatUI", "Error occurred", e)
-                    }
-                }
-            },
-            enabled = question.isNotBlank() // 버튼 활성화 여부 결정
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("질문 전송", fontSize = fontSize)
+            // 음성 검색 버튼
+            Button(
+                onClick = { showVoiceRecogPopup = true },
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp)
+            ) {
+                Text("음성 검색", fontSize = fontSize)
+            }
+
+            Spacer(Modifier.width(32.dp))
+
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        try {
+                            val userMessage = question
+                            userMessages = userMessages + userMessage
+                            question = "" // Clear the input field immediately
+                            val chatResponse = chatService.askChatbot(userMessage)
+                            if (chatResponse.isSuccessful) {
+                                aiResponses = aiResponses + (chatResponse.body()?.question ?: "응답을 받지 못했습니다.")
+                                errorMessage = ""
+                            } else {
+                                errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
+                            }
+                        } catch (e: Exception) {
+                            errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
+                            Log.e("ChatUI", "Error occurred", e)
+                        }
+                    }
+                },
+                enabled = question.isNotBlank(),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp)
+            ) {
+                Text("질문 전송", fontSize = fontSize)
+            }
         }
 
         if (errorMessage.isNotEmpty()) {
@@ -179,6 +206,17 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                 fontSize = fontSize,
                 color = Color.Red,
                 modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+
+        if (showVoiceRecogPopup) {
+            VoicePopup(
+                showDialog = showVoiceRecogPopup,
+                onDismiss = {
+                    println("AI 도우미 팝업 닫힘")
+                    showVoiceRecogPopup = false
+                },
+                audioUploader = audioUploader
             )
         }
     }
