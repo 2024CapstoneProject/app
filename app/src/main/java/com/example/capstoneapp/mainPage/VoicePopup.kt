@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -36,19 +35,19 @@ import androidx.core.content.ContextCompat
 import android.Manifest
 import android.app.Activity
 import android.util.Log
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.capstoneapp.R
 import com.example.capstoneapp.chatbot.api.AudioRecorder
 import com.example.capstoneapp.chatbot.api.AudioUploader
-import com.example.capstoneapp.chatbot.api.ChatService
 import com.example.capstoneapp.fastfood.ui.screens.CancelButton
 
 
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
-import kotlin.math.log
 
 
 @Composable
-fun VoiceRecogPopup(
+fun VoicePopup(
     showDialog: Boolean,
     onDismiss: () -> Unit,
     audioUploader: AudioUploader
@@ -148,20 +147,17 @@ fun VoiceRecogPopup(
     @Composable
     fun CancelButton(onDismiss: () -> Unit) {
         Button(
-            shape = MaterialTheme.shapes.medium,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent, // 배경색을 투명으로 설정
-                contentColor = Color.Black // 텍스트 색상
+                contentColor = Color.Black
             ),
-            border = BorderStroke(1.dp, Color.LightGray), // 테두리 설정
+            border = BorderStroke(1.dp, Color.LightGray),
             onClick = onDismiss
         ) {
             Text(
                 text = "취소",
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.Black, // 텍스트 색상을 흑색으로 설정
-                fontFamily = fontFamily,
-                fontSize = 14.sp,
+                color = Color.Black,
             )
         }
     }

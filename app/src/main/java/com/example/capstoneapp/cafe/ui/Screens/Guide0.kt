@@ -29,7 +29,7 @@ import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.chatbot.api.AudioUploader
 
 import com.example.capstoneapp.chatbot.api.ChatService
-import com.example.capstoneapp.mainPage.VoiceRecogPopup
+import com.example.capstoneapp.mainPage.VoicePopup
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -52,10 +52,7 @@ fun GuideScreen(navController:NavController,) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = {
-                showVoiceRecogPopup = true
-                println("AI 도우미 서비스 버튼 클릭됨")
-            },
+            onClick = { navController.navigate("chatUI") },
             modifier = Modifier
                 .size(330.dp, 80.dp)
                 .padding(bottom = 20.dp),
@@ -67,17 +64,6 @@ fun GuideScreen(navController:NavController,) {
                 fontSize = 25.sp,
                 color = Color.Black,
                 fontWeight = FontWeight.ExtraBold
-            )
-        }
-
-        if (showVoiceRecogPopup) {
-            VoiceRecogPopup(
-                showDialog = showVoiceRecogPopup,
-                onDismiss = {
-                    println("AI 도우미 팝업 닫힘")
-                    showVoiceRecogPopup = false
-                },
-                audioUploader = audioUploader // Pass the AudioUploader instance
             )
         }
 
