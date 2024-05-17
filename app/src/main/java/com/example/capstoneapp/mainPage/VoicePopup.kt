@@ -40,11 +40,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.capstoneapp.R
 import com.example.capstoneapp.chatbot.api.AudioRecorder
 import com.example.capstoneapp.chatbot.api.AudioUploader
-import com.example.capstoneapp.fastfood.ui.screens.CancelButton
+import com.example.capstoneapp.mainPage.CancelButton
 
 
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
+
+@Composable
+fun CancelButton(onDismiss: () -> Unit) {
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent, // 배경색을 투명으로 설정
+            contentColor = Color.Black
+        ),
+        border = BorderStroke(1.dp, Color.LightGray),
+        onClick = onDismiss
+    ) {
+        Text(
+            text = "취소",
+            fontWeight = FontWeight.ExtraBold,
+            color = Color.Black,
+        )
+    }
+}
 
 @Composable
 fun VoicePopup(
@@ -144,21 +162,5 @@ fun VoicePopup(
     }
 
 
-    @Composable
-    fun CancelButton(onDismiss: () -> Unit) {
-        Button(
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent, // 배경색을 투명으로 설정
-                contentColor = Color.Black
-            ),
-            border = BorderStroke(1.dp, Color.LightGray),
-            onClick = onDismiss
-        ) {
-            Text(
-                text = "취소",
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.Black,
-            )
-        }
-    }
+
 }

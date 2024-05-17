@@ -30,6 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.nav.repository.MenuItemsRepository.getMenuItemById
@@ -41,6 +43,7 @@ import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 fun PaymentPopup(
     showDialog: Boolean,
     onDismiss: () -> Unit,
+    navController: NavController
 ) {
     if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
@@ -80,7 +83,7 @@ fun PaymentPopup(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // 취소 버튼 추가
-                    CancelButton(onDismiss)
+                    CancelButton(onDismiss, navController)
                 }
             }
         }
@@ -89,7 +92,7 @@ fun PaymentPopup(
 
 
 @Composable
-fun CancelButton(onDismiss: () -> Unit) {
+fun CancelButton(onDismiss: () -> Unit, navController: NavController) {
     Button(
         modifier = Modifier.padding(horizontal = 110.dp),
         shape = MaterialTheme.shapes.medium,
@@ -98,10 +101,12 @@ fun CancelButton(onDismiss: () -> Unit) {
             contentColor = Color.Black // 텍스트 색상
         ),
         border = BorderStroke(1.dp, Color.Gray), // 테두리 설정
-        onClick = onDismiss
+        onClick = {
+            navController.navigate("HamburgerHomeScreen")
+        }
     ) {
         Text(
-            text = "취소",
+            text = "종료",
             fontWeight = FontWeight.ExtraBold,
             color = Color.Black, // 텍스트 색상을 흑색으로 설정
             fontFamily = fontFamily,
@@ -114,11 +119,13 @@ fun CancelButton(onDismiss: () -> Unit) {
 @Composable
 fun PaymentPopupPreview() {
     var showDialog by remember { mutableStateOf(true) }
-
+    val navController = rememberNavController()
     if (showDialog) {
         PaymentPopup(
             showDialog = showDialog,
-            onDismiss = { showDialog = false }
+            onDismiss = { showDialog = false },
+            navController = navController
+
         )
     }
 }
