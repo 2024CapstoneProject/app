@@ -28,7 +28,14 @@ public interface ChatService {
     @GET("/api/chat/transcription/ask")
     fun uploadAudioFile(@Part file: MultipartBody.Part): Call<WhisperTranscriptionResponse>
 
+    @GET("/api/chat/ask")
+    suspend fun askChatbotReset(
+        @Query("question") question: String,
+        @Query("reset") reset: Boolean
+    ): Response<ChatResponse>
+
 }
+
 
 
 object RetrofitInstance {
