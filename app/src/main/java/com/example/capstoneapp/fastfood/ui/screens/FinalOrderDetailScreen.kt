@@ -95,6 +95,7 @@ fun OrderScreen(
                 PaymentPopup(
                     showDialog = showDialog.value,
                     onDismiss = { showDialog.value = false },
+                    onConfirm = { showDialog.value = false },
                     navController// 팝업을 닫을 때 showDialog 상태를 false로 설정
                 )
             }

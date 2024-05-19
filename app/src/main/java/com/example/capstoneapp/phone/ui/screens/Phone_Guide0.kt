@@ -3,6 +3,7 @@ package com.example.capstoneapp.phone.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,18 +29,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
 
 @Composable
-fun PhoneGuide0(navController:NavController) {
+fun PhoneGuide0(navController: NavController) {
     CapstoneAppTheme {
         PhoneGuideScreen(navController)
     }
 }
 
 @Composable
-fun PhoneGuideScreen(navController:NavController) {
+fun PhoneGuideScreen(navController: NavController) {
     var showVoiceRecogPopup by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(top = 20.dp, bottom = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -112,7 +114,9 @@ fun PhoneGuideScreen(navController:NavController) {
                 )
             }
             Button(
-                onClick = {},
+                onClick = {
+                    navController.navigate("Phone_Camera_Guide")
+                },
                 modifier = Modifier
                     .size(150.dp, 150.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),

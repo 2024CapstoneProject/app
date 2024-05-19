@@ -1,5 +1,6 @@
 package com.example.capstoneapp.fastfood.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -33,12 +35,14 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit) {
             .padding(18.dp)
             .clickable(onClick = onClick)
     ) {
-        Icon(
+        Image(
             painter = painterResource(id = item.iconResourceId),
             contentDescription = "",
             modifier = Modifier
-                .width(72.dp) // 아이콘의 너비를 48dp로 설정
-                .height(64.dp)
+//                .size(80.dp),
+                .width(80.dp) // 아이콘의 너비를 48dp로 설정
+                .height(64.dp),
+            contentScale = ContentScale.Fit
         )
         Text(
             text = item.name,

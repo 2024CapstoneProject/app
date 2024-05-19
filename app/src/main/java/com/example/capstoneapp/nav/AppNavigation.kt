@@ -25,6 +25,10 @@ import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
+
+import com.example.capstoneapp.cafe.ui.Screens.TouchScreenCafe
+import com.example.capstoneapp.chatbot.api.AudioUploader
+
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
 import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
@@ -49,6 +53,7 @@ import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
 import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
 import com.example.capstoneapp.phone.ui.screens.PhoneCallGuide
+import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
@@ -165,6 +170,18 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 }
             }
             KioskCafePractice0(navController = navController, problem!!)
+        }
+
+        composable(route = "touchToStartCafe") {
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType=1,
+                content = { TouchScreenCafe(navController = navController, showBorder) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
         }
 
         //카페 연습 메뉴 선택 화면
@@ -314,6 +331,9 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
 
         composable(route = "Phone_Message_Guide"){
             PhoneMessageGuide(navController = navController)
+        }
+        composable(route = "Phone_Camera_Guide"){
+            PhoneCameraGuide(navController = navController)
         }
     }
 }

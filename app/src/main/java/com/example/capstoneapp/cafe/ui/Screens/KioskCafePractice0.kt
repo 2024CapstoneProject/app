@@ -119,7 +119,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
             textAlign = TextAlign.Center,
         )
         StartButton(onClick = {
-            navController.navigate("CafeKioskScreen")
+            navController.navigate("touchToStartCafe")
         })
     }
 
