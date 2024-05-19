@@ -43,6 +43,7 @@ import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 fun PaymentPopup(
     showDialog: Boolean,
     onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
     navController: NavController
 ) {
     if (showDialog) {
@@ -83,7 +84,7 @@ fun PaymentPopup(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // 취소 버튼 추가
-                    CancelButton(onDismiss, navController)
+                    CancelButton(onDismiss, onConfirm, navController)
                 }
             }
         }
@@ -92,7 +93,7 @@ fun PaymentPopup(
 
 
 @Composable
-fun CancelButton(onDismiss: () -> Unit, navController: NavController) {
+fun CancelButton(onDismiss: () -> Unit, onConfirm: () -> Unit,navController: NavController) {
     Button(
         modifier = Modifier.padding(horizontal = 110.dp),
         shape = MaterialTheme.shapes.medium,
@@ -124,6 +125,7 @@ fun PaymentPopupPreview() {
         PaymentPopup(
             showDialog = showDialog,
             onDismiss = { showDialog = false },
+            onConfirm = { showDialog = false },
             navController = navController
 
         )
