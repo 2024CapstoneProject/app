@@ -60,15 +60,20 @@ import androidx.core.graphics.toColorInt
 import com.example.capstoneapp.MainActivity
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
+import com.example.capstoneapp.nav.repository.KakaotalkProblem
 import kotlinx.coroutines.launch
 
 @Composable
 fun ChatRoom(
-    chatMessages: MutableList<ChatMessage>, photoList: MutableList<Int>
+    chatMessages: MutableList<ChatMessage>,
+    photoList: MutableList<Int>,
+    problem: KakaotalkProblem,
+    onButtonClick:(Boolean)->Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val keyboardVisible = isKeyboardVisible()
     val listState = rememberLazyListState()
+    var closePractice by remember { mutableStateOf(false) }
 
     var weight: Float = 1f
     Column(
@@ -95,7 +100,23 @@ fun ChatRoom(
                     weight = 1f
                 }
             }
+
+            if(problem.type.equals("simple")){
+                if(newMessage.content.contains(problem.answer)){
+                    closePractice = true
+                }
+            }else if(problem.type.equals("photo")){
+                if(newMessage.photoId == problem.photoId){
+                    closePractice = true
+                }
+            }
         }, photoList)
+        if(closePractice){
+            CloseDialog(onDismiss={
+                closePractice = false
+                onButtonClick(true)
+            })
+        }
     }
 }
 
@@ -292,5 +313,5 @@ fun ChatRoomPreview() {
     val photoList = remember { mutableStateListOf<Int>() }
 
     chatMessages.addAll(ChatMessageRepository.getSimpleChat())
-    ChatRoom(chatMessages = chatMessages, photoList)
+    // ChatRoom(chatMessages = chatMessages, photoList)
 }
