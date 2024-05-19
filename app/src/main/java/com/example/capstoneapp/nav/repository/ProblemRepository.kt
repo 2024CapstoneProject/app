@@ -1,5 +1,6 @@
 package com.example.capstoneapp.nav.repository
 
+import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
 import kotlin.random.Random
 
 object ProblemRepository {
@@ -37,12 +38,16 @@ object ProblemRepository {
     )
     //kakao
     private var personList = listOf(
-        "아들"
+        "아들","딸","남편","손녀"
     )
 
     private var orderList = listOf(
-        "메세지 보내기"
+        "\'뭐하니?\'라고 문자 보내기",
+        "딸에게 아래 사진을 보내기",
     )
+
+    private var photoIdList = ChatMessageRepository.getPhotoList();
+
 
     fun createProblem(): Problem {
         val randomMenuIndex = Random.nextInt(menuList.size)
@@ -55,6 +60,7 @@ object ProblemRepository {
         val randomCPayIndex = Random.nextInt(c_payList.size)
         val randomPersonIndex = Random.nextInt(personList.size)
         val randomOrderIndex = Random.nextInt(orderList.size)
+        val randomPhotoIndex = Random.nextInt(photoIdList.size);
 
         return Problem(
             menu = menuList[randomMenuIndex],
@@ -66,7 +72,8 @@ object ProblemRepository {
             c_point = c_isPoint[randomCPointIndex],
             c_pay = c_payList[randomCPayIndex],
             person = personList[randomPersonIndex],
-            order = orderList[randomOrderIndex]
+            order = orderList[randomOrderIndex],
+            photo = photoIdList[randomPhotoIndex]
         )
     }
 }
@@ -82,4 +89,5 @@ data class Problem(
     var c_place: String,
     val c_point: String,
     val c_pay: String,
+    val photo: Int
 )

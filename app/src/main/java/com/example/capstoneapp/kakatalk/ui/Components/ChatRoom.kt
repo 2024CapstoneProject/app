@@ -199,9 +199,10 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>) {
                         isButtonOrKeyboardOrBox[2].value = false
 
                     })
-            TextField(value = inputTextState,
+            TextField(
+                value = inputTextState,
                 onValueChange = { inputTextState = it },
-                placeholder = { Text(text = "${extraPadding.value}") },
+                placeholder = { Text(text = "") },
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
