@@ -1,5 +1,6 @@
 package com.example.capstoneapp.cafe.ui.Components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -43,13 +45,14 @@ fun ItemCard(item: MenuItem, onClick :()->Unit,showBorder:Boolean){
             .clickable(onClick = onClick)
             .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
     ){
-        Icon(
+        Image(
             painter = painterResource(id = item.iconResourceId),
             contentDescription = "",
             modifier = Modifier
                 .padding(top=24.dp)
                 .width(88.dp)
-                .height(88.dp)
+                .height(88.dp),
+            contentScale = ContentScale.Crop
         )
 
         Text(
