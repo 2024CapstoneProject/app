@@ -19,19 +19,26 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Components.ChatRoom
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
+import com.example.capstoneapp.nav.repository.KakaotalkProblem
 
 @Composable
-fun ChattingScreen(navController: NavController, problem: Problem) {
+fun ChattingScreen(navController: NavController, problem: KakaotalkProblem) {
     val chatMessages = remember { mutableStateListOf<ChatMessage>() }
     val photoList = remember{mutableStateListOf<Int>()}
     var showBorder by remember { mutableStateOf(false) }
+    var resanswer by remember {mutableStateOf(false)}
 
     LaunchedEffect(Unit) {
         chatMessages.addAll(ChatMessageRepository.getSimpleChat())
         photoList.addAll(ChatMessageRepository.getPhotoList())
     }
 
-    ChatRoom(chatMessages = chatMessages, photoList = photoList)
+    ChatRoom(chatMessages = chatMessages, photoList = photoList,problem = problem){
+        resanswer = it
+        if(resanswer){
+            navController.popBackStack("KakaoPractice0",inclusive = true)
+        }
+    }
 
 
 }
@@ -42,5 +49,5 @@ fun ChattingScreenPreview(){
     val navController = rememberNavController()
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
-    ChattingScreen(navController =navController , problem = problemViewModel.getProblemValue()!!)
+    ChattingScreen(navController =navController , problem = problemViewModel.getKakaotalkProblemValue()!!)
 }

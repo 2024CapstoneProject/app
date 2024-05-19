@@ -270,7 +270,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel,context: Context) {
             NotificationScreen(
                 problem = problem!!,
                 screenType=3,
-                content = { ChattingScreen(navController = navController, problem!!) }
+                content = { ChattingScreen(navController = navController, kakaotalkproblem!!) }
             ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {
@@ -283,7 +283,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel,context: Context) {
             NotificationScreen(
                 problem = problem!!,
                 screenType=3,
-                content = { PhotoChatPractice(navController = navController, problem!!) }
+                content = { PhotoChatPractice(navController = navController, kakaotalkproblem!!) }
             ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {

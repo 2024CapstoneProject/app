@@ -158,12 +158,10 @@ fun ProblemBox(problem: Problem,screenType: Int) {
             Column(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(bottom = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                    .padding(bottom = 24.dp)
             ) {
                 Text(
-                    text = "문제 : ${problem.order}",
+                    text = "문제\n${problem.order}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.SansSerif
@@ -187,6 +185,6 @@ fun BottomSheetPreview() {
     val problem = remember { problemViewModel.getProblemValue() }
     BottomSheetScreen(
         openBottomSheet = openBottomSheet, problem = problem!!,
-        1
+        3
     ) { openBottomSheet = it }
 }
