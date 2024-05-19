@@ -50,6 +50,7 @@ import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
 import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
 import com.example.capstoneapp.phone.ui.screens.PhoneCallGuide
+import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
@@ -310,6 +311,9 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
 
         composable(route = "Phone_Message_Guide"){
             PhoneMessageGuide(navController = navController)
+        }
+        composable(route = "Phone_Camera_Guide"){
+            PhoneCameraGuide(navController = navController)
         }
     }
 }
