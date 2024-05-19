@@ -20,8 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.data.Repository.MenuItem
 
 @Composable
@@ -87,7 +89,7 @@ fun SelectedMenuSpec(
             )
             IconButton(modifier = Modifier.size(28.dp), onClick = { onItemClick("Minus") }) {
                 Icon(
-                    imageVector = Icons.Filled.Clear,
+                    painter = painterResource(id = R.mipmap.minus),
                     contentDescription = "Minus",
                     modifier = Modifier
                         .size(28.dp)
