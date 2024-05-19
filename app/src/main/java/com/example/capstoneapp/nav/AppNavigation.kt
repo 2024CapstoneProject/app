@@ -62,7 +62,7 @@ import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
 
 @SuppressLint("RememberReturnType")
 @Composable
-fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
+fun AppNavigation(problemViewModel: ProblemViewModel,context: Context) {
     val navController = rememberNavController()
     val viewModel: OrderViewModel = viewModel()
     val (showBorder, setShowBorder) = remember { mutableStateOf(false) } // 아이콘 테두리 상태 관리
@@ -174,8 +174,8 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
 
         composable(route = "touchToStartCafe") {
             NotificationScreen(
-                problem = problemViewModel.getProblemValue()!!,
-                screenType=1,
+                problem = problem!!,
+                screenType=2,
                 content = { TouchScreenCafe(navController = navController, showBorder) }
             ) { setShowBorder(!showBorder) }
 
@@ -192,7 +192,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
                 }
             }
             NotificationScreen(
-                problem = problemViewModel.getProblemValue()!!,
+                problem = problem!!,
                 screenType = 2,
                 content = { CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!,showBorder) }
             ) { setShowBorder(!showBorder)
@@ -202,7 +202,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
         //카페 연습 메뉴 확인 화면
         composable(route = "KioskCafePractice5") {
             NotificationScreen(
-                problem = problemViewModel.getProblemValue()!!,
+                problem = problem!!,
                 screenType=2,
                 content = { KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!,showBorder) }
             ) { setShowBorder(!showBorder) }
@@ -212,7 +212,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
         //카페 연습 결제 선택 화면
         composable(route = "KioskCafePractice6") {
             NotificationScreen(
-                problem = problemViewModel.getProblemValue()!!,
+                problem = problem!!,
                 screenType=2,
                 content = { KioskCafePractice6(navController = navController, menuItemsViewModel, problem!!,showBorder) }
             ) { setShowBorder(!showBorder) }
@@ -232,7 +232,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
         composable(route = "Kakao_List") {
 
             NotificationScreen(
-                problem = problemViewModel.getProblemValue()!!,
+                problem = problem!!,
                 screenType=3,
                 content = { Kakao_List(navController = navController, problem!!,showBorder)}
             ) { setShowBorder(!showBorder) }
@@ -255,7 +255,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
         //카카오톡 연습 화면 - 친구목록
         composable(route = "Kakao_FriendList") {
             NotificationScreen(
-                problem = problemViewModel.getProblemValue()!!,
+                problem = problem!!,
                 screenType=3,
                 content = { Kakao_FriendChatList(navController = navController, problem!!,showBorder) }
             ) { setShowBorder(!showBorder) }
@@ -268,7 +268,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
         //카카오톡 연습 화면 - 채팅방
         composable(route = "ChattingScreen") {
             NotificationScreen(
-                problem = problemViewModel.getProblemValue()!!,
+                problem = problem!!,
                 screenType=3,
                 content = { ChattingScreen(navController = navController, problem!!) }
             ) { setShowBorder(!showBorder) }
@@ -281,7 +281,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
 
         composable(route = "PhotoChatPractice") {
             NotificationScreen(
-                problem = problemViewModel.getProblemValue()!!,
+                problem = problem!!,
                 screenType=3,
                 content = { PhotoChatPractice(navController = navController, problem!!) }
             ) { setShowBorder(!showBorder) }

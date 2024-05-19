@@ -15,18 +15,18 @@ class ProblemViewModel @Inject constructor(private val problemRepository: Proble
     ViewModel() {
 
     private val _problem = MutableLiveData<Problem>()
-    private val _kakatalkproblem = MutableLiveData<KakaotalkProblem>()
+    private val _kakaotalkproblem = MutableLiveData<KakaotalkProblem>()
     val problem: LiveData<Problem> = _problem
-    val kakaotalkproblem: LiveData<KakaotalkProblem> = _kakatalkproblem
+    val kakaotalkproblem: LiveData<KakaotalkProblem> = _kakaotalkproblem
 
     init {
         if (_problem.value == null) {
             _problem.value = problemRepository.createProblem()
         }
-        if(_kakatalkproblem.value == null){
-            _kakatalkproblem.value = problemRepository.createKakaotalkProblem()
+        if(_kakaotalkproblem.value == null){
+            _kakaotalkproblem.value = problemRepository.createKakaotalkProblem()
         }
-        _problem.value!!.order = _kakatalkproblem.value!!.person+"에게 "+_kakatalkproblem.value!!.content
+        _problem.value!!.order = _kakaotalkproblem.value!!.person+"에게 "+_kakaotalkproblem.value!!.content
     }
 
     fun createProblem() {
@@ -36,7 +36,7 @@ class ProblemViewModel @Inject constructor(private val problemRepository: Proble
 
     fun createKakaotalkProblem(){
         val problem = problemRepository.createKakaotalkProblem()
-        _kakatalkproblem.value = problem
+        _kakaotalkproblem.value = problem
         _problem.value!!.order = problem.person+"에게 "+problem.content
     }
 
@@ -45,6 +45,6 @@ class ProblemViewModel @Inject constructor(private val problemRepository: Proble
     }
 
     fun getKakaotalkProblemValue(): KakaotalkProblem?{
-        return _kakatalkproblem.value
+        return _kakaotalkproblem.value
     }
 }
