@@ -1,5 +1,6 @@
 package com.example.capstoneapp.nav.repository
 
+import com.example.capstoneapp.R
 import kotlin.random.Random
 
 object ProblemRepository {
@@ -37,11 +38,27 @@ object ProblemRepository {
     )
     //kakao
     private var personList = listOf(
-        "아들"
+        "아들","딸","남편","손녀"
     )
 
-    private var orderList = listOf(
-        "메세지 보내기"
+    private var type = listOf("photo","simple")
+
+    private var simpleProblemList = listOf(
+        Pair("\'뭐하니?\'라고 문자 보내기","뭐하니"),
+        Pair("\'경로당에 있다고 문자 보내기","경로당에 있어"),
+        Pair("전화번호 보내기","000-0000-0000")
+    )
+
+    private var photoProblemList = listOf(
+        Pair("하얀색 티셔츠 사진 보내기","0"),
+        Pair("검은색 티셔츠 사진 보내기","1"),
+        Pair("커피 사진 보내기","2")
+    )
+
+    private var photoIdList = listOf(
+        R.drawable.sample_1,
+        R.drawable.sample_2,
+        R.drawable.sample_3
     )
 
     fun createProblem(): Problem {
@@ -53,8 +70,6 @@ object ProblemRepository {
         val randomCPlaceIndex = Random.nextInt(c_placeList.size)
         val randomCPointIndex = Random.nextInt(c_isPoint.size)
         val randomCPayIndex = Random.nextInt(c_payList.size)
-        val randomPersonIndex = Random.nextInt(personList.size)
-        val randomOrderIndex = Random.nextInt(orderList.size)
 
         return Problem(
             menu = menuList[randomMenuIndex],
@@ -65,10 +80,25 @@ object ProblemRepository {
             c_place = c_placeList[randomCPlaceIndex],
             c_point = c_isPoint[randomCPointIndex],
             c_pay = c_payList[randomCPayIndex],
-            person = personList[randomPersonIndex],
-            order = orderList[randomOrderIndex]
+            order = ""
         )
     }
+
+    fun createKakaotalkProblem(): KakaotalkProblem{
+        val randomPerson = personList[Random.nextInt(personList.size)]
+        val randomType = type[Random.nextInt(type.size)]
+        val problemPair = if(randomType.equals("simple")) {simpleProblemList[Random.nextInt(simpleProblemList.size)]}
+        else {photoProblemList[Random.nextInt(photoProblemList.size)]}
+
+        return KakaotalkProblem(
+            type = randomType,
+            person = randomPerson,
+            content = problemPair.first,
+            photoId = if(randomType.equals("simple")) 0 else photoIdList[Integer.parseInt(problemPair.second)],
+            answer = if(randomType.equals("simple")) problemPair.second else "0"
+        )
+    }
+
 }
 
 data class Problem(
@@ -76,10 +106,17 @@ data class Problem(
     var place: String,
     val point: String,
     val pay: String,
-    val person: String,
-    var order: String,
     val c_menu: String,
     var c_place: String,
     val c_point: String,
     val c_pay: String,
+    var order: String
+)
+
+data class KakaotalkProblem(
+    val type: String,
+    var person: String,
+    var content: String,
+    var photoId: Int = 0,
+    var answer: String
 )

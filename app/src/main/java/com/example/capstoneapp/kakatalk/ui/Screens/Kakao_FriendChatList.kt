@@ -1,5 +1,6 @@
 package com.example.capstoneapp.kakatalk.ui.Screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
@@ -30,7 +33,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,16 +47,17 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
 import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
+import com.example.capstoneapp.kakatalk.ui.Components.ChatList
+import com.example.capstoneapp.kakatalk.ui.Components.PersonalProfile
+import com.example.capstoneapp.kakatalk.ui.Components.friendList
+import com.example.capstoneapp.kakatalk.ui.Components.profileDialog
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
-import com.example.capstoneapp.kakatalk.ui.Components.ChatList
-import com.example.capstoneapp.kakatalk.ui.Components.PersonalProfile
-import com.example.capstoneapp.kakatalk.ui.Components.friendList
 
 @Composable
-fun Kakao_FriendChatList(navController: NavController, problem: Problem,showBorder: Boolean) {
+fun Kakao_FriendChatList(navController: NavController, problem: Problem, showBorder: Boolean) {
     val chatData = remember { mutableStateListOf<ChatItemData>() }
     val friendList = remember { mutableStateListOf<Pair<Int, String>>() }
 
@@ -59,16 +65,22 @@ fun Kakao_FriendChatList(navController: NavController, problem: Problem,showBord
         chatData.addAll(FriendChatRoomRepository.getchatData())
         friendList.addAll(FriendChatRoomRepository.getfriendList())
     }
-    FriendChatList(navController, chatData, friendList,showBorder)
+    FriendChatList(navController, chatData, friendList, showBorder)
 }
 
 @Composable
 fun FriendChatList(
-    navController: NavController, chatData: List<ChatItemData>, friendList: List<Pair<Int, String>>,showBorder:Boolean
+    navController: NavController,
+    chatData: List<ChatItemData>,
+    friendList: List<Pair<Int, String>>,
+    showBorder: Boolean
 ) {
     var weight: Float = 1f
     val listState = rememberLazyListState()
     val isButtonClick = remember { mutableStateOf("친구") }
+    val showPopup = remember { mutableStateOf(false) }
+    val username = remember { mutableStateOf("") }
+    val userImage = remember { mutableStateOf(0) }
 
 
     Column(
@@ -111,21 +123,37 @@ fun FriendChatList(
                     PersonalProfile(
                         painter = painterResource(id = R.drawable.sample_3),
                         name = "김희연",
-                        false
+                        showBorder = false,
+                        onItemClick = {
+                            showPopup.value = true
+                            username.value = "김희연"
+                            userImage.value = R.drawable.sample_3
+                        }
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth(1f)
+                            .height(2.dp)
+                            .background(Color.Gray)
+
                     )
 
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f)
-                            .clickable {
-                                navController.navigate("itemMenu") // Navigate to PaymentScreen
-                            },
+                            .weight(1f),
                     ) {
                         friendList(
                             friendList = friendList,
                             listState = listState,
-                            showBorder
+                            showBorder,
+                            showProfile = { isShow, name, imageId ->
+                                if (isShow) {
+                                    username.value = name
+                                    userImage.value = imageId
+                                    showPopup.value = isShow
+                                }
+                            }
                         )
                     }
                 }
@@ -147,6 +175,104 @@ fun FriendChatList(
             }
             BottomButton() {
                 isButtonClick.value = it
+            }
+        }
+    }
+    if (showPopup.value) {
+        PersonalPopup(username.value, userImage.value) {
+            showPopup.value = it
+            if (!it) {
+                username.value = ""
+                userImage.value = 0
+            }
+        }
+    }
+}
+
+@Composable
+fun PersonalPopup(userName: String, userImage: Int, closePopup: (Boolean) -> Unit) {
+    profileDialog(onClickOutside = { closePopup(false) }) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.LightGray)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(start = 8.dp, top = 8.dp),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = "friendSearch",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable { closePopup(false) }
+                )
+
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Bottom
+            ) {
+
+                Image(
+                    painter = painterResource(id = userImage),
+                    contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(132.dp) // 이미지 크기 조정
+                        .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(20.dp))
+                )
+                Text(
+                    text = userName,
+                    fontSize = 24.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
+                )
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(2.dp)
+                        .background(Color.White)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(88.dp)
+                        .background(Color.Transparent)
+                        .wrapContentSize()
+                        .clickable {}
+                        .padding(top = 8.dp, bottom = 8.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Icon(
+                        imageVector = Icons.Default.Email,
+                        contentDescription = "",
+                        tint = Color.White,
+                        modifier = Modifier.size(36.dp)
+                    )
+                    Text(
+                        text = if (userName.equals("김희연")) "나와의 채팅" else "1:1채팅",
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
@@ -214,6 +340,6 @@ fun Kakao_FriendList_Preview() {
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     Kakao_FriendChatList(
-        navController = navController, problem = problemViewModel.getProblemValue()!!,false
+        navController = navController, problem = problemViewModel.getProblemValue()!!, false
     )
 }

@@ -33,40 +33,52 @@ import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
-fun friendList(friendList: List<Pair<Int, String>>, listState: LazyListState,showBorder:Boolean) {
-    Spacer(
-        modifier = Modifier
-            .fillMaxWidth(1f)
-            .height(2.dp)
-            .background(Color.Gray)
+fun friendList(
+    friendList: List<Pair<Int, String>>,
+    listState: LazyListState,
+    showBorder: Boolean,
+    showProfile: (Boolean, String, Int) -> Unit
+) {
 
-    )
     //친구 목록 LazyColumn
     LazyColumn(
         state = listState,
-        modifier = Modifier.fillMaxWidth()
-            .clickable{},
+        modifier = Modifier.fillMaxWidth(),
     ) {
         itemsIndexed(friendList) { index, item ->
             PersonalProfile(
                 painter = painterResource(id = item.first),
                 name = item.second,
-                showBorder = showBorder && index == 2//테두리 설정
+                showBorder = showBorder && index == 2,//테두리 설정
+                onItemClick = {
+                    showProfile(true, item.second, item.first)
+                }
             )
         }
     }
 }
 
 @Composable
-fun PersonalProfile(painter: Painter, name: String,showBorder:Boolean) {
+fun PersonalProfile(
+    painter: Painter,
+    name: String,
+    showBorder: Boolean,
+    onItemClick: () -> Unit
+) {
     //프로필 기본 설정
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(12.dp)
-            .clickable { }
-            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
+            .clickable { onItemClick() }
+            .then(
+                if (showBorder) Modifier.border(
+                    BorderWidth,
+                    BorderColor,
+                    BorderShape
+                ) else Modifier
+            ),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {

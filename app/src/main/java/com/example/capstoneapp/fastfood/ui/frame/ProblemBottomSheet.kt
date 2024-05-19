@@ -158,10 +158,12 @@ fun ProblemBox(problem: Problem,screenType: Int) {
             Column(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "문제 : ${problem.person}에게 ${problem.order}",
+                    text = "문제 : ${problem.order}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.SansSerif
