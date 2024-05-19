@@ -25,7 +25,6 @@ import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
-import com.example.capstoneapp.chatbot.api.AudioUploader
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
 import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
@@ -66,6 +65,7 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val problem by problemViewModel.problem.observeAsState()
+    val kakaotalkproblem by problemViewModel.kakaotalkproblem.observeAsState()
 
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
@@ -227,8 +227,12 @@ fun AppNavigation(problemViewModel : ProblemViewModel, context: Context) {
 
         //카카오톡 연습 시작 화면
         composable(route = "KakaoPractice0") {
-
-            KakaoPractice0(navController = navController, problem!!)
+            LaunchedEffect(navBackStackEntry) {
+                if (navBackStackEntry?.destination?.route == "KakaoPractice0") {
+                    problemViewModel.createKakaotalkProblem()
+                }
+            }
+            KakaoPractice0(navController = navController, kakaotalkproblem!!)
         }
 
         //카카오톡 연습 화면 - 친구목록

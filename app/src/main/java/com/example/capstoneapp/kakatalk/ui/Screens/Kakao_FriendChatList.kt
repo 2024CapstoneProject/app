@@ -130,6 +130,13 @@ fun FriendChatList(
                             userImage.value = R.drawable.sample_3
                         }
                     )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth(1f)
+                            .height(2.dp)
+                            .background(Color.Gray)
+
+                    )
 
                     Box(
                         modifier = Modifier

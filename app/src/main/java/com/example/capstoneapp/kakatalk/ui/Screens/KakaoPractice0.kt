@@ -25,13 +25,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.KakaotalkProblem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 @Composable
-fun KakaoPractice0(navController: NavController, problem: Problem) {
+fun KakaoPractice0(navController: NavController, problem: KakaotalkProblem) {
 
     Column {
         TextScreen(navController, problem)
@@ -39,7 +39,8 @@ fun KakaoPractice0(navController: NavController, problem: Problem) {
 }
 
 @Composable
-fun TextScreen(navController: NavController, problem: Problem) {
+fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
+    val photoId = if(problem.type.equals("photo")) problem.photoId else R.drawable.kakaotalk_icon
 
     Column(
         modifier = Modifier
@@ -60,7 +61,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
         )
 
         Text(
-            text = "${problem.person}에게 ${problem.order}",
+            text = "${problem.person}에게 ${problem.content}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -71,7 +72,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
         )
 
         Image(
-            painter = painterResource(R.drawable.kakaotalk_icon),
+            painter = painterResource(photoId),
             contentDescription = "kakao image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,5 +135,5 @@ fun TextScreenPreview() {
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
 
-    KakaoPractice0(navController, problemViewModel.getProblemValue()!!)
+    KakaoPractice0(navController, problemViewModel.getKakaotalkProblemValue()!!)
 }

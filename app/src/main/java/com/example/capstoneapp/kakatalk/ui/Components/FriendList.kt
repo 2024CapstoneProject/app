@@ -39,13 +39,7 @@ fun friendList(
     showBorder: Boolean,
     showProfile: (Boolean, String, Int) -> Unit
 ) {
-    Spacer(
-        modifier = Modifier
-            .fillMaxWidth(1f)
-            .height(2.dp)
-            .background(Color.Gray)
 
-    )
     //친구 목록 LazyColumn
     LazyColumn(
         state = listState,
