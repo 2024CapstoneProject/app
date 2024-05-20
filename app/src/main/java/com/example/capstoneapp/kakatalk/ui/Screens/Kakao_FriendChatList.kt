@@ -24,48 +24,54 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.fastfood.ui.theme.LightYellow
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
 import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
 import com.example.capstoneapp.kakatalk.ui.Components.ChatList
 import com.example.capstoneapp.kakatalk.ui.Components.PersonalProfile
 import com.example.capstoneapp.kakatalk.ui.Components.friendList
 import com.example.capstoneapp.kakatalk.ui.Components.profileDialog
-import com.example.capstoneapp.nav.repository.Problem
-import com.example.capstoneapp.nav.repository.ProblemRepository
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
+import com.example.capstoneapp.nav.repository.KakaotalkProblem
+
+var loading by mutableStateOf(false)
 
 @Composable
-fun Kakao_FriendChatList(navController: NavController, problem: Problem, showBorder: Boolean) {
+fun Kakao_FriendChatList(
+    navController: NavController,
+    showBorder: Boolean,
+    problem: KakaotalkProblem
+) {
     val chatData = remember { mutableStateListOf<ChatItemData>() }
     val friendList = remember { mutableStateListOf<Pair<Int, String>>() }
 
     LaunchedEffect(Unit) {
-        chatData.addAll(FriendChatRoomRepository.getchatData())
+        chatData.addAll(FriendChatRoomRepository.getchatData(problem))
         friendList.addAll(FriendChatRoomRepository.getfriendList())
     }
-    FriendChatList(navController, chatData, friendList, showBorder)
+    FriendChatList(navController, chatData, friendList, showBorder, problem)
 }
 
 @Composable
@@ -73,7 +79,8 @@ fun FriendChatList(
     navController: NavController,
     chatData: List<ChatItemData>,
     friendList: List<Pair<Int, String>>,
-    showBorder: Boolean
+    showBorder: Boolean,
+    problem: KakaotalkProblem
 ) {
     var weight: Float = 1f
     val listState = rememberLazyListState()
@@ -179,7 +186,7 @@ fun FriendChatList(
         }
     }
     if (showPopup.value) {
-        PersonalPopup(username.value, userImage.value) {
+        PersonalPopup(username.value, userImage.value, navController) {
             showPopup.value = it
             if (!it) {
                 username.value = ""
@@ -190,89 +197,120 @@ fun FriendChatList(
 }
 
 @Composable
-fun PersonalPopup(userName: String, userImage: Int, closePopup: (Boolean) -> Unit) {
+fun PersonalPopup(
+    userName: String, userImage: Int, navController: NavController, closePopup: (Boolean) -> Unit
+) {
+    val movePage = remember { mutableStateOf(false) }
+
     profileDialog(onClickOutside = { closePopup(false) }) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.LightGray)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(start = 8.dp, top = 8.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = "friendSearch",
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clickable { closePopup(false) }
-                )
-
-            }
-
+        if (!movePage.value) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.LightGray)
             ) {
-
-                Image(
-                    painter = painterResource(id = userImage),
-                    contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(132.dp) // 이미지 크기 조정
-                        .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
-                        .clip(RoundedCornerShape(20.dp))
-                )
-                Text(
-                    text = userName,
-                    fontSize = 24.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
-                )
-                Spacer(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(2.dp)
-                        .background(Color.White)
-                )
+                        .wrapContentHeight()
+                        .padding(start = 8.dp, top = 8.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = "friendSearch",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clickable { closePopup(false) }
+                    )
+
+                }
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(88.dp)
-                        .background(Color.Transparent)
-                        .wrapContentSize()
-                        .clickable {}
-                        .padding(top = 8.dp, bottom = 8.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .wrapContentHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
                 ) {
 
-                    Icon(
-                        imageVector = Icons.Default.Email,
-                        contentDescription = "",
-                        tint = Color.White,
-                        modifier = Modifier.size(36.dp)
+                    Image(
+                        painter = painterResource(id = userImage),
+                        contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(132.dp) // 이미지 크기 조정
+                            .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
+                            .clip(RoundedCornerShape(20.dp))
                     )
                     Text(
-                        text = if (userName.equals("김희연")) "나와의 채팅" else "1:1채팅",
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
+                        text = userName,
+                        fontSize = 24.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
                     )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(2.dp)
+                            .background(Color.White)
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(88.dp)
+                            .background(Color.Transparent)
+                            .wrapContentSize()
+                            .clickable {
+                                movePage.value = true
+                            }
+                            .padding(top = 8.dp, bottom = 8.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Icon(
+                            imageVector = Icons.Default.Email,
+                            contentDescription = "",
+                            tint = Color.White,
+                            modifier = Modifier.size(36.dp)
+                        )
+                        Text(
+                            text = if (userName.equals("김희연")) "나와의 채팅" else "1:1채팅",
+                            fontSize = 20.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
+            }
+        } else {
+            LaunchedEffect(movePage.value) {
+                if (movePage.value) {
+
+                    navController.navigate("ChattingScreen")
+                }
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .background(LightYellow)
+            ) {
+                CircularProgressIndicator()
+                Text(
+                    text = "대화방으로 이동합니다!",
+                    color = Color.Black,
+                    fontSize = 32.sp,
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.ExtraBold,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
             }
         }
     }
@@ -336,10 +374,11 @@ fun SearchBox() {
 @Preview
 @Composable
 fun Kakao_FriendList_Preview() {
-    val navController = rememberNavController()
-    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
-    Kakao_FriendChatList(
-        navController = navController, problem = problemViewModel.getProblemValue()!!, false
-    )
+//    val navController = rememberNavController()
+//    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+//    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+//    Kakao_FriendChatList(
+//        navController = navController,
+//        false
+//    )
 }

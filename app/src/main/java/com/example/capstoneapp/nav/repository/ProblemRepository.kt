@@ -44,7 +44,7 @@ object ProblemRepository {
     private var type = listOf("photo","simple")
 
     private var simpleProblemList = listOf(
-        Pair("\'뭐하니?\'라고 문자 보내기","뭐하니"),
+        Pair("\'뭐해?\'라고 문자 보내기","뭐해"),
         Pair("\'경로당에 있다고 문자 보내기","경로당"),
         Pair("전화번호 보내기\n(전화번호는 010-1234-5678입니다)","010-1234-5678")
     )
@@ -87,15 +87,17 @@ object ProblemRepository {
     fun createKakaotalkProblem(): KakaotalkProblem{
         val randomPerson = personList[Random.nextInt(personList.size)]
         val randomType = type[Random.nextInt(type.size)]
-        val problemPair = if(randomType.equals("simple")) {simpleProblemList[Random.nextInt(simpleProblemList.size)]}
-        else {photoProblemList[Random.nextInt(photoProblemList.size)]}
+        val randomIndex = Random.nextInt(simpleProblemList.size)
+        val problemPair = if(randomType.equals("simple")) {simpleProblemList[randomIndex]}
+        else {photoProblemList[randomIndex]}
 
         return KakaotalkProblem(
             type = randomType,
             person = randomPerson,
             content = problemPair.first,
             photoId = if(randomType.equals("simple")) 0 else photoIdList[Integer.parseInt(problemPair.second)],
-            answer = if(randomType.equals("simple")) problemPair.second else "0"
+            answer = if(randomType.equals("simple")) problemPair.second else "0",
+            index = randomIndex
         )
     }
 
@@ -115,6 +117,7 @@ data class Problem(
 
 data class KakaotalkProblem(
     val type: String,
+    var index: Int,
     var person: String,
     var content: String,
     var photoId: Int = 0,
