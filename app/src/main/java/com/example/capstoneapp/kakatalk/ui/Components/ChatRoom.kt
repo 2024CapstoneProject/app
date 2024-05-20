@@ -65,6 +65,7 @@ import kotlinx.coroutines.launch
 fun ChatRoom(
     chatMessages: MutableList<ChatMessage>,
     photoList: MutableList<Int>,
+    showBorder:Boolean,
     problem: KakaotalkProblem,
     onButtonClick: (Boolean) -> Unit
 ) {
@@ -72,6 +73,7 @@ fun ChatRoom(
     val keyboardVisible = isKeyboardVisible()
     val listState = rememberLazyListState()
     var closePractice by remember { mutableStateOf(false) }
+    var repeatAnswer by remember { mutableStateOf(false) }
 
     var weight: Float = 1f
     Column(
@@ -102,25 +104,33 @@ fun ChatRoom(
             if (problem.type.equals("simple")) {
                 if (newMessage.content.contains(problem.answer)) {
                     closePractice = true
+                }else{
+                    repeatAnswer = true
                 }
             } else if (problem.type.equals("photo")) {
                 if (newMessage.photoId == problem.photoId) {
                     closePractice = true
+                }else{
+                    repeatAnswer = true
                 }
             }
-        }, photoList)
+        }, photoList,showBorder,problem)
         if (closePractice) {
             CloseDialog(onDismiss = {
                 closePractice = false
                 onButtonClick(true)
             })
         }
+        if(repeatAnswer){
+            RepeatDialog(onDismiss = {
+                repeatAnswer = false })
+        }
     }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>) {
+fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>,showBorder:Boolean,problem: KakaotalkProblem) {
     val textFieldColors = TextFieldDefaults.colors(
         focusedContainerColor = Color.White,
         focusedIndicatorColor = Color.White,
@@ -288,7 +298,7 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>) {
             if (!isButtonOrKeyboardOrBox[2].value) PhotoBox(boxSize = extraPadding) {
                 isButtonOrKeyboardOrBox[2].value = !isButtonOrKeyboardOrBox[2].value
             }
-            else if (isButtonOrKeyboardOrBox[2].value) photoBlock(extraPadding, photoList) {
+            else if (isButtonOrKeyboardOrBox[2].value) photoBlock(extraPadding, photoList,showBorder,problem) {
                 onNewPhotoMessage.value = it
             }
         }

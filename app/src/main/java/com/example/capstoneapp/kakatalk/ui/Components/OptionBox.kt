@@ -43,8 +43,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.example.capstoneapp.R
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
+import com.example.capstoneapp.nav.repository.KakaotalkProblem
 
 @Composable
 fun PhotoBox(boxSize: Dp, onClick: () -> Unit) {
@@ -105,7 +109,7 @@ fun PhotoBox(boxSize: Dp, onClick: () -> Unit) {
 }
 
 @Composable
-fun photoBlock(boxSize: Dp, photoList: List<Int>, onNewPhotoMessage: (Int) -> Unit) {
+fun photoBlock(boxSize: Dp, photoList: List<Int>, showBorder:Boolean,problem:KakaotalkProblem,onNewPhotoMessage: (Int) -> Unit) {
     var isPhotoSelect by remember { mutableStateOf(false) }
     var selectedList = remember { mutableStateListOf<Int>() }
 
@@ -123,7 +127,7 @@ fun photoBlock(boxSize: Dp, photoList: List<Int>, onNewPhotoMessage: (Int) -> Un
             state = LazyListState(),
         ) {
             items(photoList.size) { index ->
-                photoCard(photoList[index], index) { photoId, buttonClick ->
+                photoCard(photoList[index], index,showBorder,problem) { photoId, buttonClick ->
                     if (selectedList.contains(photoId) && !buttonClick) {//선택했다 취소하는 경우
                         selectedList.remove(photoId)
                         if (selectedList.isEmpty()) isPhotoSelect = false
@@ -142,7 +146,7 @@ fun photoBlock(boxSize: Dp, photoList: List<Int>, onNewPhotoMessage: (Int) -> Un
 }
 
 @Composable
-fun photoCard(photoId: Int, index: Int, onClick: (Int, Boolean) -> Unit) {
+fun photoCard(photoId: Int, index: Int,showBorder: Boolean,problem:KakaotalkProblem, onClick: (Int, Boolean) -> Unit) {
     var buttonClick by remember { mutableStateOf(false) }
     val ImageBoxcolor: Color
     val buttonColor: Color
@@ -167,6 +171,7 @@ fun photoCard(photoId: Int, index: Int, onClick: (Int, Boolean) -> Unit) {
         alpha = 1f
     }
 
+
     val roundedShape =
         if (index == 0) RoundedCornerShape(bottomStart = 16.dp) else if (index == 2) RoundedCornerShape(
             bottomEnd = 16.dp
@@ -177,7 +182,13 @@ fun photoCard(photoId: Int, index: Int, onClick: (Int, Boolean) -> Unit) {
             .width(132.dp)
             .fillMaxHeight(1f)
             .clip(roundedShape)
-            .border(border, ImageBoxcolor)
+            .then(
+                if (showBorder && (problem.photoId == photoId)) Modifier.border(
+                    BorderWidth,
+                    BorderColor,
+                    BorderShape
+                ) else Modifier.border(border, ImageBoxcolor)
+            )
     ) {
 
         Image(
@@ -215,13 +226,13 @@ fun photoCard(photoId: Int, index: Int, onClick: (Int, Boolean) -> Unit) {
 @Preview
 @Composable
 fun photoBlockPreview() {
-    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
-    val photoList = remember { mutableStateListOf<Int>() }
-    photoList.addAll(ChatMessageRepository.getPhotoList())
-
-    photoBlock(132.dp, photoList) {
-
-    }
+//    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+//    val photoList = remember { mutableStateListOf<Int>() }
+//    photoList.addAll(ChatMessageRepository.getPhotoList())
+//    val showBorder = true
+//    photoBlock(132.dp, photoList,showBorder) {
+//
+//    }
 }
 
 @Preview

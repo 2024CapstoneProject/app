@@ -30,7 +30,7 @@ fun PhotoChatPractice(navController: NavController, problem: KakaotalkProblem) {
         photoMessages.addAll(ChatMessageRepository.getPhotoSend(problem.person, problem.index))
         photoList.addAll(ChatMessageRepository.getPhotoList())
     }
-    ChatRoom(chatMessages = photoMessages, photoList, problem) {
+    ChatRoom(chatMessages = photoMessages, photoList, true,problem) {
         resanswer = it
         if (resanswer) {
             navController.popBackStack("KakaoPractice0", inclusive = true)
@@ -50,8 +50,8 @@ fun PhotoChatPracticePreview() {
 @Composable
 @Preview
 fun photoCardPreview() {
-    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
-    val photoList = remember { mutableStateListOf<Int>() }
-    photoList.addAll(ChatMessageRepository.getPhotoList())
-    photoBlock(132.dp, photoList) {}
+//    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+//    val photoList = remember { mutableStateListOf<Int>() }
+//    photoList.addAll(ChatMessageRepository.getPhotoList())
+//    photoBlock(132.dp, photoList,true) {}
 }

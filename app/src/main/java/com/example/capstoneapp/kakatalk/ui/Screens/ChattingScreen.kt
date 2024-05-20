@@ -20,10 +20,9 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 @Composable
-fun ChattingScreen(navController: NavController, problem: KakaotalkProblem) {
+fun ChattingScreen(navController: NavController, showBorder:Boolean,problem: KakaotalkProblem) {
     val chatMessages = remember { mutableStateListOf<ChatMessage>() }
     val photoList = remember { mutableStateListOf<Int>() }
-    var showBorder by remember { mutableStateOf(false) }
     var resanswer by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -45,7 +44,7 @@ fun ChattingScreen(navController: NavController, problem: KakaotalkProblem) {
         photoList.addAll(ChatMessageRepository.getPhotoList())
     }
 
-    ChatRoom(chatMessages = chatMessages, photoList = photoList, problem = problem) {
+    ChatRoom(chatMessages = chatMessages, photoList = photoList, showBorder,problem = problem) {
         resanswer = it
         if (resanswer) {
             navController.popBackStack("KakaoPractice0", inclusive = true)
@@ -63,6 +62,7 @@ fun ChattingScreenPreview() {
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     ChattingScreen(
         navController = navController,
+        true,
         problem = problemViewModel.getKakaotalkProblemValue()!!
     )
 }

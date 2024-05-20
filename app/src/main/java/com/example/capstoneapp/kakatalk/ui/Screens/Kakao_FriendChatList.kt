@@ -51,7 +51,9 @@ import com.example.capstoneapp.fastfood.ui.theme.LightYellow
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
 import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
 import com.example.capstoneapp.kakatalk.ui.Components.ChatList
+import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog
 import com.example.capstoneapp.kakatalk.ui.Components.PersonalProfile
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 import com.example.capstoneapp.kakatalk.ui.Components.friendList
 import com.example.capstoneapp.kakatalk.ui.Components.profileDialog
 import com.example.capstoneapp.nav.repository.KakaotalkProblem
@@ -86,6 +88,7 @@ fun FriendChatList(
     val listState = rememberLazyListState()
     val isButtonClick = remember { mutableStateOf("친구") }
     val showPopup = remember { mutableStateOf(false) }
+    var repeatAnswer by remember { mutableStateOf(false) }
     val username = remember { mutableStateOf("") }
     val userImage = remember { mutableStateOf(0) }
 
@@ -132,9 +135,14 @@ fun FriendChatList(
                         name = "김희연",
                         showBorder = false,
                         onItemClick = {
-                            showPopup.value = true
-                            username.value = "김희연"
-                            userImage.value = R.drawable.sample_3
+                            if(problem.person != "김희연"){
+                                repeatAnswer = true
+                            }else{
+                                showPopup.value = true
+                                username.value = "김희연"
+                                userImage.value = R.drawable.sample_3
+                            }
+
                         }
                     )
                     Spacer(
@@ -154,8 +162,11 @@ fun FriendChatList(
                             friendList = friendList,
                             listState = listState,
                             showBorder,
+                            problem,
                             showProfile = { isShow, name, imageId ->
-                                if (isShow) {
+                                if(name != problem.person){
+                                    repeatAnswer = true
+                                } else if (isShow) {
                                     username.value = name
                                     userImage.value = imageId
                                     showPopup.value = isShow
@@ -164,7 +175,6 @@ fun FriendChatList(
                         )
                     }
                 }
-
                 else -> {
                     Box(
                         modifier = Modifier
@@ -175,7 +185,15 @@ fun FriendChatList(
                             navController = navController,
                             chatData = chatData,
                             listState = listState,
-                            showBorder
+                            showBorder,
+                            problem,
+                            checkAnswer = {
+                                if(it != problem.person){
+                                    repeatAnswer = true
+                                }else{
+                                    navController.navigate("ChattingScreen")
+                                }
+                            }
                         )
                     }
                 }
@@ -193,6 +211,11 @@ fun FriendChatList(
                 userImage.value = 0
             }
         }
+    }
+
+    if(repeatAnswer){
+        RepeatDialog(onDismiss = {
+            repeatAnswer = false })
     }
 }
 
@@ -226,7 +249,6 @@ fun PersonalPopup(
                             .size(40.dp)
                             .clickable { closePopup(false) }
                     )
-
                 }
 
                 Column(

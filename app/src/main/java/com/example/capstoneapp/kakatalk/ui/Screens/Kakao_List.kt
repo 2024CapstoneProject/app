@@ -21,7 +21,7 @@ fun Kakao_List(navController: NavController, problem: KakaotalkProblem, showBord
     val listState = rememberLazyListState()
     val chatData = remember { mutableStateListOf<ChatItemData>() }
     chatData.addAll(FriendChatRoomRepository.getchatData(problem))
-    ChatList(navController, chatData, listState, showBorder)
+    ChatList(navController, chatData, listState, showBorder, problem,checkAnswer = {})
 }
 
 @Preview

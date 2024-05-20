@@ -28,13 +28,16 @@ import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
+import com.example.capstoneapp.nav.repository.KakaotalkProblem
 
 @Composable
 fun ChatList(
     navController: NavController,
     chatData: List<ChatItemData>,
     listState: LazyListState,
-    showBorder: Boolean
+    showBorder: Boolean,
+    problem: KakaotalkProblem,
+    checkAnswer: (String) -> Unit
 ) {
     LazyColumn(
         state = listState, modifier = Modifier.fillMaxWidth()
@@ -43,9 +46,10 @@ fun ChatList(
             ChatItem(
                 chatItem = item,
                 onItemClick = {
-                    navController.navigate("ChattingScreen")
+                    checkAnswer(it.name)
+                    //navController.navigate("ChattingScreen")
                 },
-                showBorder = showBorder && index == 1
+                showBorder = showBorder && (problem.person == item.name)
             )
         }
     }

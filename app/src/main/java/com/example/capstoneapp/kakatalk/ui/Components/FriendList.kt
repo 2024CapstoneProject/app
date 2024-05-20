@@ -31,12 +31,14 @@ import androidx.compose.ui.unit.sp
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.nav.repository.KakaotalkProblem
 
 @Composable
 fun friendList(
     friendList: List<Pair<Int, String>>,
     listState: LazyListState,
     showBorder: Boolean,
+    problem: KakaotalkProblem,
     showProfile: (Boolean, String, Int) -> Unit
 ) {
 
@@ -49,7 +51,7 @@ fun friendList(
             PersonalProfile(
                 painter = painterResource(id = item.first),
                 name = item.second,
-                showBorder = showBorder && index == 2,//테두리 설정
+                showBorder = showBorder && (problem.person == item.second),//테두리 설정
                 onItemClick = {
                     showProfile(true, item.second, item.first)
                 }
