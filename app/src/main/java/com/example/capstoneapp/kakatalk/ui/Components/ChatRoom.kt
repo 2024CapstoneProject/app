@@ -72,6 +72,7 @@ fun ChatRoom(
     val keyboardVisible = isKeyboardVisible()
     val listState = rememberLazyListState()
     var closePractice by remember { mutableStateOf(false) }
+    var repeatAnswer by remember { mutableStateOf(false) }
 
     var weight: Float = 1f
     Column(
@@ -102,10 +103,14 @@ fun ChatRoom(
             if (problem.type.equals("simple")) {
                 if (newMessage.content.contains(problem.answer)) {
                     closePractice = true
+                }else{
+                    repeatAnswer = true
                 }
             } else if (problem.type.equals("photo")) {
                 if (newMessage.photoId == problem.photoId) {
                     closePractice = true
+                }else{
+                    repeatAnswer = true
                 }
             }
         }, photoList)
@@ -114,6 +119,10 @@ fun ChatRoom(
                 closePractice = false
                 onButtonClick(true)
             })
+        }
+        if(repeatAnswer){
+            RepeatDialog(onDismiss = {
+                repeatAnswer = false })
         }
     }
 }

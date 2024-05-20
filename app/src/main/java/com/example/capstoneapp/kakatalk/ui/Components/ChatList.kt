@@ -34,7 +34,8 @@ fun ChatList(
     navController: NavController,
     chatData: List<ChatItemData>,
     listState: LazyListState,
-    showBorder: Boolean
+    showBorder: Boolean,
+    checkAnswer: (String) -> Unit
 ) {
     LazyColumn(
         state = listState, modifier = Modifier.fillMaxWidth()
@@ -43,7 +44,8 @@ fun ChatList(
             ChatItem(
                 chatItem = item,
                 onItemClick = {
-                    navController.navigate("ChattingScreen")
+                    checkAnswer(it.name)
+                    //navController.navigate("ChattingScreen")
                 },
                 showBorder = showBorder && index == 1
             )
