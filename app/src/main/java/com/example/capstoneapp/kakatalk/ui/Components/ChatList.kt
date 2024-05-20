@@ -12,11 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,25 +24,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
-import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
 
 @Composable
-fun ChatList(navController: NavController, chatData: List<ChatItemData>, listState: LazyListState,showBorder:Boolean) {
-
+fun ChatList(
+    navController: NavController,
+    chatData: List<ChatItemData>,
+    listState: LazyListState,
+    showBorder: Boolean
+) {
     LazyColumn(
         state = listState, modifier = Modifier.fillMaxWidth()
     ) {
         itemsIndexed(chatData) { index, item ->
-            ChatItem(chatItem = item, onItemClick = {
-                if (index == 1) {
+            ChatItem(
+                chatItem = item,
+                onItemClick = {
                     navController.navigate("ChattingScreen")
-                }
-            },showBorder = showBorder && index == 1 )
+                },
+                showBorder = showBorder && index == 1
+            )
         }
     }
 }
@@ -55,14 +56,20 @@ fun ChatList(navController: NavController, chatData: List<ChatItemData>, listSta
 fun ChatItem(
     chatItem: ChatItemData,
     onItemClick: (ChatItemData) -> Unit,
-    showBorder:Boolean
+    showBorder: Boolean
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
             .clickable { onItemClick(chatItem) }
-            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier), // 클릭 이벤트 추가
+            .then(
+                if (showBorder) Modifier.border(
+                    BorderWidth,
+                    BorderColor,
+                    BorderShape
+                ) else Modifier
+            ), // 클릭 이벤트 추가
         verticalAlignment = Alignment.CenterVertically
     ) {
         // 이미지
@@ -111,10 +118,10 @@ fun ChatItem(
 @Preview
 @Composable
 fun ChatListPreview() {
-    val listState = rememberLazyListState()
-    val chatData = remember { mutableStateListOf<ChatItemData>() }
-    chatData.addAll(FriendChatRoomRepository.getchatData())
-    val navController = rememberNavController()
-
-    ChatList(navController, chatData, listState,true)
+//    val listState = rememberLazyListState()
+//    val chatData = remember { mutableStateListOf<ChatItemData>() }
+//    chatData.addAll(FriendChatRoomRepository.getchatData())
+//    val navController = rememberNavController()
+//
+//    ChatList(navController, chatData, listState, true)
 }

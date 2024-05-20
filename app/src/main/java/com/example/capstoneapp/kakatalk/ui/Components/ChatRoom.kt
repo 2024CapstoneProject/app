@@ -34,7 +34,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,7 +58,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.capstoneapp.MainActivity
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
-import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
 import com.example.capstoneapp.nav.repository.KakaotalkProblem
 import kotlinx.coroutines.launch
 
@@ -68,7 +66,7 @@ fun ChatRoom(
     chatMessages: MutableList<ChatMessage>,
     photoList: MutableList<Int>,
     problem: KakaotalkProblem,
-    onButtonClick:(Boolean)->Unit
+    onButtonClick: (Boolean) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val keyboardVisible = isKeyboardVisible()
@@ -101,18 +99,18 @@ fun ChatRoom(
                 }
             }
 
-            if(problem.type.equals("simple")){
-                if(newMessage.content.contains(problem.answer)){
+            if (problem.type.equals("simple")) {
+                if (newMessage.content.contains(problem.answer)) {
                     closePractice = true
                 }
-            }else if(problem.type.equals("photo")){
-                if(newMessage.photoId == problem.photoId){
+            } else if (problem.type.equals("photo")) {
+                if (newMessage.photoId == problem.photoId) {
                     closePractice = true
                 }
             }
         }, photoList)
-        if(closePractice){
-            CloseDialog(onDismiss={
+        if (closePractice) {
+            CloseDialog(onDismiss = {
                 closePractice = false
                 onButtonClick(true)
             })
@@ -309,9 +307,9 @@ fun isKeyboardVisible(): Boolean {
 @Composable
 @Preview
 fun ChatRoomPreview() {
-    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
-    val photoList = remember { mutableStateListOf<Int>() }
-
-    chatMessages.addAll(ChatMessageRepository.getSimpleChat())
-    // ChatRoom(chatMessages = chatMessages, photoList)
+//    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+//    val photoList = remember { mutableStateListOf<Int>() }
+//
+//    chatMessages.addAll(ChatMessageRepository.getSimpleChat())
+//    // ChatRoom(chatMessages = chatMessages, photoList)
 }

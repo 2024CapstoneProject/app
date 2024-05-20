@@ -27,7 +27,6 @@ import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
 
 import com.example.capstoneapp.cafe.ui.Screens.TouchScreenCafe
-import com.example.capstoneapp.chatbot.api.AudioUploader
 
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
 import com.example.capstoneapp.chatbot.ui.components.ChatUI
@@ -62,7 +61,7 @@ import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
 
 @SuppressLint("RememberReturnType")
 @Composable
-fun AppNavigation(problemViewModel: ProblemViewModel,context: Context) {
+fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
     val navController = rememberNavController()
     val viewModel: OrderViewModel = viewModel()
     val (showBorder, setShowBorder) = remember { mutableStateOf(false) } // 아이콘 테두리 상태 관리
@@ -234,7 +233,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel,context: Context) {
             NotificationScreen(
                 problem = problem!!,
                 screenType=3,
-                content = { Kakao_List(navController = navController, problem!!,showBorder)}
+                content = { Kakao_List(navController = navController, kakaotalkproblem!!,showBorder)}
             ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {
@@ -257,7 +256,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel,context: Context) {
             NotificationScreen(
                 problem = problem!!,
                 screenType=3,
-                content = { Kakao_FriendChatList(navController = navController, problem!!,showBorder) }
+                content = { Kakao_FriendChatList(navController = navController,showBorder,kakaotalkproblem!!) }
             ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {
