@@ -162,6 +162,7 @@ fun FriendChatList(
                             friendList = friendList,
                             listState = listState,
                             showBorder,
+                            problem,
                             showProfile = { isShow, name, imageId ->
                                 if(name != problem.person){
                                     repeatAnswer = true
@@ -185,6 +186,7 @@ fun FriendChatList(
                             chatData = chatData,
                             listState = listState,
                             showBorder,
+                            problem,
                             checkAnswer = {
                                 if(it != problem.person){
                                     repeatAnswer = true
