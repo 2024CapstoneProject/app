@@ -17,11 +17,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.capstoneapp.cafe.ui.theme.LightYellow
 
 @Composable
 fun RepeatDialog(
@@ -46,12 +51,23 @@ fun RepeatDialog(
             ) {
                 Text(
                     text = "정답이 아닙니다!",
-                    color = Color.Black,
+                    color = Color.Red,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
-                    text = "아래 문제 보기 버튼을 터치해",
+                    text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = LightYellow,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.ExtraBold
+                            ),
+                        ) {
+                            append("아래 문제 보기 버튼")
+                        }
+                        append("을 터치해")
+                    },
                     color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold

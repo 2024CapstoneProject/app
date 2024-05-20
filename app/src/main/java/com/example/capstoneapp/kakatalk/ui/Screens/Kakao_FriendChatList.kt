@@ -24,6 +24,8 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -131,7 +133,7 @@ fun FriendChatList(
             when (isButtonClick.value) {
                 "친구" -> {
                     PersonalProfile(
-                        painter = painterResource(id = R.drawable.sample_3),
+                        painter = painterResource(id = R.drawable.profile_me),
                         name = "김희연",
                         showBorder = false,
                         onItemClick = {
@@ -258,16 +260,24 @@ fun PersonalPopup(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
                 ) {
-
+                    Card(
+                        shape = RoundedCornerShape(20.dp),
+                        elevation= CardDefaults.cardElevation(
+                            defaultElevation = 16.dp)
+                    ){
                     Image(
                         painter = painterResource(id = userImage),
                         contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.Inside,
                         modifier = Modifier
                             .size(132.dp) // 이미지 크기 조정
                             .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
                             .clip(RoundedCornerShape(20.dp))
+                            .background(
+                                color = Color.White
+                            )
                     )
+                }
                     Text(
                         text = userName,
                         fontSize = 24.sp,
