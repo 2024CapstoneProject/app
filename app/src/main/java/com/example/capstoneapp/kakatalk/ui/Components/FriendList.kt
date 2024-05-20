@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -84,16 +86,26 @@ fun PersonalProfile(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painter,
-            contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(72.dp) // 이미지 크기 조정
-                .padding(top = 8.dp, start = 8.dp)
-                .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
-                .clip(RoundedCornerShape(20.dp))
-        )
+        Card(
+            modifier = Modifier.padding(top = 8.dp, start = 8.dp),
+            shape = RoundedCornerShape(20.dp),
+            elevation= CardDefaults.cardElevation(
+                defaultElevation = 4.dp)
+        ){
+            Image(
+                painter = painter,
+                contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
+                contentScale = ContentScale.Inside,
+                modifier = Modifier
+                    .size(72.dp) // 이미지 크기 조정
+                    .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(
+                        color = Color.White
+                    )
+            )
+        }
+
         Text(
             text = name,
             fontSize = 24.sp,

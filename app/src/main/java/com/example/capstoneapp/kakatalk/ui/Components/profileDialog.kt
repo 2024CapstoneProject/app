@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -91,16 +95,26 @@ fun profilePreview2() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {
+                Card(
+                    shape = RoundedCornerShape(20.dp),
+                    elevation= CardDefaults.cardElevation(
+                        defaultElevation = 16.dp)
+                ){
+                    Image(
+                        painter = painterResource(id = R.drawable.profile_husband),
+                        contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
+                        contentScale = ContentScale.Inside,
+                        modifier = Modifier
+                            .size(132.dp) // 이미지 크기 조정
+                            .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(
+                                color = Color.White
+                            )
+                    )
+                }
 
-                Image(
-                    painter = painterResource(id = R.drawable.sample_1),
-                    contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(132.dp) // 이미지 크기 조정
-                        .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
-                        .clip(RoundedCornerShape(20.dp))
-                )
+
                 Text(
                     text = "김희연",
                     fontSize = 24.sp,

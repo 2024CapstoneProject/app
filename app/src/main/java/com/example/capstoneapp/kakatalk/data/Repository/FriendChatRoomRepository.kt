@@ -7,31 +7,31 @@ object FriendChatRoomRepository {
 
     private val chatData = listOf(
         ChatItemData(
-            image = R.drawable.kakaotalk_icon,
+            image = R.drawable.profile_husband,
             name = "남편",
             message = "어디야?",
             date = "2024-04-01"
         ),
         ChatItemData(
-            image = R.drawable.kakaotalk_icon,
+            image = R.drawable.profile_son,
             name = "아들",
             message = "그래",
             date = "2024-03-31"
         ),
         ChatItemData(
-            image = R.drawable.kakaotalk_icon,
+            image = R.drawable.profile_daughter,
             name = "딸",
             message = "어디 아픈 데 없으시죠?",
             date = "2024-03-30"
         ),
         ChatItemData(
-            image = R.drawable.kakaotalk_icon,
+            image = R.drawable.profile_granddaughter,
             name = "손녀",
             message = "사랑해요!",
             date = "2024-03-30"
         ),
         ChatItemData(
-            image = R.drawable.kakaotalk_icon,
+            image = R.drawable.profile_me,
             name = "김희연",
             message = "",
             date = "2024-03-30"
@@ -39,10 +39,10 @@ object FriendChatRoomRepository {
     )
 
     private val friendList = listOf(
-        Pair(R.drawable.sample_1, "남편"),
-        Pair(R.drawable.sample_2, "손녀"),
-        Pair(R.drawable.burgerimg, "아들"),
-        Pair(R.drawable.burgerimg, "딸")
+        Pair(R.drawable.profile_husband, "남편"),
+        Pair(R.drawable.profile_granddaughter, "손녀"),
+        Pair(R.drawable.profile_son, "아들"),
+        Pair(R.drawable.profile_daughter, "딸")
     )
 
     fun getchatData(problem: KakaotalkProblem): List<ChatItemData> {
