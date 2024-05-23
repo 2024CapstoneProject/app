@@ -51,7 +51,7 @@ fun OrderScreen(
     showBorder: Boolean
 ) {
     val orderItems by viewModel.orderItems.observeAsState(initial = listOf())
-    val totalAmount by viewModel.totalOrderAmount.observeAsState(0)
+    val totalAmount = orderItems.sumOf { it.menuItem.price * it.quantity }
     val showDialog = remember { mutableStateOf(false) }
 
     // 각 옵션의 선택 상태를 관리하는 상태 변수

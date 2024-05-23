@@ -50,8 +50,14 @@ fun ItemMenu(
 
     val onButtonClick = {
         if (showDessertScreen) {
-            selectedDessert?.let { orderItems.add(it) }
-            selectedDrink?.let { orderItems.add(it) }
+            selectedDessert?.let {
+                orderItems.removeAll { item -> item.type == "디저트" }
+                orderItems.add(it)
+            }
+            selectedDrink?.let {
+                orderItems.removeAll { item -> item.type == "드링크" }
+                orderItems.add(it)
+            }
             showDessertScreen = false
         } else {
             navController.navigate("finalOrder")
@@ -116,9 +122,11 @@ fun ItemMenu(
                 selectedDrink = selectedDrink,
                 onDessertSelected = { selectedItem ->
                     selectedDessert = selectedItem
+                    viewModel.addMenuItem(selectedItem, 1)
                 },
                 onDrinkSelected = { selectedItem ->
                     selectedDrink = selectedItem
+                    viewModel.addMenuItem(selectedItem, 1)
                 }
             )
         }
@@ -150,12 +158,14 @@ fun ItemMenu(
                 buttonText = buttonText,
                 backgroundColor = Color.Red,
                 contentColor = Color.Black,
-                enabled = if (showDessertScreen) selectedDessert != null && selectedDrink != null else orderItems.isNotEmpty() // 선택된 디저트와 드링크가 모두 있어야 버튼 활성화
+                enabled = orderItems.isNotEmpty() // orderItems가 비어 있으면 버튼 비활성화
             )
         }
         Spacer(modifier = Modifier.padding(8.dp))
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

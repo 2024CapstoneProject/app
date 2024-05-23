@@ -83,12 +83,3 @@ fun SelectSetDessertScreen(
         )
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewISelectSetDessertScreen() {
-//    val dummyOrderItems = listOf(
-//        MenuItem(1, "감자튀김", R.drawable.baseline_adb_24, 0)
-//    )
-//    SelectSetDessertScreen(onItemSelected = {dummyOrderItems})
-//}

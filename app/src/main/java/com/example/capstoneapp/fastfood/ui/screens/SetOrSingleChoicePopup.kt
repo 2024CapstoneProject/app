@@ -92,19 +92,19 @@ fun SetOrSingleChoicePopup(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SetPopupPreview() {
-    var showDialog by remember { mutableStateOf(true) }
-    val navController = rememberNavController()
-
-    if (showDialog) {
-        SetOrSingleChoicePopup(
-            showDialog = showDialog,
-            MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24,7000),
-            onDismiss = { showDialog = false },
-            onAddToOrder = { /* 주문 추가 이벤트 처리는 불필요하므로 비워둠 */ }
-
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SetPopupPreview() {
+//    var showDialog by remember { mutableStateOf(true) }
+//    val navController = rememberNavController()
+//
+//    if (showDialog) {
+//        SetOrSingleChoicePopup(
+//            showDialog = showDialog,
+//            MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24,7000),
+//            onDismiss = { showDialog = false },
+//            onAddToOrder = { /* 주문 추가 이벤트 처리는 불필요하므로 비워둠 */ }
+//
+//        )
+//    }
+//}
