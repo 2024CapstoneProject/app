@@ -104,7 +104,10 @@ fun OrderScreen(
                 PaymentPopup(
                     showDialog = showDialog.value,
                     onDismiss = { showDialog.value = false },
-                    onConfirm = { showDialog.value = false },
+                    onConfirm = {
+                        showDialog.value = false
+                        navController.navigate("HamburgerHomeScreen")
+                    },
                     navController // 팝업을 닫을 때 showDialog 상태를 false로 설정
                 )
             }
@@ -184,7 +187,11 @@ fun OrderScreen(
                 modifier = Modifier
                     .weight(1f)
                     .padding(bottom = 16.dp),
-                onClick = { showDialog.value = true },
+                onClick = {
+                    if (allOptionsSelected) {
+                        showDialog.value = true
+                    }
+                },
                 buttonText = "결제하기",
                 backgroundColor = if (allOptionsSelected) Color.Red else Color.Gray,
                 contentColor = Color.Black,
