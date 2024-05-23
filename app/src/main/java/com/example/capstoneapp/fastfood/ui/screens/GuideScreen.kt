@@ -2,6 +2,7 @@ package com.example.capstoneapp.fastfood.ui.screens
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,20 +24,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
@@ -49,14 +43,14 @@ fun FastfoodGuideScreenPreview(navController: NavController) {
     var clickedImageResource by remember { mutableStateOf(0) }
 
     val imageResources = listOf(
-        R.drawable.touch,
-        R.drawable.payment,
-        R.drawable.burger,
-        R.drawable.set,
+        R.drawable.guide_000,
+        R.drawable.fastfood_guide_001,
+        R.drawable.fastfood_guide_002,
+        R.drawable.fastfood_guide_003,
         R.drawable.dessert,
-        R.drawable.drink,
-        R.drawable.receipt,
-        R.drawable.card
+        R.drawable.fastfood_guide_005,
+        R.drawable.fastfood_guide_006,
+        R.drawable.fastfood_guide_007
     )
 
     Column(
@@ -138,6 +132,7 @@ fun guideImage(
                         painter = painterResource(id = imageResources[currentImageIndex]),
                         contentDescription = null,
                         modifier = Modifier.size(width = 250.dp, height = 500.dp)
+                            .border(2.dp, Color.Black)
                     )
                 }
                 Spacer(modifier = Modifier.width(0.dp))
@@ -162,14 +157,14 @@ fun guideImage(
 @Composable
 fun getResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.touch -> context.getString(R.string.touch_text)
-        R.drawable.payment -> context.getString(R.string.payment_text)
-        R.drawable.burger -> context.getString(R.string.burger_text)
-        R.drawable.set -> context.getString(R.string.set_text)
+        R.drawable.guide_000 -> context.getString(R.string.touch_text)
+        R.drawable.fastfood_guide_001 -> context.getString(R.string.payment_text)
+        R.drawable.fastfood_guide_002 -> context.getString(R.string.burger_text)
+        R.drawable.fastfood_guide_003 -> context.getString(R.string.set_text)
         R.drawable.dessert -> context.getString(R.string.dessert_text)
-        R.drawable.drink -> context.getString(R.string.drink_text)
-        R.drawable.receipt -> context.getString(R.string.receipt_text)
-        R.drawable.card -> context.getString(R.string.card_text)
+        R.drawable.fastfood_guide_005 -> context.getString(R.string.drink_text)
+        R.drawable.fastfood_guide_006 -> context.getString(R.string.receipt_text)
+        R.drawable.fastfood_guide_007 -> context.getString(R.string.card_text)
         else -> "Unknown"
     }
 }
