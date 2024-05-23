@@ -45,19 +45,24 @@ fun ItemMenu(
     var showDialog by remember { mutableStateOf(false) }
     var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
     var showDessertScreen by remember { mutableStateOf(false) }
+    var selectedDessert by remember { mutableStateOf<MenuItem?>(null) }
+    var selectedDrink by remember { mutableStateOf<MenuItem?>(null) }
 
     val onButtonClick = {
-        if(showDessertScreen)
+        if (showDessertScreen) {
+            selectedDessert?.let { orderItems.add(it) }
+            selectedDrink?.let { orderItems.add(it) }
             showDessertScreen = false
-        else {
+        } else {
             navController.navigate("finalOrder")
         }
     }
 
-    //네비게이션 카테고리 선택
+    // 네비게이션 카테고리 선택
     var selectedMenu by remember { mutableStateOf("햄버거") } // 초기값 설정
     val myMenuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
     val buttonText = if (showDessertScreen) "선택완료" else "결제하기"
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxHeight()
@@ -79,15 +84,18 @@ fun ItemMenu(
                             }
                         }
                     )
-                    ItemList(selectedMenu = selectedMenu) { selectedItem ->
-                        if (selectedMenu == "햄버거") { // "햄버거" 메뉴가 선택되었을 때만 클릭 이벤트 활성화
-                            currentItemForDialog = selectedItem
-                            showDialog = true // 아이템 클릭 시 팝업 표시
+                    ItemList(
+                        selectedMenu = selectedMenu,
+                        selectedItem = currentItemForDialog,
+                        onItemClicked = { selectedItem ->
+                            if (selectedMenu == "햄버거") { // "햄버거" 메뉴가 선택되었을 때만 클릭 이벤트 활성화
+                                currentItemForDialog = selectedItem
+                                showDialog = true // 아이템 클릭 시 팝업 표시
+                            }
                         }
-                    }
+                    )
                 }
             }
-
 
             if (showDialog) {
                 SetOrSingleChoicePopup(
@@ -104,9 +112,13 @@ fun ItemMenu(
             }
         } else {
             SelectSetDessertScreen(
-                onItemSelected = { selectedItem ->
-                    orderItems.add(selectedItem)
-                    viewModel.addMenuItem(selectedItem, 1)
+                selectedDessert = selectedDessert,
+                selectedDrink = selectedDrink,
+                onDessertSelected = { selectedItem ->
+                    selectedDessert = selectedItem
+                },
+                onDrinkSelected = { selectedItem ->
+                    selectedDrink = selectedItem
                 }
             )
         }
@@ -119,7 +131,6 @@ fun ItemMenu(
             DividerFormat()
             OrderList(orderItems = orderItems)
         }
-        // 주문 목록 표시
 
         // 결제 버튼
         Row(
@@ -139,7 +150,7 @@ fun ItemMenu(
                 buttonText = buttonText,
                 backgroundColor = Color.Red,
                 contentColor = Color.Black,
-                enabled = orderItems.isNotEmpty() // orderItems가 비어 있으면 버튼 비활성화
+                enabled = if (showDessertScreen) selectedDessert != null && selectedDrink != null else orderItems.isNotEmpty() // 선택된 디저트와 드링크가 모두 있어야 버튼 활성화
             )
         }
         Spacer(modifier = Modifier.padding(8.dp))

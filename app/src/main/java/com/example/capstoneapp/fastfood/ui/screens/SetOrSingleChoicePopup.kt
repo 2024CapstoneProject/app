@@ -74,11 +74,15 @@ fun SetOrSingleChoicePopup(
 
                     ) {
                         ItemCard(
-                            item = currentItem
+                            item = currentItem,
+                            isSelected = false
                         ) { onAddToOrder(currentItem) }
 
                         if (setItem != null) {
-                            ItemCard(item = setItem) { onAddToOrder(setItem) }
+                            ItemCard(
+                                item = setItem,
+                                isSelected = false
+                            ) { onAddToOrder(setItem) }
                         }
                     }
                     Spacer(modifier = Modifier.height(16.dp))

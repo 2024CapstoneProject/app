@@ -17,8 +17,9 @@ import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.nav.repository.MenuItemsRepository
 import androidx.compose.foundation.lazy.items
+
 @Composable
-fun ItemList(selectedMenu: String, onItemClicked: (MenuItem) -> Unit) {
+fun ItemList(selectedMenu: String, selectedItem: MenuItem?, onItemClicked: (MenuItem) -> Unit) {
     // 선택된 메뉴에 따라 상품 목록을 가져옵니다.
     val items = MenuItemsRepository.getItemsForMenu(selectedMenu).filter { it.id % 2 != 0 }
     Box(
@@ -35,7 +36,7 @@ fun ItemList(selectedMenu: String, onItemClicked: (MenuItem) -> Unit) {
                     horizontalArrangement = Arrangement.SpaceBetween // 항목 사이에 공간을 균등하게 배분
                 ) {
                     rowItems.forEach { item ->
-                        ItemCard(item = item, onClick = { onItemClicked(item) })
+                        ItemCard(item = item, isSelected = selectedItem == item, onClick = { onItemClicked(item) })
                     }
                     // 항목이 하나만 있는 경우 Spacer를 추가하여 정렬합니다.
                     if (rowItems.size < 2) {
