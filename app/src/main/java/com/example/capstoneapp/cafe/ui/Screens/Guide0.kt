@@ -195,21 +195,21 @@ fun GuideScreen(navController:NavController,) {
                 )
             }
         }
-        Button(
-            onClick = { navController.navigate("ProtectorHome") },
-            modifier = Modifier
-                .size(200.dp, 100.dp)
-                .padding(top = 30.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFF3F3D3E)),
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Text(
-                text = "위치추적",
-                fontSize = 27.sp,
-                color = Color.White,
-                fontWeight = FontWeight.ExtraBold
-            )
-        }
+//        Button(
+//            onClick = { navController.navigate("ProtectorHome") },
+//            modifier = Modifier
+//                .size(200.dp, 100.dp)
+//                .padding(top = 30.dp),
+//            colors = ButtonDefaults.buttonColors(Color(0xFF3F3D3E)),
+//            shape = RoundedCornerShape(16.dp)
+//        ) {
+//            Text(
+//                text = "위치추적",
+//                fontSize = 27.sp,
+//                color = Color.White,
+//                fontWeight = FontWeight.ExtraBold
+//            )
+//        }
     }
 
 }

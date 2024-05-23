@@ -43,14 +43,16 @@ fun FastfoodGuideScreenPreview(navController: NavController) {
     var clickedImageResource by remember { mutableStateOf(0) }
 
     val imageResources = listOf(
+        R.drawable.hamburger,
         R.drawable.guide_000,
         R.drawable.fastfood_guide_001,
         R.drawable.fastfood_guide_002,
         R.drawable.fastfood_guide_003,
-        R.drawable.dessert,
+        R.drawable.fastfood_guide_004,
         R.drawable.fastfood_guide_005,
         R.drawable.fastfood_guide_006,
-        R.drawable.fastfood_guide_007
+        R.drawable.fastfood_guide_007,
+        R.drawable.fastfood_guide_008
     )
 
     Column(
@@ -132,7 +134,6 @@ fun guideImage(
                         painter = painterResource(id = imageResources[currentImageIndex]),
                         contentDescription = null,
                         modifier = Modifier.size(width = 250.dp, height = 500.dp)
-                            .border(2.dp, Color.Black)
                     )
                 }
                 Spacer(modifier = Modifier.width(0.dp))
@@ -157,14 +158,16 @@ fun guideImage(
 @Composable
 fun getResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.guide_000 -> context.getString(R.string.touch_text)
-        R.drawable.fastfood_guide_001 -> context.getString(R.string.payment_text)
+        R.drawable.hamburger -> "패스트푸드"
+        R.drawable.guide_000 -> "터치 화면"
+        R.drawable.fastfood_guide_001 -> "결제 수단 선택"
         R.drawable.fastfood_guide_002 -> context.getString(R.string.burger_text)
         R.drawable.fastfood_guide_003 -> context.getString(R.string.set_text)
-        R.drawable.dessert -> context.getString(R.string.dessert_text)
+        R.drawable.fastfood_guide_004 -> context.getString(R.string.dessert_text)
         R.drawable.fastfood_guide_005 -> context.getString(R.string.drink_text)
-        R.drawable.fastfood_guide_006 -> context.getString(R.string.receipt_text)
-        R.drawable.fastfood_guide_007 -> context.getString(R.string.card_text)
+        R.drawable.fastfood_guide_006 -> "주문 메뉴 확인"
+        R.drawable.fastfood_guide_007 -> "포장 여부&적립&결제"
+        R.drawable.fastfood_guide_008 -> "카드 결제 진행&종료"
         else -> "Unknown"
     }
 }
@@ -173,11 +176,13 @@ fun getResourceName(resourceId: Int, context: Context): String {
 fun guideText(currentImageIndex: Int) {
     val textList = listOf(
         Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
+        Triple("화면을 눌러주세요!", "보통은 광고 화면이 나옵니다.", ""),
         Triple("카드, 디지털 교환권, 현금 중", "원하시는 결제 방법을", "선택해주세요."),
         Triple("원하시는 햄버거 메뉴를 골라주세요.", "선택된 메뉴는", "하단 목록에 표시됩니다."),
         Triple("버거 단품 또는", "음료와 디저트가 있는 세트 메뉴를", "선택하실 수 있습니다."),
         Triple("세트 구성에 포함된", "세트 디저트를 선택해주세요.", "일부 메뉴는 추가 금액이 있습니다."),
         Triple("세트 구성에 포함된", "세트 드링크를 선택해주세요.", "일부 메뉴는 추가 금액이 있습니다."),
+        Triple("선택한 메뉴와 금액을 다시 확인한 후", "\"결제하기\"를 눌러주세요.", ""),
         Triple("좌측엔 선택하신 메뉴 목록이,", "우측에는 포장/매장, 할인과 적립,", "결제 방법을 선택할 수 있습니다."),
         Triple("해당 그림이 나타나면", "키오스크 하단에 있는 카드 투입구에", "카드를 넣어 주세요.")
     )
@@ -190,23 +195,24 @@ fun guideText(currentImageIndex: Int) {
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text1,
             wordsToColor = mapOf(
-                "현금 결제" to Color.Green,
-                "카드" to Color.Blue,
-                "파란색" to Color.Blue
+                "사진" to Color.Blue, "화면" to Color.Red,
+                "햄버거" to Color.Blue,
+                "버거 단품" to Color.Red
             )
         )
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text2,
             wordsToColor = mapOf(
-                "쿠폰" to Color.Green,
-                "초록색" to Color.Green,
+                "광고" to Color.Blue,
+                "세트 메뉴" to Color.Red,
+                "세트 디저트" to Color.Blue, "세트 드링크" to Color.Blue,
+                "결제하기" to Color.Red,
                 "화면 오른쪽 아래" to Color.Red
             )
         )
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text3,
             wordsToColor = mapOf(
-                "카운터" to Color.Green
             )
         )
     }
