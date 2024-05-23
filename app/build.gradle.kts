@@ -49,13 +49,18 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/INDEX.LIST"
+            excludes += "META-INF/io.netty.versions.properties"
+            excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/NOTICE"
+            excludes += "META-INF/LICENSE"
         }
     }
 }
@@ -106,6 +111,19 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx:20.3.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+
+    // Google Cloud Text-to-Speech API
+    implementation("com.google.cloud:google-cloud-texttospeech:1.3.0")
+    implementation("com.google.api-client:google-api-client-android:1.31.5")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.2.1")
+
+    // gRPC dependencies
+    implementation("io.grpc:grpc-okhttp:1.47.0")
+    implementation("io.grpc:grpc-protobuf:1.47.0")
+    implementation("io.grpc:grpc-stub:1.47.0")
+    implementation("io.grpc:grpc-auth:1.47.0")
+    implementation("io.grpc:grpc-netty-shaded:1.47.0")
 
 
 }

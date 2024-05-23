@@ -32,7 +32,7 @@ render.experimental.xml
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
-
+service_account_key.json
 # Android Profiling
 *.hprof
 
