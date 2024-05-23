@@ -45,19 +45,30 @@ fun ItemMenu(
     var showDialog by remember { mutableStateOf(false) }
     var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
     var showDessertScreen by remember { mutableStateOf(false) }
+    var selectedDessert by remember { mutableStateOf<MenuItem?>(null) }
+    var selectedDrink by remember { mutableStateOf<MenuItem?>(null) }
 
     val onButtonClick = {
-        if(showDessertScreen)
+        if (showDessertScreen) {
+            selectedDessert?.let {
+                orderItems.removeAll { item -> item.type == "디저트" }
+                orderItems.add(it)
+            }
+            selectedDrink?.let {
+                orderItems.removeAll { item -> item.type == "드링크" }
+                orderItems.add(it)
+            }
             showDessertScreen = false
-        else {
+        } else {
             navController.navigate("finalOrder")
         }
     }
 
-    //네비게이션 카테고리 선택
+    // 네비게이션 카테고리 선택
     var selectedMenu by remember { mutableStateOf("햄버거") } // 초기값 설정
     val myMenuItems = listOf("추천메뉴", "햄버거", "디저트/치킨", "음료/커피")
     val buttonText = if (showDessertScreen) "선택완료" else "결제하기"
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxHeight()
@@ -79,15 +90,18 @@ fun ItemMenu(
                             }
                         }
                     )
-                    ItemList(selectedMenu = selectedMenu) { selectedItem ->
-                        if (selectedMenu == "햄버거") { // "햄버거" 메뉴가 선택되었을 때만 클릭 이벤트 활성화
-                            currentItemForDialog = selectedItem
-                            showDialog = true // 아이템 클릭 시 팝업 표시
+                    ItemList(
+                        selectedMenu = selectedMenu,
+                        selectedItem = currentItemForDialog,
+                        onItemClicked = { selectedItem ->
+                            if (selectedMenu == "햄버거") { // "햄버거" 메뉴가 선택되었을 때만 클릭 이벤트 활성화
+                                currentItemForDialog = selectedItem
+                                showDialog = true // 아이템 클릭 시 팝업 표시
+                            }
                         }
-                    }
+                    )
                 }
             }
-
 
             if (showDialog) {
                 SetOrSingleChoicePopup(
@@ -104,8 +118,14 @@ fun ItemMenu(
             }
         } else {
             SelectSetDessertScreen(
-                onItemSelected = { selectedItem ->
-                    orderItems.add(selectedItem)
+                selectedDessert = selectedDessert,
+                selectedDrink = selectedDrink,
+                onDessertSelected = { selectedItem ->
+                    selectedDessert = selectedItem
+                    viewModel.addMenuItem(selectedItem, 1)
+                },
+                onDrinkSelected = { selectedItem ->
+                    selectedDrink = selectedItem
                     viewModel.addMenuItem(selectedItem, 1)
                 }
             )
@@ -119,7 +139,6 @@ fun ItemMenu(
             DividerFormat()
             OrderList(orderItems = orderItems)
         }
-        // 주문 목록 표시
 
         // 결제 버튼
         Row(
@@ -127,15 +146,7 @@ fun ItemMenu(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
-        ) { KioskButtonFormat(
-                modifier = Modifier.weight(1f),
-                onClick = { /* Handle click */ },
-                buttonText = "취소하기",
-                backgroundColor = Color.DarkGray,
-                contentColor = Color.Black
-            )
-            Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
-
+        ) {
             KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
@@ -146,12 +157,15 @@ fun ItemMenu(
                 onClick = onButtonClick,
                 buttonText = buttonText,
                 backgroundColor = Color.Red,
-                contentColor = Color.Black
+                contentColor = Color.Black,
+                enabled = orderItems.isNotEmpty() // orderItems가 비어 있으면 버튼 비활성화
             )
         }
         Spacer(modifier = Modifier.padding(8.dp))
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

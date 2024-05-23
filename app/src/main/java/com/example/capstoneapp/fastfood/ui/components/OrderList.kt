@@ -32,7 +32,6 @@ import com.example.capstoneapp.nav.repository.MenuItem
 
 @Composable
 fun OrderList(orderItems: List<MenuItem>) {
-
     Column(modifier = Modifier.padding(0.dp)) {
         // 총 주문 내역, 총 개수, 총 가격을 한 줄에 표시
         Row(
@@ -62,7 +61,6 @@ fun OrderList(orderItems: List<MenuItem>) {
         // 개별 주문 내역을 스크롤 가능하게 표시
         Box(
             modifier = Modifier
-               // Column 내 나머지 공간을 채우도록 설정
                 .fillMaxWidth()
                 .height(200.dp)
         ) {
