@@ -2,6 +2,8 @@ package com.example.capstoneapp.cafe.ui.Screens
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,10 +51,13 @@ fun KioskCafeGuide0(navController: NavController) {
 
     // 이미지 리소스 리스트를 함수 외부에서 정의
     val imageResources = listOf(
-        R.drawable.cafe_guide_ex1,
-        R.drawable.cafe_guide_cash,
-        R.drawable.cafe_guide_kiosk,
-        R.drawable.cafe_guide_card
+        R.drawable.guide_000,
+        R.drawable.cafe_guide_001,
+        R.drawable.cafe_guide_002,
+        R.drawable.cafe_guide_003,
+        R.drawable.cafe_guide_004,
+        R.drawable.cafe_guide_005,
+        R.drawable.cafe_guide_006
     )
 
     Column(
@@ -138,6 +143,7 @@ fun guideImage(
                         painter = painterResource(id = imageResources[currentImageIndex]),
                         contentDescription = null,
                         modifier = Modifier.size(width = 250.dp, height = 500.dp)
+                            .border(2.dp, Color.Black)
                     )
                 }
 
@@ -163,10 +169,13 @@ fun guideImage(
 @Composable
 fun getResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.cafe_guide_ex1 -> context.getString(R.string.ex1_text)
-        R.drawable.cafe_guide_cash -> context.getString(R.string.cash_text)
-        R.drawable.cafe_guide_kiosk -> context.getString(R.string.kiosk_text)
-        R.drawable.cafe_guide_card -> context.getString(R.string.card_text)
+        R.drawable.guide_000 -> "카페"
+        R.drawable.cafe_guide_001 -> "음료 선택"
+        R.drawable.cafe_guide_002 -> "포장 여부 선택"
+        R.drawable.cafe_guide_003 -> "결제 수단 선택"
+        R.drawable.cafe_guide_004 -> "카드 결제"
+        R.drawable.cafe_guide_005 -> "쿠폰 사용"
+        R.drawable.cafe_guide_006 -> "종료"
         else -> "Unknown"
     }
 }
@@ -208,7 +217,10 @@ fun guideText(currentImageIndex: Int) {
         Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
         Triple("현금 결제이시면", "키오스크가 아니라", "카운터에서 주문해주세요"),
         Triple("\"카드\"결제이시면 파란색을", "\"쿠폰\"을 사용하시려면 초록색을", "눌러주세요."),
-        Triple("이 창이 뜨면 카드를 넣어주세요.", "화면 오른쪽 아래에", "카드 투입구가 있습니다.")
+        Triple("이 창이 뜨면 카드를 넣어주세요.", "화면 오른쪽 아래에", "카드 투입구가 있습니다."),
+        Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
+        Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
+        Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다.")
     )
 
     Column(
