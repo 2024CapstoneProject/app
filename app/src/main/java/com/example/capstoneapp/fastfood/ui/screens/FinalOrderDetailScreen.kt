@@ -1,7 +1,11 @@
 package com.example.capstoneapp.fastfood.ui.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,8 +13,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -48,20 +55,22 @@ fun OrderScreen(
     val showDialog = remember { mutableStateOf(false) }
 
     // 각 옵션의 선택 상태를 관리하는 상태 변수
-    val isPackingSelected = remember { mutableStateOf(false) }
-    val isStoreSelected = remember { mutableStateOf(false) }
-    val isPointSelected = remember { mutableStateOf(false) }
-    val isNoneSelected = remember { mutableStateOf(false) }
-    val isCreditCardSelected = remember { mutableStateOf(false) }
-    val isMobilePaySelected = remember { mutableStateOf(false) }
+    val selectedPackingOption = remember { mutableStateOf<OptionType?>(null) }
+    val selectedDiscountOption = remember { mutableStateOf<OptionType?>(null) }
+    val selectedPaymentOption = remember { mutableStateOf<OptionType?>(null) }
+
+    // 모든 옵션이 선택되었는지 확인하는 상태 변수
+    val allOptionsSelected = selectedPackingOption.value != null &&
+            selectedDiscountOption.value != null &&
+            selectedPaymentOption.value != null
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.padding(16.dp))
+        Spacer(modifier = Modifier.padding(8.dp))
         Row {
             Column(modifier = Modifier
                 .weight(1.1f)
-                .padding(start = 16.dp)
-                .padding(top = 32.dp)
+                .padding(start = 8.dp)
+                .padding(top = 16.dp)
             ) {
                 // Header
                 Row {
@@ -76,19 +85,19 @@ fun OrderScreen(
                     )
                 }
                 // Rows
-                Spacer(modifier = Modifier.padding(8.dp))
+                Spacer(modifier = Modifier.padding(4.dp))
                 orderItems.forEach { orderItem ->
-                    ItemRow(orderItem.menuItem.name,orderItem.quantity.toString(),"${orderItem.menuItem.price * orderItem.quantity}")
+                    ItemRow(orderItem.menuItem.name, orderItem.quantity.toString(), "${orderItem.menuItem.price * orderItem.quantity}")
                 }
 
-                Spacer(modifier = Modifier.padding(32.dp))
+                Spacer(modifier = Modifier.padding(16.dp))
                 DividerFormat()
-                Spacer(modifier = Modifier.padding(8.dp))
+                Spacer(modifier = Modifier.padding(4.dp))
 
                 Column {
                     SummaryRow(label = "주문금액", amount = totalAmount.toString())
                     SummaryRow(label = "할인금액", amount = "0")
-                    Spacer(modifier = Modifier.padding(8.dp))
+                    Spacer(modifier = Modifier.padding(4.dp))
                     SummaryRow(label = "결제할금액", amount = totalAmount.toString(), isTotal = true)
                 }
 
@@ -96,32 +105,31 @@ fun OrderScreen(
                     showDialog = showDialog.value,
                     onDismiss = { showDialog.value = false },
                     onConfirm = { showDialog.value = false },
-                    navController// 팝업을 닫을 때 showDialog 상태를 false로 설정
+                    navController // 팝업을 닫을 때 showDialog 상태를 false로 설정
                 )
             }
 
             // Right Section for selectable image buttons
             Column(modifier = Modifier
                 .weight(1f)
-                .padding(vertical = 16.dp)
+                .padding(vertical = 8.dp)
             ) {
                 OrderText("포장을 선택하세요.")
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
-
                 ) {
                     OptionCard(
-                        onClick = { isPackingSelected.value = true; isStoreSelected.value = false },
+                        onClick = { selectedPackingOption.value = OptionType.Packing },
                         text = "포장",
                         icon = painterResource(id = R.drawable.bag),
-                        showBorder = false
+                        isSelected = selectedPackingOption.value == OptionType.Packing
                     )
                     OptionCard(
-                        onClick = { isStoreSelected.value = true; isPackingSelected.value = false },
+                        onClick = { selectedPackingOption.value = OptionType.Store },
                         text = "매장",
                         icon = painterResource(id = R.drawable.shop),
-                        showBorder = showBorder
+                        isSelected = selectedPackingOption.value == OptionType.Store
                     )
                 }
 
@@ -131,16 +139,16 @@ fun OrderScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     OptionCard(
-                        onClick = { isPointSelected.value = true; isNoneSelected.value = false },
+                        onClick = { selectedDiscountOption.value = OptionType.Point },
                         text = "포인트",
                         icon = painterResource(id = R.drawable.discount),
-                        showBorder = false
+                        isSelected = selectedDiscountOption.value == OptionType.Point
                     )
                     OptionCard(
-                        onClick = { isPointSelected.value = false; isNoneSelected.value = true },
+                        onClick = { selectedDiscountOption.value = OptionType.None },
                         text = "선택\n없음",
                         icon = painterResource(id = R.drawable.x),
-                        showBorder = showBorder
+                        isSelected = selectedDiscountOption.value == OptionType.None
                     )
                 }
 
@@ -150,26 +158,26 @@ fun OrderScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     OptionCard(
-                        onClick = { isCreditCardSelected.value = true; isMobilePaySelected.value = false },
+                        onClick = { selectedPaymentOption.value = OptionType.CreditCard },
                         text = "신용\n/체크카드",
                         icon = painterResource(id = R.drawable.cardicon),
-                        showBorder = showBorder
+                        isSelected = selectedPaymentOption.value == OptionType.CreditCard
                     )
                     OptionCard(
-                        onClick = { isCreditCardSelected.value = false; isMobilePaySelected.value = true },
+                        onClick = { selectedPaymentOption.value = OptionType.MobilePay },
                         text = "모바일\n/페이",
                         icon = painterResource(id = R.drawable.pay),
-                        showBorder = false
+                        isSelected = selectedPaymentOption.value == OptionType.MobilePay
                     )
                 }
             }
         }
-        Spacer(modifier = Modifier.height(70.dp))
+        Spacer(modifier = Modifier.height(50.dp))
 
         // 결제 버튼
         Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp), // Apply horizontal padding
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
         ) {
             KioskButtonFormat(
@@ -178,11 +186,16 @@ fun OrderScreen(
                     .padding(bottom = 16.dp),
                 onClick = { showDialog.value = true },
                 buttonText = "결제하기",
-                backgroundColor = Color.Red,
-                contentColor = Color.Black
+                backgroundColor = if (allOptionsSelected) Color.Red else Color.Gray,
+                contentColor = Color.Black,
+                enabled = allOptionsSelected
             )
         }
     }
+}
+
+enum class OptionType {
+    Packing, Store, Point, None, CreditCard, MobilePay
 }
 
 @Composable
@@ -190,7 +203,7 @@ fun ItemRow(name: String, quantity: String, price: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(name, modifier = Modifier.weight(1.7f))
@@ -210,7 +223,7 @@ fun SummaryRow(label: String, amount: String, isTotal: Boolean = false) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
@@ -240,6 +253,36 @@ fun OrderText(optionText: String) {
         ),
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Composable
+fun OptionCard(
+    onClick: () -> Unit,
+    text: String,
+    icon: Painter,
+    isSelected: Boolean
+) {
+    val backgroundColor = if (isSelected) Color.LightGray else Color.Transparent
+    Column(
+        modifier = Modifier
+            .padding(4.dp)
+            .clickable(onClick = onClick)
+    ) {
+        Box(
+            modifier = Modifier
+                .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
+                .padding(8.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Image(painter = icon, contentDescription = null, modifier = Modifier.size(48.dp))
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = text, textAlign = TextAlign.Center)
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true, name = "Order Screen Preview")
