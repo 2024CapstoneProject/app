@@ -23,6 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +45,7 @@ import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 
 @Composable
 fun KioskCafePractice5(
@@ -51,13 +55,13 @@ fun KioskCafePractice5(
         CafeMenuBarFormat {
             MenuText5()
         }
-        Screen5(navController, menuItemsViewModel,showBorder)
+        Screen5(navController, menuItemsViewModel,showBorder,problem)
     }
 }
 
 @Composable
-fun Screen5(navController: NavController, viewModel: MenuItemsViewModel,showBorder: Boolean) {
-
+fun Screen5(navController: NavController, viewModel: MenuItemsViewModel,showBorder: Boolean,problem: Problem) {
+    var repeatAnswer by remember { mutableStateOf(false) }
     val orderItems by viewModel.orderItems.observeAsState()
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
     Surface(color = Color(0xFFCACACA)){
@@ -153,10 +157,14 @@ fun Screen5(navController: NavController, viewModel: MenuItemsViewModel,showBord
             ) {
                 Button(
                     onClick = {
-                        navController.navigate("KioskCafePractice6")
+                        if (problem.c_place != "먹고가기") {
+                            repeatAnswer = true
+                        }else{
+                            navController.navigate("KioskCafePractice6")
+                        }
                     },
                     modifier = Modifier.size(150.dp, 80.dp)
-                        .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
+                        .then(if (showBorder&&problem.c_place=="먹고가기") Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
                     colors = ButtonDefaults.buttonColors(Color(0xFFFFCA0D)),
                     shape = RoundedCornerShape(16.dp)
                 ) {
@@ -165,13 +173,19 @@ fun Screen5(navController: NavController, viewModel: MenuItemsViewModel,showBord
                         fontSize = 24.sp,
                         color = Color.White,
                         fontWeight = FontWeight.Bold
-
                     )
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
-                    onClick = { navController.navigate("KioskCafePractice6") },
-                    modifier = Modifier.size(150.dp, 80.dp),
+                    onClick = {
+                        if (problem.c_place != "포장하기") {
+                            repeatAnswer = true
+                        }else{
+                            navController.navigate("KioskCafePractice6")
+                        }
+                             },
+                    modifier = Modifier.size(150.dp, 80.dp)
+                        .then(if (showBorder&&problem.c_place=="포장하기") Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
                     colors = ButtonDefaults.buttonColors(Color(0xFFFB2929)),
                     shape = RoundedCornerShape(16.dp)
                 ) {
@@ -185,7 +199,11 @@ fun Screen5(navController: NavController, viewModel: MenuItemsViewModel,showBord
             }
         }
     }
-
+    if(repeatAnswer){
+        RepeatDialog(onDismiss = {
+            repeatAnswer = false
+        })
+    }
 }
 
 @Composable

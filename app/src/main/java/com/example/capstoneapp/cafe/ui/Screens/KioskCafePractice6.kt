@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -42,6 +43,8 @@ import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
+import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog
 
 
 @Composable
@@ -52,12 +55,12 @@ fun KioskCafePractice6(
         CafeMenuBarFormat {
             MenuText6()
         }
-        Screen6(navController, menuItemsViewModel,showBorder)
+        Screen6(navController, menuItemsViewModel,showBorder,problem)
     }
 }
 
 @Composable
-fun Screen6(navController: NavController, viewModel: MenuItemsViewModel,showBorder:Boolean) {
+fun Screen6(navController: NavController, viewModel: MenuItemsViewModel,showBorder:Boolean,problem: Problem) {
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
     Surface(color = Color(0xFFCACACA)){
         Column(
@@ -67,7 +70,7 @@ fun Screen6(navController: NavController, viewModel: MenuItemsViewModel,showBord
                 .padding(vertical = 20.dp),
             verticalArrangement = Arrangement.spacedBy(0.dp),
         ) {
-            PayButton(navController, onClick = {},showBorder)
+            PayButton(navController, onClick = {},showBorder,problem)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,10 +113,12 @@ fun Screen6(navController: NavController, viewModel: MenuItemsViewModel,showBord
 }
 
 @Composable
-fun PayButton(navController: NavController, onClick: () -> Unit,showBorder: Boolean) {
+fun PayButton(navController: NavController, onClick: () -> Unit,showBorder: Boolean,problem: Problem) {
     var dialog7 by remember { mutableStateOf(false) }
     var dialog10 by remember { mutableStateOf(false) }
     var dialog11 by remember { mutableStateOf(false) }
+    var closeDialog by remember { mutableStateOf(false) }
+    var repeatAnswer by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -123,11 +128,19 @@ fun PayButton(navController: NavController, onClick: () -> Unit,showBorder: Bool
     ) {
         Button(
             onClick = {
-                dialog11 = true
+                if (problem.c_pay != "카드 결제") {
+                    repeatAnswer = true
+                }else {
+                    dialog11 = true
+                }
             },
-            modifier = Modifier.size(200.dp, 150.dp).then(if (showBorder) Modifier.border(
-                BorderWidth, BorderColor, BorderShape
-            ) else Modifier),
+            modifier = Modifier
+                .size(200.dp, 150.dp)
+                .then(
+                    if (showBorder && problem.c_pay == "카드 결제") Modifier.border(
+                        BorderWidth, BorderColor, BorderShape
+                    ) else Modifier
+                ),
             colors = ButtonDefaults.buttonColors(Color.Gray),
             shape = RoundedCornerShape(0.dp)
         ) {
@@ -138,28 +151,47 @@ fun PayButton(navController: NavController, onClick: () -> Unit,showBorder: Bool
         Spacer(modifier = Modifier.height(40.dp))
         Button(
             onClick = {
-                dialog7 = true
+                if (problem.c_pay != "쿠폰 사용") {
+                    repeatAnswer = true
+                }else {
+                    dialog7 = true
+                }
             },
-            modifier = Modifier.size(200.dp, 150.dp),
+            modifier = Modifier
+                .size(200.dp, 150.dp)
+                .then(
+                    if (showBorder && problem.c_pay == "쿠폰 사용") Modifier.border(
+                        BorderWidth, BorderColor, BorderShape
+                    ) else Modifier
+                ),
             colors = ButtonDefaults.buttonColors(Color.Gray),
             shape = RoundedCornerShape(0.dp)
         ) {
             Text(
-                text = "쿠폰사용", fontSize = 24.sp, color = Color.Black
+                text = "쿠폰 사용", fontSize = 24.sp, color = Color.Black
             )
         }
         if (dialog7) {
             Dialog7(onDismiss = { dialog7 = false }, onConfirm = { dialog10 = true })
         }
         if (dialog10) {
-            Dialog10(onDismiss = {
-                dialog10 = false
-                navController.popBackStack("KioskCafePractice0",inclusive = true)
-            })
+            Dialog10(onDismiss = { dialog10 = false }, onConfirm = {closeDialog = true})
         }
         if (dialog11) {
             Dialog11(onDismiss = { dialog11 = false }, onConfirm = { dialog10 = true })
         }
+        if(closeDialog){
+            CloseDialog (
+                onDismiss = {
+                    closeDialog = false
+                    navController.popBackStack("KioskCafePractice0",inclusive = true)
+                }
+            )
+        }
+    }
+    if(repeatAnswer){
+        RepeatDialog(onDismiss = {
+            repeatAnswer = false })
     }
 }
 

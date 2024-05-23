@@ -9,13 +9,13 @@ object MenuItemsRepository {
             1,
             "HOT아메리카노",
             R.drawable.americano_hot,
-            2500
+            2500,
         ),
         MenuItem(
             2,
             "HOT카페라떼",
             R.drawable.latte_hot,
-            3000
+            3000,
         ),
     )
 
@@ -24,13 +24,13 @@ object MenuItemsRepository {
             1,
             "ICE아메리카노",
             R.drawable.americano_ice,
-            3000
+            3000,
         ),
         MenuItem(
             2,
             "ICE바닐라라떼",
             R.drawable.latte_ice,
-            4000
+            4000,
         ),
     )
 
@@ -40,7 +40,7 @@ object MenuItemsRepository {
             2,
             "캐모마일",
             R.drawable.green,
-            3500
+            3500,
         ),
     )
 

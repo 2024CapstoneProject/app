@@ -22,11 +22,11 @@ object ProblemRepository {
     )
     //cafe
     private var c_menuList = listOf(
-        "아메리카노", "카페라떼", "바닐라라떼", "녹차", "캐모마일"
+        "HOT아메리카노","ICE아메리카노", "HOT카페라떼", "ICE바닐라라떼", "녹차", "캐모마일"
     )
 
     private var c_placeList = listOf(
-        "매장에서 먹기", "포장하기"
+        "먹고가기", "포장하기"
     )
 
     private var c_isPoint = listOf(
@@ -34,7 +34,7 @@ object ProblemRepository {
     )
 
     private var c_payList = listOf(
-        "카드 결제", "현금 결제"
+        "카드 결제", "쿠폰 사용"
     )
     //kakao
     private var personList = listOf(

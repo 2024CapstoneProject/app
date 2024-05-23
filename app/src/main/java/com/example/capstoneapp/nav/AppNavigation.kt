@@ -205,7 +205,9 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
                 screenType=2,
                 content = { KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!,showBorder) }
             ) { setShowBorder(!showBorder) }
-
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
         }
 
         //카페 연습 결제 선택 화면
