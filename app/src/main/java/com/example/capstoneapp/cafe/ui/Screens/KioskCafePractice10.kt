@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Dialog10(onDismiss: () -> Unit) {
+fun Dialog10(onDismiss: () -> Unit, onConfirm: () -> Unit) {
     Dialog(onDismissRequest = onDismiss) {
         Box(
             modifier = androidx.compose.ui.Modifier
@@ -55,7 +55,10 @@ fun Dialog10(onDismiss: () -> Unit) {
                 Spacer(modifier = androidx.compose.ui.Modifier.height(30.dp))
 
                 Button(
-                    onClick = onDismiss,
+                    onClick = {
+                        onDismiss()
+                        onConfirm()
+                    },
                     modifier = androidx.compose.ui.Modifier.size(220.dp, 60.dp),
                     colors = ButtonDefaults.buttonColors(Color(0xFF696969)),
                     shape = RoundedCornerShape(16.dp)
@@ -74,6 +77,8 @@ fun Dialog10(onDismiss: () -> Unit) {
 @Preview
 @Composable
 fun Kiosk10PreView() {
-    Dialog10 {
-    }
+    Dialog10(
+        onDismiss = { },
+        onConfirm = { }
+    )
 }

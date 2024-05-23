@@ -26,9 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.cafe.data.Repository.MenuItemsRepository
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.nav.repository.Problem
 import java.util.function.BiPredicate
 
 @Composable
@@ -36,8 +38,17 @@ fun CafeMenuBar(
     menuItems:List<String>,
     selectedMenu:String,
     onMenuItemClick:(String)->Unit,
-    showBorder:Boolean
+    showBorder:Boolean,
+    problem: Problem
 ) {
+    var type = 0
+    if(problem.c_menu=="HOT아메리카노"||problem.c_menu=="HOT카페라떼") {
+        type=0
+    }else if (problem.c_menu=="ICE아메리카노"||problem.c_menu=="ICE바닐라라떼"){
+        type=1
+    }else{
+        type=2
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,7 +59,8 @@ fun CafeMenuBar(
     ) {
         IconButton(
             onClick = {onMenuItemClick("HOME")},
-            modifier = Modifier.padding(top = 12.dp)
+            modifier = Modifier
+                .padding(top = 12.dp)
                 .width(60.dp)
                 .height(60.dp)
         ) {
@@ -59,13 +71,23 @@ fun CafeMenuBar(
         }
         menuItems.forEachIndexed() { index,item ->
             Box(
-                modifier = Modifier.padding(top = 0.dp)
+                modifier = Modifier
+                    .padding(top = 0.dp)
                     .fillMaxHeight()
                     .wrapContentWidth()
-                    .then(if (showBorder && index == 1) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier)
+                    .then(
+                        if (showBorder&&index==type) Modifier.border(
+                            BorderWidth,
+                            BorderColor,
+                            BorderShape
+                        ) else Modifier
+                    )
             ) {
                 TextButton(
-                    modifier = Modifier.padding(top = 12.dp).fillMaxHeight().wrapContentWidth(),
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .fillMaxHeight()
+                        .wrapContentWidth(),
                     onClick = {
                         onMenuItemClick(item)
                     },

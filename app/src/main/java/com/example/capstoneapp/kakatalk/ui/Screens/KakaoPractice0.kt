@@ -103,7 +103,6 @@ fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
             navController.navigate("Kakao_FriendList")
         })
     }
-
 }
 
 @Composable

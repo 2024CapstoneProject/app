@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.cafe.data.Repository.MenuItemsRepository
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
@@ -41,16 +42,17 @@ import com.example.capstoneapp.cafe.ui.Components.totalOrder
 fun CafeKioskScreen(
     navController: NavController, menuItemsViewModel: MenuItemsViewModel, problem: Problem,showBorder:Boolean
 ) {
-    CafeMenuScreen(navController, menuItemsViewModel,showBorder)
+    CafeMenuScreen(navController, menuItemsViewModel,showBorder,problem)
 }
 
 @Composable
-fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel,showBorder:Boolean) {
+fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel,showBorder:Boolean,problem: Problem) {
     val orderItems by viewModel.orderItems.observeAsState(initial = listOf())
     val totalCount by viewModel.totalOrderCount.observeAsState(0)
 
     var selectedMenu by remember { mutableStateOf("커피(HOT)") }
     val menuCategory = listOf("커피(HOT)", "커피(ICE)", "티(TEA)")
+
 
     Surface(color = Color(0xFFCACACA)) {
         Column() {
@@ -72,7 +74,7 @@ fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel,s
                             } else {
                                 selectedMenu = menuItem
                             }
-                        },showBorder)
+                        },showBorder,problem)
                 }/*
             * 선택한 메뉴 종류에 따라 메뉴 리스트를 보여줌
             *
@@ -86,7 +88,7 @@ fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel,s
                         val index = orderItems.indexOf(targetPair)
                         viewModel.addMenuItem(targetPair, index)
                     } else viewModel.addMenuItem(Pair(selectedItem, 1), -1)
-                }, showBorder)
+                }, showBorder,problem)
             }
 
             Column( //빈공간
