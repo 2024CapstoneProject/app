@@ -127,15 +127,7 @@ fun ItemMenu(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp), // Apply horizontal padding
             horizontalArrangement = Arrangement.SpaceBetween // Arrange buttons with space in between
-        ) { KioskButtonFormat(
-                modifier = Modifier.weight(1f),
-                onClick = { /* Handle click */ },
-                buttonText = "취소하기",
-                backgroundColor = Color.DarkGray,
-                contentColor = Color.Black
-            )
-            Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
-
+        ) {
             KioskButtonFormat(
                 modifier = Modifier
                     .weight(1f)
@@ -146,7 +138,8 @@ fun ItemMenu(
                 onClick = onButtonClick,
                 buttonText = buttonText,
                 backgroundColor = Color.Red,
-                contentColor = Color.Black
+                contentColor = Color.Black,
+                enabled = orderItems.isNotEmpty() // orderItems가 비어 있으면 버튼 비활성화
             )
         }
         Spacer(modifier = Modifier.padding(8.dp))

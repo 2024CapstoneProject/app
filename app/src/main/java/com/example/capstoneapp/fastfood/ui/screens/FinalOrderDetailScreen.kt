@@ -176,17 +176,6 @@ fun OrderScreen(
                 modifier = Modifier
                     .weight(1f)
                     .padding(bottom = 16.dp),
-                onClick = { /* Handle click */ },
-                buttonText = "취소하기",
-                backgroundColor = Color.DarkGray,
-                contentColor = Color.Black
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-
-            KioskButtonFormat(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(bottom = 16.dp),
                 onClick = { showDialog.value = true },
                 buttonText = "결제하기",
                 backgroundColor = Color.Red,
