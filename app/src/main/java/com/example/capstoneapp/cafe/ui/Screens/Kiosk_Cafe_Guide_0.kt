@@ -51,13 +51,15 @@ fun KioskCafeGuide0(navController: NavController) {
 
     // 이미지 리소스 리스트를 함수 외부에서 정의
     val imageResources = listOf(
+        R.drawable.cafe_icon,
         R.drawable.guide_000,
         R.drawable.cafe_guide_001,
         R.drawable.cafe_guide_002,
         R.drawable.cafe_guide_003,
         R.drawable.cafe_guide_004,
         R.drawable.cafe_guide_005,
-        R.drawable.cafe_guide_006
+        R.drawable.cafe_guide_006,
+        R.drawable.cafe_guide_007
     )
 
     Column(
@@ -143,7 +145,6 @@ fun guideImage(
                         painter = painterResource(id = imageResources[currentImageIndex]),
                         contentDescription = null,
                         modifier = Modifier.size(width = 250.dp, height = 500.dp)
-                            .border(2.dp, Color.Black)
                     )
                 }
 
@@ -169,13 +170,15 @@ fun guideImage(
 @Composable
 fun getResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.guide_000 -> "카페"
+        R.drawable.cafe_icon -> "카페"
+        R.drawable.guide_000 -> "터치 화면"
         R.drawable.cafe_guide_001 -> "음료 선택"
-        R.drawable.cafe_guide_002 -> "포장 여부 선택"
-        R.drawable.cafe_guide_003 -> "결제 수단 선택"
-        R.drawable.cafe_guide_004 -> "카드 결제"
-        R.drawable.cafe_guide_005 -> "쿠폰 사용"
-        R.drawable.cafe_guide_006 -> "종료"
+        R.drawable.cafe_guide_002 -> "주문 메뉴 확인"
+        R.drawable.cafe_guide_003 -> "포장 여부 선택"
+        R.drawable.cafe_guide_004 -> "결제 수단 선택"
+        R.drawable.cafe_guide_005 -> "카드 결제"
+        R.drawable.cafe_guide_006 -> "쿠폰 사용"
+        R.drawable.cafe_guide_007 -> "종료"
         else -> "Unknown"
     }
 }
@@ -215,13 +218,15 @@ fun EnlargedImagePopup(imageResource: Int, onClose: () -> Unit) {
 fun guideText(currentImageIndex: Int) {
     val textList = listOf(
         Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
-        Triple("현금 결제이시면", "키오스크가 아니라", "카운터에서 주문해주세요"),
-        Triple("\"카드\"결제이시면 파란색을", "\"쿠폰\"을 사용하시려면 초록색을", "눌러주세요."),
-        Triple("이 창이 뜨면 카드를 넣어주세요.", "화면 오른쪽 아래에", "카드 투입구가 있습니다."),
-        Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
-        Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
-        Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다.")
-    )
+        Triple("화면을 눌러주세요!", "보통은 광고 화면이 나옵니다.", ""),
+        Triple("드시고 싶은 음료를 선택해주세요.", "상단에 커피(HOT), 커피(ICE) 등 탭을 눌러", "원하는 음료를 찾아주세요."),
+        Triple("음료를 선택했다면", "하단에 선택한 메뉴와 갯수를", "확인 후 \"결제\"를 눌러주세요."),
+        Triple("선택한 메뉴와 금액을 다시 확인한 후", "포장 여부를 선택해주세요!", ""),
+        Triple("결제 수단을 선택합니다.", "\"카드결제\"나 \"쿠폰 사용\"을 눌러주세요.", "\"현금 결제\"라면 카운터에서 주문해주세요."),
+        Triple("카드결제를 선택했다면", "키오스크 아래의 카드 투입구에", "카드를 넣어주세요."),
+        Triple("쿠폰 사용을 선택했다면", "키오스크 아래의 바코드 인식기에", "바코드를 읽혀주세요."),
+        Triple("결제가 끝났습니다!", "영수증을 챙겨 번호를 확인해주세요!", ""),
+        )
 
     Column(
         modifier = Modifier,
@@ -230,17 +235,21 @@ fun guideText(currentImageIndex: Int) {
         val (text1, text2, text3) = textList[currentImageIndex]
         TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
-                "현금 결제" to Color.Green, "카드" to Color.Blue, "파란색" to Color.Blue
+                "사진" to Color.Blue, "화면" to Color.Red, "음료" to Color.Red,
+                "메뉴" to Color.Blue, "금액" to Color.Blue, "카드결제" to Color.Red,
+                "쿠폰 사용" to Color.Red
             )
         )
         TextWithColoredWords(
             text = text2, wordsToColor = mapOf(
-                "쿠폰" to Color.Green, "초록색" to Color.Green, "화면 오른쪽 아래" to Color.Red
+                "광고" to Color.Blue, "메뉴" to Color.Blue, "갯수" to Color.Blue,
+                "포장 여부" to Color.Red, "카드결제" to Color.Red, "쿠폰 사용" to Color.Red,
+                "카드 투입구" to Color.Blue, "바코드 인식기" to Color.Blue
             )
         )
         TextWithColoredWords(
             text = text3, wordsToColor = mapOf(
-                "카운터" to Color.Green
+                "결제" to Color.Red, "현금 결제" to Color.Blue, "카운터" to Color.Green
             )
         )
     }
