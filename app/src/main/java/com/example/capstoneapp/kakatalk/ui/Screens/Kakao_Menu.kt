@@ -28,27 +28,58 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.Screens.BoxButton
 
 @Composable
 fun Kakao_Menu(navController:NavController){
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //가이드모드
-        PictureButton {
-            navController.navigate("KakaoGuide0")
-        }
-        //연습모드
-        PracticeButton {
-            navController.navigate("KakaoPractice0")
-        }
+       PictureButton(
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            onClick = {
+                navController.navigate("KakaoGuide0")
+            })
+                    //연습모드
+        PracticeButton(
+                    modifier = Modifier.weight(1f).fillMaxWidth(),
+           onClick = { navController.navigate("KakaoPractice0")
+            })
         //이미지(onclick 기능 필요없음)
-        ImageButtonKakao {
-        }
+       // ImageButtonKakao {
+       // }
     }
 }
+
+
+@Composable
+fun PictureButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    BoxButton(
+        text = "사진 설명",
+        backgroundColor = Color(0xFFFFFFFF),
+        modifier = modifier,
+        onClick = onClick
+    )
+
+}
+
+@Composable
+fun PracticeButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    BoxButton(
+        text = "연습 하기",
+        backgroundColor = Color(0xFFFFBD42),
+        modifier = modifier,
+        onClick = onClick
+    )
+}
+
+
+
+
+
 
 @Composable
 fun PictureButton(onClick: () -> Unit) {

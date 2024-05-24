@@ -1,8 +1,10 @@
 package com.example.capstoneapp.fastfood.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -92,6 +95,28 @@ fun PracticeButton(onClick: () -> Unit) {
 }
 
 @Composable
+fun PictureButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    com.example.capstoneapp.cafe.ui.Screens.BoxButton(
+        text = "사진 설명",
+        backgroundColor = Color(0xFFFFFFFF),
+        modifier = modifier,
+        onClick = onClick
+    )
+
+}
+@Composable
+fun PracticeButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+    com.example.capstoneapp.cafe.ui.Screens.BoxButton(
+        text = "연습 하기",
+        backgroundColor = Color(0xFFFFBD42),
+        modifier = modifier,
+        onClick = onClick
+    )
+}
+
+
+
+@Composable
 fun ImageButton(onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -111,13 +136,16 @@ fun ImageButton(onClick: () -> Unit) {
 fun GreetingPreview(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        PictureButton(onClick = { navController.navigate("HamburgerGuideScreen") })
-        PracticeButton(onClick = { navController.navigate("HamburgerPracticeHomeScreen") })
-        ImageButton {}
-        Spacer(modifier = Modifier.height(100.dp))
+        PictureButton(
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            onClick = { navController.navigate("HamburgerGuideScreen") })
+        PracticeButton( modifier = Modifier.weight(1f).fillMaxWidth(),
+            onClick = { navController.navigate("HamburgerPracticeHomeScreen") })
+        //ImageButton {}
+        //Spacer(modifier = Modifier.height(100.dp))
     }
 }
 
@@ -127,10 +155,13 @@ fun GreetingPreview() {
     val navController = rememberNavController()
     CapstoneAppTheme {
         Column {
-            PictureButton {}
-            PracticeButton {}
-            ImageButton {}
-            Spacer(modifier = Modifier.height(100.dp))
+            PictureButton(
+                modifier = Modifier.weight(1f).fillMaxWidth(),
+                onClick = { navController.navigate("HamburgerGuideScreen") })
+            PracticeButton( modifier = Modifier.weight(1f).fillMaxWidth(),
+                onClick = { navController.navigate("HamburgerPracticeHomeScreen") })
+
+
         }
     }
 }
