@@ -83,11 +83,12 @@ fun CafeMenuScreen(navController: NavController, viewModel: MenuItemsViewModel,s
             *  */
                 CafeMenuList(selectedMenu = selectedMenu, onItemClicked = { selectedItem ->
                     val targetPair = orderItems.firstOrNull() { it.first.name == selectedItem.name }
-
-                    if (targetPair != null) {
-                        val index = orderItems.indexOf(targetPair)
-                        viewModel.addMenuItem(targetPair, index)
-                    } else viewModel.addMenuItem(Pair(selectedItem, 1), -1)
+                    if(selectedItem.name==problem.c_menu){
+                        if (targetPair != null) {
+                            val index = orderItems.indexOf(targetPair)
+                            viewModel.addMenuItem(targetPair, index)
+                        } else viewModel.addMenuItem(Pair(selectedItem, 1), -1)
+                    }
                 }, showBorder,problem)
             }
 
