@@ -1,5 +1,6 @@
 package com.example.capstoneapp.phone.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,22 +44,43 @@ fun PhoneGuideScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 20.dp, bottom = 20.dp),
-        verticalArrangement = Arrangement.Center,
+            .padding(top = 20.dp),
+        verticalArrangement = Arrangement.Top, // Align content to the top
         horizontalAlignment = Alignment.CenterHorizontally,
+      //배경색 #FAF7F0
+
     ) {
+        Text(
+            text = "휴대전화 사용법 배우기",
+            color = Color.Black,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = 35.sp
+            ),
+            modifier = Modifier.padding(bottom = 10.dp,top=32.dp) // Padding for spacing
+        )
+        Text(
+            text = "배우고 싶은 영역을 선택하세요",
+            color = Color.Gray,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp
+            ),
+            modifier = Modifier.padding(bottom = 40.dp) // Padding for spacing
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp, vertical = 30.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(horizontal = 1.dp, vertical = 1.dp),
+            horizontalArrangement = Arrangement.Center // Center horizontally
         ) {
             Button(
                 onClick = {
                     navController.navigate("Phone_Call_Guide")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp), // Add padding between buttons
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -79,7 +102,8 @@ fun PhoneGuideScreen(navController: NavController) {
                     navController.navigate("Phone_Contact_Guide")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp), // Add padding between buttons
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -94,15 +118,16 @@ fun PhoneGuideScreen(navController: NavController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(horizontal = 0.dp, vertical = 0.dp),
+            horizontalArrangement = Arrangement.Center // Center horizontally
         ) {
             Button(
                 onClick = {
                     navController.navigate("Phone_Message_Guide")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp), // Add padding between buttons
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -118,7 +143,8 @@ fun PhoneGuideScreen(navController: NavController) {
                     navController.navigate("Phone_Camera_Guide")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp), // Add padding between buttons
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -131,7 +157,6 @@ fun PhoneGuideScreen(navController: NavController) {
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)
@@ -140,4 +165,3 @@ fun PhoneGuideScreenPreview() {
     val navController = rememberNavController()
     PhoneGuide0(navController = navController)
 }
-
