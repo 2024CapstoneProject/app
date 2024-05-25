@@ -16,6 +16,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -28,8 +29,8 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${google_map_key}"/>
+            android:name="com.kakao.sdk.AppKey"
+            android:value="${KAKAO_NATIVE_APP_KEY}"/>
 
         <activity
             android:name=".MainActivity"
@@ -43,7 +44,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapViewActivity" />
+        <activity
+            android:name=".auth.AuthCodeHandlerActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:exported="true"
+            android:theme="@style/AuthCodeHandlerTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="oauth" android:scheme="kakao${KAKAO_NATIVE_APP_KEY}" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

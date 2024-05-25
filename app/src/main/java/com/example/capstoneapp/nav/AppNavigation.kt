@@ -13,8 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.Map.screens.ProtectListScreen
-import com.example.capstoneapp.Map.screens.ProtectRegisterScreen
+
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
@@ -291,21 +290,6 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
                 setShowBorder(false)
             }
 
-        }
-
-        //위치추적 첫번째 화면
-        composable(route = "ProtectorHome") {
-            ProtectorHome(navController = navController)
-        }
-
-        //위치 추적 (피)보호자 등록 화면
-        composable(route = "ProtectRegisterScreen") {
-            ProtectRegisterScreen()
-        }
-
-        //위치 추적 (피)보호자 조회 화면
-        composable(route = "ProtectListScreen") {
-            ProtectListScreen(context)
         }
 
         //택시 가이드 첫번째 화면

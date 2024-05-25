@@ -52,3 +52,9 @@ fun KakaoLoginButton(onClick: () -> Unit) {
         }
     }
 }
+
+@Preview
+@Composable
+fun KakaoLoginButtonPreview() {
+    KakaoLoginButton {}
+}
