@@ -1,6 +1,9 @@
 package com.example.capstoneapp.auth
 
+import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,9 +16,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.capstoneapp.R
+import com.kakao.sdk.user.UserApiClient
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit) {
+fun LoginScreen(onLoginSuccess: (Boolean) -> Unit,context: Context) {
     val context = LocalContext.current
 
     Column(
@@ -28,6 +32,15 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
         KakaoTalkLoginButton {
             val intent = Intent(context, AuthCodeHandlerActivity::class.java).apply {
                 putExtra("use_kakao_account", false)
+            }
+
+            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+                if (error != null) {
+                    Log.e(ContentValues.TAG, "로그인 실패", error)
+                } else if (token != null) {
+                    Log.i(ContentValues.TAG, "로그인 성공 ${token.accessToken}")
+                    onLoginSuccess(true)
+                }
             }
             context.startActivity(intent)
         }

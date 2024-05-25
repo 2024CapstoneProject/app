@@ -1,6 +1,7 @@
 package com.example.capstoneapp
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,43 +18,42 @@ import com.example.capstoneapp.nav.AppNavigation
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.user.UserApiClient
 
 class MainActivity : ComponentActivity() {
 
-    private val isLoggedInState = mutableStateOf(false)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val loginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val token = result.data?.getStringExtra("token")
-                if (token != null) {
-                    Log.i("MainActivity", "Received token: $token")
-                    isLoggedInState.value = true
-                } else {
-                    Log.e("MainActivity", "No token received")
-                }
-            } else {
-                Log.e("MainActivity", "Login canceled or failed")
-            }
-        }
-
+        KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
         setContent {
             CapstoneAppTheme {
-                val isLoggedIn by isLoggedInState
+                var isLogin by remember { mutableStateOf(false) }
 
-                if (isLoggedIn) {
-                    // Existing navigation setup
+                if (isLogin) {
                     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-                    val problemViewModel: ProblemViewModel =
-                        viewModel(factory = problemViewModelFactory)
-                    AppNavigation(problemViewModel, this)
+                    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+                    AppNavigation(problemViewModel,this)
                 } else {
-                    LoginScreen {
-                        val intent = Intent(this, AuthCodeHandlerActivity::class.java)
-                        loginLauncher.launch(intent)
-                    }
+                    LoginScreen(onLoginSuccess =  {
+//                        val intent = Intent(this@MainActivity, AuthCodeHandlerActivity::class.java)
+//                        val loginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//                            if (result.resultCode == Activity.RESULT_OK) {
+//                                val token = result.data?.getStringExtra("token")
+//                                if (token != null) {
+//                                    Log.i("MainActivity", "Received token: $token")
+//                                    isLogin = true
+//                                } else {
+//                                    Log.e("MainActivity", "No token received")
+//                                }
+//                            } else {
+//                                Log.e("MainActivity", "Login canceled or failed")
+//                            }
+//                        }
+//                        loginLauncher.launch(intent)
+                        isLogin= it
+                    },this)
                 }
             }
         }
