@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.capstoneapp.MainActivity
 import com.example.capstoneapp.R
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +42,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.kakao_login_btn).setOnClickListener {
+            val keyHash = Utility.getKeyHash(this)
+            Log.d("AuthCodeHandlerActivity", "KeyHash: $keyHash")
+
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
                 UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
                     if (error != null) {
@@ -56,6 +60,15 @@ class LoginActivity : AppCompatActivity() {
                 loginWithKakaoAccount(callback)
             }
         }
+
+        findViewById<ImageView>(R.id.kakao_login_btn2).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish() // LoginActivity 종료
+        }
+
+
+
+
     }
 
     private fun loginWithKakaoAccount(callback: (OAuthToken?, Throwable?) -> Unit) {

@@ -40,9 +40,9 @@ class MainActivity : ComponentActivity() {
 
 
 
-                   // Button(onClick = { logout() }) {
-                   //     Text(text = "Logout")
-                   // }
+                    Button(onClick = { logout() }) {
+                        Text(text = "Logout")
+                    }
                 }
 
 
