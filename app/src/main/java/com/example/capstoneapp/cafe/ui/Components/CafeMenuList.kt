@@ -20,9 +20,16 @@ import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
-fun CafeMenuList(selectedMenu : String,onItemClicked:(MenuItem) ->Unit, showBorder:Boolean,problem: Problem) {
+fun CafeMenuList(
+    selectedMenu: String,
+    onItemClicked: (MenuItem) -> Unit,
+    closePopup: () -> Unit,
+    showBorder: Boolean,
+    problem: Problem
+) {
     val items = MenuItemsRepository.getItemsForMenu(selectedMenu)
     var repeatAnswer by remember { mutableStateOf(false) }
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
@@ -52,14 +59,16 @@ fun CafeMenuList(selectedMenu : String,onItemClicked:(MenuItem) ->Unit, showBord
         }
 
     }
-    if(repeatAnswer){
+    if (repeatAnswer) {
         RepeatDialog(onDismiss = {
-            repeatAnswer = false })
+            repeatAnswer = false
+            closePopup()
+        })
     }
 }
 
 @Preview
 @Composable
-fun CafeMenuListPreview(){
+fun CafeMenuListPreview() {
     //CafeMenuList("커피(HOT)", onItemClicked = {},true,problem)
 }
