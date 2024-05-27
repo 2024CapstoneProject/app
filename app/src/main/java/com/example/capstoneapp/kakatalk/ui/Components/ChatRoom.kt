@@ -60,6 +60,15 @@ import com.example.capstoneapp.MainActivity
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
 import com.example.capstoneapp.nav.repository.KakaotalkProblem
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 @Composable
 fun ChatRoom(
@@ -86,6 +95,7 @@ fun ChatRoom(
             modifier = Modifier
                 .weight(weight)
                 .fillMaxWidth()
+                .padding(top = 8.dp)
         ) {
             ChatDetail(chatMessages = chatMessages, listState)
         }
@@ -161,6 +171,38 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>,showBo
 
     var onNewPhotoMessage = remember { mutableStateOf(0) }
 
+    var photoProblemBorder = mutableListOf(
+        0.dp,Color.Transparent,RoundedCornerShape(0.dp)
+    )
+
+    var textProblemBorder = mutableListOf(
+        1.dp,Color.Gray, RoundedCornerShape(16.dp)
+    )
+
+    if(showBorder && problem.type == "photo"){
+        if(isButtonOrKeyboardOrBox[2].value){
+            photoProblemBorder[0] = 0.dp
+            photoProblemBorder[1] = Color.Transparent
+            photoProblemBorder[2] = RoundedCornerShape(0.dp)
+        }else{
+            photoProblemBorder[0] = BorderWidth
+            photoProblemBorder[1] = BorderColor
+            photoProblemBorder[2] = BorderShape
+        }
+
+    }else if(showBorder && problem.type == "simple"){
+        textProblemBorder[0] = BorderWidth
+        textProblemBorder[1] = BorderColor
+        textProblemBorder[2] = RoundedCornerShape(16.dp)
+    }else{
+        photoProblemBorder[0] = 0.dp
+        photoProblemBorder[1] = Color.Transparent
+        photoProblemBorder[2] = RoundedCornerShape(0.dp)
+        textProblemBorder[0] = 1.dp
+        textProblemBorder[1] = Color.Gray
+        textProblemBorder[2] = RoundedCornerShape(16.dp)
+    }
+
     LaunchedEffect(activity) {
         val rootView = activity?.window?.decorView?.rootView
         rootView?.viewTreeObserver?.addOnGlobalLayoutListener(object :
@@ -211,6 +253,11 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>,showBo
                 contentDescription = "add",
                 modifier = Modifier
                     .size(40.dp)
+                    .border(
+                        width = photoProblemBorder[0] as Dp,
+                        color = photoProblemBorder[1] as Color,
+                        shape = photoProblemBorder[2] as RoundedCornerShape
+                    )
                     .clickable {
                         /*
                         * 아이콘 처음 선택했을 경우
@@ -236,7 +283,7 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>,showBo
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .border(
-                        BorderStroke(1.dp, Color.Gray), shape = RoundedCornerShape(16.dp)
+                        BorderStroke(textProblemBorder[0] as Dp, textProblemBorder[1] as Color), shape =textProblemBorder[2] as RoundedCornerShape
                     )
                     .focusRequester(focusRequester)
                     .onFocusChanged { focusState ->
@@ -295,7 +342,7 @@ fun TextBox(onNewMessageSent: (ChatMessage) -> Unit, photoList: List<Int>,showBo
                     RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
                 ), contentAlignment = Alignment.BottomCenter
         ) {
-            if (!isButtonOrKeyboardOrBox[2].value) PhotoBox(boxSize = extraPadding) {
+            if (!isButtonOrKeyboardOrBox[2].value) PhotoBox(boxSize = extraPadding,showBorder, problem) {
                 isButtonOrKeyboardOrBox[2].value = !isButtonOrKeyboardOrBox[2].value
             }
             else if (isButtonOrKeyboardOrBox[2].value) photoBlock(extraPadding, photoList,showBorder,problem) {
@@ -317,9 +364,10 @@ fun isKeyboardVisible(): Boolean {
 @Composable
 @Preview
 fun ChatRoomPreview() {
-//    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
-//    val photoList = remember { mutableStateListOf<Int>() }
-//
-//    chatMessages.addAll(ChatMessageRepository.getSimpleChat())
-//    // ChatRoom(chatMessages = chatMessages, photoList)
+    val chatMessages = remember { mutableStateListOf<ChatMessage>() }
+    val photoList = remember { mutableStateListOf<Int>() }
+    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    chatMessages.addAll(ChatMessageRepository.getSimpleChat(problemViewModel.getKakaotalkProblemValue()!!.person,problemViewModel.getKakaotalkProblemValue()!!.index))
+    ChatRoom(chatMessages = chatMessages, photoList,true,problemViewModel.getKakaotalkProblemValue()!!){}
 }
