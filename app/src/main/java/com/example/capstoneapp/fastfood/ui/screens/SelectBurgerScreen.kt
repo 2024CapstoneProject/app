@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
@@ -33,12 +35,18 @@ import com.example.capstoneapp.fastfood.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.fastfood.ui.components.OrderList
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 @Composable
 fun ItemMenu(
     navController: NavController,
     viewModel: OrderViewModel,
-    showBorder: Boolean
+    showBorder: Boolean,
+    problem: Problem
 ) {
     // 주문한 목록
     val orderItems = remember { mutableStateListOf<MenuItem>() }
@@ -47,6 +55,8 @@ fun ItemMenu(
     var showDessertScreen by remember { mutableStateOf(false) }
     var selectedDessert by remember { mutableStateOf<MenuItem?>(null) }
     var selectedDrink by remember { mutableStateOf<MenuItem?>(null) }
+
+    var repeatAnswer by remember { mutableStateOf(false) }
 
     val onButtonClick = {
         if (showDessertScreen) {
@@ -93,27 +103,40 @@ fun ItemMenu(
                     ItemList(
                         selectedMenu = selectedMenu,
                         selectedItem = currentItemForDialog,
+                        showBorder = showBorder,
+                        problem = problem,
                         onItemClicked = { selectedItem ->
                             if (selectedMenu == "햄버거") { // "햄버거" 메뉴가 선택되었을 때만 클릭 이벤트 활성화
-                                currentItemForDialog = selectedItem
-                                showDialog = true // 아이템 클릭 시 팝업 표시
+                                if(!problem.menu.split(",").contains(selectedItem.name)){
+                                    repeatAnswer=true
+                                }else{
+                                    currentItemForDialog = selectedItem
+                                    showDialog = true // 아이템 클릭 시 팝업 표시
+                                }
                             }
                         }
                     )
                 }
             }
-
+            if(repeatAnswer){
+                RepeatDialog(onDismiss = {
+                    repeatAnswer = false })
+            }
             if (showDialog) {
                 SetOrSingleChoicePopup(
                     showDialog = showDialog,
                     currentItem = currentItemForDialog,
                     onDismiss = { showDialog = false },
                     onAddToOrder = { item ->
-                        orderItems.add(item)
-                        viewModel.addMenuItem(item, 1)
-                        showDialog = false
-                        showDessertScreen = item.id % 2 == 0
-                    },
+                        if (problem.menu.split(",").contains(item.name)||item.name=="불고기 버거 세트") {
+                            orderItems.add(item)
+                            viewModel.addMenuItem(item, 1)
+                            showDialog = false
+                            showDessertScreen = item.id % 2 == 0
+                        } else {
+                            repeatAnswer = true
+                        }
+                    }, showBorder,problem
                 )
             }
         } else {
@@ -121,13 +144,17 @@ fun ItemMenu(
                 selectedDessert = selectedDessert,
                 selectedDrink = selectedDrink,
                 onDessertSelected = { selectedItem ->
-                    selectedDessert = selectedItem
-                    viewModel.addMenuItem(selectedItem, 1)
+                    if (problem.menu.split(",").contains(selectedItem.name)) {
+                        selectedDessert = selectedItem
+                        viewModel.addMenuItem(selectedItem, 1)
+                    }
                 },
                 onDrinkSelected = { selectedItem ->
-                    selectedDrink = selectedItem
-                    viewModel.addMenuItem(selectedItem, 1)
-                }
+                    if (problem.menu.split(",").contains(selectedItem.name)) {
+                        selectedDrink = selectedItem
+                        viewModel.addMenuItem(selectedItem, 1)
+                    }
+                },showBorder,problem
             )
         }
 
@@ -172,10 +199,15 @@ fun ItemMenu(
 fun ItemMenuPreview() {
     val navController = rememberNavController()
     val viewModel = OrderViewModel()
-
-    ItemMenu(
+    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val problem by problemViewModel.problem.observeAsState()
+    problem?.let {
+        ItemMenu(
         navController = navController,
         viewModel = viewModel,
-        showBorder = true // 또는 미리보기에 맞는 값으로 설정합니다.
+        showBorder = true, // 또는 미리보기에 맞는 값으로 설정합니다.
+        problem= problem!!
     )
+    }
 }

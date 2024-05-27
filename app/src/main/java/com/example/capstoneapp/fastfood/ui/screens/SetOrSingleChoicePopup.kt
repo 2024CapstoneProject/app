@@ -33,6 +33,7 @@ import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.nav.repository.MenuItemsRepository.getMenuItemById
 import com.example.capstoneapp.fastfood.ui.components.ItemCard
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
 fun SetOrSingleChoicePopup(
@@ -40,6 +41,8 @@ fun SetOrSingleChoicePopup(
     currentItem: MenuItem?,
     onDismiss: () -> Unit,
     onAddToOrder: (MenuItem) -> Unit, // Boolean 값은 세트 주문이면 true, 단품 주문이면 false // NavController 추가
+    showBorder: Boolean,
+    problem: Problem
 ) {
     val setItem = getMenuItemById(currentItem!!.id + 1)
 
@@ -75,14 +78,14 @@ fun SetOrSingleChoicePopup(
                     ) {
                         ItemCard(
                             item = currentItem,
-                            isSelected = false
-                        ) { onAddToOrder(currentItem) }
+                            isSelected = false, onClick = {onAddToOrder(currentItem)},showBorder=false,problem
+                        )
 
                         if (setItem != null) {
                             ItemCard(
                                 item = setItem,
-                                isSelected = false
-                            ) { onAddToOrder(setItem) }
+                                isSelected = false, onClick = {onAddToOrder(setItem)},showBorder,problem
+                            )
                         }
                     }
                     Spacer(modifier = Modifier.height(16.dp))

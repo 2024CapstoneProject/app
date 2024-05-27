@@ -13,6 +13,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,16 +34,19 @@ import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
-fun ItemCard(item: MenuItem, isSelected: Boolean, onClick: () -> Unit) {
+fun ItemCard(item: MenuItem, isSelected: Boolean, onClick: () -> Unit,showBorder: Boolean,problem:Problem) {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(18.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(if (isSelected) Color.LightGray else Color.Transparent)
             .clickable(onClick = onClick)
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
     ) {
         Image(
             painter = painterResource(id = item.iconResourceId),
