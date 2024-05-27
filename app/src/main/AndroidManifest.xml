@@ -31,29 +31,32 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="${KAKAO_NATIVE_APP_KEY}"/>
-
+        <activity
+            android:name=".auth.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:theme="@style/Theme.CapstoneApp"
             tools:ignore="DuplicateActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
-            android:name=".auth.AuthCodeHandlerActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:exported="true"
-            android:theme="@style/AuthCodeHandlerTheme">
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
                 <data android:host="oauth" android:scheme="kakao${KAKAO_NATIVE_APP_KEY}" />
             </intent-filter>
         </activity>

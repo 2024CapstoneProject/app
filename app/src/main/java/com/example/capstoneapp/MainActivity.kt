@@ -29,32 +29,12 @@ class MainActivity : ComponentActivity() {
         KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
         setContent {
             CapstoneAppTheme {
-                var isLogin by remember { mutableStateOf(false) }
 
-                if (isLogin) {
-                    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-                    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
-                    AppNavigation(problemViewModel,this)
-                } else {
-                    LoginScreen(onLoginSuccess =  {
-//                        val intent = Intent(this@MainActivity, AuthCodeHandlerActivity::class.java)
-//                        val loginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//                            if (result.resultCode == Activity.RESULT_OK) {
-//                                val token = result.data?.getStringExtra("token")
-//                                if (token != null) {
-//                                    Log.i("MainActivity", "Received token: $token")
-//                                    isLogin = true
-//                                } else {
-//                                    Log.e("MainActivity", "No token received")
-//                                }
-//                            } else {
-//                                Log.e("MainActivity", "Login canceled or failed")
-//                            }
-//                        }
-//                        loginLauncher.launch(intent)
-                        isLogin= it
-                    },this)
-                }
+                val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
+                val problemViewModel: ProblemViewModel =
+                    viewModel(factory = problemViewModelFactory)
+                AppNavigation(problemViewModel, this)
+
             }
         }
     }
