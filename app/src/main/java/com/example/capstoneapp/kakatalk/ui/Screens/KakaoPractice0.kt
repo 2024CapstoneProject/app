@@ -1,6 +1,7 @@
 package com.example.capstoneapp.kakatalk.ui.Screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,11 +11,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,15 +50,14 @@ fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 60.dp),
-        verticalArrangement = Arrangement.Center, // 수직 방향으로 요소를 동일한 간격으로 배치합니다.
+        ,verticalArrangement = Arrangement.Center, // 수직 방향으로 요소를 동일한 간격으로 배치합니다.
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "문제",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 4.dp),
+                .padding(bottom = 8.dp),
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -64,41 +68,59 @@ fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
             text = "${problem.person}에게 ${problem.content}",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(0.dp),
-            fontSize = 20.sp,
+                .padding(bottom = 16.dp),
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
             textAlign = TextAlign.Center,
+            lineHeight = 28.sp
         )
 
-        Image(
-            painter = painterResource(photoId),
-            contentDescription = "kakao image",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 50.dp),
-            alignment = Alignment.Center
-        )
+        if(problem.type == "simple"){
+            Image(
+                painter = painterResource(photoId),
+                contentDescription = "kakao image",
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .padding(bottom=16.dp),
+                alignment = Alignment.Center,
+                contentScale = ContentScale.FillBounds,
+            )
+        }else{
+            Card(
+                modifier = Modifier
+                    .size(200.dp)
+                    .padding(bottom=16.dp),
+                shape = RoundedCornerShape(20.dp),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 8.dp)
+            ){
+                Image(
+                    painter = painterResource(photoId),
+                    contentDescription = "kakao image",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Color.White),
+                    alignment = Alignment.Center,
+                    contentScale = ContentScale.FillBounds,
+                )
+            }
+        }
+
         Text(
-            text = "화면에서 정답인 버튼을",
+            text = "화면에서 정답인 버튼을\n눌러주세요.",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp),
+                .padding(bottom = 0.dp),
             fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold,
             color = Color.Black,
             textAlign = TextAlign.Center,
+            lineHeight = 32.sp
         )
-        Text(
-            text = "눌러주세요.",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp),
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-        )
+
         StartButton(onClick = {
             navController.navigate("Kakao_FriendList")
         })

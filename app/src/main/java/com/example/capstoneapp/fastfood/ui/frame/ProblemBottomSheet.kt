@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -92,7 +93,9 @@ fun ProblemBox(problem: Problem,screenType: Int) {
             Column(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "메뉴 : ${problem.menu}",
@@ -125,7 +128,9 @@ fun ProblemBox(problem: Problem,screenType: Int) {
             Column(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "메뉴 : ${problem.c_menu}",
@@ -158,13 +163,25 @@ fun ProblemBox(problem: Problem,screenType: Int) {
             Column(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(bottom = 24.dp)
+                    .padding(bottom = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "문제\n${problem.order}",
+                    text = "문제",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    fontFamily = FontFamily.SansSerif
+                    fontFamily = FontFamily.SansSerif,
+                    modifier = Modifier.padding(bottom=4.dp)
+                )
+                Text(
+                    text = problem.order,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif,
+                    textAlign = TextAlign.Center,
+                    lineHeight = 32.sp
+
                 )
                 Spacer(Modifier.padding(bottom = 20.dp))
             }

@@ -21,9 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -53,14 +51,11 @@ import com.example.capstoneapp.fastfood.ui.theme.LightYellow
 import com.example.capstoneapp.kakatalk.data.Repository.ChatItemData
 import com.example.capstoneapp.kakatalk.data.Repository.FriendChatRoomRepository
 import com.example.capstoneapp.kakatalk.ui.Components.ChatList
-import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog
 import com.example.capstoneapp.kakatalk.ui.Components.PersonalProfile
 import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 import com.example.capstoneapp.kakatalk.ui.Components.friendList
 import com.example.capstoneapp.kakatalk.ui.Components.profileDialog
 import com.example.capstoneapp.nav.repository.KakaotalkProblem
-
-var loading by mutableStateOf(false)
 
 @Composable
 fun Kakao_FriendChatList(
@@ -86,7 +81,6 @@ fun FriendChatList(
     showBorder: Boolean,
     problem: KakaotalkProblem
 ) {
-    var weight: Float = 1f
     val listState = rememberLazyListState()
     val isButtonClick = remember { mutableStateOf("친구") }
     val showPopup = remember { mutableStateOf(false) }
@@ -118,12 +112,6 @@ fun FriendChatList(
                 color = Color.Black,
                 fontWeight = FontWeight.Bold
             )
-
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "friendSearch",
-                modifier = Modifier.size(36.dp)
-            )
         }
 
 
@@ -137,9 +125,9 @@ fun FriendChatList(
                         name = "김희연",
                         showBorder = false,
                         onItemClick = {
-                            if(problem.person != "김희연"){
+                            if (problem.person != "김희연") {
                                 repeatAnswer = true
-                            }else{
+                            } else {
                                 showPopup.value = true
                                 username.value = "김희연"
                                 userImage.value = R.drawable.sample_3
@@ -166,7 +154,7 @@ fun FriendChatList(
                             showBorder,
                             problem,
                             showProfile = { isShow, name, imageId ->
-                                if(name != problem.person){
+                                if (name != problem.person) {
                                     repeatAnswer = true
                                 } else if (isShow) {
                                     username.value = name
@@ -177,6 +165,7 @@ fun FriendChatList(
                         )
                     }
                 }
+
                 else -> {
                     Box(
                         modifier = Modifier
@@ -190,9 +179,9 @@ fun FriendChatList(
                             showBorder,
                             problem,
                             checkAnswer = {
-                                if(it != problem.person){
+                                if (it != problem.person) {
                                     repeatAnswer = true
-                                }else{
+                                } else {
                                     navController.navigate("ChattingScreen")
                                 }
                             }
@@ -215,9 +204,10 @@ fun FriendChatList(
         }
     }
 
-    if(repeatAnswer){
+    if (repeatAnswer) {
         RepeatDialog(onDismiss = {
-            repeatAnswer = false })
+            repeatAnswer = false
+        })
     }
 }
 
@@ -262,22 +252,23 @@ fun PersonalPopup(
                 ) {
                     Card(
                         shape = RoundedCornerShape(20.dp),
-                        elevation= CardDefaults.cardElevation(
-                            defaultElevation = 16.dp)
-                    ){
-                    Image(
-                        painter = painterResource(id = userImage),
-                        contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
-                        contentScale = ContentScale.Inside,
-                        modifier = Modifier
-                            .size(132.dp) // 이미지 크기 조정
-                            .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(
-                                color = Color.White
-                            )
-                    )
-                }
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 16.dp
+                        )
+                    ) {
+                        Image(
+                            painter = painterResource(id = userImage),
+                            contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
+                            contentScale = ContentScale.Inside,
+                            modifier = Modifier
+                                .size(132.dp) // 이미지 크기 조정
+                                .border(2.dp, Color.Transparent, RoundedCornerShape(16.dp))
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(
+                                    color = Color.White
+                                )
+                        )
+                    }
                     Text(
                         text = userName,
                         fontSize = 24.sp,
@@ -353,11 +344,11 @@ fun BottomButton(isButtonName: (String) -> Unit) {
     val isButtonClick = remember { mutableStateOf("친구") }
 
     val icons = listOf(
-        Icons.Filled.Person, Icons.Filled.Email, Icons.Filled.Menu
+        Icons.Filled.Person, Icons.Filled.Email
     )
 
     val names = listOf(
-        "친구", "채팅", "더보기"
+        "친구", "채팅"
     )
 
     Row(
