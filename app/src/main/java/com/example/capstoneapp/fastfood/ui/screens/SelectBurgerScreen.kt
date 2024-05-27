@@ -128,10 +128,14 @@ fun ItemMenu(
                     currentItem = currentItemForDialog,
                     onDismiss = { showDialog = false },
                     onAddToOrder = { item ->
-                        orderItems.add(item)
-                        viewModel.addMenuItem(item, 1)
-                        showDialog = false
-                        showDessertScreen = item.id % 2 == 0
+                        if (problem.menu.split(",").contains(item.name)||item.name=="불고기 버거 세트") {
+                            orderItems.add(item)
+                            viewModel.addMenuItem(item, 1)
+                            showDialog = false
+                            showDessertScreen = item.id % 2 == 0
+                        } else {
+                            repeatAnswer = true
+                        }
                     }, showBorder,problem
                 )
             }
@@ -140,12 +144,16 @@ fun ItemMenu(
                 selectedDessert = selectedDessert,
                 selectedDrink = selectedDrink,
                 onDessertSelected = { selectedItem ->
-                    selectedDessert = selectedItem
-                    viewModel.addMenuItem(selectedItem, 1)
+                    if (problem.menu.split(",").contains(selectedItem.name)) {
+                        selectedDessert = selectedItem
+                        viewModel.addMenuItem(selectedItem, 1)
+                    }
                 },
                 onDrinkSelected = { selectedItem ->
-                    selectedDrink = selectedItem
-                    viewModel.addMenuItem(selectedItem, 1)
+                    if (problem.menu.split(",").contains(selectedItem.name)) {
+                        selectedDrink = selectedItem
+                        viewModel.addMenuItem(selectedItem, 1)
+                    }
                 },showBorder,problem
             )
         }
