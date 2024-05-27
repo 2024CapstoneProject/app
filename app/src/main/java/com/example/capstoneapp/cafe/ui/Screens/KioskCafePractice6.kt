@@ -29,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -119,6 +118,12 @@ fun PayButton(navController: NavController, onClick: () -> Unit,showBorder: Bool
     var dialog11 by remember { mutableStateOf(false) }
     var closeDialog by remember { mutableStateOf(false) }
     var repeatAnswer by remember { mutableStateOf(false) }
+    var pointDialog by remember{mutableStateOf(false)}
+    var numberDialog by remember{mutableStateOf(false)}
+
+    var yesPoint by remember{mutableStateOf(false)}
+    var noPoint by remember{mutableStateOf(false)}
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -131,7 +136,7 @@ fun PayButton(navController: NavController, onClick: () -> Unit,showBorder: Bool
                 if (problem.c_pay != "카드 결제") {
                     repeatAnswer = true
                 }else {
-                    dialog11 = true
+                    pointDialog = true
                 }
             },
             modifier = Modifier
@@ -171,6 +176,33 @@ fun PayButton(navController: NavController, onClick: () -> Unit,showBorder: Bool
                 text = "쿠폰 사용", fontSize = 24.sp, color = Color.Black
             )
         }
+        if(pointDialog){
+            PointDialog(
+                onDismiss={pointDialog = false},
+                isYesPoint = {
+                             if(problem.c_point == "O"){
+                                 pointDialog=false
+                                 numberDialog = true
+                             }else{
+                                 pointDialog=false
+                                 repeatAnswer=true
+                             }
+                },isNoPoint ={
+                    if(problem.c_point == "X"){
+                        pointDialog=false
+                        dialog11 = true
+
+                    }else{
+                        pointDialog=false
+                        repeatAnswer=true
+                    }
+                })
+        }
+
+        if(numberDialog){
+            NumberDialog(onDismiss={numberDialog=false},onConfirm={dialog11=true})
+        }
+
         if (dialog7) {
             Dialog7(onDismiss = { dialog7 = false }, onConfirm = { dialog10 = true })
         }
