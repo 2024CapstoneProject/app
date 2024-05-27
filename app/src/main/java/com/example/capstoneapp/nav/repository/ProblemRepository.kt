@@ -68,8 +68,8 @@ object ProblemRepository {
         val randomPayIndex = Random.nextInt(payList.size)
         val randomCMenuIndex = Random.nextInt(c_menuList.size)
         val randomCPlaceIndex = Random.nextInt(c_placeList.size)
-        val randomCPointIndex = Random.nextInt(c_isPoint.size)
         val randomCPayIndex = Random.nextInt(c_payList.size)
+        val randomCPointIndex = if(randomCPayIndex == 1) 1 else Random.nextInt(c_isPoint.size)
 
         return Problem(
             menu = menuList[randomMenuIndex],
