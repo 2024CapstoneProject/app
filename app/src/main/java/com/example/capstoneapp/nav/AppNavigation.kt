@@ -120,7 +120,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=1,
-                content = { ItemMenu(navController = navController, viewModel, showBorder) }
+                content = { ItemMenu(navController = navController, viewModel, showBorder, problem!!) }
             ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {

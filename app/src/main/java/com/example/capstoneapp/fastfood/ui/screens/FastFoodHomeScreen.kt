@@ -126,7 +126,7 @@ fun ImageButton(onClick: () -> Unit) {
         Image(
             painter = painterResource(id = R.drawable.burgerimg),
             contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
-            modifier = Modifier.size(194.dp) // 이미지 크기 조정
+            modifier = Modifier.size(250.dp) // 이미지 크기 조정
         )
     }
 }

@@ -6,7 +6,7 @@ import kotlin.random.Random
 object ProblemRepository {
     //fastfood
     private var menuList = listOf(
-        "불고기버거, 콜라, 감자튀김"
+        "불고기 버거,콜라,감자튀김"
     )
 
     private var placeList = listOf(

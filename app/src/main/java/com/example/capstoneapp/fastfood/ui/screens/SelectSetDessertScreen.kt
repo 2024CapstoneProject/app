@@ -28,13 +28,16 @@ import com.example.capstoneapp.fastfood.ui.components.CustomizedNavigationBar
 import com.example.capstoneapp.fastfood.ui.components.ItemList
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
 fun SelectSetDessertScreen(
     selectedDessert: MenuItem?,
     selectedDrink: MenuItem?,
     onDessertSelected: (MenuItem) -> Unit,
-    onDrinkSelected: (MenuItem) -> Unit
+    onDrinkSelected: (MenuItem) -> Unit,
+    showBorder: Boolean,
+    problem: Problem
 ) {
     // 네비게이션 카테고리 선택
     var selectedMenu by remember { mutableStateOf("세트 디저트") } // 초기값 설정
@@ -79,7 +82,7 @@ fun SelectSetDessertScreen(
                 } else {
                     onDrinkSelected(selectedItem)
                 }
-            }
+            }, showBorder = showBorder, problem = problem
         )
     }
 }
