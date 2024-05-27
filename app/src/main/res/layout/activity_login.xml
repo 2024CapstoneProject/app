@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".auth.LoginActivity">
 
+
     <ImageView
         android:id="@+id/kakao_login_btn"
         android:layout_width="332dp"
@@ -16,7 +17,19 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.722" />
+        app:layout_constraintVertical_bias="0.672" />
+
+    <ImageView
+        android:id="@+id/kakao_login_btn2"
+        android:layout_width="332dp"
+        android:layout_height="68dp"
+        android:src="@drawable/kakao_login_large_wide"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.799" />
 
     <Button
         android:id="@+id/logout_btn"

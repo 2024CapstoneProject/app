@@ -60,6 +60,15 @@ class LoginActivity : AppCompatActivity() {
                 loginWithKakaoAccount(callback)
             }
         }
+
+        findViewById<ImageView>(R.id.kakao_login_btn2).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish() // LoginActivity 종료
+        }
+
+
+
+
     }
 
     private fun loginWithKakaoAccount(callback: (OAuthToken?, Throwable?) -> Unit) {
