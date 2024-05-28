@@ -19,11 +19,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,13 +28,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.chatbot.api.AudioUploader
 import com.example.capstoneapp.chatbot.api.ChatService
+import com.example.capstoneapp.fastfood.ui.frame.ButtonFormat
+import com.example.capstoneapp.fastfood.ui.theme.LightYellow
+import com.example.capstoneapp.fastfood.ui.theme.Yellow
+import com.example.capstoneapp.fastfood.ui.theme.OutraGeousOrange
+import com.example.capstoneapp.fastfood.ui.theme.White
 import com.example.capstoneapp.mainPage.VoicePopup
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
@@ -51,12 +56,12 @@ import com.google.cloud.texttospeech.v1.VoiceSelectionParams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import java.io.InputStream
-import java.util.Locale
 
 @Composable
 fun ChatUI(navController: NavController, chatService: ChatService) {
-    val fontSize = 21.sp
+    val fontSize = remember { mutableStateOf(21.sp) }
     var question by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf("") }
@@ -111,12 +116,17 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
 
 
     @Composable
-    fun MessageBox(message: String, isUser: Boolean, onClick: () -> Unit = {}) {
+    fun MessageBox(
+        message: String,
+        isUser: Boolean,
+        fontSize: TextUnit,
+        onClick: () -> Unit = {}
+    ) {
         Box(
             modifier = Modifier
                 .padding(4.dp)
                 .background(
-                    color = if (isUser) Color(0xFFD1E7FF) else Color(0xFFE6E6E6),
+                    color = if (isUser) Color(0xFFD1E7FF) else LightYellow,
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(8.dp)
@@ -125,8 +135,8 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
         ) {
             Text(
                 text = message,
-                color = if (isUser) Color.Black else Color.Blue,
-                fontSize = 21.sp
+                color = if (isUser) Color.Blue else Color.Black,
+                fontSize = fontSize
             )
         }
     }
@@ -228,6 +238,54 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
     ) {
+        // 고정된 바
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        ) {
+            ButtonFormat(
+                onClick = {
+                    coroutineScope.launch {
+                        try {
+                            val resetResponse = chatService.resetChatbot(sessionId)
+                            if (resetResponse.isSuccessful) {
+                                userMessages = listOf()
+                                aiResponses = listOf()
+                                val chatResponse = chatService.askChatbotReset("대화 새 시작", true)
+                            } else {
+                                errorMessage = "Error: ${resetResponse.errorBody()?.string()}"
+                                Log.e(
+                                    "ChatUI",
+                                    "Response error body: ${resetResponse.errorBody()?.string()}"
+                                )
+                            }
+                        } catch (e: Exception) {
+                            errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
+                            Log.e("ChatUI", "Error occurred", e)
+                        }
+                    }
+                },
+                buttonText = "새 대화 하기",
+                backgroundColor = OutraGeousOrange,
+                contentColor = Color(0xFFFFFFFF),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            )
+        }
+    /*    Text(
+            text = "폰트 크기 조절:",
+            modifier = Modifier.padding(top = 8.dp),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Slider(
+            value = fontSize.value.value,
+            onValueChange = { fontSize.value = it.sp },
+            valueRange = 12f..30f,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )*/
         LazyColumn(
             modifier = Modifier.weight(1f).fillMaxWidth()
         ) {
@@ -239,14 +297,14 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Start
                     ) {
-                        MessageBox(message = userMessages[index], isUser = true, onClick = {})
+                        MessageBox(message = userMessages[index], isUser = true, onClick = {},fontSize = fontSize.value)
                     }
                     if (aiResponses.size > index) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
                         ) {
-                            MessageBox(message = aiResponses[index], isUser = false) {
+                            MessageBox(message = aiResponses[index], isUser = false,fontSize = fontSize.value) {
                                 HandleTtsPlayback(aiResponses[index])
                             }
                         }
@@ -254,105 +312,25 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                 }
             }
         }
-        OutlinedTextField(
-            value = question,
-            onValueChange = { question = it },
-            label = { Text("질문 입력", fontSize = fontSize) },
-            textStyle = LocalTextStyle.current.copy(fontSize = fontSize),
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .fillMaxWidth(),
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                if (question.isNotBlank()) {
-                    coroutineScope.launch {
-                        try {
-                            val userMessage = question
-                            userMessages = userMessages + userMessage
-                            question = "" // Clear the input field immediately
-                            val reset =
-                                userMessages.isEmpty() && aiResponses.isEmpty() // 기존 대화가 없는 경우 reset = true
-                            Log.e("reset", reset.toString())
-                            val chatResponse = chatService.askChatbotReset(userMessage, reset)
-                            if (chatResponse.isSuccessful) {
-                                aiResponses = aiResponses + (chatResponse.body()?.question
-                                    ?: "응답을 받지 못했습니다.")
-                                errorMessage = ""
-                            } else {
-                                errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
-                            }
-                        } catch (e: Exception) {
-                            errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
-                            Log.e("ChatUI", "Error occurred", e)
-                        }
-                    }
-                }
-            })
-        )
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Button(
-                onClick = { speechLauncher.launch(speechIntent) }, // 음성 검색 버튼 클릭 시 음성 인식 시작
-                modifier = Modifier
-                    .weight(1f)
-                    .height(48.dp)
-            ) {
-                Text("음성 검색", fontSize = fontSize)
-            }
-
-            Spacer(Modifier.width(32.dp))
-
-            Button(
-                onClick = {
-                    coroutineScope.launch {
-                        try {
-                            val userMessage = question
-                            userMessages = userMessages + userMessage
-                            question = "" // Clear the input field immediately
-                            val reset =
-                                userMessages.isEmpty() && aiResponses.isEmpty() // 기존 대화가 없는 경우 reset = true
-                            val chatResponse = chatService.askChatbotReset(userMessage, reset)
-                            if (chatResponse.isSuccessful) {
-                                aiResponses = aiResponses + (chatResponse.body()?.question
-                                    ?: "응답을 받지 못했습니다.")
-                                errorMessage = ""
-                            } else {
-                                errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
-                            }
-                        } catch (e: Exception) {
-                            errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
-                            Log.e("ChatUI", "Error occurred", e)
-                        }
-                    }
-                },
-                enabled = question.isNotBlank(),
-                modifier = Modifier
-                    .weight(1f)
-                    .height(48.dp)
-            ) {
-                Text("질문 전송", fontSize = fontSize)
-            }
-        }
-
-        // 수정된 부분: 새 대화 하기 버튼
-        Button(
-            onClick = {
+        MessageInputField(
+            question = question,
+            onQuestionChange = { question = it },
+            onSendClick = {
                 coroutineScope.launch {
                     try {
-                        val resetResponse = chatService.resetChatbot(sessionId)
-                        if (resetResponse.isSuccessful) {
-                            userMessages = listOf()
-                            aiResponses = listOf()
-                            val chatResponse = chatService.askChatbotReset("대화 새 시작", true)
+                        val userMessage = question
+                        userMessages = userMessages + userMessage
+                        question = "" // Clear the input field immediately
+                        val reset =
+                            userMessages.isEmpty() && aiResponses.isEmpty() // 기존 대화가 없는 경우 reset = true
+                        Log.e("reset", reset.toString())
+                        val chatResponse = chatService.askChatbotReset(userMessage, reset)
+                        if (chatResponse.isSuccessful) {
+                            aiResponses = aiResponses + (chatResponse.body()?.question
+                                ?: "응답을 받지 못했습니다.")
+                            errorMessage = ""
                         } else {
-                            errorMessage = "Error: ${resetResponse.errorBody()?.string()}"
-                            Log.e(
-                                "ChatUI",
-                                "Response error body: ${resetResponse.errorBody()?.string()}"
-                            )
+                            errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
                         }
                     } catch (e: Exception) {
                         errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
@@ -360,17 +338,49 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                     }
                 }
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp)) // Add spacer to create gap
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("새 대화 하기", fontSize = fontSize)
+
+            Spacer(Modifier.height(16.dp))
+            ButtonFormat(
+                onClick = { speechLauncher.launch(speechIntent) }, // 음성 검색 버튼 클릭 시 음성 인식 시작
+                buttonText = "말하기",
+                backgroundColor = LightYellow,
+                contentColor = Color.Black,
+                modifier = Modifier
+                    .weight(1f)
+
+            )
+
+            Spacer(Modifier.width(24.dp))
+
+            ButtonFormat(
+                onClick = {
+                    coroutineScope.launch {
+                        if (aiResponses.isNotEmpty()) {
+                            val lastResponse = aiResponses.last()
+                            HandleTtsPlayback(lastResponse)
+                        }
+                    }
+                },
+                buttonText = "다시 듣기",
+                backgroundColor = Yellow,
+                contentColor = Color.Black,
+                modifier = Modifier
+                    .weight(1f)
+
+            )
         }
 
         if (errorMessage.isNotEmpty()) {
             Text(
                 text = "Error: $errorMessage",
-                fontSize = fontSize,
+                fontSize = 16.sp,
                 color = Color.Red,
                 modifier = Modifier.padding(top = 8.dp)
             )
