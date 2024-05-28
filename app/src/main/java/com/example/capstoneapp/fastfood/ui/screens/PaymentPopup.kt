@@ -33,18 +33,21 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.nav.repository.MenuItemsRepository.getMenuItemById
 import com.example.capstoneapp.fastfood.ui.components.ItemCard
 import com.example.capstoneapp.fastfood.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog as CloseDialog
 
 @Composable
 fun PaymentPopup(
     showDialog: Boolean,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
-    navController: NavController
+    navController: NavController,
+    viewModel: OrderViewModel
 ) {
     if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
@@ -84,7 +87,7 @@ fun PaymentPopup(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // 취소 버튼 추가
-                    CancelButton(onDismiss, onConfirm, navController)
+                    CancelButton(onDismiss, navController, viewModel)
                 }
             }
         }
@@ -93,7 +96,26 @@ fun PaymentPopup(
 
 
 @Composable
-fun CancelButton(onDismiss: () -> Unit, onConfirm: () -> Unit,navController: NavController) {
+fun CancelButton(
+    onDismiss: () -> Unit,
+    navController: NavController,
+    viewModel: OrderViewModel
+) {
+    var showCloseDialog by remember { mutableStateOf(false) }
+
+    if (showCloseDialog) {
+        CloseDialog(
+            onDismiss = {
+                showCloseDialog = false
+                viewModel.clearOrderItems()
+                onDismiss()
+                navController.navigate("HamburgerHomeScreen") {
+                    popUpTo("HamburgerHomeScreen") { inclusive = true }
+                }
+            }
+        )
+    }
+
     Button(
         modifier = Modifier.padding(horizontal = 110.dp),
         shape = MaterialTheme.shapes.medium,
@@ -103,7 +125,7 @@ fun CancelButton(onDismiss: () -> Unit, onConfirm: () -> Unit,navController: Nav
         ),
         border = BorderStroke(1.dp, Color.Gray), // 테두리 설정
         onClick = {
-            navController.navigate("HamburgerHomeScreen")
+            showCloseDialog = true
         }
     ) {
         Text(
@@ -121,12 +143,14 @@ fun CancelButton(onDismiss: () -> Unit, onConfirm: () -> Unit,navController: Nav
 fun PaymentPopupPreview() {
     var showDialog by remember { mutableStateOf(true) }
     val navController = rememberNavController()
+    val viewModel = OrderViewModel()
     if (showDialog) {
         PaymentPopup(
             showDialog = showDialog,
             onDismiss = { showDialog = false },
             onConfirm = { showDialog = false },
-            navController = navController
+            navController = navController,
+            viewModel = viewModel
 
         )
     }

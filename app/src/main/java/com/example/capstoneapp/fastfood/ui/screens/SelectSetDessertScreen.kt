@@ -72,14 +72,39 @@ fun SelectSetDessertScreen(
             )
         )
 
+        // 이미 선택된 항목을 표시
+        if (selectedDessert != null && selectedMenu == "세트 디저트") {
+            Text(
+                text = "선택된 디저트: ${selectedDessert.name}",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily.Default,
+                ),
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+
+        if (selectedDrink != null && selectedMenu == "세트 드링크") {
+            Text(
+                text = "선택된 드링크: ${selectedDrink.name}",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = FontFamily.Default,
+                ),
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+
         // 메뉴 목록 표시
         ItemList(
             selectedMenu = selectedMenu,
             selectedItem = if (selectedMenu == "세트 디저트") selectedDessert else selectedDrink,
             onItemClicked = { selectedItem ->
-                if (selectedMenu == "세트 디저트") {
+                if (selectedMenu == "세트 디저트" && selectedDessert == null) {
                     onDessertSelected(selectedItem)
-                } else {
+                } else if (selectedMenu == "세트 드링크" && selectedDrink == null) {
                     onDrinkSelected(selectedItem)
                 }
             }, showBorder = showBorder, problem = problem

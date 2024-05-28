@@ -33,12 +33,15 @@ import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.screens.DessertChickenScreen
+import com.example.capstoneapp.fastfood.ui.screens.DrinkCoffeeScreen
 import com.example.capstoneapp.fastfood.ui.screens.FastfoodGuideScreenPreview
 import com.example.capstoneapp.fastfood.ui.screens.GreetingPreview
 import com.example.capstoneapp.fastfood.ui.screens.OrderScreen
 import com.example.capstoneapp.fastfood.ui.screens.PaymentScreen
 import com.example.capstoneapp.fastfood.ui.screens.PracticeHomeScreen
 import com.example.capstoneapp.fastfood.ui.screens.ItemMenu
+import com.example.capstoneapp.fastfood.ui.screens.RecommendScreen
 import com.example.capstoneapp.fastfood.ui.screens.TouchScreen
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
@@ -136,6 +139,49 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=1,
                 content = { OrderScreen(navController = navController, viewModel, showBorder) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+        }
+
+        composable(route = "recommend") {
+            // DessertChickenScreen 컴포저블을 여기에 정의합니다.
+            // 이 예제에서는 문제가 `problemViewModel.getProblemValue()`를 통해 전달된다고 가정합니다.
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType = 1,
+                content = { RecommendScreen(navController = navController, viewModel, showBorder, problem = problemViewModel.getProblemValue()!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+        }
+
+        // 여기서부터 새로운 경로 추가
+        composable(route = "dessertChicken") {
+            // DessertChickenScreen 컴포저블을 여기에 정의합니다.
+            // 이 예제에서는 문제가 `problemViewModel.getProblemValue()`를 통해 전달된다고 가정합니다.
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType = 1,
+                content = { DessertChickenScreen(navController = navController, viewModel, showBorder, problem = problemViewModel.getProblemValue()!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+        }
+
+        composable(route = "drinkCoffee") {
+            // DrinkCoffeeScreen 컴포저블을 여기에 정의합니다.
+            // 이 예제에서는 문제가 `problemViewModel.getProblemValue()`를 통해 전달된다고 가정합니다.
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType = 1,
+                content = { DrinkCoffeeScreen(navController = navController, viewModel, showBorder, problem = problemViewModel.getProblemValue()!!) }
             ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {

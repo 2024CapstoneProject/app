@@ -108,7 +108,8 @@ fun OrderScreen(
                         showDialog.value = false
                         navController.navigate("HamburgerHomeScreen")
                     },
-                    navController // 팝업을 닫을 때 showDialog 상태를 false로 설정
+                    navController, // 팝업을 닫을 때 showDialog 상태를 false로 설정
+                    viewModel = viewModel
                 )
             }
 
