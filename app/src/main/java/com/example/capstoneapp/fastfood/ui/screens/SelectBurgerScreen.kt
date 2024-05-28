@@ -1,5 +1,6 @@
 package com.example.capstoneapp.fastfood.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,33 +45,39 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 @Composable
 fun ItemMenu(
     navController: NavController,
-    viewModel: OrderViewModel,
+    viewModel: OrderViewModel = viewModel(),
     showBorder: Boolean,
     problem: Problem
 ) {
     // 주문한 목록
-    val orderItems = remember { mutableStateListOf<MenuItem>() }
     var showDialog by remember { mutableStateOf(false) }
     var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
     var showDessertScreen by remember { mutableStateOf(false) }
     var selectedDessert by remember { mutableStateOf<MenuItem?>(null) }
     var selectedDrink by remember { mutableStateOf<MenuItem?>(null) }
+    val orderItems by viewModel.orderItems.observeAsState(emptyList())
 
     var repeatAnswer by remember { mutableStateOf(false) }
 
     val onButtonClick = {
         if (showDessertScreen) {
             selectedDessert?.let {
-                orderItems.removeAll { item -> item.type == "디저트" }
-                orderItems.add(it)
+                viewModel.addMenuItem(it, 1)
             }
             selectedDrink?.let {
-                orderItems.removeAll { item -> item.type == "드링크" }
-                orderItems.add(it)
+                viewModel.addMenuItem(it, 1)
             }
             showDessertScreen = false
         } else {
             navController.navigate("finalOrder")
+        }
+    }
+
+    // 뒤로가기 처리
+    BackHandler {
+        viewModel.clearOrderItems()
+        navController.navigate("HamburgerHomeScreen") {
+            popUpTo("HamburgerHomeScreen") { inclusive = true }
         }
     }
 
@@ -95,8 +102,17 @@ fun ItemMenu(
                         menuItems = myMenuItems,
                         selectedMenuItem = selectedMenu,
                         onMenuItemClick = { menuItem ->
-                            if (menuItem == "햄버거") { // "햄버거" 메뉴만 선택 가능
+                            if (menuItem == "추천메뉴" || menuItem == "햄버거" || menuItem == "디저트/치킨" || menuItem == "음료/커피") { // "햄버거" 메뉴만 선택 가능
                                 selectedMenu = menuItem
+                                if (menuItem == "추천메뉴") {
+                                    navController.navigate("recommend")
+                                }
+                                if (menuItem == "디저트/치킨") {
+                                    navController.navigate("dessertChicken")
+                                }
+                                if (menuItem == "음료/커피") {
+                                    navController.navigate("drinkCoffee")
+                                }
                             }
                         }
                     )
@@ -129,7 +145,6 @@ fun ItemMenu(
                     onDismiss = { showDialog = false },
                     onAddToOrder = { item ->
                         if (problem.menu.split(",").contains(item.name)||item.name=="불고기 버거 세트") {
-                            orderItems.add(item)
                             viewModel.addMenuItem(item, 1)
                             showDialog = false
                             showDessertScreen = item.id % 2 == 0
@@ -144,17 +159,15 @@ fun ItemMenu(
                 selectedDessert = selectedDessert,
                 selectedDrink = selectedDrink,
                 onDessertSelected = { selectedItem ->
-                    if (problem.menu.split(",").contains(selectedItem.name)) {
+                    if (selectedDessert == null && problem.menu.split(",").contains(selectedItem.name)) {
                         selectedDessert = selectedItem
-                        viewModel.addMenuItem(selectedItem, 1)
                     }
                 },
                 onDrinkSelected = { selectedItem ->
-                    if (problem.menu.split(",").contains(selectedItem.name)) {
+                    if (selectedDrink == null && problem.menu.split(",").contains(selectedItem.name)) {
                         selectedDrink = selectedItem
-                        viewModel.addMenuItem(selectedItem, 1)
                     }
-                },showBorder,problem
+                }, showBorder, problem
             )
         }
 
@@ -164,7 +177,7 @@ fun ItemMenu(
                 .fillMaxSize()
         ) {
             DividerFormat()
-            OrderList(orderItems = orderItems)
+            OrderList(orderItems = orderItems) // OrderList에 OrderItem 목록 전달
         }
 
         // 결제 버튼
@@ -185,7 +198,7 @@ fun ItemMenu(
                 buttonText = buttonText,
                 backgroundColor = Color.Red,
                 contentColor = Color.Black,
-                enabled = orderItems.isNotEmpty() // orderItems가 비어 있으면 버튼 비활성화
+                enabled = if (showDessertScreen) selectedDessert != null && selectedDrink != null else orderItems.isNotEmpty()
             )
         }
         Spacer(modifier = Modifier.padding(8.dp))
