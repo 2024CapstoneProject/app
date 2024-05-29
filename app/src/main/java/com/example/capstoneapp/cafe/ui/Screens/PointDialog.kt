@@ -32,7 +32,7 @@ fun PointDialog(onDismiss: () -> Unit, isYesPoint: () -> Unit, isNoPoint:()->Uni
     Dialog(onDismissRequest = onDismiss) {
         Box(
             modifier = Modifier
-                .size(330.dp, 380.dp)
+                .size(330.dp, 280.dp)
                 .padding(16.dp)
                 .background(
                     color = Color.White,
@@ -51,7 +51,7 @@ fun PointDialog(onDismiss: () -> Unit, isYesPoint: () -> Unit, isNoPoint:()->Uni
                     fontSize = 25.sp,
                     fontWeight = FontWeight.ExtraBold,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 30.dp)
                 )
 
                 Row(

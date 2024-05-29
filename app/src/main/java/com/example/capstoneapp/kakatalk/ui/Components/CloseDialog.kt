@@ -31,7 +31,7 @@ fun CloseDialog(onDismiss: () -> Unit){
     Dialog(onDismissRequest = onDismiss) {
         Box(
             modifier = Modifier
-                .size(330.dp, 380.dp)
+                .size(330.dp, 280.dp)
                 .padding(16.dp)
                 .background(
                     color = Color.White,

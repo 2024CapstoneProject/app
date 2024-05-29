@@ -60,6 +60,26 @@ object MenuItemsRepository {
         }
         return null
     }
+
+    fun getMenuItemPhotoId(menuName : String):Int{
+        var photoId = 0
+        for(i in coffeeHotMenuItems){
+            if(i.name == menuName) photoId = i.iconResourceId
+        }
+        if(photoId != 0) return photoId
+        else{
+            for(i in coffeeIceMenuItems){
+                if(i.name == menuName) photoId = i.iconResourceId
+            }
+        }
+        if(photoId != 0) return photoId
+        else{
+            for(i in TeaMenuItems){
+                if(i.name == menuName) photoId = i.iconResourceId
+            }
+            return photoId
+        }
+    }
 }
 
 data class MenuItem(

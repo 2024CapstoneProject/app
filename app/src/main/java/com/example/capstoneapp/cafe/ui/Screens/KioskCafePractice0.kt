@@ -1,5 +1,6 @@
 package com.example.capstoneapp.cafe.ui.Screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.data.Repository.MenuItemsRepository
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
@@ -41,11 +42,12 @@ fun KioskCafePractice0(navController: NavController, problem: Problem) {
 
 @Composable
 fun TextScreen(navController: NavController, problem: Problem) {
+    Log.d("menu이름", problem.c_menu)
+    var painter = MenuItemsRepository.getMenuItemPhotoId(problem.c_menu)
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 60.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center, // 수직 방향으로 요소를 동일한 간격으로 배치합니다.
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -91,11 +93,11 @@ fun TextScreen(navController: NavController, problem: Problem) {
         )
 
         Image(
-            painter = painterResource(R.drawable.cafe_icon),
+            painter = painterResource(painter),
             contentDescription = "cafe image",
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 50.dp),
+                .size(200.dp)
+                .fillMaxWidth(),
             alignment = Alignment.Center
         )
         Text(
