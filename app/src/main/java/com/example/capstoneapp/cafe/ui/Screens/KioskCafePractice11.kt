@@ -32,7 +32,9 @@ fun Dialog11(onDismiss: () -> Unit, onConfirm: () -> Unit) {
             modifier = androidx.compose.ui.Modifier
                 .size(330.dp, 380.dp)
                 .padding(16.dp)
-                .background(color = Color.White)
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(16.dp))
         ) {
             Column(
                 modifier = androidx.compose.ui.Modifier

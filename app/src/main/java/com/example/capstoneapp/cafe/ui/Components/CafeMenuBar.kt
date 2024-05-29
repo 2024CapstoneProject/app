@@ -26,28 +26,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.capstoneapp.cafe.data.Repository.MenuItemsRepository
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
-import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.nav.repository.Problem
-import java.util.function.BiPredicate
 
 @Composable
 fun CafeMenuBar(
-    menuItems:List<String>,
-    selectedMenu:String,
-    onMenuItemClick:(String)->Unit,
-    showBorder:Boolean,
+    menuItems: List<String>,
+    selectedMenu: String,
+    onMenuItemClick: (String) -> Unit,
+    showBorder: Boolean,
     problem: Problem
 ) {
     var type = 0
-    if(problem.c_menu=="HOT아메리카노"||problem.c_menu=="HOT카페라떼") {
-        type=0
-    }else if (problem.c_menu=="ICE아메리카노"||problem.c_menu=="ICE바닐라라떼"){
-        type=1
-    }else{
-        type=2
+    if (problem.c_menu == "HOT아메리카노" || problem.c_menu == "HOT카페라떼") {
+        type = 0
+    } else if (problem.c_menu == "ICE아메리카노" || problem.c_menu == "ICE바닐라라떼") {
+        type = 1
+    } else {
+        type = 2
     }
     Row(
         modifier = Modifier
@@ -58,7 +55,7 @@ fun CafeMenuBar(
 
     ) {
         IconButton(
-            onClick = {onMenuItemClick("HOME")},
+            onClick = { onMenuItemClick("HOME") },
             modifier = Modifier
                 .padding(top = 12.dp)
                 .width(60.dp)
@@ -69,25 +66,32 @@ fun CafeMenuBar(
                 contentDescription = "setting"
             )
         }
-        menuItems.forEachIndexed() { index,item ->
+        menuItems.forEachIndexed() { index, item ->
             Box(
                 modifier = Modifier
                     .padding(top = 0.dp)
                     .fillMaxHeight()
                     .wrapContentWidth()
-                    .then(
-                        if (showBorder&&index==type) Modifier.border(
-                            BorderWidth,
-                            BorderColor,
-                            BorderShape
-                        ) else Modifier
-                    )
+//                    .then(
+//                        if (showBorder&&index==type) Modifier.border(
+//                            BorderWidth,
+//                            BorderColor,
+//                            BorderShape
+//                        ) else Modifier
+//                    )
             ) {
                 TextButton(
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .fillMaxHeight()
-                        .wrapContentWidth(),
+                        .wrapContentWidth()
+                        .then(
+                            if (showBorder && index == type) Modifier.border(
+                                BorderWidth,
+                                BorderColor,
+                                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                            ) else Modifier
+                        ),
                     onClick = {
                         onMenuItemClick(item)
                     },

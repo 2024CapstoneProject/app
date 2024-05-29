@@ -6,35 +6,36 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.ui.draw.clip
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 
 @Composable
 fun Dialog10(onDismiss: () -> Unit, onConfirm: () -> Unit) {
     Dialog(onDismissRequest = onDismiss) {
         Box(
-            modifier = androidx.compose.ui.Modifier
-                .size(330.dp, 380.dp)
+            modifier = Modifier
+                .size(330.dp, 280.dp)
                 .padding(16.dp)
-                .background(color = Color.White)
-                .clip(RoundedCornerShape(16.dp))
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(16.dp))
         ) {
             Column(
-                modifier = androidx.compose.ui.Modifier
+                modifier = Modifier
                     .fillMaxSize() // Column을 Box에 맞추기
                     .padding(16.dp),
                 verticalArrangement = Arrangement.Center,
@@ -52,14 +53,14 @@ fun Dialog10(onDismiss: () -> Unit, onConfirm: () -> Unit) {
                     fontSize = 25.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
-                Spacer(modifier = androidx.compose.ui.Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(30.dp))
 
                 Button(
                     onClick = {
                         onDismiss()
                         onConfirm()
                     },
-                    modifier = androidx.compose.ui.Modifier.size(220.dp, 60.dp),
+                    modifier = Modifier.size(220.dp, 60.dp),
                     colors = ButtonDefaults.buttonColors(Color(0xFF696969)),
                     shape = RoundedCornerShape(16.dp)
                 ) {
