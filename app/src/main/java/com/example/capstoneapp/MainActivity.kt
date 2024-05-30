@@ -40,9 +40,9 @@ class MainActivity : ComponentActivity() {
 
 
 
-                   // Button(onClick = { logout() }) {
-                   //     Text(text = "Logout")
-                   // }
+                   Button(onClick = { logout() }) {
+                        Text(text = "Logout")
+                    }
                 }
 
 
@@ -52,7 +52,9 @@ class MainActivity : ComponentActivity() {
     private fun logout() {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+        editor.remove("user_uid")
         editor.remove("access_token")
+
         editor.apply()
         startActivity(Intent(this, LoginActivity::class.java))
         finish() // MainActivity 종료

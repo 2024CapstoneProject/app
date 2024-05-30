@@ -2,6 +2,7 @@
 package com.example.capstoneapp.chatbot.ui.components
 
 
+import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioFormat
@@ -68,6 +69,9 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
     var showVoiceRecogPopup by remember { mutableStateOf(false) }
     val audioUploader = remember { AudioUploader(chatService) }
     val context = LocalContext.current
+
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val uid = sharedPreferences.getString("user_uid", null)
 
     // 초기 AI 메시지 설정
     val initialAiResponses = listOf(
@@ -201,11 +205,14 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
     }
 
 
-
     LaunchedEffect(Unit) {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val uid = sharedPreferences.getString("user_uid", null)
+        Log.i("ChatUI", "UID: $uid")
         coroutineScope.launch {
             try {
-                val response = chatService.getChatListTest()
+
+                val response = chatService.getChatList(uid ?: "test")
                 if (response.isSuccessful) {
                     response.body()?.let { chatRooms ->
                         val filteredChatRooms =
@@ -248,11 +255,11 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                 onClick = {
                     coroutineScope.launch {
                         try {
-                            val resetResponse = chatService.resetChatbot(sessionId)
+                            val resetResponse = chatService.resetChatbot(uid?:"test")
                             if (resetResponse.isSuccessful) {
                                 userMessages = listOf()
                                 aiResponses = listOf()
-                                val chatResponse = chatService.askChatbotReset("대화 새 시작", true)
+                                val chatResponse = chatService.askChatbotReset("대화 새 시작", true,uid?:"test")
                             } else {
                                 errorMessage = "Error: ${resetResponse.errorBody()?.string()}"
                                 Log.e(
@@ -324,7 +331,7 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                         val reset =
                             userMessages.isEmpty() && aiResponses.isEmpty() // 기존 대화가 없는 경우 reset = true
                         Log.e("reset", reset.toString())
-                        val chatResponse = chatService.askChatbotReset(userMessage, reset)
+                        val chatResponse = chatService.askChatbotReset(userMessage, reset,uid?:"test")
                         if (chatResponse.isSuccessful) {
                             aiResponses = aiResponses + (chatResponse.body()?.question
                                 ?: "응답을 받지 못했습니다.")

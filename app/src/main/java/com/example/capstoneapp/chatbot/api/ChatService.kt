@@ -9,6 +9,7 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -17,14 +18,6 @@ import java.time.LocalDateTime
 
 
 public interface ChatService {
-    @GET("/api/chat/test/ask")
-    suspend fun askChatbotTest(@Query("question") question: String): Response<ChatResponse>
-
-    @GET("/api/chat/test")
-    suspend fun test(): Response<String>
-
-    @GET("/api/chat/ask")
-    suspend fun askChatbot(@Query("question") question: String): Response<ChatResponse>
 
     @Multipart
     @GET("/api/chat/transcription/ask")
@@ -33,14 +26,17 @@ public interface ChatService {
     @GET("/api/chat/ask")
     suspend fun askChatbotReset(
         @Query("question") question: String,
-        @Query("reset") reset: Boolean
+        @Query("reset") reset: Boolean,
+        @Header("X-USER-ID") uid:String
     ): Response<ChatResponse>
 
     @GET("/api/chat/list/test")
-    suspend fun getChatListTest(): Response<List<ChatRoom>>
+    suspend fun getChatListTest(@Header("X-USER-ID") uid:String): Response<List<ChatRoom>>
     @POST("/api/chat/reset")
-    suspend fun resetChatbot(@Query("sessionId") sessionId: String): Response<Void>
+    suspend fun resetChatbot(@Header("X-USER-ID") uid:String): Response<Void>
 
+    @GET("/api/chat/list")
+    suspend fun getChatList(@Header("X-USER-ID") uid:String): Response<List<ChatRoom>>
 
 
 }
