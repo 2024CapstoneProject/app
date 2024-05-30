@@ -3,6 +3,7 @@ package com.example.capstoneapp.fastfood.ui.screens
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,17 +44,25 @@ import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.fastfood.ui.components.OptionCard
 import com.example.capstoneapp.fastfood.ui.frame.DividerFormat
 import com.example.capstoneapp.fastfood.ui.frame.KioskButtonFormat
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
+import com.example.capstoneapp.nav.repository.Problem
 
 @SuppressLint("RememberReturnType")
 @Composable
 fun OrderScreen(
     navController: NavController,
     viewModel: OrderViewModel,
-    showBorder: Boolean
+    showBorder: Boolean,
+    problem: Problem
 ) {
     val orderItems by viewModel.orderItems.observeAsState(initial = listOf())
     val totalAmount = orderItems.sumOf { it.menuItem.price * it.quantity }
     val showDialog = remember { mutableStateOf(false) }
+
+    var repeatAnswer by remember { mutableStateOf(false) }
 
     // 각 옵션의 선택 상태를 관리하는 상태 변수
     val selectedPackingOption = remember { mutableStateOf<OptionType?>(null) }
@@ -124,16 +134,28 @@ fun OrderScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     OptionCard(
-                        onClick = { selectedPackingOption.value = OptionType.Packing },
+                        onClick = {
+                            if(problem.place!="포장 하기"){
+                                repeatAnswer=true
+                            }else{
+                                selectedPackingOption.value = OptionType.Packing
+                            }},
                         text = "포장",
                         icon = painterResource(id = R.drawable.bag),
-                        isSelected = selectedPackingOption.value == OptionType.Packing
+                        isSelected = selectedPackingOption.value == OptionType.Packing,
+                        showBorder = showBorder&&(problem.place=="포장 하기"),
                     )
                     OptionCard(
-                        onClick = { selectedPackingOption.value = OptionType.Store },
+                        onClick = {
+                            if(problem.place!="매장에서 먹기"){
+                                repeatAnswer=true
+                            }else{
+                                selectedPackingOption.value = OptionType.Store
+                            }},
                         text = "매장",
                         icon = painterResource(id = R.drawable.shop),
-                        isSelected = selectedPackingOption.value == OptionType.Store
+                        isSelected = selectedPackingOption.value == OptionType.Store,
+                        showBorder = showBorder&&(problem.place=="매장에서 먹기"),
                     )
                 }
 
@@ -143,16 +165,28 @@ fun OrderScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     OptionCard(
-                        onClick = { selectedDiscountOption.value = OptionType.Point },
+                        onClick = {
+                            if(problem.point!="O"){
+                                repeatAnswer=true
+                            }else{
+                                selectedDiscountOption.value = OptionType.Point
+                            }},
                         text = "포인트",
                         icon = painterResource(id = R.drawable.discount),
-                        isSelected = selectedDiscountOption.value == OptionType.Point
+                        isSelected = selectedDiscountOption.value == OptionType.Point,
+                        showBorder = showBorder&&(problem.point=="O"),
                     )
                     OptionCard(
-                        onClick = { selectedDiscountOption.value = OptionType.None },
+                        onClick = {
+                            if(problem.point!="X"){
+                                repeatAnswer=true
+                            }else{
+                                selectedDiscountOption.value = OptionType.None
+                            }},
                         text = "선택\n없음",
                         icon = painterResource(id = R.drawable.x),
-                        isSelected = selectedDiscountOption.value == OptionType.None
+                        isSelected = selectedDiscountOption.value == OptionType.None,
+                        showBorder = showBorder&&(problem.point=="X"),
                     )
                 }
 
@@ -162,16 +196,28 @@ fun OrderScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     OptionCard(
-                        onClick = { selectedPaymentOption.value = OptionType.CreditCard },
+                        onClick = {
+                            if(problem.pay!="카드 결제"){
+                                repeatAnswer=true
+                            }else{
+                                selectedPaymentOption.value = OptionType.CreditCard
+                            }},
                         text = "신용\n/체크카드",
                         icon = painterResource(id = R.drawable.cardicon),
-                        isSelected = selectedPaymentOption.value == OptionType.CreditCard
+                        isSelected = selectedPaymentOption.value == OptionType.CreditCard,
+                        showBorder = showBorder&&(problem.pay=="카드 결제"),
                     )
                     OptionCard(
-                        onClick = { selectedPaymentOption.value = OptionType.MobilePay },
+                        onClick = {
+                            if(problem.pay!="모바일 페이"){
+                                repeatAnswer=true
+                            }else{
+                                selectedPaymentOption.value = OptionType.MobilePay
+                            }},
                         text = "모바일\n/페이",
                         icon = painterResource(id = R.drawable.pay),
-                        isSelected = selectedPaymentOption.value == OptionType.MobilePay
+                        isSelected = selectedPaymentOption.value == OptionType.MobilePay,
+                        showBorder = showBorder&&(problem.pay.split(" ").contains("모바일")||problem.pay.split(" ").contains("페이")),
                     )
                 }
             }
@@ -199,6 +245,10 @@ fun OrderScreen(
                 enabled = allOptionsSelected
             )
         }
+    }
+    if(repeatAnswer){
+        RepeatDialog(onDismiss = {
+            repeatAnswer = false })
     }
 }
 
@@ -268,7 +318,8 @@ fun OptionCard(
     onClick: () -> Unit,
     text: String,
     icon: Painter,
-    isSelected: Boolean
+    isSelected: Boolean,
+    showBorder: Boolean
 ) {
     val backgroundColor = if (isSelected) Color.LightGray else Color.Transparent
     Column(
@@ -280,6 +331,7 @@ fun OptionCard(
             modifier = Modifier
                 .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
                 .padding(8.dp)
+                .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -293,21 +345,21 @@ fun OptionCard(
     }
 }
 
-@Preview(showBackground = true, name = "Order Screen Preview")
-@Composable
-fun OrderScreenPreview() {
-    // NavController의 모의 인스턴스를 생성합니다.
-    val navController = rememberNavController()
-
-    // 미리보기를 위한 OrderViewModel의 인스턴스를 생성합니다.
-    // 실제로는 PreviewOrderViewModel이나 적절한 모의 객체를 제공해야 합니다.
-    val viewModel = OrderViewModel()
-
-    // OrderScreen 컴포저블을 호출하고 미리보기에 필요한 인자를 전달합니다.
-    // 실제 앱에서는 이 인자들이 상위에서 제공될 것입니다.
-    OrderScreen(
-        navController = navController,
-        viewModel = viewModel,
-        showBorder = true // 또는 미리보기에 맞는 값으로 설정합니다.
-    )
-}
+//@Preview(showBackground = true, name = "Order Screen Preview")
+//@Composable
+//fun OrderScreenPreview() {
+//    // NavController의 모의 인스턴스를 생성합니다.
+//    val navController = rememberNavController()
+//
+//    // 미리보기를 위한 OrderViewModel의 인스턴스를 생성합니다.
+//    // 실제로는 PreviewOrderViewModel이나 적절한 모의 객체를 제공해야 합니다.
+//    val viewModel = OrderViewModel()
+//
+//    // OrderScreen 컴포저블을 호출하고 미리보기에 필요한 인자를 전달합니다.
+//    // 실제 앱에서는 이 인자들이 상위에서 제공될 것입니다.
+//    OrderScreen(
+//        navController = navController,
+//        viewModel = viewModel,
+//        showBorder = true // 또는 미리보기에 맞는 값으로 설정합니다.
+//    )
+//}

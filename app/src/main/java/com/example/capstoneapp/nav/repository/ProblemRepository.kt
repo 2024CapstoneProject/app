@@ -6,19 +6,19 @@ import kotlin.random.Random
 object ProblemRepository {
     //fastfood
     private var menuList = listOf(
-        "불고기 버거,콜라,감자튀김"
+        "불고기 버거,콜라,감자튀김","새우버거,오렌지 주스,치즈스틱","치즈버거,제로콜라,양념감자","치킨버거,감자튀김,사이다"
     )
 
     private var placeList = listOf(
-        "매장에서 먹기"
+        "매장에서 먹기","포장 하기"
     )
 
     private var isPoint = listOf(
-        "X"
+        "X","O"
     )
 
     private var payList = listOf(
-        "카드 결제"
+        "카드 결제","모바일 결,"
     )
     //cafe
     private var c_menuList = listOf(
