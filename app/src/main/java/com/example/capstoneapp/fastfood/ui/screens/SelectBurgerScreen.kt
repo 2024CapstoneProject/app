@@ -142,7 +142,7 @@ fun ItemMenu(
                     currentItem = currentItemForDialog,
                     onDismiss = { showDialog = false },
                     onAddToOrder = { item ->
-                        if (problem.menu.split(",").contains(item.name)||item.name=="불고기 버거 세트") {
+                        if (problem.menu.split(",").contains(item.name)||item.name.split(" ").contains("세트")) {
                             viewModel.addMenuItem(item, 1)
                             showDialog = false
                             showDessertScreen = item.id % 2 == 0

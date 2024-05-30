@@ -84,7 +84,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         }
 
         composable(route = "HamburgerPracticeHomeScreen"){
-            PracticeHomeScreen(navController = navController)
+            PracticeHomeScreen(navController = navController,problem!!)
         }
 
         composable(route = "touchToStart") {
@@ -131,7 +131,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
                 screenType=1,
-                content = { OrderScreen(navController = navController, viewModel, showBorder) }
+                content = { OrderScreen(navController = navController, viewModel, showBorder,problem!!) }
             ) { setShowBorder(!showBorder) }
 
             LaunchedEffect(navController.currentBackStackEntry) {

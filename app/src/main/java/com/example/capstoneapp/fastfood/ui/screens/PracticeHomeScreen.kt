@@ -26,21 +26,18 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
-fun PracticeHomeScreen(navController: NavController) {
+fun PracticeHomeScreen(navController: NavController,problem: Problem) {
     Column {
-        TextScreen(navController = navController)
+        TextScreen(navController = navController, problem = problem)
     }
 
 }
 
 @Composable
-fun TextScreen(navController: NavController) {
-    val menu = "불고기버거, 콜라, 감자튀김"
-    val place = "매장에서 먹기"
-    val point = "X"
-    val pay = "카드 결제"
+fun TextScreen(navController: NavController,problem: Problem) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -48,7 +45,7 @@ fun TextScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "메뉴 : $menu",
+            text = "메뉴 : ${problem.menu}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -58,7 +55,7 @@ fun TextScreen(navController: NavController) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "장소 : $place",
+            text = "장소 : ${problem.place}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -68,7 +65,7 @@ fun TextScreen(navController: NavController) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "포인트 적립 여부 : $point",
+            text = "포인트 적립 여부 : ${problem.point}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -78,7 +75,7 @@ fun TextScreen(navController: NavController) {
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "결제 방식 : $pay",
+            text = "결제 방식 : ${problem.pay}",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -122,16 +119,16 @@ fun TextScreen(navController: NavController) {
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun TextScreenPreview() {
-    val navController = rememberNavController()
-    CapstoneAppTheme {
-        Column {
-            TextScreen(navController = navController)
-        }
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun TextScreenPreview() {
+//    val navController = rememberNavController()
+//    CapstoneAppTheme {
+//        Column {
+//            TextScreen(navController = navController)
+//        }
+//    }
+//}
 
 @Composable
 fun StartButton(onClick: () -> Unit) {
