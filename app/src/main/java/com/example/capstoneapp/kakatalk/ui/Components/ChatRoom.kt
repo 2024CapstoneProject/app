@@ -34,6 +34,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -56,19 +57,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import com.example.capstoneapp.MainActivity
-import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
-import com.example.capstoneapp.nav.repository.KakaotalkProblem
-import kotlinx.coroutines.launch
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.capstoneapp.MainActivity
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.kakatalk.data.Repository.ChatMessage
 import com.example.capstoneapp.kakatalk.data.Repository.ChatMessageRepository
+import com.example.capstoneapp.nav.repository.KakaotalkProblem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
 fun ChatRoom(

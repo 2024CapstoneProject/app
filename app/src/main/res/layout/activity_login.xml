@@ -8,6 +8,32 @@
 
 
     <ImageView
+        android:id="@+id/logo"
+        android:layout_width="285dp"
+        android:layout_height="457dp"
+        android:src="@drawable/mainlogo"
+        app:layout_constraintBottom_toTopOf="@+id/kakao_login_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="2.0" />
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="442dp"
+        android:text="효자손"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/kakao_login_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/logo"
+        app:layout_constraintVertical_bias="2.0" />
+
+    <ImageView
         android:id="@+id/kakao_login_btn"
         android:layout_width="332dp"
         android:layout_height="68dp"
@@ -17,7 +43,7 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.672" />
+        app:layout_constraintVertical_bias="0.71" />
 
     <ImageView
         android:id="@+id/kakao_login_btn2"
@@ -29,7 +55,7 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.799" />
+        app:layout_constraintVertical_bias="0.84" />
 
     <Button
         android:id="@+id/logout_btn"

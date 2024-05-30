@@ -3,7 +3,6 @@ package com.example.capstoneapp.fastfood.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,12 +33,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
-import com.example.capstoneapp.nav.repository.MenuItem
-import com.example.capstoneapp.nav.repository.MenuItemsRepository.getMenuItemById
-import com.example.capstoneapp.fastfood.ui.components.ItemCard
-import com.example.capstoneapp.fastfood.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
-import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog as CloseDialog
+import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog
 
 @Composable
 fun PaymentPopup(

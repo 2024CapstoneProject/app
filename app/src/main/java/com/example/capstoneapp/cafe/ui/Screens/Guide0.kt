@@ -27,9 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.chatbot.api.AudioUploader
-
 import com.example.capstoneapp.chatbot.api.ChatService
-import com.example.capstoneapp.mainPage.VoicePopup
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -47,8 +45,8 @@ fun GuideScreen(navController:NavController,) {
 
     Column(
         modifier = Modifier
-            .padding(top = 50.dp, bottom = 20.dp),
-        verticalArrangement = Arrangement.Center,
+            .padding(top = 80.dp, bottom = 20.dp),
+        verticalArrangement = Arrangement.Top, // Align content to the top
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
@@ -70,7 +68,7 @@ fun GuideScreen(navController:NavController,) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp),
+                .padding(horizontal = 15.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
@@ -78,7 +76,8 @@ fun GuideScreen(navController:NavController,) {
                     navController.navigate("CafeHomeScreen")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -94,7 +93,8 @@ fun GuideScreen(navController:NavController,) {
                     navController.navigate("Kakao_Menu")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -109,7 +109,7 @@ fun GuideScreen(navController:NavController,) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp, vertical = 30.dp),
+                .padding(horizontal = 15.dp, vertical = 5.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
@@ -117,7 +117,8 @@ fun GuideScreen(navController:NavController,) {
                     navController.navigate("HamburgerHomeScreen")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -146,7 +147,8 @@ fun GuideScreen(navController:NavController,) {
                     navController.navigate("Taxi_Guide")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -161,7 +163,7 @@ fun GuideScreen(navController:NavController,) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp),
+                .padding(horizontal = 15.dp, vertical = 5.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
@@ -169,7 +171,8 @@ fun GuideScreen(navController:NavController,) {
                     navController.navigate("Phone_Guide")
                 },
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -183,7 +186,8 @@ fun GuideScreen(navController:NavController,) {
             Button(
                 onClick = {},
                 modifier = Modifier
-                    .size(150.dp, 150.dp),
+                    .size(180.dp, 180.dp)
+                    .padding(4.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {

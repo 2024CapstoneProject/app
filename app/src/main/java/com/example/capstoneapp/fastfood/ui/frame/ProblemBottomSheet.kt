@@ -2,10 +2,6 @@
 
 package com.example.capstoneapp.fastfood.ui.frame
 
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
-import com.example.capstoneapp.nav.repository.Problem
-import com.example.capstoneapp.nav.repository.ProblemRepository
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.capstoneapp.fastfood.ui.theme.Yellow
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

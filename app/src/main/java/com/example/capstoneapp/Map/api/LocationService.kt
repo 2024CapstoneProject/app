@@ -1,11 +1,11 @@
 package com.example.capstoneapp.Map.api
 
-import com.google.android.gms.common.api.Response
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.POST
+
 interface LocationService {
     @POST("/api/locations")
     fun updateLocation(@Body locationData: LocationData): Call<Void>
