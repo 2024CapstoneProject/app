@@ -1,5 +1,6 @@
 package com.example.capstoneapp.auth
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,12 +8,19 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.capstoneapp.MainActivity
 import com.example.capstoneapp.R
+import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.apache.http.HttpException
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
 
@@ -37,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
             } else if (token != null) { // Login Success
                 Log.i(TAG, "Kakao Login Succeeded : ${token.accessToken}")
                 saveToken(token.accessToken)
+                sendUserInfoToBackend()
                 startMainActivity()
             }
         }
@@ -65,11 +74,27 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish() // LoginActivity 종료
         }
-
-
-
-
     }
+
+    private fun loginWihtKakaoTalk(callback: (OAuthToken?, Throwable?) -> Unit)
+    {
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+                if (error != null) {
+                    Log.e(TAG, "KakaoTalk Login Failed :", error)
+                    loginWithKakaoAccount(callback)
+                } else if (token != null) {
+                    Log.i(TAG, "KakaoTalk Login Succeeded : ${token.accessToken}")
+                    saveToken(token.accessToken)
+                    sendUserInfoToBackend()
+                    startMainActivity()
+                }
+            }
+        } else {
+            loginWithKakaoAccount(callback)
+        }
+    }
+
 
     private fun loginWithKakaoAccount(callback: (OAuthToken?, Throwable?) -> Unit) {
         Log.d(TAG, "카카오 계정으로 로그인 시도")
@@ -81,7 +106,18 @@ class LoginActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("access_token", token)
-        editor.apply()
+
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error)
+            } else if (user != null) {
+                val uid = user.id.toString()
+                editor.putString("user_uid", uid)
+            }
+            editor.apply()
+        }
+
+
     }
 
     private fun startMainActivity() {
@@ -89,13 +125,69 @@ class LoginActivity : AppCompatActivity() {
         finish() // LoginActivity 종료
     }
 
-    private fun logout() {
+ /*   private fun logout() {
+
         val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.remove("access_token")
-        editor.apply()
-        Log.d(TAG, "User logged out. Token removed.")
+
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            }
+            else {
+                Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                editor.remove("access_token")
+                editor.remove("user_uid")
+                editor.apply()
+            }
+        }
+    }*/
+
+    private fun getRefreshToken(callback: (OAuthToken?, Throwable?) -> Unit) {
+        AuthApiClient.instance.refreshToken(
+            callback = { token, error ->
+                if (error != null) {
+                    Log.e(TAG, "토큰 갱신 실패", error)
+                } else if (token != null) {
+                    Log.i(TAG, "토큰 갱신 성공 ${token.accessToken}")
+                    saveToken(token.accessToken)
+                    sendUserInfoToBackend()
+                    startMainActivity()
+                }
+            }
+        )
     }
+
+
+    private fun sendUserInfoToBackend() {
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error)
+            } else if (user != null) {
+                val uid = user.id.toString()
+                val email = user.kakaoAccount.toString()
+                Log.i(TAG, "User ID: $uid, Email: $email")
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val response = UserService.RetrofitInstance.api.loginUser(uid, email)
+                        if (response.isSuccessful) {
+                            Log.i(TAG, "User info sent to backend successfully")
+                        } else {
+                            Log.e(TAG, "Failed to send user info to backend: ${response.code()}")
+                        }
+                    } catch (e: HttpException) {
+                        Log.e(TAG, "HttpException: ${e.message}")
+                    } catch (e: IOException) {
+                        Log.e(TAG, "IOException: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
 
     companion object {
         private const val TAG = "LoginActivity"
