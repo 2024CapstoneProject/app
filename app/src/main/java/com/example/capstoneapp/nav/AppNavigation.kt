@@ -13,10 +13,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-
-import com.example.capstoneapp.nav.repository.ProblemRepository
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
-
 import com.example.capstoneapp.cafe.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.cafe.ui.Screens.CafeKioskScreen
 import com.example.capstoneapp.cafe.ui.Screens.GuideScreen
@@ -24,23 +20,19 @@ import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
-
 import com.example.capstoneapp.cafe.ui.Screens.TouchScreenCafe
-
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
 import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
-
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
 import com.example.capstoneapp.fastfood.ui.screens.DessertChickenScreen
 import com.example.capstoneapp.fastfood.ui.screens.DrinkCoffeeScreen
 import com.example.capstoneapp.fastfood.ui.screens.FastfoodGuideScreenPreview
 import com.example.capstoneapp.fastfood.ui.screens.GreetingPreview
+import com.example.capstoneapp.fastfood.ui.screens.ItemMenu
 import com.example.capstoneapp.fastfood.ui.screens.OrderScreen
 import com.example.capstoneapp.fastfood.ui.screens.PaymentScreen
 import com.example.capstoneapp.fastfood.ui.screens.PracticeHomeScreen
-import com.example.capstoneapp.fastfood.ui.screens.ItemMenu
 import com.example.capstoneapp.fastfood.ui.screens.RecommendScreen
 import com.example.capstoneapp.fastfood.ui.screens.TouchScreen
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
@@ -52,13 +44,14 @@ import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_FriendChatList
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
-import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import com.example.capstoneapp.phone.ui.screens.PhoneCallGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
-
 import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
 
 @SuppressLint("RememberReturnType")

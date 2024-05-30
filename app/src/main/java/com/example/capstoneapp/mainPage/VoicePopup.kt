@@ -1,6 +1,10 @@
 package com.example.capstoneapp.mainPage
 
+
+import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -14,7 +18,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,17 +35,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import android.Manifest
-import android.app.Activity
-import android.util.Log
-import androidx.compose.foundation.layout.width
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.capstoneapp.R
 import com.example.capstoneapp.chatbot.api.AudioRecorder
 import com.example.capstoneapp.chatbot.api.AudioUploader
-import com.example.capstoneapp.mainPage.CancelButton
-
-
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
 

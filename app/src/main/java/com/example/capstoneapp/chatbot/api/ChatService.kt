@@ -2,19 +2,16 @@ package com.example.capstoneapp.chatbot.api
 
 import com.google.gson.GsonBuilder
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.http.GET
-import retrofit2.http.Query
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
-import java.io.File
-import java.time.LocalDateTime
+import retrofit2.http.Query
 
 
 public interface ChatService {

@@ -27,9 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.chatbot.api.AudioUploader
-
 import com.example.capstoneapp.chatbot.api.ChatService
-import com.example.capstoneapp.mainPage.VoicePopup
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
