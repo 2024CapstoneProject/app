@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     viewModel(factory = problemViewModelFactory)
                 AppNavigation(problemViewModel, this@MainActivity)
 
-                MaterialTheme {
+                 /* MaterialTheme {
                     Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
@@ -43,19 +43,9 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.align(Alignment.TopEnd).padding(16.dp)
                         )
                     }
-                }
+                }*/
+            }
             }
         }
     }
 
-    private fun logout() {
-        val sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.remove("user_uid")
-        editor.remove("access_token")
-
-        editor.apply()
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish() // MainActivity 종료
-    }
-}

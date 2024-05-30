@@ -1,8 +1,14 @@
 package com.example.capstoneapp.cafe.ui.Screens
 
+
+import android.content.Context
+import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -11,13 +17,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,23 +30,44 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.auth.LoginActivity
 import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
 import com.example.capstoneapp.chatbot.api.AudioUploader
 import com.example.capstoneapp.chatbot.api.ChatService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import androidx.compose.material3.MaterialTheme
+import com.example.capstoneapp.mainPage.ButtonWithRoundedBorder
+
+
 
 @Composable
-fun Guide0(navController:NavController) {
+fun Guide0(navController: NavController) {
+    val LocalContext = staticCompositionLocalOf<Context?> { null }
     CapstoneAppTheme {
-        GuideScreen(navController)
+        CompositionLocalProvider(LocalContext provides currentContext()) {
+            GuideScreen(navController)
+        }
     }
 }
 
 @Composable
-fun GuideScreen(navController:NavController,) {
-    var showVoiceRecogPopup by remember { mutableStateOf(false) }
-    val audioUploader = remember { setupAudioUploader() }
+fun GuideScreen(navController: NavController) {
+    val context = LocalContext.current
+
+    MaterialTheme {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            ButtonWithRoundedBorder(
+                onClick = { logout(context) },
+                modifier = Modifier.align(Alignment.TopEnd).padding(16.dp)
+            )
+        }
+    }
+
+
+// 로그아웃 함수 정
 
     Column(
         modifier = Modifier
@@ -234,3 +260,18 @@ fun setupAudioUploader(): AudioUploader {
     return AudioUploader(chatService)
 }
 
+@Composable
+fun currentContext(): Context? {
+    return LocalContext.current
+}
+
+fun logout(context: Context) {
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.remove("user_uid")
+    editor.remove("access_token")
+    editor.apply()
+    context.startActivity(Intent(context, LoginActivity::class.java).apply {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+    })
+}
