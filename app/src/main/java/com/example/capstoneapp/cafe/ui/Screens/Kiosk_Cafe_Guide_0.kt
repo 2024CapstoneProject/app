@@ -1,34 +1,21 @@
 package com.example.capstoneapp.cafe.ui.Screens
 
 import android.content.Context
-import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PageSize
-import androidx.compose.foundation.pager.PagerDefaults
-import androidx.compose.foundation.pager.PagerSnapDistance
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,11 +27,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.ScaleFactor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -54,24 +38,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlin.math.absoluteValue
-import androidx.compose.ui.layout.lerp
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun KioskCafeGuide0(navController: NavController) {
     var currentImageIndex by remember { mutableStateOf(0) }
     var isImageClicked by remember { mutableStateOf(false) }
     var clickedImageResource by remember { mutableStateOf(0) }
-    
+
     // 이미지 리소스 리스트를 함수 외부에서 정의
     val imageResources = listOf(
         R.drawable.cafe_icon,
@@ -85,10 +64,6 @@ fun KioskCafeGuide0(navController: NavController) {
         R.drawable.cafe_guide_007
     )
 
-    val pagerState = rememberPagerState {
-        imageResources.size
-    }
-
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -97,7 +72,7 @@ fun KioskCafeGuide0(navController: NavController) {
         guideImage(
             currentImageIndex = currentImageIndex,
             imageResources = imageResources, // 이미지 리소스를 함수로 전달
-            onImageIndexChanged =  { newIndex ->
+            onImageIndexChanged = { newIndex ->
                 currentImageIndex = newIndex
             },
             onImageClicked = {
@@ -132,9 +107,39 @@ fun guideImage(
     val context = LocalContext.current
     val imageName = getResourceName(currentImageResourceId, context)
 
+    // 드래그 동작에 대한 제스처 인식기
+    val offsetX = remember { mutableStateOf(0f) }
+    val coroutineScope = rememberCoroutineScope()
+
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta ->
+                        // 드래그로 인한 X 좌표 이동
+                        offsetX.value += delta
+                    },
+                    onDragStopped = { velocity ->
+                        // 드래그로 인한 페이지 변경
+                        if (offsetX.value > 150 || (offsetX.value < -150 && velocity > 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    showPreviousImage(imageResources.size, currentImageIndex)
+                                )
+                            }
+                            offsetX.value = 0f
+                        } else if (offsetX.value < -150 || (offsetX.value > 150 && velocity < 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    showNextImage(imageResources.size, currentImageIndex)
+                                )
+                            }
+                            offsetX.value = 0f
+                        }
+                    }
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -212,12 +217,12 @@ fun getResourceName(resourceId: Int, context: Context): String {
 
 /*다음 이미지로 변경*/
 fun showNextImage(size: Int, currentIndex: Int): Int {
-    return (currentIndex + 1) % size
+    return if (currentIndex < size - 1) currentIndex + 1 else 0
 }
 
 /*이전 이미지로 변경*/
 fun showPreviousImage(size: Int, currentIndex: Int): Int {
-    return if (currentIndex == 0) size - 1 else currentIndex - 1
+    return if (currentIndex > 0) currentIndex - 1 else size - 1
 }
 
 @Composable
@@ -225,15 +230,14 @@ fun EnlargedImagePopup(imageResource: Int, onClose: () -> Unit) {
     Dialog(onDismissRequest = onClose) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(16.dp)
+                .clickable(onClick = onClose)
         ) {
             Image(
                 painter = painterResource(id = imageResource),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .clickable { /* Do nothing on click */ },
+                    .fillMaxSize(),
                 contentScale = ContentScale.Fit // 이미지가 화면에 맞게 최대로 확대됨
             )
         }
@@ -253,7 +257,7 @@ fun guideText(currentImageIndex: Int) {
         Triple("카드결제를 선택했다면", "키오스크 아래의 카드 투입구에", "카드를 넣어주세요."),
         Triple("쿠폰 사용을 선택했다면", "키오스크 아래의 바코드 인식기에", "바코드를 읽혀주세요."),
         Triple("결제가 끝났습니다!", "영수증을 챙겨 번호를 확인해주세요!", ""),
-        )
+    )
 
     Column(
         modifier = Modifier,
@@ -312,184 +316,5 @@ fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
 @Composable
 fun cafeGuideScreenPreview() {
     val navController = rememberNavController()
-    var currentImageIndex by remember { mutableStateOf(0) }
     KioskCafeGuide0(navController)
 }
-
-@OptIn(ExperimentalFoundationApi::class)
-@Preview
-@Composable
-fun pagerPreview() {
-    val imageResources = listOf(
-        R.drawable.cafe_icon,
-        R.drawable.guide_000,
-        R.drawable.cafe_guide_001,
-        R.drawable.cafe_guide_002,
-        R.drawable.cafe_guide_003,
-        R.drawable.cafe_guide_004,
-        R.drawable.cafe_guide_005,
-        R.drawable.cafe_guide_006,
-        R.drawable.cafe_guide_007
-    )
-    var currentImageIndex by remember { mutableStateOf(0) }
-
-    val pagerState = rememberPagerState(pageCount = {
-        imageResources.size
-    })
-    val fling = PagerDefaults.flingBehavior(
-        state = pagerState,
-        pagerSnapDistance = PagerSnapDistance.atMost(1)
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "카페",
-            style = TextStyle(fontSize = 30.sp),
-            fontWeight = FontWeight.ExtraBold,
-            modifier = Modifier.padding()
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            IconButton(
-                onClick = {
-
-                }
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.arrow_back),
-                    contentDescription = "Previous"
-                )
-            }
-
-//            Box(
-//                modifier = Modifier
-//                    .width(270.dp) // Slightly wider to account for padding
-//                    .height(500.dp),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                HorizontalPager(
-//                    state = pagerState,
-//                    contentPadding = PaddingValues(horizontal = 20.dp), // Adding padding around the pager
-//                    pageSpacing = 20.dp, // Adding spacing between pages
-//                    modifier = Modifier.fillMaxSize(),
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    flingBehavior = fling
-//                ) { page ->
-//                        currentImageIndex = page
-//                        Image(
-//                            painter = painterResource(id = imageResources[page]),
-//                            contentDescription = null,
-//                            modifier = Modifier.size(width = 250.dp, height = 500.dp)
-//                                .graphicsLayer {
-//                                    val pageOffset = (
-//                                            (pagerState.currentPage - page) + pagerState
-//                                                .currentPageOffsetFraction
-//                                            ).absoluteValue
-//
-//                                    alpha = lerp(
-//                                        start = 0.8f,
-//                                        stop = 1f,
-//                                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-//                                    )
-//                                },
-//                            alignment = Alignment.Center
-//                        )
-//                }
-//            }
-            guideImagePreview()
-            IconButton(
-                onClick = {
-                   }
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.arrow_forward),
-                    contentDescription = "Next"
-                )
-            }
-        }
-        //guideText(currentImageIndex)
-
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun guideImagePreview(){
-    val imageResources = listOf(
-        R.drawable.cafe_icon,
-        R.drawable.guide_000,
-        R.drawable.cafe_guide_001,
-        R.drawable.cafe_guide_002,
-        R.drawable.cafe_guide_003,
-        R.drawable.cafe_guide_004,
-        R.drawable.cafe_guide_005,
-        R.drawable.cafe_guide_006,
-        R.drawable.cafe_guide_007
-    )
-    var currentImageIndex by remember { mutableStateOf(0) }
-
-    val pagerState = rememberPagerState(pageCount = {
-        imageResources.size
-    })
-    val fling = PagerDefaults.flingBehavior(
-        state = pagerState,
-        pagerSnapDistance = PagerSnapDistance.atMost(1)
-    )
-
-    Box(
-        modifier = Modifier
-            .width(270.dp) // Slightly wider to account for padding
-            .wrapContentHeight(),
-        contentAlignment = Alignment.Center
-    ) {
-        HorizontalPager(
-            state = pagerState,
-            contentPadding = PaddingValues(horizontal = 20.dp), // Adding padding around the pager
-            pageSpacing = 20.dp, // Adding spacing between pages
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            flingBehavior = fling
-        ) { page ->
-            currentImageIndex = page
-            Column(
-                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-                Image(
-                    painter = painterResource(id = imageResources[page]),
-                    contentDescription = null,
-                    modifier = Modifier.size(width = 250.dp, height = 500.dp)
-                        .graphicsLayer {
-                            val pageOffset = (
-                                    (pagerState.currentPage - page) + pagerState
-                                        .currentPageOffsetFraction
-                                    ).absoluteValue
-
-                            alpha = lerp(
-                                start = 0.8f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            )
-                        },
-                    alignment = Alignment.Center
-                )
-                guideText(currentImageIndex)
-            }
-
-        }
-    }
-}
-
-fun lerp(start: Float, stop: Float, fraction: Float): Float {
-    return (1 - fraction) * start + fraction * stop
-}
-
