@@ -16,6 +16,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,9 +37,11 @@ import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 
 @Composable
 fun PaymentScreen(navController: NavController, showBorder: Boolean) {
+    var repeatAnswer by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier.padding(16.dp)
             .fillMaxWidth(),
@@ -115,7 +121,9 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
             verticalAlignment = Alignment.CenterVertically
         ) { Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
+                modifier = Modifier
+                    .weight(1f) //왼쪽에 padding을 주기 위해
+                    .clickable{repeatAnswer=true}
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.pay),
@@ -144,7 +152,9 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
+                modifier = Modifier
+                    .weight(1f) //왼쪽에 padding을 주기 위해
+                    .clickable{repeatAnswer=true}
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.cash),
@@ -166,6 +176,10 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
             }
         }
         Spacer(modifier = Modifier.height(48.dp))
+    }
+    if(repeatAnswer){
+        RepeatDialog(onDismiss = {
+            repeatAnswer = false })
     }
 }
 
