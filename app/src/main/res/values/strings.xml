@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CapstoneApp</string>
+    <string name="app_name">효자손</string>
 
     <string name="touch_text">햄버거 가게</string>
     <string name="payment_text">현금 결제</string>
