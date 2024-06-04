@@ -337,25 +337,30 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                     try {
                         val userMessage = question
                         userMessages = userMessages + userMessage
+                        aiResponses = aiResponses + "답변 중..."
                         question = "" // Clear the input field immediately
-                        val reset =
-                            userMessages.isEmpty() && aiResponses.isEmpty() // 기존 대화가 없는 경우 reset = true
+                        val reset = userMessages.isEmpty() && aiResponses.isEmpty() // 기존 대화가 없는 경우 reset = true
                         Log.e("reset", reset.toString())
-                        val chatResponse = chatService.askChatbotReset(userMessage, reset,uid?:"test")
+
+                        val chatResponse = chatService.askChatbotReset(userMessage, reset, uid ?: "test")
+
                         if (chatResponse.isSuccessful) {
-                            aiResponses = aiResponses + (chatResponse.body()?.question
-                                ?: "응답을 받지 못했습니다.")
+                            val newResponse = chatResponse.body()?.question ?: "응답을 받지 못했습니다."
+                            aiResponses = aiResponses.dropLast(1) + newResponse
                             errorMessage = ""
                         } else {
+                            aiResponses = aiResponses.dropLast(1) + "Error: ${chatResponse.errorBody()?.string()}"
                             errorMessage = "Error: ${chatResponse.errorBody()?.string()}"
                         }
                     } catch (e: Exception) {
+                        aiResponses = aiResponses.dropLast(1) + "알 수 없는 에러가 발생했습니다."
                         errorMessage = e.localizedMessage ?: "알 수 없는 에러가 발생했습니다."
                         Log.e("ChatUI", "Error occurred", e)
                     }
                 }
             },
         )
+
         Spacer(modifier = Modifier.height(16.dp)) // Add spacer to create gap
 
         Row(
