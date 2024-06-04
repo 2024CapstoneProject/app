@@ -3,6 +3,9 @@ package com.example.capstoneapp.phone.ui.screens
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +38,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.Screens.showNextImage
+import com.example.capstoneapp.cafe.ui.Screens.showPreviousImage
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -109,9 +116,39 @@ fun messageGuideImage(
     val context = LocalContext.current
     val imageName = messageGetResourceName(currentImageResourceId, context)
 
+    // 드래그 동작에 대한 제스처 인식기
+    val offsetX = remember { mutableStateOf(0f) }
+    val coroutineScope = rememberCoroutineScope()
+
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta ->
+                        // 드래그로 인한 X 좌표 이동
+                        offsetX.value += delta
+                    },
+                    onDragStopped = { velocity ->
+                        // 드래그로 인한 페이지 변경
+                        if (offsetX.value > 150 || (offsetX.value < -150 && velocity > 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    showPreviousImage(imageResources.size, currentImageIndex)
+                                )
+                            }
+                            offsetX.value = 0f
+                        } else if (offsetX.value < -150 || (offsetX.value > 150 && velocity < 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    showNextImage(imageResources.size, currentImageIndex)
+                                )
+                            }
+                            offsetX.value = 0f
+                        }
+                    }
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -129,7 +166,7 @@ fun messageGuideImage(
             ) {
                 IconButton(onClick = {
                     onImageIndexChanged(
-                        com.example.capstoneapp.cafe.ui.Screens.showPreviousImage(
+                        showPreviousImage(
                             imageResources.size, currentImageIndex
                         )
                     )
@@ -156,7 +193,7 @@ fun messageGuideImage(
 
                 IconButton(onClick = {
                     onImageIndexChanged(
-                        com.example.capstoneapp.cafe.ui.Screens.showNextImage(
+                        showNextImage(
                             imageResources.size, currentImageIndex
                         )
                     )
@@ -257,6 +294,5 @@ fun messageGuideText(currentImageIndex: Int) {
 @Composable
 fun messageGuideScreenPreview() {
     val navController = rememberNavController()
-    var currentImageIndex by remember { mutableStateOf(0) }
     PhoneMessageGuide(navController)
 }

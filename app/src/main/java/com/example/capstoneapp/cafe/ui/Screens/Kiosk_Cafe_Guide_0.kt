@@ -3,6 +3,9 @@ package com.example.capstoneapp.cafe.ui.Screens
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +43,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-
+import kotlinx.coroutines.launch
 
 @Composable
 fun KioskCafeGuide0(navController: NavController) {
@@ -68,7 +72,7 @@ fun KioskCafeGuide0(navController: NavController) {
         guideImage(
             currentImageIndex = currentImageIndex,
             imageResources = imageResources, // 이미지 리소스를 함수로 전달
-            onImageIndexChanged =  { newIndex ->
+            onImageIndexChanged = { newIndex ->
                 currentImageIndex = newIndex
             },
             onImageClicked = {
@@ -103,9 +107,39 @@ fun guideImage(
     val context = LocalContext.current
     val imageName = getResourceName(currentImageResourceId, context)
 
+    // 드래그 동작에 대한 제스처 인식기
+    val offsetX = remember { mutableStateOf(0f) }
+    val coroutineScope = rememberCoroutineScope()
+
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta ->
+                        // 드래그로 인한 X 좌표 이동
+                        offsetX.value += delta
+                    },
+                    onDragStopped = { velocity ->
+                        // 드래그로 인한 페이지 변경
+                        if (offsetX.value > 150 || (offsetX.value < -150 && velocity > 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    showPreviousImage(imageResources.size, currentImageIndex)
+                                )
+                            }
+                            offsetX.value = 0f
+                        } else if (offsetX.value < -150 || (offsetX.value > 150 && velocity < 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    showNextImage(imageResources.size, currentImageIndex)
+                                )
+                            }
+                            offsetX.value = 0f
+                        }
+                    }
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -183,12 +217,12 @@ fun getResourceName(resourceId: Int, context: Context): String {
 
 /*다음 이미지로 변경*/
 fun showNextImage(size: Int, currentIndex: Int): Int {
-    return (currentIndex + 1) % size
+    return if (currentIndex < size - 1) currentIndex + 1 else 0
 }
 
 /*이전 이미지로 변경*/
 fun showPreviousImage(size: Int, currentIndex: Int): Int {
-    return if (currentIndex == 0) size - 1 else currentIndex - 1
+    return if (currentIndex > 0) currentIndex - 1 else size - 1
 }
 
 @Composable
@@ -196,15 +230,14 @@ fun EnlargedImagePopup(imageResource: Int, onClose: () -> Unit) {
     Dialog(onDismissRequest = onClose) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(16.dp)
+                .clickable(onClick = onClose)
         ) {
             Image(
                 painter = painterResource(id = imageResource),
                 contentDescription = null,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .clickable { /* Do nothing on click */ },
+                    .fillMaxSize(),
                 contentScale = ContentScale.Fit // 이미지가 화면에 맞게 최대로 확대됨
             )
         }
@@ -224,7 +257,7 @@ fun guideText(currentImageIndex: Int) {
         Triple("카드결제를 선택했다면", "키오스크 아래의 카드 투입구에", "카드를 넣어주세요."),
         Triple("쿠폰 사용을 선택했다면", "키오스크 아래의 바코드 인식기에", "바코드를 읽혀주세요."),
         Triple("결제가 끝났습니다!", "영수증을 챙겨 번호를 확인해주세요!", ""),
-        )
+    )
 
     Column(
         modifier = Modifier,
@@ -283,6 +316,5 @@ fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
 @Composable
 fun cafeGuideScreenPreview() {
     val navController = rememberNavController()
-    var currentImageIndex by remember { mutableStateOf(0) }
     KioskCafeGuide0(navController)
 }

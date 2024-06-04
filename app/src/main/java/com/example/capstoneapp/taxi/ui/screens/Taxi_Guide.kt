@@ -3,6 +3,9 @@ package com.example.capstoneapp.taxi.ui.screens
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,25 +23,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.Screens.showNextImage
+import com.example.capstoneapp.cafe.ui.Screens.showPreviousImage
+import kotlinx.coroutines.launch
 
 @Composable
 fun Taxi_Guide(navController: NavController) {
@@ -110,9 +112,45 @@ fun guideImage(
     val context = LocalContext.current
     val imageName = getResourceName(currentImageResourceId, context)
 
+    // 드래그 동작에 대한 제스처 인식기
+    val offsetX = remember { mutableStateOf(0f) }
+    val coroutineScope = rememberCoroutineScope()
+
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta ->
+                        // 드래그로 인한 X 좌표 이동
+                        offsetX.value += delta
+                    },
+                    onDragStopped = { velocity ->
+                        // 드래그로 인한 페이지 변경
+                        if (offsetX.value > 150 || (offsetX.value < -150 && velocity > 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    com.example.capstoneapp.cafe.ui.Screens.showPreviousImage(
+                                        imageResources.size,
+                                        currentImageIndex
+                                    )
+                                )
+                            }
+                            offsetX.value = 0f
+                        } else if (offsetX.value < -150 || (offsetX.value > 150 && velocity < 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    com.example.capstoneapp.cafe.ui.Screens.showNextImage(
+                                        imageResources.size,
+                                        currentImageIndex
+                                    )
+                                )
+                            }
+                            offsetX.value = 0f
+                        }
+                    }
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -198,36 +236,6 @@ fun getResourceName(resourceId: Int, context: Context): String {
     }
 }
 
-/*다음 이미지로 변경*/
-fun showNextImage(size: Int, currentIndex: Int): Int {
-    return (currentIndex + 1) % size
-}
-
-/*이전 이미지로 변경*/
-fun showPreviousImage(size: Int, currentIndex: Int): Int {
-    return if (currentIndex == 0) size - 1 else currentIndex - 1
-}
-
-@Composable
-fun EnlargedImagePopup(imageResource: Int, onClose: () -> Unit) {
-    Dialog(onDismissRequest = onClose) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Image(
-                painter = painterResource(id = imageResource),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable { /* Do nothing on click */ },
-                contentScale = ContentScale.Fit // 이미지가 화면에 맞게 최대로 확대됨
-            )
-        }
-    }
-}
-
 /*가이드 텍스트*/
 @Composable
 fun guideText(currentImageIndex: Int) {
@@ -257,7 +265,7 @@ fun guideText(currentImageIndex: Int) {
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text1,
             wordsToColor = mapOf(
                 "사진" to Color.Blue,
@@ -272,7 +280,7 @@ fun guideText(currentImageIndex: Int) {
                 "취소하는" to Color.Green
             )
         )
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text2,
             wordsToColor = mapOf(
                 "카카오계정으로 시작하기" to Color.Red,
@@ -292,7 +300,7 @@ fun guideText(currentImageIndex: Int) {
                 "호출을 취소" to Color.Red
             )
         )
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text3,
             wordsToColor = mapOf(
                 "닫기" to Color.Red,
@@ -303,32 +311,6 @@ fun guideText(currentImageIndex: Int) {
             )
         )
     }
-}
-
-/*텍스트 디자인*/
-@Composable
-fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
-    val spannableString = buildAnnotatedString {
-        append(text)
-        wordsToColor.forEach { (word, color) ->
-            val startIndex = text.indexOf(word)
-            if (startIndex >= 0) {
-                val endIndex = startIndex + word.length
-                addStyle(SpanStyle(color = color), startIndex, endIndex)
-            }
-        }
-    }
-
-    Text(
-        text = spannableString,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(4.dp),
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.Black,
-        textAlign = TextAlign.Center,
-    )
 }
 
 @Preview(showBackground = true)

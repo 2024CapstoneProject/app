@@ -18,7 +18,7 @@ object ProblemRepository {
     )
 
     private var payList = listOf(
-        "카드 결제","모바일 결,"
+        "카드 결제"
     )
     //cafe
     private var c_menuList = listOf(
