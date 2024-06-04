@@ -76,7 +76,7 @@ fun GuideScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
-            onClick = { navController.navigate("chatUI") },
+            onClick = { navController.navigate("chatbotHome") },
             modifier = Modifier
                 .size(330.dp, 80.dp)
                 .padding(bottom = 20.dp),
