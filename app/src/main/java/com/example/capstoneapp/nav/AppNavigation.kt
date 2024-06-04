@@ -22,6 +22,8 @@ import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
 import com.example.capstoneapp.cafe.ui.Screens.TouchScreenCafe
 import com.example.capstoneapp.chatbot.api.RetrofitInstance
+import com.example.capstoneapp.chatbot.ui.components.ChatGuide
+import com.example.capstoneapp.chatbot.ui.components.ChatbotHomeScreen
 import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
@@ -336,9 +338,18 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             Taxi_Guide(navController = navController)
         }
 
+        composable(route = "chatbotHome") {
+            ChatbotHomeScreen(navController = navController)
+        }
+
         val chatService = RetrofitInstance.api
         composable("chatUI") {
             ChatUI(navController, chatService)
+        }
+
+        //챗봇 가이드 첫번째 화면
+        composable(route = "Chat_Guide") {
+            ChatGuide(navController = navController)
         }
 
         composable(route = "Phone_Call_Guide"){
