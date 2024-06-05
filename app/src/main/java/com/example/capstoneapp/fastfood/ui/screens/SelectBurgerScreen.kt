@@ -1,6 +1,7 @@
 package com.example.capstoneapp.fastfood.ui.screens
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +51,8 @@ fun ItemMenu(
     showBorder: Boolean,
     problem: Problem
 ) {
+    var internalShowBorder by remember { mutableStateOf(showBorder) }
+
     // 주문한 목록
     var showDialog by remember { mutableStateOf(false) }
     var currentItemForDialog by remember { mutableStateOf<MenuItem?>(null) }
@@ -56,6 +62,18 @@ fun ItemMenu(
     val orderItems by viewModel.orderItems.observeAsState(emptyList())
 
     var repeatAnswer by remember { mutableStateOf(false) }
+
+    // 팝업이 표시될 때마다 showBorder를 false로 초기화
+    LaunchedEffect(showDialog, showDessertScreen) {
+        if (showDialog || showDessertScreen) {
+            internalShowBorder = false
+        }
+    }
+
+    if(!showDialog){
+
+    }
+
 
     val onButtonClick = {
         if (showDessertScreen) {
@@ -74,8 +92,8 @@ fun ItemMenu(
     // 뒤로가기 처리
     BackHandler {
         viewModel.clearOrderItems()
-        navController.navigate("HamburgerHomeScreen") {
-            popUpTo("HamburgerHomeScreen") { inclusive = true }
+        navController.navigate("HamburgerPracticeHomeScreen") {
+            popUpTo("HamburgerPracticeHomeScreen") { inclusive = true }
         }
     }
 
@@ -131,10 +149,6 @@ fun ItemMenu(
                         }
                     )
                 }
-            }
-            if(repeatAnswer){
-                RepeatDialog(onDismiss = {
-                    repeatAnswer = false })
             }
             if (showDialog) {
                 SetOrSingleChoicePopup(
@@ -201,6 +215,10 @@ fun ItemMenu(
         }
         Spacer(modifier = Modifier.padding(8.dp))
     }
+//    if(repeatAnswer){
+//        RepeatDialog(onDismiss = {
+//            repeatAnswer = false })
+//    }
 }
 
 

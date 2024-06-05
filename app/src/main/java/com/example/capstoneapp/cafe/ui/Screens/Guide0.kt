@@ -4,9 +4,11 @@ package com.example.capstoneapp.cafe.ui.Screens
 import android.content.Context
 import android.content.Intent
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +39,10 @@ import com.example.capstoneapp.chatbot.api.ChatService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import com.example.capstoneapp.cafe.ui.theme.LightYellow
+import com.example.capstoneapp.cafe.ui.theme.Yellow
 import com.example.capstoneapp.mainPage.ButtonWithRoundedBorder
 
 
@@ -76,19 +82,43 @@ fun GuideScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 8.dp,
+            ),
+            contentPadding = PaddingValues(),
             onClick = { navController.navigate("chatbotHome") },
             modifier = Modifier
                 .size(330.dp, 80.dp)
                 .padding(bottom = 20.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFFfbf4b6)),
-            shape = RoundedCornerShape(16.dp)
+            colors = ButtonDefaults.buttonColors(Color(0xFFFBF4B6)),
+            shape = RoundedCornerShape(16.dp),
         ) {
-            Text(
-                text = "AI 도우미 서비스",
-                fontSize = 25.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.ExtraBold
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush =  Brush.radialGradient(
+                            colors = listOf(
+                                Color(0xFFFFFBF0),  // 엣지 하이라이트 색상 (아주 밝은 노란색)
+                                Color(0xFFFBF4B6),  // 메인 색상 (밝은 노란색)
+                                Color(0xFFFCEFA2),  // 밝은 색상 (밝은 노란색)
+                                Color(0xFFF8E99D),  // 중간 색상 (중간 밝은 노란색)
+                                Color(0xFFF1DC94)   // 그림자 색상 (어두운 노란색)
+                            ),
+                            center = Offset(0.5f, 0.5f),
+                            radius = 400f
+            ),alpha = 0.3f),
+            contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "AI 도우미 서비스",
+                    fontSize = 25.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.ExtraBold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
         }
 
         Row(
@@ -98,6 +128,10 @@ fun GuideScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 20.dp,
+                ),
+                contentPadding = PaddingValues(),
                 onClick = {
                     navController.navigate("CafeHomeScreen")
                 },
@@ -107,14 +141,36 @@ fun GuideScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Text(
-                    text = "카페",
-                    fontSize = 30.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.ExtraBold
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Brush.radialGradient(
+                            colors=listOf(
+                                Color(0xFFFFF7CC),  // 엣지 하이라이트 색상
+                                Color(0xFFFFF2A3),  // 밝은 색상
+                                Color(0xFFFFE08C),  // 메인 색상
+                                Color(0xFFFFDA77),  // 중간 색상
+                                Color(0xFFFFC856)   // 어두운 색상
+                            ),
+                            center = Offset(0.5f, 0.5f),
+                            radius = 400f
+                        ),alpha = 0.3f),
+                    contentAlignment = Alignment.Center
+                ){
+                    Text(
+                        text = "카페",
+                        fontSize = 30.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
+
             }
             Button(
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 20.dp,
+                ),
+                contentPadding = PaddingValues(),
                 onClick = {
                     navController.navigate("Kakao_Menu")
                 },
@@ -124,12 +180,29 @@ fun GuideScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Text(
-                    text = "카카오톡",
-                    fontSize = 27.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.ExtraBold
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Brush.radialGradient(
+                            colors=listOf(
+                                Color(0xFFFFF8D6),  // 엣지 하이라이트 색상 (밝은 노란색)
+                                Color(0xFFFFEEA8),  // 하이라이트 색상 (밝은 노란색)
+                                Color(0xFFFFE47A),  // 더 밝은 메인 색상
+                                Color(0xFFFFBD42),  // 메인 색상
+                                Color(0xFFD8A531)   // 어두운 그림자 색상
+                            ),
+                            center = Offset(0.5f, 0.5f),
+                            radius = 400f
+                        ),alpha=0.1f),
+                    contentAlignment = Alignment.Center
+                ){
+                    Text(
+                        text = "카카오톡",
+                        fontSize = 27.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
             }
         }
         Row(
@@ -139,6 +212,10 @@ fun GuideScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 20.dp,
+                ),
+                contentPadding = PaddingValues(),
                 onClick = {
                     navController.navigate("HamburgerHomeScreen")
                 },
@@ -148,27 +225,48 @@ fun GuideScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Brush.radialGradient(
+                            colors=listOf(
+                                Color(0xFFFFF8D6),  // 엣지 하이라이트 색상 (밝은 노란색)
+                                Color(0xFFFFEEA8),  // 하이라이트 색상 (밝은 노란색)
+                                Color(0xFFFFE47A),  // 더 밝은 메인 색상
+                                Color(0xFFFFBD42),  // 메인 색상
+                                Color(0xFFD8A531)   // 어두운 그림자 색상
+                            ),
+                            center = Offset(0.5f, 0.5f),
+                            radius = 400f
+                        ),alpha=0.1f),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "패스트",
-                        fontSize = 30.sp,
-                        color = Color.Black,
-                        fontWeight = FontWeight.ExtraBold,
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "푸드",
-                        fontSize = 30.sp,
-                        color = Color.Black,
-                        fontWeight = FontWeight.ExtraBold,
-                        textAlign = TextAlign.Center
-                    )
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = "패스트",
+                            fontSize = 30.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.ExtraBold,
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = "푸드",
+                            fontSize = 30.sp,
+                            color = Color.Black,
+                            fontWeight = FontWeight.ExtraBold,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
             Button(
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 20.dp,
+                ),
+                contentPadding = PaddingValues(),
                 onClick = {
                     navController.navigate("Taxi_Guide")
                 },
@@ -178,12 +276,29 @@ fun GuideScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Text(
-                    text = "택시",
-                    fontSize = 30.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.ExtraBold
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Brush.radialGradient(
+                            colors=listOf(
+                                Color(0xFFFFF7CC),  // 엣지 하이라이트 색상
+                                Color(0xFFFFF2A3),  // 밝은 색상
+                                Color(0xFFFFE08C),  // 메인 색상
+                                Color(0xFFFFDA77),  // 중간 색상
+                                Color(0xFFFFC856)   // 어두운 색상
+                            ),
+                            center = Offset(0.5f, 0.5f),
+                            radius = 400f
+                        ),alpha = 0.3f),
+                    contentAlignment = Alignment.Center
+                ){
+                    Text(
+                        text = "택시",
+                        fontSize = 30.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
             }
         }
         Row(
@@ -193,6 +308,10 @@ fun GuideScreen(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 20.dp,
+                ),
+                contentPadding = PaddingValues(),
                 onClick = {
                     navController.navigate("Phone_Guide")
                 },
@@ -202,20 +321,56 @@ fun GuideScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Text(
-                    text = "휴대전화",
-                    fontSize = 27.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.ExtraBold
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Brush.radialGradient(
+                            colors=listOf(
+                                Color(0xFFFFF7CC),  // 엣지 하이라이트 색상
+                                Color(0xFFFFF2A3),  // 밝은 색상
+                                Color(0xFFFFE08C),  // 메인 색상
+                                Color(0xFFFFDA77),  // 중간 색상
+                                Color(0xFFFFC856)   // 어두운 색상
+                            ),
+                            center = Offset(0.5f, 0.5f),
+                            radius = 400f
+                        ),alpha = 0.3f),
+                    contentAlignment = Alignment.Center
+                ){
+                    Text(
+                        text = "휴대전화",
+                        fontSize = 27.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
             }
             Button(
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 20.dp,
+                ),
+                contentPadding = PaddingValues(),
                 onClick = {},
                 modifier = Modifier
                     .size(180.dp, 180.dp)
                     .padding(4.dp),
                 colors = ButtonDefaults.buttonColors(Color(0xFFFFBD42)),
                 shape = RoundedCornerShape(16.dp)
+            ) {Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Brush.radialGradient(
+                        colors=listOf(
+                            Color(0xFFFFF8D6),  // 엣지 하이라이트 색상 (밝은 노란색)
+                            Color(0xFFFFEEA8),  // 하이라이트 색상 (밝은 노란색)
+                            Color(0xFFFFE47A),  // 더 밝은 메인 색상
+                            Color(0xFFFFBD42),  // 메인 색상
+                            Color(0xFFD8A531)   // 어두운 그림자 색상
+                        ),
+                        center = Offset(0.5f, 0.5f),
+                        radius = 400f
+                    ),alpha=0.1f),
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "준비중",
@@ -223,6 +378,7 @@ fun GuideScreen(navController: NavController) {
                     color = Color.Black,
                     fontWeight = FontWeight.ExtraBold
                 )
+            }
             }
         }
 //        Button(

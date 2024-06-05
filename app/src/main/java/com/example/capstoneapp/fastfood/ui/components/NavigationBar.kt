@@ -32,7 +32,7 @@ fun CustomizedNavigationBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.LightGray) // 전체 배경색을 회색으로 설정
+            .background(Color.LightGray,shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
     ) {
         Row(
             modifier = Modifier
