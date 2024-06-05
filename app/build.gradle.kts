@@ -38,6 +38,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -151,4 +152,8 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation( "com.google.accompanist:accompanist-pager:0.30.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.30.0")
+
+
+
+    implementation("androidx.multidex:multidex:2.0.1")
 }
