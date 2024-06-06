@@ -66,7 +66,7 @@ fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
                     .fillMaxWidth()
                     .weight(1f)
                     .background(color = Color(0xFFFFBD42))
-                    .padding(bottom = 80.dp, top = 60.dp, end = 16.dp, start = 16.dp),
+                    .padding(bottom = 80.dp, top = 65.dp, end = 16.dp, start = 16.dp),
                 contentAlignment = Alignment.TopStart
             ) {
                 Column(
