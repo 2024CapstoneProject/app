@@ -29,8 +29,8 @@ import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
 import com.example.capstoneapp.fastfood.ui.screens.DessertChickenScreen
 import com.example.capstoneapp.fastfood.ui.screens.DrinkCoffeeScreen
+import com.example.capstoneapp.fastfood.ui.screens.FastFoodHomeScreen
 import com.example.capstoneapp.fastfood.ui.screens.FastfoodGuideScreenPreview
-import com.example.capstoneapp.fastfood.ui.screens.GreetingPreview
 import com.example.capstoneapp.fastfood.ui.screens.ItemMenu
 import com.example.capstoneapp.fastfood.ui.screens.OrderScreen
 import com.example.capstoneapp.fastfood.ui.screens.PaymentScreen
@@ -78,7 +78,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         startDestination = "Guide0"
     ) {
         composable(route = "HamburgerHomeScreen"){
-            GreetingPreview(navController = navController)
+            FastFoodHomeScreen(navController = navController)
         }
 
         composable(route = "HamburgerGuideScreen"){

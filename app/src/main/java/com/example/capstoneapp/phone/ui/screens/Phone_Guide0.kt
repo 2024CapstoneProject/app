@@ -91,7 +91,7 @@ fun PhoneGuideScreen(navController: NavController) {
                         text = "전화",
                         fontSize = 30.sp,
                         color = Color.Black,
-                        fontWeight = FontWeight.ExtraBold,
+                        style = MaterialTheme.typography.displayLarge,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -110,7 +110,7 @@ fun PhoneGuideScreen(navController: NavController) {
                     text = "연락처",
                     fontSize = 30.sp,
                     color = Color.Black,
-                    fontWeight = FontWeight.ExtraBold
+                    style = MaterialTheme.typography.displayLarge
                 )
             }
         }
@@ -134,7 +134,7 @@ fun PhoneGuideScreen(navController: NavController) {
                     text = "메시지",
                     fontSize = 27.sp,
                     color = Color.Black,
-                    fontWeight = FontWeight.ExtraBold
+                    style = MaterialTheme.typography.displayLarge
                 )
             }
             Button(
@@ -151,7 +151,7 @@ fun PhoneGuideScreen(navController: NavController) {
                     text = "카메라",
                     fontSize = 27.sp,
                     color = Color.Black,
-                    fontWeight = FontWeight.ExtraBold
+                    style = MaterialTheme.typography.displayLarge,
                 )
             }
         }

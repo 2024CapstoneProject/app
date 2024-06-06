@@ -7,38 +7,43 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
 
 @Composable
 fun ChatbotHomeScreen(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // 가이드모드
-        PictureButton(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
-            onClick = { navController.navigate("Chat_Guide") }
-        )
-        // 연습모드
-        PracticeButton(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
-            onClick = { navController.navigate("chatUI") }
-        )
+    CapstoneAppTheme {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // 가이드모드
+            PictureButton(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                onClick = { navController.navigate("Chat_Guide") }
+            )
+            // 연습모드
+            PracticeButton(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                onClick = { navController.navigate("chatUI") }
+            )
+        }
     }
 }
-
 @Composable
 fun PictureButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     BoxButton(
@@ -77,11 +82,8 @@ fun BoxButton(
         Text(
             text = text,
             color = Color.Black,
-            style = TextStyle(
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 50.sp,
-
-                )
+            style = MaterialTheme.typography.displayLarge,
+            fontSize = 50.sp,
         )
     }
 }

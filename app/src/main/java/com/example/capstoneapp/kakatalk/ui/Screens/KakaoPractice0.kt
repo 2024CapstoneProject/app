@@ -53,7 +53,6 @@ fun KakaoPractice0(navController: NavController, problem: KakaotalkProblem) {
 
 @Composable
 fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
-    val photoId = if (problem.type.equals("photo")) problem.photoId else R.drawable.kakaotalk_icon
     Box(
         modifier = Modifier
             .fillMaxSize()
