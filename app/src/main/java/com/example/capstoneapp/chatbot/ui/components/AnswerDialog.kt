@@ -52,7 +52,7 @@ fun ButtonFormat(
 fun AnswerDialog(
     responseText: String,
     onDismiss: () -> Unit,
-    onReplay: () -> Unit
+    onReplay: (String) -> Unit
 ) {
     var currentIndex by remember { mutableStateOf(0) }
     val responseLines = responseText.split("\n").filter { it.isNotBlank() }
@@ -143,12 +143,12 @@ fun AnswerDialog(
                     ButtonFormat(
                         onClick = onDismiss,
                         buttonText = "닫기",
-                        backgroundColor = Color(0xFF696969),
+                        backgroundColor = Color.LightGray,
                         contentColor = Color.White,
                         modifier = Modifier.size(120.dp, 50.dp)
                     )
                     ButtonFormat(
-                        onClick = onReplay,
+                        onClick = { onReplay(chunkedResponse.getOrNull(currentIndex)?.joinToString("\n") ?: "") },
                         buttonText = "다시 듣기",
                         backgroundColor = Yellow,
                         contentColor = Color.Black,

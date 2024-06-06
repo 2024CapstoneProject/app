@@ -337,15 +337,16 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
             AnswerDialog(
                 responseText = currentResponse,
                 onDismiss = { showDialog = false },
-                onReplay = {
+                onReplay = { textToRead ->
                     coroutineScope.launch {
-                        if (currentResponse.isNotEmpty()) {
-                            HandleTtsPlayback(currentResponse)
+                        if (textToRead.isNotEmpty()) {
+                            HandleTtsPlayback(textToRead)
                         }
                     }
                 }
             )
         }
+
         MessageInputField(
             question = question,
             onQuestionChange = { question = it },
