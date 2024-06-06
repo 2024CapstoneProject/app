@@ -1,10 +1,13 @@
 package com.example.capstoneapp.cafe.ui.theme
 
 import androidx.compose.material3.Typography
+import com.example.capstoneapp.R
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -31,4 +34,12 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
+
 )
+
+val firaSansFamily = FontFamily(
+    Font(R.font.yfont, weight = FontWeight.Bold),
+    Font(R.font.yfont, weight = FontWeight.ExtraBold),
+    Font(R.font.yfont, weight = FontWeight.Medium)
+)
+

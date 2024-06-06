@@ -86,6 +86,11 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         }
 
         composable(route = "HamburgerPracticeHomeScreen"){
+            LaunchedEffect(navBackStackEntry) {
+                if (navBackStackEntry?.destination?.route == "HamburgerPracticeHomeScreen") {
+                    problemViewModel.createProblem()
+                }
+            }
             PracticeHomeScreen(navController = navController,problem!!)
         }
 

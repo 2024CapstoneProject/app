@@ -45,6 +45,8 @@ import com.example.capstoneapp.fastfood.ui.frame.KioskButtonFormat
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.fastfood.ui.theme.LightYellow
+import com.example.capstoneapp.fastfood.ui.theme.Yellow
 import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 import com.example.capstoneapp.nav.repository.Problem
 
@@ -135,6 +137,8 @@ fun OrderScreen(
                         onClick = {
                             if(problem.place!="포장 하기"){
                                 repeatAnswer=true
+                            }else if(selectedPackingOption.value == OptionType.Packing){
+                                selectedPackingOption.value = null
                             }else{
                                 selectedPackingOption.value = OptionType.Packing
                             }},
@@ -147,6 +151,8 @@ fun OrderScreen(
                         onClick = {
                             if(problem.place!="매장에서 먹기"){
                                 repeatAnswer=true
+                            }else if(selectedPackingOption.value == OptionType.Store){
+                                selectedPackingOption.value = null
                             }else{
                                 selectedPackingOption.value = OptionType.Store
                             }},
@@ -166,6 +172,8 @@ fun OrderScreen(
                         onClick = {
                             if(problem.point!="O"){
                                 repeatAnswer=true
+                            }else if(selectedDiscountOption.value == OptionType.Point){
+                                selectedDiscountOption.value = null
                             }else{
                                 selectedDiscountOption.value = OptionType.Point
                             }},
@@ -178,6 +186,8 @@ fun OrderScreen(
                         onClick = {
                             if(problem.point!="X"){
                                 repeatAnswer=true
+                            }else if(selectedDiscountOption.value == OptionType.None){
+                                selectedDiscountOption.value = null
                             }else{
                                 selectedDiscountOption.value = OptionType.None
                             }},
@@ -197,6 +207,8 @@ fun OrderScreen(
                         onClick = {
                             if(problem.pay!="카드 결제"){
                                 repeatAnswer=true
+                            }else if(selectedPaymentOption.value == OptionType.CreditCard){
+                                selectedPaymentOption.value = null
                             }else{
                                 selectedPaymentOption.value = OptionType.CreditCard
                             }},
@@ -209,6 +221,8 @@ fun OrderScreen(
                         onClick = {
                             if(problem.pay!="모바일 페이"){
                                 repeatAnswer=true
+                            }else if(selectedPaymentOption.value == OptionType.MobilePay){
+                                selectedPaymentOption.value = null
                             }else{
                                 selectedPaymentOption.value = OptionType.MobilePay
                             }},
@@ -319,23 +333,26 @@ fun OptionCard(
     isSelected: Boolean,
     showBorder: Boolean
 ) {
-    val backgroundColor = if (isSelected) Color.LightGray else Color.Transparent
+    //val backgroundColor = if (isSelected) Color.White.copy(alpha = 1.0f) else Color.Transparent
+    val border = if(isSelected) Color.Black else Color.Transparent
+    val alphaFloat = if(isSelected) 1.0f else 0.2f
     Column(
         modifier = Modifier
             .padding(4.dp)
             .clickable(onClick = onClick)
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier.border(
+                2.dp,border, BorderShape))
     ) {
         Box(
             modifier = Modifier
-                .background(color = backgroundColor, shape = RoundedCornerShape(8.dp))
-                .padding(8.dp)
-                .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
+                .background(color = Color.White, shape = RoundedCornerShape(8.dp))
+                .padding(8.dp),
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Image(painter = icon, contentDescription = null, modifier = Modifier.size(48.dp))
+                Image(painter = icon, alpha = alphaFloat, contentDescription = null, modifier = Modifier.size(48.dp))
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(text = text, textAlign = TextAlign.Center)
             }

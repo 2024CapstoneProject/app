@@ -34,12 +34,23 @@ import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
-fun ItemCard(item: MenuItem, isSelected: Boolean, onClick: () -> Unit,showBorder: Boolean,problem:Problem) {
+fun ItemCard(item: MenuItem, isSelected: Boolean,onClick: () -> Unit,showBorder: Boolean,problem:Problem) {
+
+    var backgroundColor = Color.Transparent
+    var paddingVallue = 0.dp
+    if(isSelected && backgroundColor == Color.LightGray){
+        backgroundColor = Color.Transparent
+        paddingVallue = 0.dp
+    }else if(isSelected){
+        backgroundColor = Color.LightGray
+        paddingVallue=2.dp
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(18.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(if (isSelected) Color.LightGray else Color.Transparent)
+            .background(backgroundColor)
             .clickable(onClick = onClick)
             .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
     ) {
