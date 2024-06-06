@@ -8,22 +8,39 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-
-
-
 val firaSansFamily = FontFamily(
-    Font(R.font.yfont, weight = FontWeight.Bold),
-    Font(R.font.yfont, weight = FontWeight.ExtraBold),
-    Font(R.font.yfont, weight = FontWeight.Medium)
+    Font(R.font.yfont)
 )
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = firaSansFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
+    ),
+    titleLarge = TextStyle(
+        fontFamily = firaSansFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 22.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = firaSansFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
+    displayLarge = TextStyle(
+        fontFamily = firaSansFamily,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 30.sp,
+        lineHeight = 36.sp,
+        letterSpacing = 0.0.sp
     )
     /* Other default text styles to override
     titleLarge = TextStyle(
@@ -41,8 +58,4 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
-
 )
-
-
-
