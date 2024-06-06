@@ -65,7 +65,7 @@ fun TextScreen(navController: NavController,problem: Problem) {
                 .fillMaxWidth()
                 .weight(1f)
                 .background(color = Color(0xFFFFBD42))
-                .padding(bottom = 80.dp,top = 28.dp, end = 16.dp,start=16.dp),
+                .padding(bottom = 80.dp,top = 50.dp, end = 16.dp,start=16.dp),
             contentAlignment = Alignment.TopStart
         ){
             Column(
@@ -75,20 +75,26 @@ fun TextScreen(navController: NavController,problem: Problem) {
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = "아래 문제에 맞는 \n버튼을 터치하세요!",
-                    fontSize = 24.sp,
+                    text = "아래 문제에 맞는",
+                    fontSize = 33.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.Black
+                )
+                Text(
+                    text = "버튼을 터치하세요!",
+                    fontSize = 33.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
                 )
                 Text(
                     text = "항목을 읽고 이해했으면 항목을 터치하세요",
-                    fontSize = 18.sp,
-                    color = Color.White
+                    fontSize = 17.sp,
+                    color = Color.Black
                 )
                 Text(
                     text = "항목을 다 터치했다면 시작하기 버튼을 눌러주세요",
-                    fontSize = 14.sp,
-                    color = Color.White
+                    fontSize = 16.sp,
+                    color = Color.Black
                 )
             }
         }
@@ -104,7 +110,7 @@ fun TextScreen(navController: NavController,problem: Problem) {
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(80.dp))
             FastfoodProblemCard(navController,problem)
             Spacer(modifier = Modifier.height(24.dp))
         }

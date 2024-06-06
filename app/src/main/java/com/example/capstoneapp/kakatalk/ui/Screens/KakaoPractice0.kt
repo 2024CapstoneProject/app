@@ -76,27 +76,33 @@ fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = "아래 문제에 맞는 \n버튼을 터치하세요!",
-                        fontSize = 25.sp,
+                        text = "아래 문제에 맞는",
+                        fontSize = 33.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "버튼을 터치하세요!",
+                        fontSize = 33.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
                     )
                     Text(
                         text = "항목을 읽고 이해했으면 항목을 터치하세요",
-                        fontSize = 18.sp,
-                        color = Color.White
+                        fontSize = 17.sp,
+                        color = Color.Black
                     )
                     Text(
                         text = "항목을 다 터치했다면 시작하기 버튼을 눌러주세요",
-                        fontSize = 15.sp,
-                        color = Color.White
+                        fontSize = 16.sp,
+                        color = Color.Black
                     )
                 }
             }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(2.0f)
+                    .weight(1.5f)
                     .background(color = Color.White)
             )
         }
@@ -107,7 +113,7 @@ fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(0.dp))
             KakaoProblemCard(navController, problem)
             Spacer(modifier = Modifier.height(0.dp))
         }
