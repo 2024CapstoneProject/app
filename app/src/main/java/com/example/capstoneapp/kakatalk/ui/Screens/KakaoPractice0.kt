@@ -3,9 +3,12 @@ package com.example.capstoneapp.kakatalk.ui.Screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +18,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,7 +35,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.Screens.ChecklistItem
+import com.example.capstoneapp.cafe.ui.Screens.ProblemCard
 import com.example.capstoneapp.nav.repository.KakaotalkProblem
+import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
@@ -45,84 +53,116 @@ fun KakaoPractice0(navController: NavController, problem: KakaotalkProblem) {
 
 @Composable
 fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
-    val photoId = if(problem.type.equals("photo")) problem.photoId else R.drawable.kakaotalk_icon
-
-    Column(
+    val photoId = if (problem.type.equals("photo")) problem.photoId else R.drawable.kakaotalk_icon
+    Box(
         modifier = Modifier
             .fillMaxSize()
-        ,verticalArrangement = Arrangement.Center, // 수직 방향으로 요소를 동일한 간격으로 배치합니다.
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "문제",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-        )
-
-        Text(
-            text = "${problem.person}에게 ${problem.content}",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-            lineHeight = 28.sp
-        )
-
-        if(problem.type == "simple"){
-            Image(
-                painter = painterResource(photoId),
-                contentDescription = "kakao image",
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(//문제 설명 box
                 modifier = Modifier
-                    .size(200.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .padding(bottom=16.dp),
-                alignment = Alignment.Center,
-                contentScale = ContentScale.FillBounds,
-            )
-        }else{
-            Card(
-                modifier = Modifier
-                    .size(200.dp)
-                    .padding(bottom=16.dp),
-                shape = RoundedCornerShape(20.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 8.dp)
-            ){
-                Image(
-                    painter = painterResource(photoId),
-                    contentDescription = "kakao image",
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(color = Color(0xFFFFBD42))
+                    .padding(bottom = 80.dp, top = 60.dp, end = 16.dp, start = 16.dp),
+                contentAlignment = Alignment.TopStart
+            ) {
+                Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.White),
-                    alignment = Alignment.Center,
-                    contentScale = ContentScale.FillBounds,
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = "아래 문제에 맞는 \n버튼을 터치하세요!",
+                        fontSize = 33.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "항목을 읽고 이해했으면 항목을 터치하세요",
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "항목을 다 터치했다면 시작하기 버튼을 눌러주세요",
+                        fontSize = 15.sp,
+                        color = Color.White
+                    )
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2.0f)
+                    .background(color = Color.White)
+            )
+        }
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Spacer(modifier = Modifier.height(16.dp))
+            KakaoProblemCard(navController, problem)
+            Spacer(modifier = Modifier.height(0.dp))
+        }
+
+    }
+}
+@Composable
+fun KakaoProblemCard(navController: NavController, problem: KakaotalkProblem) {
+    val items = listOf(
+        "${problem.person}에게",
+        "${problem.content}",
+    )
+    val checkedStates = remember { mutableStateListOf(false, false, false, false) }
+    Box(//문제 box
+        contentAlignment = Alignment.BottomCenter,
+        modifier = Modifier.padding(bottom = 40.dp) // Add some padding to ensure the button overlaps
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal =16.dp,vertical = 16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            ),
+            shape = RoundedCornerShape(16.dp),
+            elevation = CardDefaults.cardElevation(8.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "문제",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
                 )
+
+                items.forEachIndexed { index, item ->
+                    ChecklistItem(
+                        title = item,
+                        checked = checkedStates[index],
+                        onCheckedChange = { checked ->
+                            checkedStates[index] = checked
+                        }
+                    )
+                }
             }
         }
 
-        Text(
-            text = "화면에서 정답인 버튼을\n눌러주세요.",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 0.dp),
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.Black,
-            textAlign = TextAlign.Center,
-            lineHeight = 32.sp
-        )
-
-        StartButton(onClick = {
-            navController.navigate("Kakao_FriendList")
+        com.example.capstoneapp.cafe.ui.Screens.StartButton(onClick = {
+            navController.navigate("touchToStartCafe")
         })
     }
 }
