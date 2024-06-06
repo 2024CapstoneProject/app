@@ -77,7 +77,7 @@ fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
                 ) {
                     Text(
                         text = "아래 문제에 맞는 \n버튼을 터치하세요!",
-                        fontSize = 33.sp,
+                        fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
