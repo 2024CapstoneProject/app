@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -51,7 +50,6 @@ fun ItemMenu(
     showBorder: Boolean,
     problem: Problem
 ) {
-    var internalShowBorder by remember { mutableStateOf(showBorder) }
 
     // 주문한 목록
     var showDialog by remember { mutableStateOf(false) }
@@ -62,17 +60,6 @@ fun ItemMenu(
     val orderItems by viewModel.orderItems.observeAsState(emptyList())
 
     var repeatAnswer by remember { mutableStateOf(false) }
-
-    // 팝업이 표시될 때마다 showBorder를 false로 초기화
-    LaunchedEffect(showDialog, showDessertScreen) {
-        if (showDialog || showDessertScreen) {
-            internalShowBorder = false
-        }
-    }
-
-    if(!showDialog){
-
-    }
 
 
     val onButtonClick = {
@@ -149,6 +136,10 @@ fun ItemMenu(
                         }
                     )
                 }
+            }
+            if(repeatAnswer){
+                RepeatDialog(onDismiss = {
+                    repeatAnswer = false })
             }
             if (showDialog) {
                 SetOrSingleChoicePopup(

@@ -44,17 +44,16 @@ object ProblemRepository {
     private var type = listOf("photo","simple")
 
     private var simpleProblemList = listOf(
-        Pair("\'뭐해?\'라고\n문자 보내기","뭐해"),
-        Pair("\'경로당에 있다고\n문자 보내기","경로당"),
+        Pair("\'뭐해?\'라고 문자 보내기","뭐해"),
+        Pair("\'경로당에 있다고 문자 보내기","경로당"),
         Pair("전화번호 보내기\n(전화번호 : 010-1234-5678)","010-1234-5678")
     )
 
     private var photoProblemList = listOf(
-        Pair("하얀색 티셔츠\n사진 보내기","0"),
-        Pair("검은색 티셔츠\n사진 보내기","1"),
-        Pair("커피 사진\n보내기","2")
+        Pair("하얀색 티셔츠 사진 보내기","0"),
+        Pair("검은색 티셔츠 사진 보내기","1"),
+        Pair("커피 사진 보내기","2")
     )
-
     private var photoIdList = listOf(
         R.drawable.sample_1,
         R.drawable.sample_2,
