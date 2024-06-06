@@ -63,7 +63,10 @@ fun ChatGuide(navController: NavController) {
         R.drawable.chat_guide_012,
         R.drawable.chat_guide_013,
         R.drawable.chat_guide_014,
-        R.drawable.chat_guide_015
+        R.drawable.chat_guide_015,
+        R.drawable.chat_guide_016,
+        R.drawable.chat_guide_017,
+        R.drawable.chat_guide_018,
     )
 
     Column(
@@ -210,15 +213,18 @@ fun getResourceName(resourceId: Int, context: Context): String {
         R.drawable.chat_guide_004 -> "다시 듣기"
         R.drawable.chat_guide_005 -> "새 대화 하기"
         R.drawable.chat_guide_006 -> "질문하기"
+        R.drawable.chat_guide_008 -> "질문하기"
+        R.drawable.chat_guide_009 -> "질문하기"
+        R.drawable.chat_guide_010 -> "질문하기"
         R.drawable.chat_guide_007 -> "질문하기"
-        R.drawable.chat_guide_008 -> "말하기로 질문하기"
-        R.drawable.chat_guide_009 -> "말하기로 질문하기"
-        R.drawable.chat_guide_010 -> "말하기로 질문하기"
         R.drawable.chat_guide_011 -> "말하기로 질문하기"
-        R.drawable.chat_guide_012 -> "대답 다시 듣기"
-        R.drawable.chat_guide_013 -> "대답 다시 듣기"
-        R.drawable.chat_guide_014 -> "새 대화 하기"
-        R.drawable.chat_guide_015 -> "새 대화 하기"
+        R.drawable.chat_guide_012 -> "말하기로 질문하기"
+        R.drawable.chat_guide_013 -> "말하기로 질문하기"
+        R.drawable.chat_guide_014 -> "말하기로 질문하기"
+        R.drawable.chat_guide_015 -> "대답 다시 듣기"
+        R.drawable.chat_guide_016 -> "대답 다시 듣기"
+        R.drawable.chat_guide_017 -> "새 대화 하기"
+        R.drawable.chat_guide_018 -> "새 대화 하기"
         else -> "Unknown"
     }
 }
@@ -234,6 +240,9 @@ fun guideText(currentImageIndex: Int) {
         Triple("새 대화 하기 버튼입니다.", "기존의 질문을 지우고", "새 창을 원한다면 눌러주세요."),
         Triple("챗봇에게 질문하는 방법입니다.", "질문할 내용을 입력한 후", "오른쪽 보내기 버튼을 눌러주세요."),
         Triple("보내기 버튼을 누르면", "챗봇이 대답을 합니다.", "계속 대화를 이어 가세요!"),
+        Triple("만약 대답이 4줄 이상이라면", "대답이 팝업으로 나옵니다.", "화살표를 누르면 다음 대답을 볼 수 있습니다."),
+        Triple("\"닫기\" 버튼을 누르면", "팝업이 사라집니다.", ""),
+        Triple("\"다시 듣기\" 버튼을 누르면", "화면에 나오는 대답을", "음성으로 들을 수 있습니다."),
         Triple("음성으로 질문하는 방법입니다.", "음성으로 질문하고 싶다면", "\"말하기\" 버튼을 눌러주세요"),
         Triple("다음과 같은 창이 뜹니다.", "이때 질문할 내용을 말해주세요.", "챗봇이 질문을 기다립니다!"),
         Triple("다음은 예시입니다.", "\"버거킹에서 불고기 와퍼 주문하고 싶어\"를", "말하고 있습니다."),
@@ -251,7 +260,7 @@ fun guideText(currentImageIndex: Int) {
         val (text1, text2, text3) = textList[currentImageIndex]
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
-                "말하기" to Color.Red, "다시 듣기" to Color.Red, "새 대화 하기" to Color.Red
+                "말하기" to Color.Red, "다시 듣기" to Color.Red, "새 대화 하기" to Color.Red, "4줄 이상" to Color.Blue, "닫기" to Color.Red
             )
         )
         com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
