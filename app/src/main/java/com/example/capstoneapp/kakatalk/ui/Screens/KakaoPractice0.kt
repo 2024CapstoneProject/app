@@ -167,7 +167,7 @@ fun KakaoProblemCard(navController: NavController, problem: KakaotalkProblem) {
         }
 
         com.example.capstoneapp.cafe.ui.Screens.StartButton(onClick = {
-            navController.navigate("touchToStartCafe")
+            navController.navigate("Kakao_FriendList")
         })
     }
 }
