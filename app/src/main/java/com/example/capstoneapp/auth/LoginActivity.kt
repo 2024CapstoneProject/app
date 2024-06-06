@@ -4,6 +4,7 @@ package com.example.capstoneapp.auth
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.capstoneapp.MainActivity
@@ -66,7 +67,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<ImageView>(R.id.kakao_login_btn2).setOnClickListener {
+        val loginButton = findViewById<Button>(R.id.kakao_login_btn2)
+        loginButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish() // LoginActivity 종료
         }
