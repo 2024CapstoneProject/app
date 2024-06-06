@@ -148,7 +148,6 @@ fun KakaoProblemCard(navController: NavController, problem: KakaotalkProblem) {
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
-
                 items.forEachIndexed { index, item ->
                     ChecklistItem(
                         title = item,

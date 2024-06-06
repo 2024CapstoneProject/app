@@ -122,7 +122,7 @@ fun FastfoodProblemCard(navController: NavController, problem: Problem) {
     val checkedStates = remember { mutableStateListOf(false, false, false, false) }
     Box(//문제 box
         contentAlignment = Alignment.BottomCenter,
-        modifier = Modifier.padding(bottom = 40.dp) // Add some padding to ensure the button overlaps
+        modifier = Modifier.padding(bottom = 40.dp)
     ) {
         Card(
             modifier = Modifier

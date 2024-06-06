@@ -54,7 +54,6 @@ object ProblemRepository {
         Pair("검은색 티셔츠 사진 보내기","1"),
         Pair("커피 사진 보내기","2")
     )
-
     private var photoIdList = listOf(
         R.drawable.sample_1,
         R.drawable.sample_2,
