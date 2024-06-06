@@ -2,6 +2,7 @@
 package com.example.capstoneapp.chatbot.ui.components
 
 
+import AnswerDialog
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
@@ -79,7 +80,8 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
     var showVoiceRecogPopup by remember { mutableStateOf(false) }
     val audioUploader = remember { AudioUploader(chatService) }
     val context = LocalContext.current
-
+    var showDialog by remember { mutableStateOf(false) }
+    var currentResponse by remember { mutableStateOf("") }
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val uid = sharedPreferences.getString("user_uid", null)
 
@@ -322,12 +324,27 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                             horizontalArrangement = Arrangement.End
                         ) {
                             MessageBox(message = aiResponses[index], isUser = false,fontSize = fontSize.value) {
-                                HandleTtsPlayback(aiResponses[index])
+                                currentResponse = aiResponses[index]
+                                showDialog = true
                             }
                         }
                     }
                 }
             }
+        }
+
+        if (showDialog) {
+            AnswerDialog(
+                responseText = currentResponse,
+                onDismiss = { showDialog = false },
+                onReplay = {
+                    coroutineScope.launch {
+                        if (currentResponse.isNotEmpty()) {
+                            HandleTtsPlayback(currentResponse)
+                        }
+                    }
+                }
+            )
         }
         MessageInputField(
             question = question,
@@ -347,6 +364,10 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                         if (chatResponse.isSuccessful) {
                             val newResponse = chatResponse.body()?.question ?: "응답을 받지 못했습니다."
                             aiResponses = aiResponses.dropLast(1) + newResponse
+                            if (newResponse.split("\n").size > 3) {
+                                currentResponse = newResponse
+                                showDialog = true
+                            }
                             errorMessage = ""
                         } else {
                             aiResponses = aiResponses.dropLast(1) + "Error: ${chatResponse.errorBody()?.string()}"
