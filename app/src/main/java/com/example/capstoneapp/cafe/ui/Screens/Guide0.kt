@@ -43,6 +43,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import com.example.capstoneapp.cafe.ui.theme.LightYellow
 import com.example.capstoneapp.cafe.ui.theme.Yellow
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 import com.example.capstoneapp.mainPage.ButtonWithRoundedBorder
 
 
@@ -115,6 +116,7 @@ fun GuideScreen(navController: NavController) {
                     fontSize = 25.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.ExtraBold,
+                    fontFamily = firaSansFamily,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -161,6 +163,7 @@ fun GuideScreen(navController: NavController) {
                         text = "카페",
                         fontSize = 30.sp,
                         color = Color.Black,
+                        fontFamily = firaSansFamily,
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
@@ -200,6 +203,7 @@ fun GuideScreen(navController: NavController) {
                         text = "카카오톡",
                         fontSize = 27.sp,
                         color = Color.Black,
+                        fontFamily = firaSansFamily,
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
@@ -250,6 +254,7 @@ fun GuideScreen(navController: NavController) {
                             fontSize = 30.sp,
                             color = Color.Black,
                             fontWeight = FontWeight.ExtraBold,
+                            fontFamily = firaSansFamily,
                             textAlign = TextAlign.Center
                         )
                         Text(
@@ -257,6 +262,7 @@ fun GuideScreen(navController: NavController) {
                             fontSize = 30.sp,
                             color = Color.Black,
                             fontWeight = FontWeight.ExtraBold,
+                            fontFamily = firaSansFamily,
                             textAlign = TextAlign.Center
                         )
                     }
@@ -296,6 +302,7 @@ fun GuideScreen(navController: NavController) {
                         text = "택시",
                         fontSize = 30.sp,
                         color = Color.Black,
+                        fontFamily = firaSansFamily,
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
@@ -341,6 +348,7 @@ fun GuideScreen(navController: NavController) {
                         text = "휴대전화",
                         fontSize = 27.sp,
                         color = Color.Black,
+                        fontFamily = firaSansFamily,
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
@@ -375,6 +383,7 @@ fun GuideScreen(navController: NavController) {
                 Text(
                     text = "준비중",
                     fontSize = 27.sp,
+                    fontFamily = firaSansFamily,
                     color = Color.Black,
                     fontWeight = FontWeight.ExtraBold
                 )

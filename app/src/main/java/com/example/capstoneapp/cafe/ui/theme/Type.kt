@@ -9,11 +9,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 
+
+
+val firaSansFamily = FontFamily(
+    Font(R.font.yfont, weight = FontWeight.Bold),
+    Font(R.font.yfont, weight = FontWeight.ExtraBold),
+    Font(R.font.yfont, weight = FontWeight.Medium)
+)
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
+        fontFamily = firaSansFamily,
+        fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
@@ -37,9 +44,5 @@ val Typography = Typography(
 
 )
 
-val firaSansFamily = FontFamily(
-    Font(R.font.yfont, weight = FontWeight.Bold),
-    Font(R.font.yfont, weight = FontWeight.ExtraBold),
-    Font(R.font.yfont, weight = FontWeight.Medium)
-)
+
 
