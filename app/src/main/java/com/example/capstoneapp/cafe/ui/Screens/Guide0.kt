@@ -66,8 +66,7 @@ fun GuideScreen(navController: NavController) {
             )
         }
 
-    }
-// 로그아웃 함수 정
+        // 로그아웃 함수 정
 
         Column(
             modifier = Modifier
@@ -384,26 +383,13 @@ fun GuideScreen(navController: NavController) {
                             text = "준비중",
                             fontSize = 27.sp,
                             color = Color.Black,
-                            style = MaterialTheme.typography.displayLarge                        )
+                            style = MaterialTheme.typography.displayLarge
+                        )
                     }
                 }
             }
-//        Button(
-//            onClick = { navController.navigate("ProtectorHome") },
-//            modifier = Modifier
-//                .size(200.dp, 100.dp)
-//                .padding(top = 30.dp),
-//            colors = ButtonDefaults.buttonColors(Color(0xFF3F3D3E)),
-//            shape = RoundedCornerShape(16.dp)
-//        ) {
-//            Text(
-//                text = "위치추적",
-//                fontSize = 27.sp,
-//                color = Color.White,
-//                fontWeight = FontWeight.ExtraBold
-//            )
-//        }
         }
+    }
 }
 
 @Preview(showBackground = true)
