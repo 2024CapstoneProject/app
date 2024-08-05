@@ -26,7 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.capstoneapp.fastfood.ui.theme.Brown
 import com.example.capstoneapp.fastfood.ui.theme.LightYellow
+import com.example.capstoneapp.fastfood.ui.theme.White
 import com.example.capstoneapp.fastfood.ui.theme.Yellow
 import com.example.capstoneapp.nav.repository.Problem
 
@@ -58,7 +60,7 @@ fun NotificationScreen(
                         color = Color.White, // Change this color to your desired background color
                         shape = RoundedCornerShape(16.dp) // Rounded corners
                     )
-                    .border(2.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
+                    .border(2.dp, Color.Gray, RoundedCornerShape(25.dp)),// Border
                 contentAlignment = Alignment.Center
             ) {
                 content()
@@ -76,18 +78,20 @@ fun NotificationScreen(
                 ButtonFormat(
                     modifier = Modifier.weight(1f),
                     onClick = { openBottomSheet = true },
-                    buttonText = "문제보기",
-                    backgroundColor = LightYellow,
-                    contentColor = Color.Black
+                    buttonText = "문제 보기",
+                    backgroundColor = Color.White,
+                    contentColor = Brown,
+                    showShadow = true
                 )
                 Spacer(modifier = Modifier.width(16.dp)) // Space between buttons
 
                 ButtonFormat(
                     modifier = Modifier.weight(1f),
                     onClick = { onAnswerCheckClicked() },
-                    buttonText = "정답확인",
-                    backgroundColor = Yellow,
-                    contentColor = Color.Black
+                    buttonText = "정답 확인",
+                    backgroundColor = White,
+                    contentColor = Brown,
+                    showShadow = true
                 )
             }
         }
