@@ -4,7 +4,7 @@
             "outputFile": "com.example.capstoneapp.test.app-mergeDebugAndroidTestResources-32:/values-or/values-or.xml",
             "map": [
                 {
-                    "source": "/Users/jeongjinseo/.gradle/caches/transforms-3/7e0de00efec8260dc761d11f7167e95b/transformed/core-1.12.0/res/values-or/values-or.xml",
+                    "source": "/Users/jeongjinseo/.gradle/caches/transforms-3/a10eab3dd83d29c18718b8dec65ba129/transformed/core-1.12.0/res/values-or/values-or.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/jeongjinseo/.gradle/caches/transforms-3/56991579657abc1bbffec6207af617d3/transformed/ui-release/res/values-or/values-or.xml",
+                    "source": "/Users/jeongjinseo/.gradle/caches/transforms-3/cf2b167824608c54e50c45626929f1d3/transformed/jetified-ui-release/res/values-or/values-or.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

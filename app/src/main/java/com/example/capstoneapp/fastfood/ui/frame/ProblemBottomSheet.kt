@@ -2,10 +2,6 @@
 
 package com.example.capstoneapp.fastfood.ui.frame
 
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
-import com.example.capstoneapp.nav.repository.Problem
-import com.example.capstoneapp.nav.repository.ProblemRepository
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,11 +28,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.capstoneapp.fastfood.ui.theme.Yellow
+import com.example.capstoneapp.nav.repository.Problem
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,6 +45,7 @@ import kotlinx.coroutines.launch
 fun BottomSheetScreen(
     openBottomSheet: Boolean,
     problem: Problem,
+    screenType: Int,
     onOpenBottomSheetChange: (Boolean) -> Unit
 ) {
     val skipPartiallyExpanded by remember { mutableStateOf(false) }
@@ -69,7 +71,7 @@ fun BottomSheetScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                ProblemBox(problem)
+                ProblemBox(problem,screenType)
                 ButtonFormat(
                     modifier = Modifier.height(64.dp), onClick = {
                         scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
@@ -85,39 +87,110 @@ fun BottomSheetScreen(
 }
 
 @Composable
-fun ProblemBox(problem: Problem) {
+fun ProblemBox(problem: Problem,screenType: Int) {
+    when (screenType){
+        1 -> {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "메뉴 : ${problem.menu}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "장소 : ${problem.place}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "포인트 적립 여부 : ${problem.point}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "결제 방식 : ${problem.pay}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Spacer(Modifier.padding(bottom = 20.dp))
+            }
+        }
+        2 -> {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "메뉴 : ${problem.c_menu}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "장소 : ${problem.c_place}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "포인트 적립 여부 : ${problem.c_point}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "결제 방식 : ${problem.c_pay}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Spacer(Modifier.padding(bottom = 20.dp))
+            }
+        }
+        3 -> {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "문제",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif,
+                    modifier = Modifier.padding(bottom=4.dp)
+                )
+                Text(
+                    text = problem.order,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.SansSerif,
+                    textAlign = TextAlign.Center,
+                    lineHeight = 32.sp
 
-    Column(
-        modifier = Modifier
-            .wrapContentSize()
-            .padding(bottom = 16.dp)
-    ) {
-        Text(
-            text = "메뉴 : ${problem.menu}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.SansSerif
-        )
-        Text(
-            text = "장소 : ${problem.place}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.SansSerif
-        )
-        Text(
-            text = "포인트 적립 여부 : ${problem.point}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.SansSerif
-        )
-        Text(
-            text = "결제 방식 : ${problem.pay}",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold,
-            fontFamily = FontFamily.SansSerif
-        )
-        Spacer(Modifier.padding(bottom = 20.dp))
+                )
+                Spacer(Modifier.padding(bottom = 20.dp))
+            }
+        }
+        else -> {
+
+        }
     }
+
 }
 
 @Preview
@@ -128,6 +201,7 @@ fun BottomSheetPreview() {
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val problem = remember { problemViewModel.getProblemValue() }
     BottomSheetScreen(
-        openBottomSheet = openBottomSheet, problem = problem!!
+        openBottomSheet = openBottomSheet, problem = problem!!,
+        3
     ) { openBottomSheet = it }
 }

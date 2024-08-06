@@ -1,6 +1,9 @@
 package com.example.capstoneapp.cafe.ui.Components
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,23 +26,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
+import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
 fun CafeMenuBar(
-    menuItems:List<String>,
-    selectedMenu:String,
-    onMenuItemClick:(String)->Unit
+    menuItems: List<String>,
+    selectedMenu: String,
+    onMenuItemClick: (String) -> Unit,
+    showBorder: Boolean,
+    problem: Problem
 ) {
+    var type = 0
+    if (problem.c_menu == "HOT아메리카노" || problem.c_menu == "HOT카페라떼") {
+        type = 0
+    } else if (problem.c_menu == "ICE아메리카노" || problem.c_menu == "ICE바닐라라떼") {
+        type = 1
+    } else {
+        type = 2
+    }
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {},
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
 
     ) {
         IconButton(
-            onClick = {onMenuItemClick("HOME")},
-            modifier = Modifier.padding(top = 12.dp)
+            onClick = { onMenuItemClick("HOME") },
+            modifier = Modifier
+                .padding(top = 12.dp)
                 .width(60.dp)
                 .height(60.dp)
         ) {
@@ -48,20 +66,44 @@ fun CafeMenuBar(
                 contentDescription = "setting"
             )
         }
-        menuItems.forEach { item ->
-            TextButton(
-                modifier = Modifier.padding(top = 12.dp).fillMaxHeight().wrapContentWidth(),
-                onClick = {
-                    onMenuItemClick(item)
-                },
-                colors = ButtonDefaults.textButtonColors(
-                    containerColor = if (item == selectedMenu) Color.White else Color.Transparent,
-                    contentColor = if (item == selectedMenu) Color.Black else Color.White
-                ),
-                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-
+        menuItems.forEachIndexed() { index, item ->
+            Box(
+                modifier = Modifier
+                    .padding(top = 0.dp)
+                    .fillMaxHeight()
+                    .wrapContentWidth()
+//                    .then(
+//                        if (showBorder&&index==type) Modifier.border(
+//                            BorderWidth,
+//                            BorderColor,
+//                            BorderShape
+//                        ) else Modifier
+//                    )
             ) {
-                Text(text = item, fontSize = 14.sp)
+                TextButton(
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .fillMaxHeight()
+                        .wrapContentWidth()
+                        .then(
+                            if (showBorder && index == type) Modifier.border(
+                                BorderWidth,
+                                BorderColor,
+                                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                            ) else Modifier
+                        ),
+                    onClick = {
+                        onMenuItemClick(item)
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        containerColor = if (item == selectedMenu) Color.White else Color.Transparent,
+                        contentColor = if (item == selectedMenu) Color.Black else Color.White
+                    ),
+                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+
+                ) {
+                    Text(text = item, fontSize = 14.sp)
+                }
             }
         }
         Spacer(Modifier.width(10.dp))

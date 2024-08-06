@@ -1,5 +1,7 @@
 package com.example.capstoneapp.fastfood.ui.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -7,12 +9,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -20,25 +26,42 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.capstoneapp.R
-import com.example.capstoneapp.nav.repository.MenuItem
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
-fun ItemCard(item: MenuItem, onClick: () -> Unit) {
+fun ItemCard(item: MenuItem, isSelected: Boolean,onClick: () -> Unit,showBorder: Boolean,problem:Problem) {
+
+    var backgroundColor = Color.Transparent
+    var paddingVallue = 0.dp
+    if(isSelected && backgroundColor == Color.LightGray){
+        backgroundColor = Color.Transparent
+        paddingVallue = 0.dp
+    }else if(isSelected){
+        backgroundColor = Color.LightGray
+        paddingVallue=2.dp
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(18.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(backgroundColor)
             .clickable(onClick = onClick)
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
     ) {
-        Icon(
+        Image(
             painter = painterResource(id = item.iconResourceId),
             contentDescription = "",
             modifier = Modifier
-                .width(72.dp) // 아이콘의 너비를 48dp로 설정
-                .height(64.dp)
+//                .size(80.dp),
+                .width(80.dp) // 아이콘의 너비를 48dp로 설정
+                .height(64.dp),
+            contentScale = ContentScale.Fit
         )
         Text(
             text = item.name,
@@ -68,11 +91,12 @@ fun OptionCard(
     icon: Painter,
     showBorder: Boolean
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(18.dp)
             .clickable(onClick = onClick)
-            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier)
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier)
     ) {
         Icon(
             painter = icon,

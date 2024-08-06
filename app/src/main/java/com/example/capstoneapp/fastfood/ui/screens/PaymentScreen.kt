@@ -16,6 +16,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,11 +34,14 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 
 @Composable
 fun PaymentScreen(navController: NavController, showBorder: Boolean) {
+    var repeatAnswer by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier.padding(16.dp)
             .fillMaxWidth(),
@@ -58,14 +65,14 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
                 .clickable {
                     navController.navigate("itemMenu") // Navigate to PaymentScreen
                 }
-                .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier),
+                .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
             horizontalArrangement = Arrangement.SpaceBetween, // Arrange buttons with space in between
             verticalAlignment = Alignment.CenterVertically
 
 
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.baseline_adb_24),
+                painter = painterResource(id = R.drawable.cardicon),
                 contentDescription = null,
 
                 modifier = Modifier
@@ -75,11 +82,7 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                    navController.navigate("itemMenu") // Navigate to PaymentScreen
-                },//왼쪽에 padding을 주기 위해
+                modifier = Modifier.weight(1f),
             ) {
                 Text(
                     text = "카드",
@@ -118,10 +121,12 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
             verticalAlignment = Alignment.CenterVertically
         ) { Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
+                modifier = Modifier
+                    .weight(1f) //왼쪽에 padding을 주기 위해
+                    .clickable{repeatAnswer=true}
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_adb_24),
+                    painter = painterResource(id = R.drawable.pay),
                     contentDescription = null,
                     modifier = Modifier
                         .width(80.dp) // 아이콘의 너비를 48dp로 설정
@@ -147,10 +152,12 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f) //왼쪽에 padding을 주기 위해
+                modifier = Modifier
+                    .weight(1f) //왼쪽에 padding을 주기 위해
+                    .clickable{repeatAnswer=true}
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_adb_24),
+                    painter = painterResource(id = R.drawable.cash),
                     contentDescription = null,
                     modifier = Modifier
                         .width(80.dp) // 아이콘의 너비를 48dp로 설정
@@ -169,6 +176,10 @@ fun PaymentScreen(navController: NavController, showBorder: Boolean) {
             }
         }
         Spacer(modifier = Modifier.height(48.dp))
+    }
+    if(repeatAnswer){
+        RepeatDialog(onDismiss = {
+            repeatAnswer = false })
     }
 }
 

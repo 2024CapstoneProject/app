@@ -2,61 +2,138 @@ package com.example.capstoneapp.fastfood.ui.screens
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.cafe.ui.Screens.showNextImage
+import com.example.capstoneapp.cafe.ui.Screens.showPreviousImage
+import kotlinx.coroutines.launch
 
 @Composable
-fun GuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
+fun FastfoodGuideScreenPreview(navController: NavController) {
+    var currentImageIndex by remember { mutableStateOf(0) }
+    var isImageClicked by remember { mutableStateOf(false) }
+    var clickedImageResource by remember { mutableStateOf(0) }
+
     val imageResources = listOf(
-        R.drawable.touch,
-        R.drawable.payment,
-        R.drawable.burger,
-        R.drawable.set,
-        R.drawable.dessert,
-        R.drawable.drink,
-        R.drawable.receipt,
-        R.drawable.card
+        R.drawable.hamburger,
+        R.drawable.guide_000,
+        R.drawable.fastfood_guide_001,
+        R.drawable.fastfood_guide_002,
+        R.drawable.fastfood_guide_003,
+        R.drawable.fastfood_guide_004,
+        R.drawable.fastfood_guide_005,
+        R.drawable.fastfood_guide_006,
+        R.drawable.fastfood_guide_007,
+        R.drawable.fastfood_guide_008
     )
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize(1f),
+    ) {
+        guideImage(
+            currentImageIndex = currentImageIndex,
+            imageResources = imageResources, // 이미지 리소스를 함수로 전달
+            onImageIndexChanged = { newIndex ->
+                currentImageIndex = newIndex
+            },
+            onImageClicked = {
+                isImageClicked = true
+                clickedImageResource = imageResources[currentImageIndex]
+            }
+        )
+        guideText(currentImageIndex)
+    }
+
+    if (isImageClicked) {
+        com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup(
+            imageResource = clickedImageResource,
+            onClose = {
+                isImageClicked = false
+            }
+        )
+    }
+}
+
+@Composable
+fun guideImage(
+    currentImageIndex: Int,
+    imageResources: List<Int>,
+    onImageIndexChanged: (Int) -> Unit,
+    onImageClicked: () -> Unit
+) {
     val currentImageResourceId = imageResources[currentImageIndex]
     val context = LocalContext.current
     val imageName = getResourceName(currentImageResourceId, context)
 
+    // 드래그 동작에 대한 제스처 인식기
+    val offsetX = remember { mutableStateOf(0f) }
+    val coroutineScope = rememberCoroutineScope()
+
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta ->
+                        // 드래그로 인한 X 좌표 이동
+                        offsetX.value += delta
+                    },
+                    onDragStopped = { velocity ->
+                        // 드래그로 인한 페이지 변경
+                        if (offsetX.value > 150 || (offsetX.value < -150 && velocity > 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    showPreviousImage(imageResources.size, currentImageIndex)
+                                )
+                            }
+                            offsetX.value = 0f
+                        } else if (offsetX.value < -150 || (offsetX.value > 150 && velocity < 0)) {
+                            coroutineScope.launch {
+                                onImageIndexChanged(
+                                    showNextImage(imageResources.size, currentImageIndex)
+                                )
+                            }
+                            offsetX.value = 0f
+                        }
+                    }
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -64,35 +141,46 @@ fun GuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
                 text = imageName,
                 style = TextStyle(fontSize = 30.sp),
                 fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 20.dp)
             )
-            Spacer(modifier = Modifier.height(10.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(
-                    onClick = { onImageIndexChanged(showPreviousImage(imageResources.size, currentImageIndex)) }
-                ) {
+                IconButton(onClick = {
+                    onImageIndexChanged(
+                        showPreviousImage(
+                            imageResources.size, currentImageIndex
+                        )
+                    )
+                }) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_back),
                         contentDescription = "Previous"
                     )
                 }
-                Image(
-                    painter = painterResource(id = imageResources[currentImageIndex]),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .weight(3f)
-                        .fillMaxWidth()
-                        .aspectRatio(0.6f)
-                        .clip(RoundedCornerShape(20.dp))
-                )
-                IconButton(
-                    onClick = { onImageIndexChanged(showNextImage(imageResources.size, currentImageIndex)) }
+                Spacer(modifier = Modifier.width(0.dp))
+
+                Box(
+                    modifier = Modifier.clickable(onClick = onImageClicked)
                 ) {
+                    Image(
+                        painter = painterResource(id = imageResources[currentImageIndex]),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 250.dp, height = 500.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(0.dp))
+
+                IconButton(onClick = {
+                    onImageIndexChanged(
+                        showNextImage(
+                            imageResources.size, currentImageIndex
+                        )
+                    )
+                }) {
                     Image(
                         painter = painterResource(id = R.mipmap.arrow_forward),
                         contentDescription = "Next"
@@ -106,134 +194,70 @@ fun GuideImage(currentImageIndex: Int, onImageIndexChanged: (Int) -> Unit) {
 @Composable
 fun getResourceName(resourceId: Int, context: Context): String {
     return when (resourceId) {
-        R.drawable.touch -> context.getString(R.string.touch_text)
-        R.drawable.payment -> context.getString(R.string.payment_text)
-        R.drawable.burger -> context.getString(R.string.burger_text)
-        R.drawable.set -> context.getString(R.string.set_text)
-        R.drawable.dessert -> context.getString(R.string.dessert_text)
-        R.drawable.drink -> context.getString(R.string.drink_text)
-        R.drawable.receipt -> context.getString(R.string.receipt_text)
-        R.drawable.card -> context.getString(R.string.card_text)
+        R.drawable.hamburger -> "패스트푸드"
+        R.drawable.guide_000 -> "터치 화면"
+        R.drawable.fastfood_guide_001 -> "결제 수단 선택"
+        R.drawable.fastfood_guide_002 -> context.getString(R.string.burger_text)
+        R.drawable.fastfood_guide_003 -> context.getString(R.string.set_text)
+        R.drawable.fastfood_guide_004 -> context.getString(R.string.dessert_text)
+        R.drawable.fastfood_guide_005 -> context.getString(R.string.drink_text)
+        R.drawable.fastfood_guide_006 -> "주문 메뉴 확인"
+        R.drawable.fastfood_guide_007 -> "포장 여부&적립&결제"
+        R.drawable.fastfood_guide_008 -> "카드 결제 진행&종료"
         else -> "Unknown"
     }
-}
-
-fun showNextImage(size: Int, currentIndex: Int): Int {
-    return (currentIndex + 1) % size
-}
-
-fun showPreviousImage(size: Int, currentIndex: Int): Int {
-    return if (currentIndex == 0) size - 1 else currentIndex - 1
 }
 
 @Composable
 fun guideText(currentImageIndex: Int) {
     val textList = listOf(
         Triple("사진을 옆으로 넘기거나", "화살표를 눌러 확인해주세요.", "사진을 누르면 확대됩니다."),
+        Triple("화면을 눌러주세요!", "보통은 광고 화면이 나옵니다.", ""),
         Triple("카드, 디지털 교환권, 현금 중", "원하시는 결제 방법을", "선택해주세요."),
         Triple("원하시는 햄버거 메뉴를 골라주세요.", "선택된 메뉴는", "하단 목록에 표시됩니다."),
         Triple("버거 단품 또는", "음료와 디저트가 있는 세트 메뉴를", "선택하실 수 있습니다."),
         Triple("세트 구성에 포함된", "세트 디저트를 선택해주세요.", "일부 메뉴는 추가 금액이 있습니다."),
         Triple("세트 구성에 포함된", "세트 드링크를 선택해주세요.", "일부 메뉴는 추가 금액이 있습니다."),
+        Triple("선택한 메뉴와 금액을 다시 확인한 후", "\"결제하기\"를 눌러주세요.", ""),
         Triple("좌측엔 선택하신 메뉴 목록이,", "우측에는 포장/매장, 할인과 적립,", "결제 방법을 선택할 수 있습니다."),
         Triple("해당 그림이 나타나면", "키오스크 하단에 있는 카드 투입구에", "카드를 넣어 주세요.")
     )
 
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 30.dp),
+    Column(
+        modifier = Modifier,
         verticalArrangement = Arrangement.spacedBy(0.dp),
-    ){
+    ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text1,
             wordsToColor = mapOf(
-                "현금 결제" to Color.Green,
-                "카드" to Color.Blue,
-                "파란색" to Color.Blue
+                "사진" to Color.Blue, "화면" to Color.Red,
+                "햄버거" to Color.Blue,
+                "버거 단품" to Color.Red
             )
         )
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text2,
             wordsToColor = mapOf(
-                "쿠폰" to Color.Green,
-                "초록색" to Color.Green,
+                "광고" to Color.Blue,
+                "세트 메뉴" to Color.Red,
+                "세트 디저트" to Color.Blue, "세트 드링크" to Color.Blue,
+                "결제하기" to Color.Red,
                 "화면 오른쪽 아래" to Color.Red
             )
         )
-        TextWithColoredWords(
+        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
             text = text3,
             wordsToColor = mapOf(
-                "카운터" to Color.Green
             )
         )
-    }
-}
-
-@Composable
-fun TextWithColoredWords(text: String, wordsToColor: Map<String, Color>) {
-    val spannableString = buildAnnotatedString {
-        append(text)
-        wordsToColor.forEach { (word, color) ->
-            val startIndex = text.indexOf(word)
-            if (startIndex >= 0) {
-                val endIndex = startIndex + word.length
-                addStyle(SpanStyle(color = color), startIndex, endIndex)
-            }
-        }
-    }
-
-    Text(
-        text = spannableString,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(0.dp),
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.Black,
-        textAlign = TextAlign.Center,
-    )
-}
-
-@Composable
-fun CafeGuideScreenPreview(navController: NavController) {
-    CapstoneAppTheme {
-        var currentImageIndex by remember { mutableIntStateOf(0) }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(40.dp))
-            GuideImage(currentImageIndex) { newIndex ->
-                currentImageIndex = newIndex
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            guideText(currentImageIndex)
-        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun CafeGuideScreenPreviews() {
-    CapstoneAppTheme {
-        var currentImageIndex by remember { mutableIntStateOf(0) }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(40.dp))
-            GuideImage(currentImageIndex) { newIndex ->
-                currentImageIndex = newIndex
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            guideText(currentImageIndex)
-        }
-    }
+fun FastfoodGuideScreenPreviews() {
+    val navController = rememberNavController()
+    FastfoodGuideScreenPreview(navController)
 }
 

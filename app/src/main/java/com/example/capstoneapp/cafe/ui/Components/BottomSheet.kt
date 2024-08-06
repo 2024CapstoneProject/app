@@ -30,12 +30,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.capstoneapp.cafe.ui.Frame.ButtonFormat
+import com.example.capstoneapp.cafe.ui.theme.Yellow
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
-import com.example.capstoneapp.cafe.ui.Frame.ButtonFormat
-import com.example.capstoneapp.cafe.ui.theme.Yellow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +43,9 @@ import kotlinx.coroutines.launch
 fun BottomSheetScreen(
     openBottomSheet: Boolean,
     problem: Problem,
-    onOpenBottomSheetChange: (Boolean) -> Unit
+    screenType: Int,
+    onOpenBottomSheetChange: (Boolean) -> Unit,
+
 ) {
     val skipPartiallyExpanded by remember { mutableStateOf(false) }
     val edgeToEdgeEnabled by remember { mutableStateOf(false) }
@@ -127,6 +129,6 @@ fun BottomSheetPreview() {
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val problem = remember { problemViewModel.getProblemValue() }
     BottomSheetScreen(
-        openBottomSheet = openBottomSheet, problem = problem!!
+        openBottomSheet = openBottomSheet, problem = problem!!,1
     ) { openBottomSheet = it }
 }

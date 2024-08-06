@@ -57,6 +57,7 @@ fun ChatMessageItem(chatMessage: ChatMessage) {
     val sender: String
     val padding: Dp
     val isPhotoMessage = if (chatMessage.photoId == 0) 0 else chatMessage.photoId
+    var profileImage : Int = 0
 
     if (chatMessage.who.equals("m")) {
         backgroundColor = LightYellow
@@ -70,6 +71,21 @@ fun ChatMessageItem(chatMessage: ChatMessage) {
         shape = RoundedCornerShape(topEnd = 16.dp, bottomStart = 16.dp, bottomEnd = 16.dp)
         sender = chatMessage.name
         padding = 8.dp
+
+        when(sender){
+            "아들" ->{
+                profileImage = R.drawable.profile_son
+            }
+            "딸" ->{
+                profileImage = R.drawable.profile_daughter
+            }
+            "손녀" ->{
+                profileImage = R.drawable.profile_granddaughter
+            }
+            "남편" ->{
+                profileImage = R.drawable.profile_husband
+            }
+        }
     }
 
     Box(
@@ -93,12 +109,17 @@ fun ChatMessageItem(chatMessage: ChatMessage) {
                     ) {}
                 } else {
                     Image(
-                        painter = painterResource(R.drawable.kakaotalk_icon),
+                        painter = painterResource(profileImage),
                         contentDescription = "profile",
                         modifier = Modifier
-                            .width(36.dp)
-                            .height(36.dp)
-                            .padding(top = 8.dp),
+                            .width(48.dp)
+                            .height(48.dp)
+                            .padding(top = 8.dp,start = 8.dp)
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                        ,
                         alignment = Alignment.Center
                     )
                 }

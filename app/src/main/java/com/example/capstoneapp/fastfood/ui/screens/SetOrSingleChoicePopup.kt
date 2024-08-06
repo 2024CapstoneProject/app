@@ -1,8 +1,4 @@
 package com.example.capstoneapp.fastfood.ui.screens
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,24 +9,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
-
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.R
-import com.example.capstoneapp.nav.repository.MenuItem
-import com.example.capstoneapp.nav.repository.MenuItemsRepository.getMenuItemById
 import com.example.capstoneapp.fastfood.ui.components.ItemCard
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.example.capstoneapp.nav.repository.MenuItem
+import com.example.capstoneapp.nav.repository.MenuItemsRepository.getMenuItemById
+import com.example.capstoneapp.nav.repository.Problem
 
 @Composable
 fun SetOrSingleChoicePopup(
@@ -38,6 +31,8 @@ fun SetOrSingleChoicePopup(
     currentItem: MenuItem?,
     onDismiss: () -> Unit,
     onAddToOrder: (MenuItem) -> Unit, // Boolean 값은 세트 주문이면 true, 단품 주문이면 false // NavController 추가
+    showBorder: Boolean,
+    problem: Problem
 ) {
     val setItem = getMenuItemById(currentItem!!.id + 1)
 
@@ -47,6 +42,9 @@ fun SetOrSingleChoicePopup(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
             ) {
                 Column(
                     modifier = Modifier
@@ -69,11 +67,15 @@ fun SetOrSingleChoicePopup(
 
                     ) {
                         ItemCard(
-                            item = currentItem
-                        ) { onAddToOrder(currentItem) }
+                            item = currentItem,
+                            isSelected = false, onClick = {onAddToOrder(currentItem)},showBorder=false,problem
+                        )
 
                         if (setItem != null) {
-                            ItemCard(item = setItem) { onAddToOrder(setItem) }
+                            ItemCard(
+                                item = setItem,
+                                isSelected = false, onClick = {onAddToOrder(setItem)},showBorder,problem
+                            )
                         }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
@@ -83,19 +85,19 @@ fun SetOrSingleChoicePopup(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SetPopupPreview() {
-    var showDialog by remember { mutableStateOf(true) }
-    val navController = rememberNavController()
-
-    if (showDialog) {
-        SetOrSingleChoicePopup(
-            showDialog = showDialog,
-            MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24,7000),
-            onDismiss = { showDialog = false },
-            onAddToOrder = { /* 주문 추가 이벤트 처리는 불필요하므로 비워둠 */ }
-
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SetPopupPreview() {
+//    var showDialog by remember { mutableStateOf(true) }
+//    val navController = rememberNavController()
+//
+//    if (showDialog) {
+//        SetOrSingleChoicePopup(
+//            showDialog = showDialog,
+//            MenuItem(1,"불고기 버거", R.drawable.baseline_adb_24,7000),
+//            onDismiss = { showDialog = false },
+//            onAddToOrder = { /* 주문 추가 이벤트 처리는 불필요하므로 비워둠 */ }
+//
+//        )
+//    }
+//}

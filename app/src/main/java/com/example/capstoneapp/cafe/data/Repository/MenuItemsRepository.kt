@@ -8,14 +8,14 @@ object MenuItemsRepository {
         MenuItem(
             1,
             "HOT아메리카노",
-            R.drawable.cafe_icon,
-            2500
+            R.drawable.americano_hot,
+            2500,
         ),
         MenuItem(
             2,
             "HOT카페라떼",
-            R.drawable.cafe_icon,
-            3000
+            R.drawable.latte_hot,
+            3000,
         ),
     )
 
@@ -23,24 +23,24 @@ object MenuItemsRepository {
         MenuItem(
             1,
             "ICE아메리카노",
-            R.drawable.cafe_icon,
-            3000
+            R.drawable.americano_ice,
+            3000,
         ),
         MenuItem(
             2,
             "ICE바닐라라떼",
-            R.drawable.cafe_icon,
-            4000
+            R.drawable.latte_ice,
+            4000,
         ),
     )
 
     private var TeaMenuItems = listOf(
-        MenuItem(1, "녹차", R.drawable.cafe_icon, 3000),
+        MenuItem(1, "녹차", R.drawable.green, 3000),
         MenuItem(
             2,
             "캐모마일",
-            R.drawable.cafe_icon,
-            3500
+            R.drawable.green,
+            3500,
         ),
     )
 
@@ -59,6 +59,26 @@ object MenuItemsRepository {
             return menuItem
         }
         return null
+    }
+
+    fun getMenuItemPhotoId(menuName : String):Int{
+        var photoId = 0
+        for(i in coffeeHotMenuItems){
+            if(i.name == menuName) photoId = i.iconResourceId
+        }
+        if(photoId != 0) return photoId
+        else{
+            for(i in coffeeIceMenuItems){
+                if(i.name == menuName) photoId = i.iconResourceId
+            }
+        }
+        if(photoId != 0) return photoId
+        else{
+            for(i in TeaMenuItems){
+                if(i.name == menuName) photoId = i.iconResourceId
+            }
+            return photoId
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.capstoneapp.cafe.ui.Components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,18 +48,28 @@ import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.data.Repository.MenuItem
 import com.example.capstoneapp.cafe.ui.Frame.ButtonFormat
 import com.example.capstoneapp.cafe.ui.theme.LightYellow
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import kotlinx.coroutines.delay
 
 @Composable
 fun totalOrder(
-    totalCount:Int, ResetOrPayOrder: (Pair<Boolean,Boolean>) -> Unit
+    totalCount: Int,
+    isRepeat: Boolean,
+    ResetOrPayOrder: (Pair<Boolean, Boolean>) -> Unit,
+    showBorder: Boolean
 ) {
     //타이머 120초
     var remainingTime by remember { mutableStateOf(120) }
     //타이머 실행 여부
     var isTimerRunning by remember { mutableStateOf(true) }
+    var noItemDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(isTimerRunning) {
+        if (isRepeat) {
+            isTimerRunning = false
+        }
         if (isTimerRunning) {
             while (remainingTime > 0) {
                 //1초씩 감소
@@ -71,15 +82,18 @@ fun totalOrder(
     }
 
     //만약 타이머 실행이 중단되었다면 팝업 띄움
-    if (!isTimerRunning) {
+    if (!isTimerRunning && !isRepeat) {
         showTimerEndPopup() {
             //재시작 버튼 클릭 시 타이머 재시작
             isTimerRunning = it
             //리스트 초기화
-            ResetOrPayOrder(Pair(true,false))
+            ResetOrPayOrder(Pair(true, false))
         }
         remainingTime = 120
-
+    } else if (isRepeat) {
+        isTimerRunning = true
+        ResetOrPayOrder(Pair(true, false))
+        remainingTime = 120
     }
 
     Column(
@@ -187,12 +201,23 @@ fun totalOrder(
 
                 Button(modifier = Modifier
                     .wrapContentWidth()
-                    .height(72.dp),
+                    .height(72.dp)
+                    .then(
+                        if (showBorder) Modifier.border(
+                            BorderWidth,
+                            BorderColor,
+                            BorderShape
+                        ) else Modifier
+                    ),
                     shape = MaterialTheme.shapes.small,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Gray, contentColor = Color.White
                     ),
-                    onClick = { ResetOrPayOrder(Pair(false,true))}) {
+                    onClick = {
+                        if (totalCount == 0) {
+                            noItemDialog = true
+                        } else ResetOrPayOrder(Pair(false, true))
+                    }) {
                     Text(
                         text = "결제",
                         fontSize = 24.sp,
@@ -203,6 +228,9 @@ fun totalOrder(
                 }
             }
         }
+    }
+    if (noItemDialog) {
+        NoItemDialog(onDismiss = { noItemDialog = false })
     }
 }
 
@@ -265,16 +293,19 @@ fun preview() {
     val orderItems = remember {
         mutableStateListOf<Pair<MenuItem, Int>>()
     }
-    orderItems.add(Pair(
-        MenuItem(
-            1,
-            "불고기 버거",
-            R.drawable.cafe_icon,
-            7000
-        ), 1))
-    totalOrder(1) {
+    orderItems.add(
+        Pair(
+            MenuItem(
+                1,
+                "불고기 버거",
+                R.drawable.cafe_icon,
+                7000
+            ), 1
+        )
+    )
+    totalOrder(1, true, {
         if (it.first) {
             orderItems.clear()
         }
-    }
+    }, true)
 }

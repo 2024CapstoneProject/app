@@ -22,29 +22,26 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
 @Composable
-fun touchScreen(navController: NavController, showBorder: Boolean) {
-
+fun TouchScreen(navController: NavController, showBorder: Boolean) {
     Column(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
-            .clickable {
-                navController.navigate("payment") // Navigate to PaymentScreen
-            }
-            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor) else Modifier),
+            .clickable { navController.navigate("payment") }
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
         horizontalAlignment = Alignment.CenterHorizontally // 자식 요소들을 가운데 정렬
 
     ) {
         Spacer(modifier = Modifier.height(36.dp))
 
         Icon(
-            painter = painterResource(id = R.drawable.baseline_adb_24),
+            painter = painterResource(id = R.drawable.touch_icon),
             contentDescription = null
-            // Icon에 별도의 패딩을 적용하지 않음
         )
         Text(
             text = "화면을 터치해 주세요",
@@ -54,7 +51,7 @@ fun touchScreen(navController: NavController, showBorder: Boolean) {
                 fontWeight = FontWeight.Bold,
                 fontFamily = fontFamily
             ),
-            modifier = Modifier.padding(top = 16.dp) // Icon과 Text 사이의 상단 패딩 적용
+            modifier = Modifier.padding(top = 16.dp)
         )
     }
 }
@@ -63,5 +60,4 @@ fun touchScreen(navController: NavController, showBorder: Boolean) {
 @Composable
 fun DefaultPreview() {
     val navController = rememberNavController()
-//    touchScreen(navController = navController)
 }

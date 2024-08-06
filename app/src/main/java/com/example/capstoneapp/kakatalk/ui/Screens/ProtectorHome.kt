@@ -2,8 +2,10 @@ package com.example.capstoneapp.kakatalk.ui.Screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -28,14 +30,18 @@ import com.example.capstoneapp.R
 
 @Composable
 fun ProtectorHome(navController:NavController){
-    Column {
+    Column (
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ){
         //가이드모드
         RegisterButtonProtect {
-            //navController.navigate("KioskCafeGuide0")
+            navController.navigate("ProtectRegisterScreen")
         }
         //연습모드
         ListButtonProtect {
-            //navController.navigate("KioskCafePractice0")
+            navController.navigate("ProtectListScreen")
         }
         //이미지(onclick 기능 필요없음)
         ImageButtonProtect {

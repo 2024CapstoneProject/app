@@ -1,5 +1,7 @@
 package com.example.capstoneapp.nav
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -11,124 +13,183 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.nav.repository.ProblemRepository
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
-
 import com.example.capstoneapp.cafe.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.cafe.ui.Screens.CafeKioskScreen
-import com.example.capstoneapp.cafe.ui.Screens.Guide0
+import com.example.capstoneapp.cafe.ui.Screens.GuideScreen
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
+import com.example.capstoneapp.cafe.ui.Screens.TouchScreenCafe
+import com.example.capstoneapp.chatbot.api.RetrofitInstance
+import com.example.capstoneapp.chatbot.ui.components.ChatGuide
+import com.example.capstoneapp.chatbot.ui.components.ChatbotHomeScreen
+import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
-
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
-import com.example.capstoneapp.fastfood.ui.screens.CafeGuideScreenPreview
-import com.example.capstoneapp.fastfood.ui.screens.GreetingPreview
+import com.example.capstoneapp.fastfood.ui.screens.DessertChickenScreen
+import com.example.capstoneapp.fastfood.ui.screens.DrinkCoffeeScreen
+import com.example.capstoneapp.fastfood.ui.screens.FastFoodHomeScreen
+import com.example.capstoneapp.fastfood.ui.screens.FastfoodGuideScreenPreview
+import com.example.capstoneapp.fastfood.ui.screens.ItemMenu
 import com.example.capstoneapp.fastfood.ui.screens.OrderScreen
 import com.example.capstoneapp.fastfood.ui.screens.PaymentScreen
 import com.example.capstoneapp.fastfood.ui.screens.PracticeHomeScreen
-import com.example.capstoneapp.fastfood.ui.screens.itemMenu
-import com.example.capstoneapp.fastfood.ui.screens.touchScreen
+import com.example.capstoneapp.fastfood.ui.screens.RecommendScreen
+import com.example.capstoneapp.fastfood.ui.screens.TouchScreen
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.kakatalk.ui.Screens.ChattingScreen
-import com.example.capstoneapp.kakatalk.ui.Screens.GuideScreen
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoGuide0
 import com.example.capstoneapp.kakatalk.ui.Screens.KakaoPractice0
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_FriendChatList
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_List
 import com.example.capstoneapp.kakatalk.ui.Screens.Kakao_Menu
 import com.example.capstoneapp.kakatalk.ui.Screens.PhotoChatPractice
-import com.example.capstoneapp.kakatalk.ui.Screens.ProtectorHome
-import com.example.capstoneapp.ui.Screens.Taxi_Guide
+import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
+import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
+import com.example.capstoneapp.phone.ui.screens.PhoneCallGuide
+import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
+import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
+import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
+import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
+import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
 
+@SuppressLint("RememberReturnType")
 @Composable
-fun AppNavigation(problemViewModel : ProblemViewModel) {
+fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
     val navController = rememberNavController()
     val viewModel: OrderViewModel = viewModel()
     val (showBorder, setShowBorder) = remember { mutableStateOf(false) } // 아이콘 테두리 상태 관리
 
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-    val problemViewModel: com.example.capstoneapp.nav.viewmodel.ProblemViewModel = viewModel(factory = problemViewModelFactory)
+    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val problem by problemViewModel.problem.observeAsState()
+    val kakaotalkproblem by problemViewModel.kakaotalkproblem.observeAsState()
 
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
     NavHost(
         navController = navController,
         startDestination = "Guide0"
     ) {
         composable(route = "HamburgerHomeScreen"){
-            GreetingPreview(navController = navController)
+            FastFoodHomeScreen(navController = navController)
         }
 
         composable(route = "HamburgerGuideScreen"){
-            CafeGuideScreenPreview(navController = navController)
+            FastfoodGuideScreenPreview(navController = navController)
         }
 
         composable(route = "HamburgerPracticeHomeScreen"){
-            PracticeHomeScreen(navController = navController)
+            LaunchedEffect(navBackStackEntry) {
+                if (navBackStackEntry?.destination?.route == "HamburgerPracticeHomeScreen") {
+                    problemViewModel.createProblem()
+                }
+            }
+            PracticeHomeScreen(navController = navController,problem!!)
         }
 
-        composable(route = "touchToStart"){
-            setShowBorder(false)
+        composable(route = "touchToStart") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
-                content = {
-                    touchScreen(navController = navController, showBorder) // 아이콘 테두리 상태 전달
-                }
-            ) {
-                setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                screenType=1,
+                content = { TouchScreen(navController = navController, showBorder) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
             }
         }
 
-        composable(route="payment") {
-            setShowBorder(false)
+        composable(route = "payment") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
-                content = {
-                    PaymentScreen(navController = navController, showBorder)//SelectSetDessertScreen()
-                }
-            ) {
-                setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                screenType=1,
+                content = { PaymentScreen(navController = navController, showBorder) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
             }
         }
 
         composable(route = "itemMenu"){
-            setShowBorder(false)
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
-                content = {
-                    itemMenu(navController = navController, viewModel, showBorder)//SelectSetDessertScreen()
-                }
-            ) {
-                setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                screenType=1,
+                content = { ItemMenu(navController = navController, viewModel, showBorder, problem!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
             }
         }
 
-        composable(route="setDessert") {
+        composable(route = "setDessert") {
             //SelectSetDessertScreen()
         }
 
-        composable(route="finalOrder") {
-            setShowBorder(false)
+        composable(route = "finalOrder") {
             NotificationScreen(
                 problem = problemViewModel.getProblemValue()!!,
-                content = {
-                    OrderScreen(navController = navController, viewModel, showBorder)//SelectSetDessertScreen()
-                }
-            ) {
-                setShowBorder(true) // "정답확인" 클릭 시 아이콘 테두리 표시
+                screenType=1,
+                content = { OrderScreen(navController = navController, viewModel, showBorder,problem!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
             }
-            //SelectSetDessertScreen()
         }
 
-        // Define other routes...
+        composable(route = "recommend") {
+            // DessertChickenScreen 컴포저블을 여기에 정의합니다.
+            // 이 예제에서는 문제가 `problemViewModel.getProblemValue()`를 통해 전달된다고 가정합니다.
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType = 1,
+                content = { RecommendScreen(navController = navController, viewModel, showBorder, problem = problemViewModel.getProblemValue()!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+        }
+
+        // 여기서부터 새로운 경로 추가
+        composable(route = "dessertChicken") {
+            // DessertChickenScreen 컴포저블을 여기에 정의합니다.
+            // 이 예제에서는 문제가 `problemViewModel.getProblemValue()`를 통해 전달된다고 가정합니다.
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType = 1,
+                content = { DessertChickenScreen(navController = navController, viewModel, showBorder, problem = problemViewModel.getProblemValue()!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+        }
+
+        composable(route = "drinkCoffee") {
+            // DrinkCoffeeScreen 컴포저블을 여기에 정의합니다.
+            // 이 예제에서는 문제가 `problemViewModel.getProblemValue()`를 통해 전달된다고 가정합니다.
+            NotificationScreen(
+                problem = problemViewModel.getProblemValue()!!,
+                screenType = 1,
+                content = { DrinkCoffeeScreen(navController = navController, viewModel, showBorder, problem = problemViewModel.getProblemValue()!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+        }
+
+
         //메인(제일 처음)
         composable(route = "Guide0") {
             GuideScreen(navController = navController)
@@ -155,6 +216,18 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
             KioskCafePractice0(navController = navController, problem!!)
         }
 
+        composable(route = "touchToStartCafe") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=2,
+                content = { TouchScreenCafe(navController = navController, showBorder) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+        }
+
         //카페 연습 메뉴 선택 화면
         composable(route = "CafeKioskScreen") {
             LaunchedEffect(navBackStackEntry) {
@@ -162,17 +235,34 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
                     menuItemsViewModel.clearMenuItem()
                 }
             }
-            CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!)
+            NotificationScreen(
+                problem = problem!!,
+                screenType = 2,
+                content = { CafeKioskScreen(navController = navController, menuItemsViewModel, problem!!,showBorder) }
+            ) { setShowBorder(!showBorder)
+            }
         }
 
         //카페 연습 메뉴 확인 화면
         composable(route = "KioskCafePractice5") {
-            KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!)
+            NotificationScreen(
+                problem = problem!!,
+                screenType=2,
+                content = { KioskCafePractice5(navController = navController, menuItemsViewModel, problem!!,showBorder) }
+            ) { setShowBorder(!showBorder) }
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
         }
 
         //카페 연습 결제 선택 화면
         composable(route = "KioskCafePractice6") {
-            KioskCafePractice6(navController = navController, menuItemsViewModel, problem!!)
+            NotificationScreen(
+                problem = problem!!,
+                screenType=2,
+                content = { KioskCafePractice6(navController = navController, menuItemsViewModel, problem!!,showBorder) }
+            ) { setShowBorder(!showBorder) }
+
         }
 
         //카톡 가이드 첫번째 화면
@@ -186,38 +276,104 @@ fun AppNavigation(problemViewModel : ProblemViewModel) {
         }
         //카카오톡 채팅 화면
         composable(route = "Kakao_List") {
-            Kakao_List(navController = navController, problem!!)
+
+            NotificationScreen(
+                problem = problem!!,
+                screenType=3,
+                content = { Kakao_List(navController = navController, kakaotalkproblem!!,showBorder)}
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
         }
 
         //카카오톡 연습 시작 화면
         composable(route = "KakaoPractice0") {
-
-            KakaoPractice0(navController = navController, problem!!)
+            LaunchedEffect(navBackStackEntry) {
+                if (navBackStackEntry?.destination?.route == "KakaoPractice0") {
+                    problemViewModel.createKakaotalkProblem()
+                }
+            }
+            KakaoPractice0(navController = navController, kakaotalkproblem!!)
         }
 
         //카카오톡 연습 화면 - 친구목록
         composable(route = "Kakao_FriendList") {
-            Kakao_FriendChatList(navController = navController, problem!!)
+            NotificationScreen(
+                problem = problem!!,
+                screenType=3,
+                content = { Kakao_FriendChatList(navController = navController,showBorder,kakaotalkproblem!!) }
+            ) { setShowBorder(!showBorder) }
+
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
         }
 
         //카카오톡 연습 화면 - 채팅방
         composable(route = "ChattingScreen") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=3,
+                content = { ChattingScreen(navController = navController,showBorder, kakaotalkproblem!!) }
+            ) { setShowBorder(!showBorder) }
 
-            ChattingScreen(navController = navController, problem!!)
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+
         }
 
         composable(route = "PhotoChatPractice") {
-            PhotoChatPractice(navController = navController, problem!!)
-        }
+            NotificationScreen(
+                problem = problem!!,
+                screenType=3,
+                content = { PhotoChatPractice(navController = navController, kakaotalkproblem!!) }
+            ) { setShowBorder(!showBorder) }
 
-        //위치추적 첫번째 화면
-        composable(route = "ProtectorHome") {
-            ProtectorHome(navController = navController)
+            LaunchedEffect(navController.currentBackStackEntry) {
+                setShowBorder(false)
+            }
+
         }
 
         //택시 가이드 첫번째 화면
         composable(route = "Taxi_Guide") {
             Taxi_Guide(navController = navController)
+        }
+
+        composable(route = "chatbotHome") {
+            ChatbotHomeScreen(navController = navController)
+        }
+
+        val chatService = RetrofitInstance.api
+        composable("chatUI") {
+            ChatUI(navController, chatService)
+        }
+
+        //챗봇 가이드 첫번째 화면
+        composable(route = "Chat_Guide") {
+            ChatGuide(navController = navController)
+        }
+
+        composable(route = "Phone_Call_Guide"){
+            PhoneCallGuide(navController = navController)
+        }
+
+        composable(route = "Phone_Guide"){
+            PhoneGuide0(navController = navController)
+        }
+
+        composable(route = "Phone_Contact_Guide"){
+            PhoneContactGuide(navController = navController)
+        }
+
+        composable(route = "Phone_Message_Guide"){
+            PhoneMessageGuide(navController = navController)
+        }
+        composable(route = "Phone_Camera_Guide"){
+            PhoneCameraGuide(navController = navController)
         }
     }
 }

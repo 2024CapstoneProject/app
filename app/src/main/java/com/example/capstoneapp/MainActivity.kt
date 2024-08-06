@@ -1,42 +1,51 @@
 package com.example.capstoneapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
-
+import com.example.capstoneapp.auth.LoginActivity
 import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
+import com.example.capstoneapp.mainPage.ButtonWithRoundedBorder
 import com.example.capstoneapp.nav.AppNavigation
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
-
+import com.kakao.sdk.common.KakaoSdk
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
+
         setContent {
             CapstoneAppTheme {
-                // A surface container using the 'background' color from the theme
-                //val navController = rememberNavController()
-                //SetUpNavGraph(navController = navController)
                 val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-                val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
-                AppNavigation(problemViewModel)
+                val problemViewModel: ProblemViewModel =
+                    viewModel(factory = problemViewModelFactory)
+                AppNavigation(problemViewModel, this@MainActivity)
+
+                 /* MaterialTheme {
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        ButtonWithRoundedBorder(
+                            onClick = { logout() },
+                            modifier = Modifier.align(Alignment.TopEnd).padding(16.dp)
+                        )
+                    }
+                }*/
+            }
             }
         }
     }
-}
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    val navController = rememberNavController()
-//    val viewModel: ProblemViewModel = viewModel()
-//    NotificationScreen(navController,viewModel.getProblemValue()!!){
-//        Text(
-//            text = "문제가 나오는 공간",
-//            modifier = Modifier.padding(16.dp) // Padding inside the rectangle
-//        )
-//    }
-//}
+

@@ -21,7 +21,8 @@ fun KioskButtonFormat(
     onClick: () -> Unit,
     buttonText: String,
     backgroundColor: Color,
-    contentColor: Color
+    contentColor: Color,
+    enabled: Boolean = true
 ) {
     Button(
         modifier = modifier
@@ -29,10 +30,11 @@ fun KioskButtonFormat(
             .height(54.dp),
         shape = MaterialTheme.shapes.medium,
         colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor, // 배경색
-            contentColor = contentColor // 텍스트 색상
+            containerColor = if (enabled) backgroundColor else Color.Gray, // 배경색, 비활성화 상태일 때 회색으로
+            contentColor = if (enabled) contentColor else Color.DarkGray // 텍스트 색상, 비활성화 상태일 때 어두운 회색으로
         ),
-        onClick = onClick
+        onClick = onClick,
+        enabled = enabled
     ) {
         Text(
             text = buttonText,

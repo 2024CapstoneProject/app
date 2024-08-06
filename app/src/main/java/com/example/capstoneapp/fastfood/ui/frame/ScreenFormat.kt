@@ -35,6 +35,7 @@ import com.example.capstoneapp.nav.repository.Problem
 @Composable
 fun NotificationScreen(
     problem: Problem,
+    screenType: Int,
     content: @Composable () -> Unit,
     onAnswerCheckClicked: () -> Unit
 ) {
@@ -44,9 +45,7 @@ fun NotificationScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp)
-                .padding(top = 56.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -56,7 +55,7 @@ fun NotificationScreen(
                     .padding(horizontal = 1.dp) // Padding from the left and right
                     .fillMaxHeight(0.85f) // Fill 50% of the height of the parent
                     .background(
-                        color = Color.LightGray, // Change this color to your desired background color
+                        color = Color.White, // Change this color to your desired background color
                         shape = RoundedCornerShape(16.dp) // Rounded corners
                     )
                     .border(2.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
@@ -96,7 +95,8 @@ fun NotificationScreen(
         if (openBottomSheet){
             BottomSheetScreen(
                 openBottomSheet = openBottomSheet,
-                problem = problem
+                problem = problem,
+                screenType
             ) { openBottomSheet = it }
         }
     }
@@ -118,9 +118,9 @@ fun NotificationScreenPreview() {
             modifier = Modifier
                 .fillMaxWidth() // Fill the width of the parent
                 .padding(horizontal = 1.dp) // Padding from the left and right
-                .fillMaxHeight(0.9f) // Fill 50% of the height of the parent
+                .fillMaxHeight(0.9f)
                 .background(
-                    color = Color.LightGray, // Change this color to your desired background color
+                    color = Color.White, // Change this color to your desired background color
                     shape = RoundedCornerShape(16.dp) // Rounded corners
                 )
                 .border(3.dp, Color.Gray, RoundedCornerShape(16.dp)),// Border
