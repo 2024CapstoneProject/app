@@ -38,8 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.cafe.ui.Screens.showNextImage
-import com.example.capstoneapp.cafe.ui.Screens.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.showNextImage
+import com.example.capstoneapp.chatbot.ui.components.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.EnlargedImagePopup
+import com.example.capstoneapp.chatbot.ui.components.TextWithColoredWords
 import kotlinx.coroutines.launch
 
 
@@ -86,7 +88,7 @@ fun PhoneCameraGuide(navController: NavController) {
     }
 
     if (isImageClicked) {
-        com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup(
+        EnlargedImagePopup(
             imageResource = clickedImageResource,
             onClose = {
                 isImageClicked = false
@@ -247,19 +249,19 @@ fun cameraGuideText(currentImageIndex: Int) {
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
                 "사진" to Color.Blue, "전환" to Color.Red, "번개" to Color.Red,
                 "시계" to Color.Red, "카메라" to Color.Red, "\"3:4\"" to Color.Red, "\"동영상\"" to Color.Red,
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text2, wordsToColor = mapOf(
                 "카메라" to Color.Blue, "하얀 원" to Color.Red, "전면 카메라" to Color.Blue,
                 "플래시" to Color.Blue, "타이머" to Color.Blue, "사진 비율" to Color.Blue, "하얀 원에 빨간 원" to Color.Red
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+       TextWithColoredWords(
             text = text3, wordsToColor = mapOf(
             )
         )

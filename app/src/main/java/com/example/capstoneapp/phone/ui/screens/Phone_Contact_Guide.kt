@@ -38,8 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.cafe.ui.Screens.showNextImage
-import com.example.capstoneapp.cafe.ui.Screens.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.showNextImage
+import com.example.capstoneapp.chatbot.ui.components.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.EnlargedImagePopup
+import com.example.capstoneapp.chatbot.ui.components.TextWithColoredWords
 import kotlinx.coroutines.launch
 
 
@@ -83,7 +85,7 @@ fun PhoneContactGuide(navController: NavController) {
     }
 
     if (isImageClicked) {
-        com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup(
+        EnlargedImagePopup(
             imageResource = clickedImageResource,
             onClose = {
                 isImageClicked = false
@@ -238,19 +240,20 @@ fun contactGuideText(currentImageIndex: Int) {
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
                 "사진" to Color.Blue, "추가" to Color.Blue, "+" to Color.Red,
                 "변경" to Color.Blue, "삭제" to Color.Blue, "휴지통으로 이동" to Color.Red
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text2, wordsToColor = mapOf(
                 "전화" to Color.Green, "연락처" to Color.Red, "편집" to Color.Red,
                 "더보기" to Color.Red, "삭제" to Color.Red
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+
+        TextWithColoredWords(
             text = text3, wordsToColor = mapOf(
                 "저장" to Color.Red
             )

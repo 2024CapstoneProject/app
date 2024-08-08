@@ -33,7 +33,13 @@ fun TouchScreenCafe(navController: NavController, showBorder: Boolean) {
             .padding(16.dp)
             .fillMaxWidth()
             .clickable { navController.navigate("CafeKioskScreen") }
-            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier),
+            .then(
+                if (showBorder) Modifier.border(
+                    BorderWidth,
+                    BorderColor,
+                    BorderShape
+                ) else Modifier
+            ),
         horizontalAlignment = Alignment.CenterHorizontally // 자식 요소들을 가운데 정렬
 
     ) {
