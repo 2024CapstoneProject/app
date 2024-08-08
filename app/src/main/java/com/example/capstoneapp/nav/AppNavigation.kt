@@ -15,8 +15,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.cafe.ui.Screens.CafeKioskScreen
+import com.example.capstoneapp.cafe.ui.Guide.Guide1
+import com.example.capstoneapp.cafe.ui.Guide.Guide2
 import com.example.capstoneapp.cafe.ui.Screens.GuideScreen
-import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
@@ -189,7 +190,6 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             }
         }
 
-
         //메인(제일 처음)
         composable(route = "Guide0") {
             GuideScreen(navController = navController)
@@ -201,8 +201,12 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         }
 
         //카페 가이드 첫번째 화면
-        composable(route = "KioskCafeGuide0") {
-            KioskCafeGuide0(navController = navController)
+        composable(route = "Guide1_touchscreen") {
+            Guide1(navController = navController, showBorder)
+        }
+
+        composable(route = "Guide2_kiosk") {
+            Guide2(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!, true)
         }
 
         //카페 연습 첫번째 화면

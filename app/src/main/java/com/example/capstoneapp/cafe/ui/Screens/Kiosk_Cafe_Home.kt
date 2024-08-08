@@ -32,7 +32,7 @@ fun CafeHomeScreen(navController: NavController) {
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-                onClick = { navController.navigate("KioskCafeGuide0") }
+                onClick = { navController.navigate("Guide1_touchscreen") }
             )
             // 연습모드
             PracticeButton(

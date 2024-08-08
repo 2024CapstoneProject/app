@@ -38,8 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.cafe.ui.Screens.showNextImage
-import com.example.capstoneapp.cafe.ui.Screens.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.showNextImage
+import com.example.capstoneapp.chatbot.ui.components.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.EnlargedImagePopup
+import com.example.capstoneapp.chatbot.ui.components.TextWithColoredWords
 import kotlinx.coroutines.launch
 
 
@@ -93,7 +95,7 @@ fun PhoneMessageGuide(navController: NavController) {
     }
 
     if (isImageClicked) {
-        com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup(
+        EnlargedImagePopup(
             imageResource = clickedImageResource,
             onClose = {
                 isImageClicked = false
@@ -268,7 +270,7 @@ fun messageGuideText(currentImageIndex: Int) {
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
                 "사진" to Color.Blue, "1:1 대화" to Color.Blue, "단체 문자" to Color.Blue,
                 "+" to Color.Red, "카메라" to Color.Red, "선택" to Color.Blue, "촬영" to Color.Blue,
@@ -276,13 +278,13 @@ fun messageGuideText(currentImageIndex: Int) {
                 "이미지" to Color.Red, "세로로 된 점 3개" to Color.Red, "동영상" to Color.Blue
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text2, wordsToColor = mapOf(
                 "메시지" to Color.Blue, "하얀 원" to Color.Red, "갤러리" to Color.Blue,
                 "보내기" to Color.Red, "메시지 삭제" to Color.Red, "모두 삭제" to Color.Red
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text3, wordsToColor = mapOf(
                 "1:1 대화" to Color.Red, "보내기" to Color.Red,
             )

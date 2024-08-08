@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.capstoneapp.cafe.ui.Frame.ButtonFormat
+import com.example.capstoneapp.cafe.ui.theme.Brown
 import com.example.capstoneapp.cafe.ui.theme.Yellow
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
@@ -78,7 +79,10 @@ fun BottomSheetScreen(
                                 onOpenBottomSheetChange(false)
                             }
                         }
-                    }, buttonText = "닫기", backgroundColor = Yellow, contentColor = Color.Black
+                    }, buttonText = "닫기",
+                    backgroundColor = Color.White,
+                    contentColor = Brown,
+                    showShadow = true
                 )
             }
         }

@@ -15,3 +15,5 @@ val LightYellow = Color(0xFFFFDA77)
 
 val White = Color(0xFFFFFFFF)
 val OutraGeousOrange=Color(0xFFFF6037)
+
+val Brown = Color(0xFF5C460C)

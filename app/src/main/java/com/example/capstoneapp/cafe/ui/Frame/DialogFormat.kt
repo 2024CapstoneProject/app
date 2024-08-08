@@ -48,7 +48,7 @@ fun DialogFormat(
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Icon(
-                    painter = painterResource(id = R.drawable.cafe_icon),
+                    painter = painterResource(id = R.drawable.americano_hot),
                     contentDescription = "",
                     modifier = Modifier
                         .padding(top = 24.dp)
