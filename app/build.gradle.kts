@@ -22,7 +22,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
     //id("com.google.gms.google-services")
+
 }
 
 android {
@@ -30,7 +32,8 @@ android {
     compileSdk = 34
 
     defaultConfig {
-      //  buildConfigField("String","google_map_key",getApiKey("google_map_key"))
+      manifestPlaceholders += mapOf()
+        //  buildConfigField("String","google_map_key",getApiKey("google_map_key"))
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getKakaoAPiKey("KAKAO_NATIVE_APP_KEY"))
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getKakaoAPiKey("KAKAO_NATIVE_APP_KEY")
         applicationId = "com.example.capstoneapp"
@@ -44,6 +47,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
     }
 
     buildTypes {
