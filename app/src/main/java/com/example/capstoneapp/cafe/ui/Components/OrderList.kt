@@ -1,5 +1,6 @@
 package com.example.capstoneapp.cafe.ui.Components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,15 +26,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.data.Repository.MenuItem
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
 fun OrderList(
-    orderItems: List<Pair<MenuItem, Int>>, onItemStatus: (Pair<MenuItem, String>) -> Unit
+    orderItems: List<Pair<MenuItem, Int>>,
+    onItemStatus: (Pair<MenuItem, String>) -> Unit,
+    showBorder: Boolean = false
 ) {
     Box(
         modifier = Modifier
             .width(230.dp)
             .fillMaxHeight()
+            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier) // 조건에 따라 보더 적용
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -42,8 +49,8 @@ fun OrderList(
         ) {
             //선택한 메뉴 갯수에 따라 메뉴리스트 조회가능
             //메뉴 선택 시 status 변경 -> delete, add, minus
-            items(orderItems.size) { it ->
-                val item = orderItems[it]
+            items(orderItems.size) { index ->
+                val item = orderItems[index]
                 SelectedMenuSpec(
                     selectedMenuItem = item.first,
                     selectedMenuCount = item.second,
@@ -53,8 +60,6 @@ fun OrderList(
             }
         }
     }
-
-
 }
 
 @Composable

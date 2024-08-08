@@ -58,19 +58,20 @@ fun totalOrder(
     totalCount: Int,
     isRepeat: Boolean,
     ResetOrPayOrder: (Pair<Boolean, Boolean>) -> Unit,
-    showBorder: Boolean
+    showBorder: Boolean,
+    userTimer: Boolean = true
 ) {
     //타이머 120초
     var remainingTime by remember { mutableStateOf(120) }
     //타이머 실행 여부
-    var isTimerRunning by remember { mutableStateOf(true) }
+    var isTimerRunning by remember { mutableStateOf(userTimer) }
     var noItemDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(isTimerRunning) {
         if (isRepeat) {
             isTimerRunning = false
         }
-        if (isTimerRunning) {
+        if (isTimerRunning && userTimer) {
             while (remainingTime > 0) {
                 //1초씩 감소
                 delay(1000)
@@ -82,7 +83,7 @@ fun totalOrder(
     }
 
     //만약 타이머 실행이 중단되었다면 팝업 띄움
-    if (!isTimerRunning && !isRepeat) {
+    if (!isTimerRunning && !isRepeat && userTimer) {
         showTimerEndPopup() {
             //재시작 버튼 클릭 시 타이머 재시작
             isTimerRunning = it
@@ -109,7 +110,6 @@ fun totalOrder(
             contentAlignment = Alignment.CenterStart
 
         ) {
-
             Column(
                 modifier = Modifier.padding(start = 2.dp)
             ) {
@@ -139,10 +139,8 @@ fun totalOrder(
                     fontSize = 30.sp,
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.SansSerif,
-
-                    )
+                )
             }
-
         }
 
         Divider(
@@ -286,7 +284,7 @@ fun preview() {
         MenuItem(
             1,
             "불고기 버거",
-            R.drawable.cafe_icon,
+            R.drawable.americano_hot,
             7000
         )
     )
@@ -298,7 +296,7 @@ fun preview() {
             MenuItem(
                 1,
                 "불고기 버거",
-                R.drawable.cafe_icon,
+                R.drawable.americano_hot,
                 7000
             ), 1
         )

@@ -1,4 +1,4 @@
-package com.example.capstoneapp.cafe.ui.Screens
+package com.example.capstoneapp.cafe.ui.Guide
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,44 +26,32 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.cafe.ui.Components.CafeMenuBar
 import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
-import com.example.capstoneapp.cafe.ui.Components.CafeMenuList
 import com.example.capstoneapp.cafe.ui.Components.OrderList
 import com.example.capstoneapp.cafe.ui.Components.totalOrder
+import com.example.capstoneapp.cafe.ui.Frame.GuidePopup
+import com.example.capstoneapp.cafe.ui.Frame.VerticalAlignment
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
-import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
-
 
 @Composable
-fun CafeKioskScreen(
+fun GuideCafeMenuScreen(
     navController: NavController,
     menuItemsViewModel: MenuItemsViewModel,
-    problem: Problem,
-    showBorder: Boolean
-) {
-    CafeMenuScreen(navController, menuItemsViewModel, showBorder, problem)
-}
-
-@Composable
-fun CafeMenuScreen(
-    navController: NavController,
-    viewModel: MenuItemsViewModel,
     showBorder: Boolean,
+    currentStep: Int,
     problem: Problem
 ) {
-    val orderItems by viewModel.orderItems.observeAsState(initial = listOf())
-    val totalCount by viewModel.totalOrderCount.observeAsState(0)
+    val orderItems by menuItemsViewModel.orderItems.observeAsState(initial = listOf())
+    val totalCount by menuItemsViewModel.totalOrderCount.observeAsState(0)
     var isRepeat by remember { mutableStateOf(false) }
     var selectedMenu by remember { mutableStateOf("커피(HOT)") }
     val menuCategory = listOf("커피(HOT)", "커피(ICE)", "티(TEA)")
 
-    var showRetryDialog by remember { mutableStateOf(false) }
+    var showRetryPopup by remember { mutableStateOf(false) }
+    var popupMessage by remember { mutableStateOf("") }
 
     Surface(
         color = Color(0xFFCACACA),
@@ -71,53 +59,66 @@ fun CafeMenuScreen(
             .clip(shape = RoundedCornerShape(16.dp))
     ) {
         Column {
-            Column(//메뉴 리스트 Column
+            Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                //카페 네비게이션 바
                 CafeMenuBarFormat {
-                    /*
-                    menuItems : 카테고리 리스트
-                    selectedMenu :
-                    onMenuItemClick : 카테고리 클릭
-                     */
-                    CafeMenuBar(
+                    GuideCafeMenuBar(
                         menuItems = menuCategory,
                         selectedMenu = selectedMenu,
                         onMenuItemClick = { menuItem ->
-                            if (menuItem.equals("HOME")) {
-                                navController.navigate("touchToStartCafe")
+                            if (menuItem == "HOME") {
+                                // 홈 버튼 클릭 시 팝업 상태 유지와 네비게이션 처리
+                                navController.navigate("Guide1_touchscreen?showPopup=false")
+                                menuItemsViewModel.clearMenuItem()
                             } else {
                                 selectedMenu = menuItem
                             }
-                        }, showBorder, problem
+                        },
+                        showBorder = when (currentStep) {
+                            1 -> true
+                            2 -> false // Step 2일 때는 보더를 적용하지 않음
+                            3 -> true
+                            else -> false
+                        },
+                        problem = problem,
+                        currentStep = currentStep
                     )
-                }/*
-            * 선택한 메뉴 종류에 따라 메뉴 리스트를 보여줌
-            *
-            * selectedMenu : 종류
-            * selectedItem : 선택한 메뉴
-            *  */
-                CafeMenuList(selectedMenu = selectedMenu, onItemClicked = { selectedItem ->
-                    if (selectedItem.name == problem.c_menu) {
-                        val targetPair =
-                            orderItems.firstOrNull() { it.first.name == selectedItem.name }
-                        if (targetPair != null) {
-                            val index = orderItems.indexOf(targetPair)
-                            viewModel.addMenuItem(targetPair, index)
-                        } else viewModel.addMenuItem(Pair(selectedItem, 1), -1)
-                    }
-                }, closePopup = { isRepeat = !isRepeat }, showBorder, problem)
+                }
+
+                GuideCafeMenuList(
+                    selectedMenu = selectedMenu,
+                    onItemClicked = { selectedItem ->
+                        if (selectedItem.name == problem.c_menu) {
+                            val targetPair = orderItems.firstOrNull { it.first.name == selectedItem.name }
+                            if (targetPair != null) {
+                                val index = orderItems.indexOf(targetPair)
+                                menuItemsViewModel.addMenuItem(targetPair, index)
+                            } else {
+                                menuItemsViewModel.addMenuItem(Pair(selectedItem, 1), -1)
+                            }
+                        } else {
+                            showRetryPopup = true
+                            popupMessage = "다시 골라주세요!"
+                        }
+                    },
+                    showBorder = when (currentStep) {
+                        3 -> true
+                        else -> false
+                    },
+                    problem = problem,
+                    currentStep = currentStep
+                )
             }
 
-            Column( //빈공간
+            Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Spacer(modifier = Modifier.height(140.dp))
             }
 
-            Row(//선택한 메뉴, 남은시간, 결제 버튼 공간
+            Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
@@ -126,61 +127,71 @@ fun CafeMenuScreen(
                         .fillMaxHeight()
                 ) {
                     Divider(
-                        color = Color.Gray, // 선의 색상 지정
-                        thickness = 2.dp, // 선의 두께 지정
+                        color = Color.Gray,
+                        thickness = 2.dp,
                         modifier = Modifier
                             .padding()
                             .width(234.dp)
                     )
 
-                    OrderList(orderItems = orderItems,
+                    OrderList(
+                        orderItems = orderItems,
                         onItemStatus = { onItemStatus ->
                             val targetPairIndex = orderItems.indexOfFirst { onItemStatus.first == it.first }
                             if (targetPairIndex != -1) {
                                 val targetPair = orderItems[targetPairIndex]
                                 when (onItemStatus.second) {
-                                    "Add" -> viewModel.addMenuItem(targetPair, targetPairIndex)
-                                    "Minus" -> viewModel.minusMenuItem(targetPair, targetPairIndex)
-                                    "Delete" -> viewModel.removeMenuItem(targetPair)
+                                    "Add" -> menuItemsViewModel.addMenuItem(targetPair, targetPairIndex)
+                                    "Minus" -> menuItemsViewModel.minusMenuItem(targetPair, targetPairIndex)
+                                    "Delete" -> menuItemsViewModel.removeMenuItem(targetPair)
                                 }
                             }
                         },
-                        false // Ensure `showBorder` is passed correctly
+                        showBorder = when (currentStep) {
+                            4 -> true
+                            else -> false
+                        },
                     )
                 }
                 Divider(
-                    color = Color.Gray, // 선의 색상 지정
+                    color = Color.Gray,
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(2.dp)
                 )
-                //결제하기, 선택 상품 개수, 시간 표시
+                // totalOrder 호출 시 remainingTime을 고정하여 타이머 기능을 비활성화
                 totalOrder(totalCount, isRepeat, {
                     if (!isRepeat && it.first) {
-                        viewModel.clearMenuItem()
+                        menuItemsViewModel.clearMenuItem()
                     } else if (it.second) {
                         navController.navigate("KioskCafePractice5")
                     } else if (isRepeat && it.first) {
                         isRepeat = false
                     }
-                }, showBorder)
+                }, showBorder = currentStep == 5, false) // 타이머를 멈춘 상태로 표시
             }
         }
     }
 
-    if (showRetryDialog) {
-        RepeatDialog(onDismiss = { showRetryDialog = false })
+    if (showRetryPopup) {
+        GuidePopup(
+            isPopupVisible = showRetryPopup,
+            onDismiss = { showRetryPopup = false },
+            title = "다시 선택",
+            message = popupMessage,
+            highlights = listOf(problem.c_menu),
+            verticalAlignment = VerticalAlignment.Center
+        )
     }
 }
 
 @Preview
 @Composable
-fun cafeKioskScreenPreview() {
+fun GuideCafeMenuScreenPreview() {
     val navController = rememberNavController()
-    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     val menuItemsViewModelFactory = MenuItemsViewModelFactory()
     val menuItemsViewModel: MenuItemsViewModel = viewModel(factory = menuItemsViewModelFactory)
+    val problem = ProblemRepository.createProblem()
 
-    CafeKioskScreen(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!, true)
+    GuideCafeMenuScreen(navController, menuItemsViewModel, true, 1, problem)
 }

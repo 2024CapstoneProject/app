@@ -38,8 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.cafe.ui.Screens.showNextImage
-import com.example.capstoneapp.cafe.ui.Screens.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.showNextImage
+import com.example.capstoneapp.chatbot.ui.components.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.EnlargedImagePopup
+import com.example.capstoneapp.chatbot.ui.components.TextWithColoredWords
 import kotlinx.coroutines.launch
 
 @Composable
@@ -89,7 +91,7 @@ fun Taxi_Guide(navController: NavController) {
     }
 
     if (isImageClicked) {
-        com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup(
+        EnlargedImagePopup(
             imageResource = clickedImageResource,
             onClose = {
                 isImageClicked = false
@@ -131,7 +133,7 @@ fun guideImage(
                         if (offsetX.value > 150 || (offsetX.value < -150 && velocity > 0)) {
                             coroutineScope.launch {
                                 onImageIndexChanged(
-                                    com.example.capstoneapp.cafe.ui.Screens.showPreviousImage(
+                                    showPreviousImage(
                                         imageResources.size,
                                         currentImageIndex
                                     )
@@ -141,7 +143,7 @@ fun guideImage(
                         } else if (offsetX.value < -150 || (offsetX.value > 150 && velocity < 0)) {
                             coroutineScope.launch {
                                 onImageIndexChanged(
-                                    com.example.capstoneapp.cafe.ui.Screens.showNextImage(
+                                    showNextImage(
                                         imageResources.size,
                                         currentImageIndex
                                     )
@@ -265,7 +267,7 @@ fun guideText(currentImageIndex: Int) {
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text1,
             wordsToColor = mapOf(
                 "사진" to Color.Blue,
@@ -280,7 +282,7 @@ fun guideText(currentImageIndex: Int) {
                 "취소하는" to Color.Green
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text2,
             wordsToColor = mapOf(
                 "카카오계정으로 시작하기" to Color.Red,
@@ -300,7 +302,7 @@ fun guideText(currentImageIndex: Int) {
                 "호출을 취소" to Color.Red
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text3,
             wordsToColor = mapOf(
                 "닫기" to Color.Red,
