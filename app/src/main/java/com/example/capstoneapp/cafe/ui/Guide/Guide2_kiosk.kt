@@ -2,21 +2,31 @@ package com.example.capstoneapp.cafe.ui.Guide
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.ui.Frame.GuidePopup
 import com.example.capstoneapp.cafe.ui.Frame.VerticalAlignment
+import com.example.capstoneapp.chatbot.utils.TtsPlaybackHandler
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.google.api.gax.core.FixedCredentialsProvider
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.cloud.texttospeech.v1.TextToSpeechClient
+import com.google.cloud.texttospeech.v1.TextToSpeechSettings
+import java.io.InputStream
 
 @Composable
 fun Guide2(
@@ -37,6 +47,38 @@ fun Guide2(
     }에 있습니다!"
     val messageStep4 = "이 창에서는 주문 내역을 확인할 수 있습니다. 제품과 수량을 확인해 주세요!"
     val messageStep5 = "주문한 제품과 수량이 맞다면 결제 버튼을 눌러주세요."
+
+    //TTS를 위해 추가해야 하는 부분-----------------------------------
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    // TTS 클라이언트 및 핸들러 초기화
+    val ttsClient = remember {
+        val credentialsStream: InputStream =
+            context.resources.openRawResource(R.raw.service_account_key) // 서비스 계정 키 파일
+        val credentials = GoogleCredentials.fromStream(credentialsStream)
+        val settings = TextToSpeechSettings.newBuilder()
+            .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
+            .build()
+        TextToSpeechClient.create(settings)
+    }
+
+    val ttsPlaybackHandler = remember {
+        TtsPlaybackHandler(context, ttsClient, coroutineScope)
+    }
+
+    // 컴포저블이 소멸될 때 TTS 클라이언트를 정리하는 코드 추가
+    DisposableEffect(Unit) {
+        onDispose {
+            ttsPlaybackHandler.shutdown()
+        }
+    }
+
+     //   ,ttsPlaybackHandler = dummyTtsPlaybackHandler 를 guidePopup에 추가
+
+
+    //----------------------------------------------------------
+
 
     // BackHandler에서 팝업을 닫고 상태를 초기화합니다.
     BackHandler {
@@ -98,7 +140,8 @@ fun Guide2(
                 1,2,5 -> VerticalAlignment.Center
                 4 -> VerticalAlignment.Top
                 else -> VerticalAlignment.Bottom
-            }
+            },
+            ttsPlaybackHandler = ttsPlaybackHandler
         )
     }
 }
