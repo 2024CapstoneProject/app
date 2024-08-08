@@ -16,25 +16,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.cafe.ui.Components.OrderList
 import com.example.capstoneapp.cafe.ui.Components.totalOrder
 import com.example.capstoneapp.cafe.ui.Frame.GuidePopup
 import com.example.capstoneapp.cafe.ui.Frame.VerticalAlignment
+import com.example.capstoneapp.chatbot.utils.TtsPlaybackHandler
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
+import com.google.api.gax.core.FixedCredentialsProvider
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.cloud.texttospeech.v1.TextToSpeechClient
+import com.google.cloud.texttospeech.v1.TextToSpeechSettings
+import java.io.InputStream
 
 @Composable
 fun GuideCafeMenuScreen(
@@ -53,6 +62,22 @@ fun GuideCafeMenuScreen(
     var showRetryPopup by remember { mutableStateOf(false) }
     var popupMessage by remember { mutableStateOf("") }
 
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    val ttsClient = remember {
+        val credentialsStream: InputStream =
+            context.resources.openRawResource(R.raw.service_account_key) // 서비스 계정 키 파일
+        val credentials = GoogleCredentials.fromStream(credentialsStream)
+        val settings = TextToSpeechSettings.newBuilder()
+            .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
+            .build()
+        TextToSpeechClient.create(settings)
+    }
+
+    val ttsPlaybackHandler = remember {
+        TtsPlaybackHandler(context, ttsClient, coroutineScope)
+    }
     Surface(
         color = Color(0xFFCACACA),
         modifier = Modifier
@@ -180,7 +205,8 @@ fun GuideCafeMenuScreen(
             title = "다시 선택",
             message = popupMessage,
             highlights = listOf(problem.c_menu),
-            verticalAlignment = VerticalAlignment.Center
+            verticalAlignment = VerticalAlignment.Center,
+            ttsPlaybackHandler = ttsPlaybackHandler
         )
     }
 }

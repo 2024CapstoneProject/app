@@ -17,15 +17,25 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+import java.util.concurrent.TimeUnit
 class TtsPlaybackHandler(
     private val context: Context,
     private val ttsClient: TextToSpeechClient,
     private val coroutineScope: CoroutineScope
 ) {
+
+    private var isShutdown = false
+    private var isPlaying = false
+
     fun playText(text: String) {
+        if (isShutdown) {
+            Log.e("TtsPlaybackHandler", "TTS client is already shutdown")
+            return
+        }
+
         coroutineScope.launch {
             try {
+                isPlaying = true
                 val input = SynthesisInput.newBuilder()
                     .setText(text)
                     .build()
@@ -76,9 +86,37 @@ class TtsPlaybackHandler(
                 }
 
                 Toast.makeText(context, "TTS 재생 중: $text", Toast.LENGTH_SHORT).show()
+
+                // 재생 완료 후 상태 업데이트
+                audioTrack.setNotificationMarkerPosition(audioContent.size / 2)
+                audioTrack.setPlaybackPositionUpdateListener(object : AudioTrack.OnPlaybackPositionUpdateListener {
+                    override fun onMarkerReached(track: AudioTrack?) {
+                        isPlaying = false
+                        Log.d("TtsPlaybackHandler", "TTS 재생 완료")
+                    }
+
+                    override fun onPeriodicNotification(track: AudioTrack?) {
+                        // Do nothing
+                    }
+                })
             } catch (e: Exception) {
                 Log.e("TtsPlaybackHandler", "Error occurred", e)
+                isPlaying = false
             }
+        }
+    }
+
+    fun isTtsPlaying(): Boolean {
+        return isPlaying
+    }
+
+    fun shutdown() {
+        try {
+            ttsClient.shutdown()
+            ttsClient.awaitTermination(1, TimeUnit.MINUTES)
+            isShutdown = true
+        } catch (e: Exception) {
+            Log.e("TtsPlaybackHandler", "Error during shutdown", e)
         }
     }
 }
