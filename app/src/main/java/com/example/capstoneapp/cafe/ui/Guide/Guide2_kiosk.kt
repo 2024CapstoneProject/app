@@ -46,7 +46,8 @@ fun Guide2(
         getMenuCategory(randomProblem.c_menu)
     }에 있습니다!"
     val messageStep4 = "이 창에서는 주문 내역을 확인할 수 있습니다. 제품과 수량을 확인해 주세요!"
-    val messageStep5 = "주문한 제품과 수량이 맞다면 결제 버튼을 눌러주세요."
+    val messageStep5 = "x를 누르면 제품을 삭제합니다. -와 +로 수량을 조절할 수 있습니다."
+    val messageStep6 = "주문한 제품과 수량이 맞다면 결제 버튼을 눌러주세요."
 
     //TTS를 위해 추가해야 하는 부분-----------------------------------
     val context = LocalContext.current
@@ -111,8 +112,9 @@ fun Guide2(
             isPopupVisible = showPopup,
             onDismiss = { // 다음 단계로 이동
                 currentStep += 1
-                if (currentStep > 5) {
+                if (currentStep > 6) {
                     showPopup = false
+                    navController.navigate("KioskCafePractice5")
                 }
             },
             title = when (currentStep) {
@@ -120,26 +122,30 @@ fun Guide2(
                 2 -> "주문 안내"
                 3 -> "주문 안내"
                 4 -> "주문 내역 확인"
-                else -> "결제 안내"
+                5 -> "주문 내역 확인"
+                6 -> "결제 안내"
+                else -> ""
             },
             message = when (currentStep) {
                 1 -> messageStep1
                 2 -> messageStep2
                 3 -> messageStep3
                 4 -> messageStep4
-                else -> messageStep5
+                5 -> messageStep5
+                else -> messageStep6
             },
             highlights = when (currentStep) {
                 1 -> listOf("홈 버튼", "수량 조절")
                 2 -> listOf(randomProblem.c_menu)
                 3 -> listOf(randomProblem.c_menu, getMenuCategory(randomProblem.c_menu))
                 4 -> listOf("주문 내역", "제품", "수량")
+                5 -> listOf("x", "-", "+")
                 else -> listOf("결제 버튼")
             },
             verticalAlignment = when (currentStep) {
-                1,2,5 -> VerticalAlignment.Center
-                4 -> VerticalAlignment.Top
-                else -> VerticalAlignment.Bottom
+                3,4,5 -> VerticalAlignment.Bottom
+                //4,5 -> VerticalAlignment.Top
+                else -> VerticalAlignment.Center
             },
             ttsPlaybackHandler = ttsPlaybackHandler
         )

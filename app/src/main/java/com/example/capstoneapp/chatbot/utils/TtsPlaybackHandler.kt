@@ -85,7 +85,7 @@ class TtsPlaybackHandler(
                     Log.d("TtsPlaybackHandler", "AudioTrack is initialized properly")
                 }
 
-                Toast.makeText(context, "TTS 재생 중: $text", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "TTS 재생 중: $text", Toast.LENGTH_SHORT).show()
 
                 // 재생 완료 후 상태 업데이트
                 audioTrack.setNotificationMarkerPosition(audioContent.size / 2)
