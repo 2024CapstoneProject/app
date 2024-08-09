@@ -34,16 +34,19 @@ import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 fun OrderList(
     orderItems: List<Pair<MenuItem, Int>>,
     onItemStatus: (Pair<MenuItem, String>) -> Unit,
-    showBorder: Boolean = false
+    showBorder: Boolean = false,
+    currentStep: Int = 0
 ) {
     Box(
         modifier = Modifier
             .width(230.dp)
             .fillMaxHeight()
-            .then(if (showBorder) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier) // 조건에 따라 보더 적용
+            .then(if (showBorder && currentStep == 4) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier) // 조건에 따라 보더 적용
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .then(if (showBorder && currentStep == 5) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier), // 조건에 따라 보더 적용
             contentPadding = PaddingValues(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {

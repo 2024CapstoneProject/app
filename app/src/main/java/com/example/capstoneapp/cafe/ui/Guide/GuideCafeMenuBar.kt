@@ -81,15 +81,15 @@ fun GuideCafeMenuBar(
                     .padding(top = 0.dp)
                     .fillMaxHeight()
                     .wrapContentWidth()
-                    .then(
-                        if (currentStep == 3 && (showBorder && index == type)) borderModifier else Modifier
-                    )
             ) {
                 TextButton(
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .fillMaxHeight()
-                        .wrapContentWidth(),
+                        .wrapContentWidth()
+                        .then(
+                            if (currentStep == 3 && (showBorder && index == type)) borderModifier else Modifier
+                        ),
                     onClick = {
                         onMenuItemClick(item)
                     },
