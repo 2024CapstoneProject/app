@@ -1,10 +1,8 @@
 package com.example.capstoneapp.cafe.ui.Guide
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +53,6 @@ fun Guide1(navController: NavController, showBorder: Boolean) {
     // 팝업을 표시할지 여부를 관리하는 상태
     var showPopup by remember { mutableStateOf(true) }
 
-
     //TTS를 위해 추가해야 하는 부분-----------------------------------
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -88,9 +85,6 @@ fun Guide1(navController: NavController, showBorder: Boolean) {
     //----------------------------------------------------------
 
 
-
-
-
     BackHandler {
         showPopup = false
         navController.navigate("CafeHomeScreen") {
@@ -114,11 +108,6 @@ fun Guide1(navController: NavController, showBorder: Boolean) {
                     shape = RoundedCornerShape(16.dp)
                 )
                 .border(2.dp, Color.Gray, RoundedCornerShape(25.dp))
-                .clickable {
-                    if (!showPopup) {
-                        navController.navigate("Guide2_kiosk")
-                    }
-                }
                 .then(
                     if (showBorder) Modifier.border(
                         BorderWidth,
@@ -151,12 +140,15 @@ fun Guide1(navController: NavController, showBorder: Boolean) {
     if (showPopup) {
         GuidePopup(
             isPopupVisible = showPopup,
-            onDismiss = { showPopup = false },
+            onDismiss = {
+                showPopup = false
+                navController.navigate("Guide2_kiosk")
+            },
             title = "광고",
             message = "광고 화면입니다. 화면을 터치하여 주문을 시작해주세요!",
             highlights = listOf("광고", "터치"),
             verticalAlignment = VerticalAlignment.Top, //
-            ttsPlaybackHandler = ttsPlaybackHandler// 이 값을 조정하여 팝업의 위치를 설정합니다.
+            ttsPlaybackHandler = ttsPlaybackHandler // TTS 기능을 활성화합니다
         )
     }
 

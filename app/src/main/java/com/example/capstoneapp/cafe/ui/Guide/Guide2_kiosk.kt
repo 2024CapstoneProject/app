@@ -36,17 +36,17 @@ fun Guide2(
     showBorder: Boolean
 ) {
     var showPopup by remember { mutableStateOf(true) }
-    var randomProblem by remember { mutableStateOf(problem) }
     var navigateToHome by remember { mutableStateOf(false) }
     var currentStep by remember { mutableStateOf(1) } // 현재 단계 관리 변수
 
     val messageStep1 = "상단의 홈 버튼을 누르면 광고 화면으로 돌아가게 됩니다."
-    val messageStep2 = "주문하는 법을 안내드립니다! 예시로 ${randomProblem.c_menu}를 주문하는 법입니다."
-    val messageStep3 = "먼저 화면에서 ${randomProblem.c_menu}를 찾아주세요. ${randomProblem.c_menu}는 ${
-        getMenuCategory(randomProblem.c_menu)
+    val messageStep2 = "주문하는 법을 안내드립니다! 예시로 ${problem.c_menu}를 주문하는 법입니다."
+    val messageStep3 = "먼저 화면에서 ${problem.c_menu}를 찾아주세요. ${problem.c_menu}는 ${
+        getMenuCategory(problem.c_menu)
     }에 있습니다!"
     val messageStep4 = "이 창에서는 주문 내역을 확인할 수 있습니다. 제품과 수량을 확인해 주세요!"
-    val messageStep5 = "주문한 제품과 수량이 맞다면 결제 버튼을 눌러주세요."
+    val messageStep5 = "x를 누르면 제품을 삭제합니다. -와 +로 수량을 조절할 수 있습니다."
+    val messageStep6 = "주문한 제품과 수량이 맞다면 결제 버튼을 눌러주세요."
 
     //TTS를 위해 추가해야 하는 부분-----------------------------------
     val context = LocalContext.current
@@ -103,7 +103,7 @@ fun Guide2(
         menuItemsViewModel = menuItemsViewModel,
         showBorder = showBorder,
         currentStep = currentStep, // currentStep 전달
-        problem = randomProblem
+        problem = problem
     )
 
     if (showPopup) {
@@ -111,8 +111,9 @@ fun Guide2(
             isPopupVisible = showPopup,
             onDismiss = { // 다음 단계로 이동
                 currentStep += 1
-                if (currentStep > 5) {
+                if (currentStep > 6) {
                     showPopup = false
+                    navController.navigate("Guide3_checkOrder")
                 }
             },
             title = when (currentStep) {
@@ -120,26 +121,29 @@ fun Guide2(
                 2 -> "주문 안내"
                 3 -> "주문 안내"
                 4 -> "주문 내역 확인"
-                else -> "결제 안내"
+                5 -> "주문 내역 확인"
+                6 -> "결제 안내"
+                else -> ""
             },
             message = when (currentStep) {
                 1 -> messageStep1
                 2 -> messageStep2
                 3 -> messageStep3
                 4 -> messageStep4
-                else -> messageStep5
+                5 -> messageStep5
+                else -> messageStep6
             },
             highlights = when (currentStep) {
                 1 -> listOf("홈 버튼", "수량 조절")
-                2 -> listOf(randomProblem.c_menu)
-                3 -> listOf(randomProblem.c_menu, getMenuCategory(randomProblem.c_menu))
+                2 -> listOf(problem.c_menu)
+                3 -> listOf(problem.c_menu, getMenuCategory(problem.c_menu))
                 4 -> listOf("주문 내역", "제품", "수량")
+                5 -> listOf("x", "-", "+")
                 else -> listOf("결제 버튼")
             },
             verticalAlignment = when (currentStep) {
-                1,2,5 -> VerticalAlignment.Center
-                4 -> VerticalAlignment.Top
-                else -> VerticalAlignment.Bottom
+                3,4,5 -> VerticalAlignment.Bottom
+                else -> VerticalAlignment.Center
             },
             ttsPlaybackHandler = ttsPlaybackHandler
         )
