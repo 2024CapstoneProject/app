@@ -1,6 +1,7 @@
 package com.example.capstoneapp.cafe.ui.Screens
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
@@ -56,21 +57,31 @@ fun Guide0(navController: NavController) {
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun GuideScreen(navController: NavController) {
     val context = LocalContext.current
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        )
+        {
 
-    MaterialTheme {
+
         Box(
-            modifier = Modifier.height(80.dp).fillMaxWidth().padding(16.dp)
+            modifier = Modifier
+                .height(80.dp)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
             Row(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth().height(56.dp).padding(start=8.dp,end=8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Text(text="효자손",
-                    fontSize = 25.sp,
+                    fontSize = 32.sp,
                     color = Color(0xFF5C460C),
                     style = MaterialTheme.typography.titleLarge)
                 Button(
@@ -92,19 +103,11 @@ fun GuideScreen(navController: NavController) {
                         style = MaterialTheme.typography.titleLarge)
                 }
 
-//                ButtonWithRoundedBorder(
-//                    onClick = { logout(context) },
-//
-//                )
             }
 
         }
-
-        // 로그아웃 함수 정
-
         Column(
-            modifier = Modifier
-                .padding(top = 80.dp, bottom = 20.dp,start=16.dp,end=16.dp),
+            modifier = Modifier,
             verticalArrangement = Arrangement.Top, // Align content to the top
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -153,8 +156,8 @@ fun GuideScreen(navController: NavController) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp,horizontal=8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Button(
                     elevation = ButtonDefaults.buttonElevation(
@@ -405,14 +408,17 @@ fun GuideScreen(navController: NavController) {
                 }
             }
         }
-    }
+        }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, widthDp = 412, heightDp = 846)
 @Composable
 fun GuideScreenPreview() {
     val navController = rememberNavController()
-    Guide0(navController = navController)
+    CapstoneAppTheme{
+        Guide0(navController = navController)
+    }
+
 }
 
 fun setupAudioUploader(): AudioUploader {
