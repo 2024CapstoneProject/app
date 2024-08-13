@@ -108,7 +108,6 @@ fun Kakao_Menu(navController: NavController) {
                     route = "KakaoPractice0"
                 )
             }
-
         }
     }
 }
@@ -171,9 +170,7 @@ fun OptionButton(
             }
 
         }
-
     }
-
 }
 
 @Composable
