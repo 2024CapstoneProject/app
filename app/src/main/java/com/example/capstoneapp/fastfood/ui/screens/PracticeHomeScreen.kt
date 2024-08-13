@@ -1,124 +1,156 @@
 package com.example.capstoneapp.fastfood.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.ui.Screens.ChecklistItem
-import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
-import com.example.capstoneapp.cafe.ui.Screens.ProblemCard
-import com.example.capstoneapp.cafe.ui.Screens.StartButton
-import com.example.capstoneapp.fastfood.ui.theme.CapstoneAppTheme
-import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 @Composable
-fun PracticeHomeScreen(navController: NavController,problem: Problem) {
-    Column {
+fun PracticeHomeScreen(navController: NavController, problem: Problem) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         TextScreen(navController = navController, problem = problem)
     }
 
 }
 
 @Composable
-fun TextScreen(navController: NavController,problem: Problem) {
+fun TextScreen(navController: NavController, problem: Problem) {
+    var alpha by remember { mutableStateOf(0.0) }
+
     Box(
         modifier = Modifier
-            .fillMaxSize()
-    ) {Column(
-        modifier = Modifier.fillMaxSize()
+            .height(80.dp)
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
     ) {
-        Box(//문제 설명 box
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
-                .background(color = Color(0xFFFFBD42))
-                .padding(bottom = 80.dp,top = 45.dp, end = 16.dp,start=16.dp),
-            contentAlignment = Alignment.TopStart
-        ){
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp,end=16.dp),
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-                    text = "아래 문제에 맞는",
-                    fontSize = 33.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-                Text(
-                    text = "버튼을 터치하세요!",
-                    fontSize = 33.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-                Text(
-                    text = "항목을 읽고 이해했으면 항목을 터치하세요",
-                    fontSize = 17.sp,
-                    color = Color.Black
-                )
-                Text(
-                    text = "항목을 다 터치했다면 시작하기 버튼을 눌러주세요",
-                    fontSize = 16.sp,
-                    color = Color.Black
-                )
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(2.0f)
-                .background(color = Color.White)
-        )
-    }
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
         ) {
-            Spacer(modifier = Modifier.height(80.dp))
-            FastfoodProblemCard(navController,problem)
-            Spacer(modifier = Modifier.height(24.dp))
-        }
+            IconButton(
+                modifier = Modifier.size(56.dp),
+                onClick = { navController.navigate("HamburgerHomeScreen") },
+            ) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = "",
+                    tint = Color.Black,
+                    modifier = Modifier.size(56.dp)
+                )
 
+            }
+
+            Text(
+                text = "연습해보기",
+                fontSize = 32.sp,
+                color = Color.Black,
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
     }
+
+    Column(
+        modifier = Modifier
+            .wrapContentHeight(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(start = 16.dp, end = 16.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = "아래 내용을 확인하고",
+                fontSize = 28.sp,
+                style = MaterialTheme.typography.displayLarge,
+                color = Color.Black
+            )
+            Text(
+                text = "키오스크 주문을 연습해요!",
+                fontSize = 28.sp,
+                style = MaterialTheme.typography.displayLarge,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            Text(
+                text = "아래 정보는 주문하실 내용입니다.",
+                fontSize = 16.sp,
+                color = Color(0xFFADADAD),
+                style = MaterialTheme.typography.displayLarge,
+            )
+            Text(
+                text = "확인하셨다면 버튼을 눌러 체크해주세요.",
+                fontSize = 16.sp,
+                color = Color(0xFFADADAD),
+                style = MaterialTheme.typography.displayLarge,
+            )
+        }
+        FastfoodProblemCard(navController, problem) {
+            if (it) alpha = 1.0 else 0.0
+        }
+    }
+    StartButton(alpha, onClick = {
+        navController.navigate("touchToStart")
+    })
 }
+
+
 @Composable
-fun FastfoodProblemCard(navController: NavController, problem: Problem) {
+fun FastfoodProblemCard(
+    navController: NavController,
+    problem: Problem,
+    checkSuccess: (Boolean) -> Unit
+) {
     val items = listOf(
         "메뉴 : ${problem.menu}",
         "장소 : ${problem.place}",
@@ -126,49 +158,61 @@ fun FastfoodProblemCard(navController: NavController, problem: Problem) {
         "결제 방식 : ${problem.pay}"
     )
     val checkedStates = remember { mutableStateListOf(false, false, false, false) }
-    Box(//문제 box
-        contentAlignment = Alignment.BottomCenter,
-        modifier = Modifier.padding(bottom = 40.dp)
+
+    if (checkedStates.all { it == true }) {
+        checkSuccess(true)
+    } else {
+        checkSuccess(false)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(380.dp)
+            .padding(top = 32.dp, bottom = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal =16.dp,vertical = 16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            ),
-            shape = RoundedCornerShape(16.dp),
-            elevation = CardDefaults.cardElevation(8.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "문제",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-
-                items.forEachIndexed { index, item ->
-                    ChecklistItem(
-                        title = item,
-                        checked = checkedStates[index],
-                        onCheckedChange = { checked ->
-                            checkedStates[index] = checked
-                        }
-                    )
+        items.forEachIndexed { index, item ->
+            ChecklistItem(
+                title = item,
+                checked = checkedStates[index],
+                onCheckedChange = { checked ->
+                    checkedStates[index] = checked
                 }
-            }
+            )
         }
+    }
+}
 
-        StartButton(onClick = {
-            navController.navigate("touchToStart")
-        })
+@Composable
+fun StartButton(alpha: Double, onClick: () -> Unit) {
+
+    Button(
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 16.dp,
+        ),
+        contentPadding = PaddingValues(),
+        onClick = onClick,
+        modifier = Modifier
+            .size(316.dp, 68.dp)
+            .alpha(alpha.toFloat()), //시작하기 버튼 위치 수정 offset. 숫자 커지면 아래로 이동
+        colors = ButtonDefaults.buttonColors(Color.White),
+        shape = RoundedCornerShape(20.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "시작하기",
+                fontSize = 24.sp,
+                style = MaterialTheme.typography.displayLarge,
+                color = Color(0xFF5C460C)
+            )
+        }
     }
 }
 
