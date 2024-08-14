@@ -97,7 +97,7 @@ fun CafeHomeScreen(navController: NavController) {
                     imageVector = Icons.Default.Warning,
                     title = "사진 설명서",
                     description = "사진으로 설명서를 보여줘요.",
-                    route = "Guide1"
+                    route = "Guide1_touchscreen"
                 )
                 OptionButton(
                     navController = navController,
