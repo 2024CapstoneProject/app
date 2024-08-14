@@ -1,5 +1,6 @@
 package com.example.capstoneapp.cafe.ui.Guide
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -106,6 +107,11 @@ fun Guide3(
 
     //----------------------------------------------------------
 
+    // BackHandler에서 팝업을 닫고 상태를 초기화합니다.
+    BackHandler {
+        showPopup = false
+        navigateToHome = true // 네비게이션 플래그 설정
+    }
 
     // 상태 변경 시 네비게이션 처리
     LaunchedEffect(navigateToHome) {
@@ -132,7 +138,7 @@ fun Guide3(
             currentStep += 1
             if (currentStep > 3) {
                 showPopup = false
-                navController.navigate("KioskCafePractice6")
+                navController.navigate("Guide4_payment")
             }
         },
         title = when (currentStep) {
