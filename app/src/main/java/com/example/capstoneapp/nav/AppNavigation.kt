@@ -57,7 +57,7 @@ import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
-import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
+import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
 
 @SuppressLint("RememberReturnType")
 @Composable
