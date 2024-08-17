@@ -232,14 +232,7 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                 .padding(vertical = 12.dp), // Adjust padding as needed
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /* Handle back action here */ }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.Black,
-                    modifier = Modifier.size(36.dp)
-                )
-            }
+
             Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
             Text(
                 text = "AI 도우미",
