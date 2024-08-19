@@ -60,6 +60,17 @@ object ProblemRepository {
         R.drawable.sample_3
     )
 
+    //taxi
+    private var t_pointList = listOf(
+        0,500,3000
+    )
+    private var t_couponList = listOf(
+        "쿠폰없음"
+    )
+    private var t_payList = listOf(
+        7300,8500
+    )
+
     fun createProblem(): Problem {
         val randomMenuIndex = Random.nextInt(menuList.size)
         val randomPlaceIndex = Random.nextInt(placeList.size)
@@ -69,6 +80,9 @@ object ProblemRepository {
         val randomCPlaceIndex = Random.nextInt(c_placeList.size)
         val randomCPayIndex = Random.nextInt(c_payList.size)
         val randomCPointIndex = if(randomCPayIndex == 1) 1 else Random.nextInt(c_isPoint.size)
+        val randomTPointIndex = Random.nextInt(t_pointList.size)
+        val randomTCouponIndex = Random.nextInt(t_couponList.size)
+        val randomTPayIndex = Random.nextInt(t_payList.size)
 
         return Problem(
             menu = menuList[randomMenuIndex],
@@ -79,7 +93,11 @@ object ProblemRepository {
             c_place = c_placeList[randomCPlaceIndex],
             c_point = c_isPoint[randomCPointIndex],
             c_pay = c_payList[randomCPayIndex],
-            order = ""
+            order = "",
+            t_point = t_pointList[randomTPointIndex],
+            t_coupon = t_couponList[randomTCouponIndex],
+            t_pay = t_payList[randomTPayIndex],
+
         )
     }
 
@@ -111,7 +129,11 @@ data class Problem(
     var c_place: String,
     val c_point: String,
     val c_pay: String,
-    var order: String
+    var order: String,
+
+    var t_point: Int,
+    var t_coupon: String,
+    var t_pay: Int,
 )
 
 data class KakaotalkProblem(
