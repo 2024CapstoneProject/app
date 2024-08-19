@@ -19,6 +19,8 @@ import com.example.capstoneapp.cafe.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.cafe.ui.Screens.CafeKioskScreen
 import com.example.capstoneapp.cafe.ui.Guide.Guide1
 import com.example.capstoneapp.cafe.ui.Guide.Guide2
+import com.example.capstoneapp.cafe.ui.Guide.Guide3
+import com.example.capstoneapp.cafe.ui.Guide.Guide4
 import com.example.capstoneapp.cafe.ui.Screens.GuideScreen
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
@@ -60,7 +62,7 @@ import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
 import com.example.capstoneapp.taxi.ui.screens.TaxiInform
 import com.example.capstoneapp.taxi.ui.screens.TaxiPay
 import com.example.capstoneapp.taxi.ui.screens.TaxiRequest
-import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
+import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
 
 @SuppressLint("RememberReturnType")
 @Composable
@@ -211,7 +213,20 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         }
 
         composable(route = "Guide2_kiosk") {
-            Guide2(navController, menuItemsViewModel, problemViewModel.getProblemValue()!!, true)
+            LaunchedEffect(navBackStackEntry) {
+                if (navBackStackEntry?.destination?.route == "Guide2_kiosk") {
+                    problemViewModel.createProblem() // 문제 생성
+                }
+            }
+            Guide2(navController, menuItemsViewModel, problem!!, true)
+        }
+
+        composable(route = "Guide3_checkOrder") {
+            Guide3(navController = navController, menuItemsViewModel, problem!!,true)
+        }
+
+        composable(route = "Guide4_payment") {
+            Guide4(navController = navController, menuItemsViewModel, problem!!,true)
         }
 
         //카페 연습 첫번째 화면

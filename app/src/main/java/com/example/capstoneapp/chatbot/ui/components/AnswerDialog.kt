@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -52,6 +53,7 @@ fun ButtonFormat(
 }
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun AnswerDialog(
     responseText: String,

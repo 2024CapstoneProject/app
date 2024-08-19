@@ -38,6 +38,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
 import com.example.capstoneapp.R
+import com.example.capstoneapp.chatbot.utils.TtsPlaybackHandler
 import kotlinx.coroutines.delay
 
 @Composable
@@ -49,16 +50,19 @@ fun GuidePopup(
     highlights: List<String>,
     onConfirm: () -> Unit = {},
     delayMillis: Long = 150, // 지연 시간 (밀리초)
-    verticalAlignment: VerticalAlignment // 추가된 매개변수
+    verticalAlignment: VerticalAlignment, // 추가된 매개변수
+    ttsPlaybackHandler: TtsPlaybackHandler // TTS Playback Handler 추가
 ) {
     // 팝업 표시 상태를 관리할 변수
     var showPopup by remember { mutableStateOf(false) }
 
     // LaunchedEffect를 사용하여 지연 후 팝업 표시
-    LaunchedEffect(isPopupVisible) {
+    LaunchedEffect(isPopupVisible, message) { // message 추가
         if (isPopupVisible) {
             delay(delayMillis)
             showPopup = true
+            // 팝업 메시지를 TTS로 읽기
+            ttsPlaybackHandler.playText(message)
         } else {
             showPopup = false
         }
@@ -150,6 +154,7 @@ fun GuidePopup(
             }
         }
     }
+
 }
 
 // 위치 설정을 위한 enum 클래스
@@ -158,10 +163,21 @@ enum class VerticalAlignment {
     Center,
     Bottom
 }
-
+interface TtsPlaybackHandler {
+    fun playText(text: String)
+}
+/*
 @Preview(showBackground = true)
 @Composable
 fun PopupPreview() {
+    // 더미 TtsPlaybackHandler 생성
+    val dummyTtsPlaybackHandler = object : TtsPlaybackHandler {
+        override fun playText(text: String) {
+            // Preview에서는 실제로 TTS를 재생하지 않음
+            println("Dummy TTS: $text")
+        }
+    }
+
     GuidePopup(
         isPopupVisible = true,
         onDismiss = { },
@@ -169,6 +185,7 @@ fun PopupPreview() {
         message = "광고 화면입니다. 화면을 터치하여 주문을 시작해주세요!",
         highlights = listOf("광고", "터치"),
         delayMillis = 150, // Preview에서 지연 시간 설정
-        verticalAlignment = VerticalAlignment.Center // 중앙 배치 예시
+        verticalAlignment = VerticalAlignment.Center, // 중앙 배치 예시
+        ttsPlaybackHandler = dummyTtsPlaybackHandler // 더미 TTS Playback Handler 사용
     )
-}
+}*/

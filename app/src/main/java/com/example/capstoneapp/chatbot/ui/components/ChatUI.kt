@@ -104,7 +104,9 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
 
     // 초기 AI 메시지 설정
     val initialAiResponses = listOf(
-        "안녕하세요! 키오스크 주문에 어려움을 겪고 계신가요?",
+        "첫번째, 식사장소가 매장인지 포장인지를 선택하세요\n" +
+                "두번째, 화면 왼쪽열에서 버거를 선택하세요. 화면 오른쪽에 있는 흰색막대기를 위아래로 움직이면서 불고기 버거 이미지를 찾으면 됩니다.\n" +
+                "세번째, 세트를 선택하세요. 기본크기의 사이드와 음료를 먹고 싶으면 세트를, 더 많이 먹고 싶으면 라지를 선택해주세요.",
         "패스트푸드점 또는 카페에서의 주문을 도와드릴게요.",
         "주문을 원하시면 \"주문할래요\"를 입력해주세요."
     )
@@ -230,14 +232,7 @@ fun ChatUI(navController: NavController, chatService: ChatService) {
                 .padding(vertical = 12.dp), // Adjust padding as needed
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /* Handle back action here */ }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.Black,
-                    modifier = Modifier.size(36.dp)
-                )
-            }
+
             Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
             Text(
                 text = "AI 도우미",

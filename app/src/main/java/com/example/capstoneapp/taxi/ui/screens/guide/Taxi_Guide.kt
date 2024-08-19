@@ -1,4 +1,4 @@
-package com.example.capstoneapp.taxi.ui.screens
+package com.example.capstoneapp.taxi.ui.screens.guide
 
 import android.content.Context
 import androidx.compose.foundation.Image

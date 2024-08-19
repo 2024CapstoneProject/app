@@ -3,7 +3,6 @@ package com.example.capstoneapp.cafe.ui.Guide
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,13 +16,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,15 +37,53 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.ui.Frame.GuidePopup
 import com.example.capstoneapp.cafe.ui.Frame.VerticalAlignment
+import com.example.capstoneapp.chatbot.utils.TtsPlaybackHandler
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
+import com.google.api.gax.core.FixedCredentialsProvider
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.cloud.texttospeech.v1.TextToSpeechClient
+import com.google.cloud.texttospeech.v1.TextToSpeechSettings
+import java.io.InputStream
 
 @Composable
 fun Guide1(navController: NavController, showBorder: Boolean) {
     // 팝업을 표시할지 여부를 관리하는 상태
     var showPopup by remember { mutableStateOf(true) }
+
+    //TTS를 위해 추가해야 하는 부분-----------------------------------
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    // TTS 클라이언트 및 핸들러 초기화
+    val ttsClient = remember {
+        val credentialsStream: InputStream =
+            context.resources.openRawResource(R.raw.service_account_key) // 서비스 계정 키 파일
+        val credentials = GoogleCredentials.fromStream(credentialsStream)
+        val settings = TextToSpeechSettings.newBuilder()
+            .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
+            .build()
+        TextToSpeechClient.create(settings)
+    }
+
+    val ttsPlaybackHandler = remember {
+        TtsPlaybackHandler(context, ttsClient, coroutineScope)
+    }
+
+    // 컴포저블이 소멸될 때 TTS 클라이언트를 정리하는 코드 추가
+    DisposableEffect(Unit) {
+        onDispose {
+            ttsPlaybackHandler.shutdown()
+        }
+    }
+
+    //   ,ttsPlaybackHandler = dummyTtsPlaybackHandler 를 guidePopup에 추가
+
+
+    //----------------------------------------------------------
+
 
     BackHandler {
         showPopup = false
@@ -68,11 +108,6 @@ fun Guide1(navController: NavController, showBorder: Boolean) {
                     shape = RoundedCornerShape(16.dp)
                 )
                 .border(2.dp, Color.Gray, RoundedCornerShape(25.dp))
-                .clickable {
-                    if (!showPopup) {
-                        navController.navigate("Guide2_kiosk")
-                    }
-                }
                 .then(
                     if (showBorder) Modifier.border(
                         BorderWidth,
@@ -105,13 +140,18 @@ fun Guide1(navController: NavController, showBorder: Boolean) {
     if (showPopup) {
         GuidePopup(
             isPopupVisible = showPopup,
-            onDismiss = { showPopup = false },
+            onDismiss = {
+                showPopup = false
+                navController.navigate("Guide2_kiosk")
+            },
             title = "광고",
             message = "광고 화면입니다. 화면을 터치하여 주문을 시작해주세요!",
             highlights = listOf("광고", "터치"),
-            verticalAlignment = VerticalAlignment.Top // 이 값을 조정하여 팝업의 위치를 설정합니다.
+            verticalAlignment = VerticalAlignment.Top, //
+            ttsPlaybackHandler = ttsPlaybackHandler // TTS 기능을 활성화합니다
         )
     }
+
 }
 
 @Preview(showBackground = true)
