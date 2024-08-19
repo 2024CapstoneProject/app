@@ -63,6 +63,9 @@ import com.example.capstoneapp.taxi.ui.screens.TaxiInform
 import com.example.capstoneapp.taxi.ui.screens.TaxiPay
 import com.example.capstoneapp.taxi.ui.screens.TaxiRequest
 import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
+import com.example.capstoneapp.taxi.ui.screens.practice.ChooseTaxiScreen
+import com.example.capstoneapp.taxi.ui.screens.practice.SetGoalScreen
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiConfirm
 
 @SuppressLint("RememberReturnType")
 @Composable
@@ -376,6 +379,17 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             var openBottomSheet by rememberSaveable { mutableStateOf(true) }
             TaxiRequest(openBottomSheet = true, onOpenBottomSheetChange ={ openBottomSheet = it }, problem = problem!!, navController = navController )
         }
+
+        composable(route = "TaxiSetGoal") {
+            SetGoalScreen(navController = navController)
+        }
+        composable(route = "TaxiChoose") {
+            ChooseTaxiScreen(navController = navController)
+        }
+        composable(route = "TaxiChooseConfirm") {
+            TaxiConfirm(navController = navController)
+        }
+
 
         composable(route = "chatbotHome") {
             ChatbotHomeScreen(navController = navController)

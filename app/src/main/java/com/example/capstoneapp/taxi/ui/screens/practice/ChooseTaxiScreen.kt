@@ -33,17 +33,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
-@Preview
 @Composable
-fun ChooseTaxiScreen() {
+fun ChooseTaxiScreen(navController: NavController) {
     val taxiOptions = listOf(
-        TaxiOption("빠른 택시", "부르면 바로 배차되는 택시", "7,300원", R.drawable.temp_way_map),
-        TaxiOption("일반 택시", "주변에 가까운 택시 호출", "5,800원", R.drawable.temp_way_map),
-        TaxiOption("모범 택시", "편안한 모범택시 호출", "9,800원", R.drawable.temp_way_map),
-        TaxiOption("대형 택시", "넓고 쾌적한 대형차량 호출", "8,300원", R.drawable.temp_way_map)
+        TaxiOption("빠른 택시", "부르면 바로 배차되는 택시", "7,300원", R.drawable.taxi_car, true),
+        TaxiOption("일반 택시", "주변에 가까운 택시 호출", "5,800원", R.drawable.taxi_car, false),
+        TaxiOption("모범 택시", "편안한 모범택시 호출", "9,800원", R.drawable.taxi_car, false),
+        TaxiOption("대형 택시", "넓고 쾌적한 대형차량 호출", "8,300원", R.drawable.taxi_car, false)
     )
     Box(
         modifier = Modifier
@@ -52,10 +52,9 @@ fun ChooseTaxiScreen() {
             .background(Color.Gray)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.temp_way_map),
+            painter = painterResource(id = R.drawable.taxi_map),
             contentDescription = "temp_way_map",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            modifier = Modifier.fillMaxSize()
         )
         Row(
             modifier = Modifier
@@ -104,7 +103,7 @@ fun ChooseTaxiScreen() {
         ) {
             LazyColumn{
                 items(taxiOptions) { option ->
-                    TaxiOptionItem(option)
+                    TaxiOptionItem(option, navController)
                 }
             }
         }
@@ -112,12 +111,18 @@ fun ChooseTaxiScreen() {
 }
 
 @Composable
-fun TaxiOptionItem(option: TaxiOption) {
+fun TaxiOptionItem(option: TaxiOption, navController: NavController) {
     Row(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
-            .clickable { },
+            .let {
+                if (option.isClickable) {
+                    it.clickable { navController.navigate("TaxiChooseConfirm") }
+                } else {
+                    it
+                }
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -161,5 +166,12 @@ data class TaxiOption(
     val title: String,
     val subtitle: String,
     val price: String,
-    val imageRes: Int
+    val imageRes: Int,
+    val isClickable: Boolean
 )
+
+//@Preview
+//@Composable
+//fun Preview(navController: NavController) {
+//    ChooseTaxiScreen(navController)
+//}

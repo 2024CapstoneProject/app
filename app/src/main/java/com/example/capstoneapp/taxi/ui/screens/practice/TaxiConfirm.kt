@@ -29,11 +29,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.capstoneapp.R
 
-@Preview
 @Composable
-fun TaxiConfirm() {
+fun TaxiConfirm(navController: NavController) {
     Box(
         modifier = Modifier
             .padding(16.dp)
@@ -41,7 +41,7 @@ fun TaxiConfirm() {
             .background(Color.Gray)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.temp_way_map),
+            painter = painterResource(id = R.drawable.taxi_map),
             contentDescription = "temp_way_map",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -91,19 +91,19 @@ fun TaxiConfirm() {
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center
         ) {
-            TaxiOptionDetail()
+            TaxiOptionDetail(navController)
         }
     }
 }
 
 @Composable
-fun TaxiOptionDetail() {
+fun TaxiOptionDetail(navController: NavController) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(16.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.temp_way_map), // Replace with your image resource
+            painter = painterResource(id = R.drawable.taxi_car),
             contentDescription = null,
             modifier = Modifier
                 .size(64.dp)
@@ -144,7 +144,7 @@ fun TaxiOptionDetail() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable {  },
+            .clickable { navController.navigate(" INSERT NAV HERE ") }, // TODO: Nav 연결
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -157,7 +157,7 @@ fun TaxiOptionDetail() {
             style = TextStyle(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Blue
+                color = Color.Black
             )
         )
     }

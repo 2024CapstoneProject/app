@@ -26,12 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.capstoneapp.R
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
-@Preview
 @Composable
-fun SetGoalScreen() {
+fun SetGoalScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .padding(16.dp)
@@ -41,8 +41,7 @@ fun SetGoalScreen() {
         Image(
             painter = painterResource(id = R.drawable.goal_map),
             contentDescription = "goal_map",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            modifier = Modifier.fillMaxSize()
         )
 
         Column(
@@ -73,7 +72,7 @@ fun SetGoalScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { /* Do something */ },
+                onClick = { navController.navigate("TaxiChoose") },
                 modifier = Modifier
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp)

@@ -127,7 +127,7 @@ fun NotificationScreenPreview() {
                 .border(3.dp, Color.Gray, RoundedCornerShape(16.dp)),
             contentAlignment = Alignment.Center
         ) {
-            TaxiConfirm()
+//            TaxiConfirm()
         }
         Spacer(Modifier.weight(1f))
         Row(
