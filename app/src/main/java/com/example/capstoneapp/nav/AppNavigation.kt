@@ -8,6 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -55,6 +57,9 @@ import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
+import com.example.capstoneapp.taxi.ui.screens.TaxiInform
+import com.example.capstoneapp.taxi.ui.screens.TaxiPay
+import com.example.capstoneapp.taxi.ui.screens.TaxiRequest
 import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
 
 @SuppressLint("RememberReturnType")
@@ -344,7 +349,17 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         //택시 가이드 첫번째 화면
         composable(route = "Taxi_Guide") {
-            Taxi_Guide(navController = navController)
+            //Taxi_Guide(navController = navController)
+
+            TaxiInform(navController = navController)
+        }
+        composable(route = "TaxiPay") {
+            var openBottomSheet by rememberSaveable { mutableStateOf(true) }
+            TaxiPay(openBottomSheet = true, onOpenBottomSheetChange ={ openBottomSheet = it }, problem = problem!!, navController = navController )
+        }
+        composable(route = "TaxiRequest") {
+            var openBottomSheet by rememberSaveable { mutableStateOf(true) }
+            TaxiRequest(openBottomSheet = true, onOpenBottomSheetChange ={ openBottomSheet = it }, problem = problem!!, navController = navController )
         }
 
         composable(route = "chatbotHome") {
