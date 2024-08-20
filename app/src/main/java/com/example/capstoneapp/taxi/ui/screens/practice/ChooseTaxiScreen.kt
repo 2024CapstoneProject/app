@@ -170,8 +170,8 @@ data class TaxiOption(
     val isClickable: Boolean
 )
 
-//@Preview
-//@Composable
-//fun Preview(navController: NavController) {
-//    ChooseTaxiScreen(navController)
-//}
+@Preview(showBackground = true)
+@Composable
+fun Preview(navController: NavController) {
+    ChooseTaxiScreen(navController)
+}

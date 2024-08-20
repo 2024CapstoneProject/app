@@ -152,7 +152,7 @@ dependencies {
     implementation( "com.google.accompanist:accompanist-pager:0.30.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.30.0")
 
-
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
     implementation("androidx.multidex:multidex:2.0.1")
 }
