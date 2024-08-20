@@ -1,5 +1,6 @@
 package com.example.capstoneapp.nav
 
+import SubScreen
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -66,6 +67,9 @@ import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
 import com.example.capstoneapp.taxi.ui.screens.practice.ChooseTaxiScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.SetGoalScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiConfirm
+
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiMain
+
 
 @SuppressLint("RememberReturnType")
 @Composable
@@ -368,9 +372,15 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         //택시 가이드 첫번째 화면
         composable(route = "Taxi_Guide") {
             //Taxi_Guide(navController = navController)
+            TaxiMain(navController = navController)
 
-            TaxiInform(navController = navController)
         }
+        composable(route = "taxi_sub_screen") {
+            //Taxi_Guide(navController = navController)
+            SubScreen(navController = navController)
+
+        }
+
         composable(route = "TaxiPay") {
             var openBottomSheet by rememberSaveable { mutableStateOf(true) }
             TaxiPay(openBottomSheet = true, onOpenBottomSheetChange ={ openBottomSheet = it }, problem = problem!!, navController = navController )
@@ -380,7 +390,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             TaxiRequest(openBottomSheet = true, onOpenBottomSheetChange ={ openBottomSheet = it }, problem = problem!!, navController = navController )
         }
 
-        composable(route = "TaxiSetGoal") {
+        composable(route = "taxi_set_goal") {
             SetGoalScreen(navController = navController)
         }
         composable(route = "TaxiChoose") {
