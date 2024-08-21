@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 
 @Composable
 fun Dialog11(onDismiss: () -> Unit, onConfirm: () -> Unit) {
@@ -49,29 +52,33 @@ fun Dialog11(onDismiss: () -> Unit, onConfirm: () -> Unit) {
                     fontSize = 25.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
-                Spacer(modifier = androidx.compose.ui.Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Image(
                     painter = painterResource(R.drawable.img11),
                     contentDescription = null,
-                    modifier = androidx.compose.ui.Modifier.size(250.dp, 140.dp)
+                    modifier = Modifier.size(250.dp, 140.dp)
                 )
-                Spacer(modifier = androidx.compose.ui.Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Button(
                     onClick = {
                         onConfirm()
                         onDismiss()
 
                     },
-                    modifier = androidx.compose.ui.Modifier.size(220.dp, 60.dp),
-                    colors = ButtonDefaults.buttonColors(Color(0xFF696969)),
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFE7E7E7)),
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
                         text = "확인",
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.ExtraBold
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.Black,
+                        fontFamily = firaSansFamily
                     )
                 }
+
             }
         }
     }

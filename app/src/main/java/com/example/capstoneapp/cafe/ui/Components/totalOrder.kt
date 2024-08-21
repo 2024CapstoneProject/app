@@ -107,7 +107,7 @@ fun totalOrder(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(76.dp)
-                .padding(start = 8.dp,end = 8.dp),
+                .padding(start = 8.dp, end = 4.dp),
             contentAlignment = Alignment.CenterStart
 
         ) {
@@ -169,7 +169,7 @@ fun totalOrder(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 8.dp,end=8.dp,top=4.dp,bottom=4.dp),
+                        .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -205,10 +205,10 @@ fun totalOrder(
 //                Spacer(modifier = Modifier.height(8.dp))
 
 
-
                 Button(modifier = Modifier
-                    .width(120.dp)
+                    .fillMaxWidth()
                     .height(72.dp)
+                    .padding(start = 8.dp, end = 8.dp)
                     .then(
                         if (showBorder) Modifier.border(
                             BorderWidth,
@@ -218,7 +218,7 @@ fun totalOrder(
                     ),
                     shape = MaterialTheme.shapes.small,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Gray, contentColor = Color.White
+                        containerColor = Color(0xFFFFDA77), contentColor = Color.White
                     ),
                     onClick = {
                         if (totalCount == 0) {
