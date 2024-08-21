@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,7 +28,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -35,9 +35,20 @@ import com.example.capstoneapp.R
 
 @Composable
 fun TaxiConfirm(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight(1f)
+            .clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+    ) {
+        TaxiConfirmScreen(navController)
+    }
+}
+
+
+@Composable
+fun TaxiConfirmScreen(navController: NavController) {
     Box(
         modifier = Modifier
-            .padding(16.dp)
             .fillMaxSize()
             .background(Color.Gray)
     ) {
@@ -45,7 +56,7 @@ fun TaxiConfirm(navController: NavController) {
             painter = painterResource(id = R.drawable.taxi_map),
             contentDescription = "temp_way_map",
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.FillBounds
         )
         Row(
             modifier = Modifier
@@ -108,7 +119,8 @@ fun TaxiOptionDetail(navController: NavController) {
             contentDescription = null,
             modifier = Modifier
                 .size(64.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.FillBounds
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column {
@@ -176,6 +188,7 @@ fun TaxiOptionDetail(navController: NavController) {
         },
         modifier = Modifier
             .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp)
             .padding(top = 16.dp)
             .height(50.dp)
     ) {

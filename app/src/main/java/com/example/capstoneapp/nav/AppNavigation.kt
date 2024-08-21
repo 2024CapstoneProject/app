@@ -384,14 +384,23 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             TaxiHome(navController = navController)
         }
         composable(route = "TaxiMain") {
-            TaxiMain(navController = navController)
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = { TaxiMain(navController = navController)}
+            ) { setShowBorder(!showBorder) }
         }
         //택시 가이드 첫번째 화면
         composable(route = "Taxi_Guide") {
             Taxi_Guide(navController = navController)
         }
         composable(route = "TaxiInform") {
-            TaxiInform(navController = navController )
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = { TaxiInform(navController = navController )}
+            ) { setShowBorder(!showBorder) }
+
         }
         composable(route = "taxi_sub_screen") {
             //Taxi_Guide(navController = navController)
@@ -403,17 +412,33 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             TaxiPay(problem = problem!!, navController = navController )
         }
         composable(route = "TaxiRequest") {
-            TaxiRequest( problem = problem!!, navController = navController )
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = {   TaxiRequest( problem = problem!!, navController = navController )}
+            ) { setShowBorder(!showBorder) }
         }
 
         composable(route = "taxi_set_goal") {
-            SetGoalScreen(navController = navController)
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = { SetGoalScreen(navController = navController)}
+            ) { setShowBorder(!showBorder) }
         }
         composable(route = "TaxiChoose") {
-            ChooseTaxiScreen(navController = navController)
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = {  ChooseTaxiScreen(navController = navController)}
+            ) { setShowBorder(!showBorder) }
         }
         composable(route = "TaxiChooseConfirm") {
-            TaxiConfirm(navController = navController)
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = {  TaxiConfirm(navController = navController)}
+            ) { setShowBorder(!showBorder) }
         }
 
 

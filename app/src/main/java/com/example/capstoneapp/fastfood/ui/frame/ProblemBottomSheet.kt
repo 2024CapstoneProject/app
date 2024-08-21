@@ -189,9 +189,10 @@ fun ProblemBox(problem: Problem,screenType: Int) {
                 Spacer(Modifier.padding(bottom = 20.dp))
             }
         }
-        else -> {
+        4 -> {
 
         }
+        else -> {}
     }
 
 }

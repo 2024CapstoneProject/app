@@ -1,9 +1,11 @@
 package com.example.capstoneapp.taxi.ui.screens.practice
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +30,17 @@ import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog
 
 @Composable
 fun TaxiInform(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight(1f)
+            .clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+    ) {
+        TaxiInformScreen(navController)
+    }
+}
+
+@Composable
+fun TaxiInformScreen(navController: NavController) {
     var closeDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -37,10 +50,10 @@ fun TaxiInform(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
             contentAlignment = Alignment.TopEnd
         ) {
-            TextButton(onClick = {  }) {
+            TextButton(onClick = { }) {
                 Text(
                     "호출취소",
                     color = Color.Gray,
@@ -50,8 +63,7 @@ fun TaxiInform(navController: NavController) {
         }
 
         Row(
-            modifier = Modifier
-                .padding(vertical = 16.dp),
+            modifier = Modifier,
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -71,7 +83,7 @@ fun TaxiInform(navController: NavController) {
         }
 
         Text(
-            text = "김oo\n소나타\n경기 바 1234",//problem으로 수정
+            text = "김oo 소나타\n경기 바 1234",//problem으로 수정
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
             modifier = Modifier.padding(vertical = 16.dp),
@@ -82,10 +94,10 @@ fun TaxiInform(navController: NavController) {
             contentDescription = "temp_way_map",
             modifier = Modifier
                 .fillMaxSize()
-                .clickable{
+                .clickable {
                     closeDialog = true
                 },
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.FillBounds
         )
     }
     if (closeDialog) {
@@ -125,7 +137,6 @@ fun ImageButton(
         }
     }
 }
-
 
 
 @Composable
