@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,9 +24,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog
 
 @Composable
 fun TaxiInform(navController: NavController) {
+    var closeDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -52,7 +58,7 @@ fun TaxiInform(navController: NavController) {
             ImageButton(
                 imageResource = R.drawable.phone,
                 contentDescription = "전화",
-                onClick = { navController.navigate("TaxiPay") }
+                onClick = { }
             )
             Spacer(modifier = Modifier.width(50.dp))
             CircularImage(imageResource = R.drawable.person)
@@ -60,7 +66,7 @@ fun TaxiInform(navController: NavController) {
             ImageButton(
                 imageResource = R.drawable.msg,
                 contentDescription = "문자",
-                onClick = {navController.navigate("TaxiRequest") }
+                onClick = { }
             )
         }
 
@@ -77,9 +83,17 @@ fun TaxiInform(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .clickable{
-                    navController.navigate("TaxiPay")
+                    closeDialog = true
                 },
             contentScale = ContentScale.Crop
+        )
+    }
+    if (closeDialog) {
+        CloseDialog(
+            onDismiss = {
+                closeDialog = false
+                navController.popBackStack("TaxiHome", inclusive = true)
+            }
         )
     }
 }

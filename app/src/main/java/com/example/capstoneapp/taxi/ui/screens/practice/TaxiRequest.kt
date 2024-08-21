@@ -29,12 +29,17 @@ import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
+import kotlinx.coroutines.delay
 
 @Composable
 fun TaxiRequest(
     navController: NavController,
     problem: Problem,
 ) {
+    LaunchedEffect(Unit) {
+        delay(5000L) // 5000 밀리초 = 5초
+        navController.navigate("TaxiInform")
+    }
     Box(
         modifier = Modifier
             .padding(16.dp)
@@ -45,10 +50,7 @@ fun TaxiRequest(
             painter = painterResource(id = R.drawable.taxi_map),
             contentDescription = "temp_way_map",
             modifier = Modifier
-                .fillMaxSize()
-                .clickable {
-                    navController.navigate("TaxiInform")
-                },
+                .fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
