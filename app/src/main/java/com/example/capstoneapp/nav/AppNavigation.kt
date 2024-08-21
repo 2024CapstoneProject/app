@@ -9,8 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -62,8 +60,12 @@ import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
-import com.example.capstoneapp.taxi.ui.screens.TaxiPay
-import com.example.capstoneapp.taxi.ui.screens.TaxiRequest
+
+import com.example.capstoneapp.taxi.ui.screens.TaxiHome
+import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiInform
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiPay
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiRequest
 import com.example.capstoneapp.taxi.ui.screens.practice.ChooseTaxiScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.SetGoalScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiConfirm
@@ -377,11 +379,16 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         }
 
+        //택시 메인화면
+        composable(route = "TaxiHome") {
+            TaxiHome(navController = navController)
+        }
         //택시 가이드 첫번째 화면
         composable(route = "Taxi_Guide") {
-            //Taxi_Guide(navController = navController)
-            TaxiMain(navController = navController)
-
+            Taxi_Guide(navController = navController)
+        }
+        composable(route = "TaxiInform") {
+            TaxiInform(navController = navController )
         }
         composable(route = "taxi_sub_screen") {
             //Taxi_Guide(navController = navController)
@@ -390,12 +397,10 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         }
 
         composable(route = "TaxiPay") {
-            var openBottomSheet by rememberSaveable { mutableStateOf(true) }
-            TaxiPay(openBottomSheet = true, onOpenBottomSheetChange ={ openBottomSheet = it }, problem = problem!!, navController = navController )
+            TaxiPay(problem = problem!!, navController = navController )
         }
         composable(route = "TaxiRequest") {
-            var openBottomSheet by rememberSaveable { mutableStateOf(true) }
-            TaxiRequest(openBottomSheet = true, onOpenBottomSheetChange ={ openBottomSheet = it }, problem = problem!!, navController = navController )
+            TaxiRequest( problem = problem!!, navController = navController )
         }
 
         composable(route = "taxi_set_goal") {

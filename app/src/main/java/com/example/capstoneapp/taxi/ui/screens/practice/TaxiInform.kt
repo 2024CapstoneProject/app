@@ -1,6 +1,7 @@
-package com.example.capstoneapp.taxi.ui.screens
+package com.example.capstoneapp.taxi.ui.screens.practice
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -58,7 +59,7 @@ fun TaxiInform(navController: NavController) {
             Spacer(modifier = Modifier.width(50.dp))
             ImageButton(
                 imageResource = R.drawable.msg,
-                contentDescription = "문 ",
+                contentDescription = "문자",
                 onClick = {navController.navigate("TaxiRequest") }
             )
         }
@@ -70,13 +71,15 @@ fun TaxiInform(navController: NavController) {
             modifier = Modifier.padding(vertical = 16.dp),
             textAlign = TextAlign.Center
         )
-
         Image(
-            painter = painterResource(id = R.drawable.tmap),
-            contentDescription = "Taxi Image",
+            painter = painterResource(id = R.drawable.taxi_map),
+            contentDescription = "temp_way_map",
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(2f / 3f)
+                .fillMaxSize()
+                .clickable{
+                    navController.navigate("TaxiPay")
+                },
+            contentScale = ContentScale.Crop
         )
     }
 }
