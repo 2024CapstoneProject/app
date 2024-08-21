@@ -1,12 +1,12 @@
 package com.example.capstoneapp.cafe.ui.Screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,10 +14,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,7 +62,7 @@ fun KioskCafePractice5(
 ) {
     Column(modifier = Modifier.fillMaxHeight()) {
         CafeMenuBarFormat {
-            MenuText5()
+            MenuText5(navController)
         }
         Screen5(navController, menuItemsViewModel, showBorder, problem)
     }
@@ -73,6 +78,8 @@ fun Screen5(
     var repeatAnswer by remember { mutableStateOf(false) }
     val orderItems by viewModel.orderItems.observeAsState()
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
+    val totalOrderCount by viewModel.totalOrderCount.observeAsState()
+
     Surface(
         color = Color(0xFFCACACA),
         modifier = Modifier
@@ -80,7 +87,9 @@ fun Screen5(
     )
     {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -150,11 +159,11 @@ fun Screen5(
 
                         )
                     Text(
-                        text = 1.toString(),//orderItems!!.size.toString()
+                        text = totalOrderCount.toString(),
                         modifier = Modifier
                             .padding(end = 4.dp)
                             .align(Alignment.CenterVertically),
-                        fontSize = 28.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.Red,
 
@@ -163,9 +172,9 @@ fun Screen5(
                         text = "개",
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
-                        fontSize = 20.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black,
+                        color = Color.Red,
                     )
                 }
                 Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -183,7 +192,7 @@ fun Screen5(
                         modifier = Modifier
                             .padding(end = 4.dp)
                             .align(Alignment.CenterVertically),
-                        fontSize = 28.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.Red,
                     )
@@ -191,9 +200,9 @@ fun Screen5(
                         text = "원",
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
-                        fontSize = 20.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black,
+                        color = Color.Red,
                     )
                 }
 
@@ -221,13 +230,13 @@ fun Screen5(
                                 BorderShape
                             ) else Modifier
                         ),
-                    colors = ButtonDefaults.buttonColors(Color(0xFFFFCA0D)),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
                         text = "먹고가기",
                         fontSize = 24.sp,
-                        color = Color.White,
+                        color = Color.Black,
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
@@ -249,13 +258,13 @@ fun Screen5(
                                 BorderShape
                             ) else Modifier
                         ),
-                    colors = ButtonDefaults.buttonColors(Color(0xFFFB2929)),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFFCA0D)),
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
                         text = "포장하기",
                         fontSize = 24.sp,
-                        color = Color.White,
+                        color = Color.Black,
                         fontWeight = FontWeight.ExtraBold
                     )
                 }
@@ -270,16 +279,37 @@ fun Screen5(
 }
 
 @Composable
-fun MenuText5() {
-    Text(
-        text = "주문 세부내역 확인",
+fun MenuText5(navController: NavController) {
+    Column(
         modifier = Modifier
+            .height(100.dp)
             .fillMaxWidth()
-            .absolutePadding(left = 30.dp),
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.White,
-    )
+            .padding(top = 8.dp, start = 8.dp, bottom = 8.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        IconButton(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .wrapContentSize()
+        ) {
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowLeft,
+                contentDescription = "setting",
+                modifier = Modifier
+                    .width(48.dp)
+                    .height(48.dp)
+            )
+        }
+        Text(
+            text = "주문 세부내역 확인",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+        )
+    }
 }
 
 @Preview

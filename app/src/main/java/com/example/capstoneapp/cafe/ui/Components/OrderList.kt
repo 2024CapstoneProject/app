@@ -1,5 +1,6 @@
 package com.example.capstoneapp.cafe.ui.Components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -21,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,6 +44,7 @@ fun OrderList(
         modifier = Modifier
             .width(230.dp)
             .fillMaxHeight()
+            .background(Color(0xFFE7E7E7),shape = RoundedCornerShape(bottomStart = 24.dp))
             .then(if (showBorder && currentStep == 4) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier) // 조건에 따라 보더 적용
     ) {
         LazyColumn(

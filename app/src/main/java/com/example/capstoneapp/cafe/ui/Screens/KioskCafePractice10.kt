@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 
 @Composable
 fun Dialog10(onDismiss: () -> Unit, onConfirm: () -> Unit) {
@@ -60,14 +62,16 @@ fun Dialog10(onDismiss: () -> Unit, onConfirm: () -> Unit) {
                         onDismiss()
                         onConfirm()
                     },
-                    modifier = Modifier.size(220.dp, 60.dp),
-                    colors = ButtonDefaults.buttonColors(Color(0xFF696969)),
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFE7E7E7)),
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
                         text = "종료",
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.ExtraBold
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.Black,
+                        fontFamily = firaSansFamily
                     )
                 }
             }
