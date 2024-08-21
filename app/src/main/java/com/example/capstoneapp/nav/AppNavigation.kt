@@ -33,6 +33,8 @@ import com.example.capstoneapp.chatbot.ui.components.ChatbotHomeScreen
 import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide1
+import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide2
 import com.example.capstoneapp.fastfood.ui.screens.DessertChickenScreen
 import com.example.capstoneapp.fastfood.ui.screens.DrinkCoffeeScreen
 import com.example.capstoneapp.fastfood.ui.screens.FastFoodHomeScreen
@@ -60,10 +62,8 @@ import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
-import com.example.capstoneapp.taxi.ui.screens.TaxiInform
 import com.example.capstoneapp.taxi.ui.screens.TaxiPay
 import com.example.capstoneapp.taxi.ui.screens.TaxiRequest
-import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
 import com.example.capstoneapp.taxi.ui.screens.practice.ChooseTaxiScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.SetGoalScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiConfirm
@@ -98,6 +98,14 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         composable(route = "HamburgerGuideScreen"){
             FastfoodGuideScreenPreview(navController = navController)
+        }
+
+        composable(route = "Fastfood_Guide1") {
+            Fastfood_Guide1(navController = navController, showBorder)
+        }
+
+        composable(route = "Fastfood_Guide2") {
+            Fastfood_Guide2(navController = navController, problem!!, true)
         }
 
         composable(route = "HamburgerPracticeHomeScreen"){
