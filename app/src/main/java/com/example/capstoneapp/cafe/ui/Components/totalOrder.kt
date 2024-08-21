@@ -106,7 +106,8 @@ fun totalOrder(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(76.dp),
+                .height(76.dp)
+                .padding(start = 8.dp,end = 8.dp),
             contentAlignment = Alignment.CenterStart
 
         ) {
@@ -116,7 +117,7 @@ fun totalOrder(
                 Text(
                     text = "남은 시간",
                     style = TextStyle(
-                        fontSize = 24.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.ExtraBold,
                         fontFamily = FontFamily.Cursive
                     ),
@@ -127,7 +128,7 @@ fun totalOrder(
                         withStyle(
                             style = SpanStyle(
                                 Color.Red,
-                                fontSize = 34.sp,
+                                fontSize = 24.sp,
                                 fontWeight = FontWeight.ExtraBold,
                                 fontFamily = FontFamily.SansSerif
                             ),
@@ -136,7 +137,8 @@ fun totalOrder(
                         }
                         append("초")
                     },
-                    fontSize = 30.sp,
+                    color = Color.Red,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.SansSerif,
                 )
@@ -146,29 +148,33 @@ fun totalOrder(
         Divider(
             color = Color.Gray, // 선의 색상 지정
             thickness = 1.dp, // 선의 두께 지정
-            modifier = Modifier.padding(2.dp)
+            modifier = Modifier.padding(8.dp)
         )
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
+                .wrapContentHeight()
                 .padding(start = 2.dp),
             contentAlignment = Alignment.TopStart
         ) {
             Column(
-                modifier = Modifier.width(120.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
 
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(2.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .padding(start = 8.dp,end=8.dp,top=4.dp,bottom=4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "선택 상품",
+                        text = "총수량",
                         style = TextStyle(
                             fontSize = 20.sp,
                             fontWeight = FontWeight.ExtraBold,
@@ -181,7 +187,7 @@ fun totalOrder(
                             withStyle(
                                 style = SpanStyle(
                                     Color.Red,
-                                    fontSize = 20.sp,
+                                    fontSize = 24.sp,
                                     fontWeight = FontWeight.ExtraBold,
                                     fontFamily = FontFamily.SansSerif
                                 ),
@@ -190,15 +196,18 @@ fun totalOrder(
                             }
                             append("개")
                         },
-                        fontSize = 20.sp,
+                        color = Color.Red,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
                         fontFamily = FontFamily.SansSerif,
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
+//                Spacer(modifier = Modifier.height(8.dp))
+
+
 
                 Button(modifier = Modifier
-                    .wrapContentWidth()
+                    .width(120.dp)
                     .height(72.dp)
                     .then(
                         if (showBorder) Modifier.border(
@@ -217,6 +226,7 @@ fun totalOrder(
                         } else ResetOrPayOrder(Pair(false, true))
                     }) {
                     Text(
+                        color = Color.Black,
                         text = "결제",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
