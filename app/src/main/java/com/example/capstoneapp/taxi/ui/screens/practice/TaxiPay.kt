@@ -1,7 +1,8 @@
-package com.example.capstoneapp.taxi.ui.screens
+package com.example.capstoneapp.taxi.ui.screens.practice
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -9,7 +10,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,22 +24,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.kakatalk.ui.Components.CloseDialog
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaxiPay(
     navController: NavController,
-    openBottomSheet: Boolean,
     problem: Problem,
-    onOpenBottomSheetChange: (Boolean) -> Unit,
 ) {
-    val bottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
 
     val sampleCardImages = listOf(
         R.drawable.card2,
@@ -47,15 +42,64 @@ fun TaxiPay(
         R.drawable.card3,
         R.drawable.card4
     )
-
-    if (openBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = {
-                onOpenBottomSheetChange(false)
-                navController.popBackStack() // 뒤로가기
-            },
-            sheetState = bottomSheetState,
-            windowInsets = BottomSheetDefaults.windowInsets
+    var closeDialog by remember { mutableStateOf(false)}
+        Box(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+            .background(Color.Gray)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.taxi_map),
+            contentDescription = "temp_way_map",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxWidth()
+                .padding(16.dp)
+                .height(40.dp)
+                .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+                .background(Color.White),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "경기대학교",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = ">",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    color = Color.Gray
+                )
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = "수원역",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            )
+        }
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .background(Color.White)
+                .padding(10.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Center
         ) {
             var sale = problem.t_coupon
             if (sale.equals("쿠폰없음")) sale = "0"
@@ -63,7 +107,7 @@ fun TaxiPay(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.8f)
-                    .padding(horizontal = 20.dp, vertical = 0.dp),
+                    .padding(horizontal = 20.dp, vertical = 10.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(
@@ -186,6 +230,7 @@ fun TaxiPay(
                     }
                     Button(
                         onClick = {
+                                  closeDialog = true
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -196,10 +241,18 @@ fun TaxiPay(
                     }
                     Spacer(modifier = Modifier.height(30.dp))
                 }
-
+            }
+            if (closeDialog) {
+                CloseDialog(
+                    onDismiss = {
+                        closeDialog = false
+                        navController.popBackStack("TaxiHome", inclusive = true)
+                    }
+                )
             }
         }
     }
+
 }
 @Composable
 fun SampleLazyRow(sampleCards: List<Int>, onCardClick: (Int) -> Unit) {
@@ -237,14 +290,11 @@ fun SampleLazyRow(sampleCards: List<Int>, onCardClick: (Int) -> Unit) {
 @Preview
 @Composable
 fun PayPreview() {
-    var openBottomSheet by rememberSaveable { mutableStateOf(true) }
     val navController = rememberNavController()
     val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
     val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
     TaxiPay(
         navController = navController,
-        openBottomSheet = openBottomSheet,
         problemViewModel.getProblemValue()!!,
-        onOpenBottomSheetChange = { openBottomSheet = it }
     )
 }
