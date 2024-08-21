@@ -1,16 +1,20 @@
 package com.example.capstoneapp.taxi.ui.screens.practice
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.widget.ImageView
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -18,9 +22,20 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 
-@SuppressLint("ClickableViewAccessibility")
 @Composable
 fun TaxiMain(navController: NavController) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight(1f)
+            .clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+    ) {
+        TaxiMainScreen(navController)
+    }
+}
+
+@SuppressLint("ClickableViewAccessibility")
+@Composable
+fun TaxiMainScreen(navController: NavController) {
     val context = LocalContext.current
 
     AndroidView(
@@ -54,9 +69,9 @@ fun TaxiMain(navController: NavController) {
                 }
 
                 textView6.setOnClickListener {
-                   //val intent = Intent(context, SubActivity::class.java)
-                //   context.startActivity(intent)
-                   navController.navigate("taxi_sub_screen")
+                    //val intent = Intent(context, SubActivity::class.java)
+                    //   context.startActivity(intent)
+                    navController.navigate("taxi_sub_screen")
                 }
             }
         },

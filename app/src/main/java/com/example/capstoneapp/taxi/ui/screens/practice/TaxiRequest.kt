@@ -3,7 +3,6 @@ package com.example.capstoneapp.taxi.ui.screens.practice
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -32,7 +32,18 @@ import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 import kotlinx.coroutines.delay
 
 @Composable
-fun TaxiRequest(
+fun TaxiRequest(navController: NavController, problem: Problem) {
+    Column(
+        modifier = Modifier
+            .fillMaxHeight(1f)
+            .clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+    ) {
+        TaxiRequestScreen(navController, problem)
+    }
+}
+
+@Composable
+fun TaxiRequestScreen(
     navController: NavController,
     problem: Problem,
 ) {
@@ -42,8 +53,7 @@ fun TaxiRequest(
     }
     Box(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxSize()
+            .fillMaxSize(1f)
             .background(Color.Gray)
     ) {
         Image(
@@ -51,7 +61,7 @@ fun TaxiRequest(
             contentDescription = "temp_way_map",
             modifier = Modifier
                 .fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.FillBounds
         )
 
         Row(
