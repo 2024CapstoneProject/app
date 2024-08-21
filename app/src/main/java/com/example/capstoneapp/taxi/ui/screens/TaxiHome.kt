@@ -104,7 +104,7 @@ fun TaxiHome(navController: NavController) {
                     imageVector = Icons.Default.Warning,
                     title = "연습해보기",
                     description = "직접 문제를 풀며 연습해요.",
-                    route = "TaxiInform"
+                    route = "TaxiMain"
                 )
             }
 

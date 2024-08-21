@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -134,7 +135,14 @@ fun TaxiOptionDetail(navController: NavController) {
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "결제수단", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        Text(
+            text = "결제수단",
+            style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold),
+            modifier = Modifier
+                .clickable {
+                    navController.navigate("TaxiPay")
+                }
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Text(text = "쿠폰", style = TextStyle(fontSize = 14.sp))
         Text(text = "포인트 OP", style = TextStyle(fontSize = 14.sp))
@@ -160,6 +168,18 @@ fun TaxiOptionDetail(navController: NavController) {
                 color = Color.Black
             )
         )
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    Button(
+        onClick = {
+            navController.navigate("TaxiRequest")
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .height(50.dp)
+    ) {
+        Text("호출하기")
     }
     Spacer(modifier = Modifier.height(16.dp))
 }

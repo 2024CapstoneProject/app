@@ -300,7 +300,7 @@ fun GuideScreen(navController: NavController) {
                     ),
                     contentPadding = PaddingValues(),
                     onClick = {
-                        navController.navigate("Taxi_Guide")
+                        navController.navigate("TaxiHome")
                     },
                     modifier = Modifier
                         .size(156.dp, 156.dp),

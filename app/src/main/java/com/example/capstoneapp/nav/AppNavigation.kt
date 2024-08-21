@@ -383,6 +383,9 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         composable(route = "TaxiHome") {
             TaxiHome(navController = navController)
         }
+        composable(route = "TaxiMain") {
+            TaxiMain(navController = navController)
+        }
         //택시 가이드 첫번째 화면
         composable(route = "Taxi_Guide") {
             Taxi_Guide(navController = navController)

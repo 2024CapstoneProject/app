@@ -42,7 +42,7 @@ fun TaxiPay(
         R.drawable.card3,
         R.drawable.card4
     )
-    var closeDialog by remember { mutableStateOf(false)}
+
         Box(
         modifier = Modifier
             .padding(16.dp)
@@ -230,7 +230,7 @@ fun TaxiPay(
                     }
                     Button(
                         onClick = {
-                                  closeDialog = true
+                            navController.popBackStack()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -242,14 +242,7 @@ fun TaxiPay(
                     Spacer(modifier = Modifier.height(30.dp))
                 }
             }
-            if (closeDialog) {
-                CloseDialog(
-                    onDismiss = {
-                        closeDialog = false
-                        navController.popBackStack("TaxiHome", inclusive = true)
-                    }
-                )
-            }
+
         }
     }
 
