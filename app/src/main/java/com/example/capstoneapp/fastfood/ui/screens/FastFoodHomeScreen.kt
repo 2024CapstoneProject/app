@@ -96,7 +96,7 @@ fun FastFoodHomeScreen(navController: NavController) {
                     imageVector = Icons.Default.Warning,
                     title = "사진 설명서",
                     description = "사진으로 설명서를 보여줘요.",
-                    route = "HamburgerGuideScreen"
+                    route = "Fastfood_Guide1"
                 )
                 OptionButton(
                     navController = navController,

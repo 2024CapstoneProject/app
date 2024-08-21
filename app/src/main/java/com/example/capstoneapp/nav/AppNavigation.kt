@@ -1,5 +1,6 @@
 package com.example.capstoneapp.nav
 
+import SubScreen
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -30,6 +31,8 @@ import com.example.capstoneapp.chatbot.ui.components.ChatbotHomeScreen
 import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide1
+import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide2
 import com.example.capstoneapp.fastfood.ui.screens.DessertChickenScreen
 import com.example.capstoneapp.fastfood.ui.screens.DrinkCoffeeScreen
 import com.example.capstoneapp.fastfood.ui.screens.FastFoodHomeScreen
@@ -57,6 +60,7 @@ import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
+
 import com.example.capstoneapp.taxi.ui.screens.TaxiHome
 import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiInform
@@ -65,6 +69,9 @@ import com.example.capstoneapp.taxi.ui.screens.practice.TaxiRequest
 import com.example.capstoneapp.taxi.ui.screens.practice.ChooseTaxiScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.SetGoalScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiConfirm
+
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiMain
+
 
 @SuppressLint("RememberReturnType")
 @Composable
@@ -93,6 +100,14 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         composable(route = "HamburgerGuideScreen"){
             FastfoodGuideScreenPreview(navController = navController)
+        }
+
+        composable(route = "Fastfood_Guide1") {
+            Fastfood_Guide1(navController = navController, showBorder)
+        }
+
+        composable(route = "Fastfood_Guide2") {
+            Fastfood_Guide2(navController = navController, problem!!, true)
         }
 
         composable(route = "HamburgerPracticeHomeScreen"){
@@ -375,6 +390,12 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         composable(route = "TaxiInform") {
             TaxiInform(navController = navController )
         }
+        composable(route = "taxi_sub_screen") {
+            //Taxi_Guide(navController = navController)
+            SubScreen(navController = navController)
+
+        }
+
         composable(route = "TaxiPay") {
             TaxiPay(problem = problem!!, navController = navController )
         }
@@ -382,7 +403,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             TaxiRequest( problem = problem!!, navController = navController )
         }
 
-        composable(route = "TaxiSetGoal") {
+        composable(route = "taxi_set_goal") {
             SetGoalScreen(navController = navController)
         }
         composable(route = "TaxiChoose") {
