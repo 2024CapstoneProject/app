@@ -1,23 +1,26 @@
 package com.example.capstoneapp.cafe.ui.Guide
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,9 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,12 @@ import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.cafe.ui.Frame.GuidePopup
 import com.example.capstoneapp.cafe.ui.Frame.VerticalAlignment
+import com.example.capstoneapp.cafe.ui.Screens.Dialog10
+import com.example.capstoneapp.cafe.ui.Screens.Dialog11
+import com.example.capstoneapp.cafe.ui.Screens.Dialog7
+import com.example.capstoneapp.cafe.ui.Screens.NumberDialog
+import com.example.capstoneapp.cafe.ui.Screens.PointDialog
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 import com.example.capstoneapp.chatbot.utils.TtsPlaybackHandler
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
@@ -160,14 +167,14 @@ fun Guide4(
         modifier = Modifier.fillMaxSize()
     ) {
         CafeMenuBarFormat {
-            MenuText6()
+            MenuText6(navController)
         }
         Screen6(navController, menuItemsViewModel, showBorder, problem, currentStep) {}
     }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         if (popup7) {
-            Popup7(
+            Dialog7(
                 onDismiss = {
                     popup7 = false
                     popup10 = true
@@ -179,7 +186,7 @@ fun Guide4(
             )
         }
         if (pointPopup) {
-            PointPopup(
+            PointDialog(
                 onDismiss = {
                     pointPopup = false
                     numberPopup = true
@@ -195,7 +202,7 @@ fun Guide4(
             )
         }
         if (numberPopup) {
-            NumberPopup(
+            NumberDialog(
                 onDismiss = {
                     numberPopup = false
                     popup11 = true
@@ -207,7 +214,7 @@ fun Guide4(
             )
         }
         if (popup11) {
-            Popup11(
+            Dialog11(
                 onDismiss = {
                     popup11 = false
                     popup10 = true
@@ -219,7 +226,7 @@ fun Guide4(
             )
         }
         if (popup10) {
-            Popup10(
+            Dialog10(
                 onDismiss = {
                     popup10 = false
                 },
@@ -278,9 +285,9 @@ fun Screen6(
 ) {
     val totalAmount by viewModel.totalOrderAmount.observeAsState()
     Surface(
-        color = Color(0xFFCACACA),
+        color = Color.White,
         modifier = Modifier
-            .clip(shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+            .clip(shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -294,36 +301,27 @@ fun Screen6(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-
-                ) {
+                horizontalArrangement = Arrangement.End
+            ) {
                 Text(
                     text = "금액",
                     modifier = Modifier
-                        .padding(start = 30.dp)
-                        .align(Alignment.CenterVertically)
-                        .weight(1f),
-                    fontSize = 28.sp,
+                        .padding(end = 8.dp)
+                        .align(Alignment.CenterVertically),
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
+                    fontFamily = firaSansFamily
                 )
                 Text(
-                    text = totalAmount.toString(),
+                    text = totalAmount.toString() + "원",
                     modifier = Modifier
-                        .padding(end = 5.dp)
+                        .padding(end = 32.dp)
                         .align(Alignment.CenterVertically),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.Red
-                )
-                Text(
-                    text = "원",
-                    modifier = Modifier
-                        .padding(end = 30.dp)
-                        .align(Alignment.CenterVertically),
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = Color.Red,
+                    fontFamily = firaSansFamily
                 )
             }
         }
@@ -341,106 +339,88 @@ fun PayButton(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 40.dp, bottom = 80.dp),
+            .padding(top = 40.dp, bottom = 40.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Button(
             onClick = { },
             modifier = Modifier
-                .size(220.dp, 150.dp)
+                .size(300.dp, 180.dp)
                 .then(
                     if (showBorder && (currentStep == 1 || (currentStep == 3 && problem.c_pay == "카드 결제"))) Modifier.border(
                         BorderWidth, BorderColor, BorderShape
                     ) else Modifier
                 ),
-            colors = ButtonDefaults.buttonColors(Color(0xFFFB2929)),
+            colors = ButtonDefaults.buttonColors(Color(0xFFFFCA0D)),
             shape = RoundedCornerShape(16.dp),
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(68.dp)
-                        .background(Color(0xFFD01B1B), RoundedCornerShape(80.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.cardicon),
-                        contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .size(54.dp)
-                        // 이미지 크기 조정
-                    )
-                }
-                Text(
-                    text = "카드결제",
-                    fontSize = 24.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.ExtraBold
-                )
-            }
-
+            Text(
+                text = "카드결제",
+                fontSize = 32.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                fontFamily = firaSansFamily
+            )
         }
         Spacer(modifier = Modifier.height(40.dp))
         Button(
             onClick = { },
             modifier = Modifier
-                .size(220.dp, 150.dp)
+                .size(300.dp, 180.dp)
                 .then(
                     if (showBorder && (currentStep == 1 || (currentStep == 3 && problem.c_pay == "쿠폰 사용"))) Modifier.border(
                         BorderWidth, BorderColor, BorderShape
                     ) else Modifier
                 ),
-            colors = ButtonDefaults.buttonColors(Color(0xFFFFCA0D)),
+            colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
             shape = RoundedCornerShape(16.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(68.dp)
-                        .background(Color.White, RoundedCornerShape(80.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.coupon),
-                        contentDescription = null, // 이미지에 대한 접근성 설명은 필요하지 않습니다
-                        contentScale = ContentScale.Inside,
-                        modifier = Modifier
-                            .size(46.dp)
-                        // 이미지 크기 조정
-                    )
-                }
-                Text(
-                    text = "쿠폰 사용",
-                    fontSize = 24.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.ExtraBold
-                )
-            }
+            Text(
+                text = "쿠폰 사용",
+                fontSize = 32.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                fontFamily = firaSansFamily
+            )
         }
     }
 }
 
 @Composable
-fun MenuText6() {
-    Text(
-        text = "결제수단 선택",
+fun MenuText6(navController: NavController) {
+    Column(
         modifier = Modifier
+            .height(100.dp)
             .fillMaxWidth()
-            .absolutePadding(left = 30.dp),
-        fontSize = 22.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.White,
-    )
+            .padding(top = 8.dp, start = 8.dp, bottom = 8.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        IconButton(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .wrapContentSize()
+        ) {
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowLeft,
+                contentDescription = "setting",
+                modifier = Modifier
+                    .width(48.dp)
+                    .height(48.dp)
+            )
+        }
+        Text(
+            text = "결제수단 선택",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = firaSansFamily,
+            color = Color.Black,
+        )
+
+    }
 }
 
 @Preview

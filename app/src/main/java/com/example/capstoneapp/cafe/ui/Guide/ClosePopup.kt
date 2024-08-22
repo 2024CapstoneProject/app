@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 
 @Composable
 fun ClosePopup(onDismiss: () -> Unit) {
@@ -38,8 +40,8 @@ fun ClosePopup(onDismiss: () -> Unit) {
         ) {
             Box(
                 modifier = Modifier
-                    .size(330.dp, 280.dp)
-                    .padding(16.dp)
+                    .size(320.dp, 260.dp)
+                    .padding(8.dp)
                     .background(
                         color = Color.White,
                         shape = RoundedCornerShape(16.dp)
@@ -54,28 +56,32 @@ fun ClosePopup(onDismiss: () -> Unit) {
                 ) {
                     Text(
                         text = "수고하셨습니다!",
-                        color = Color.Black,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.ExtraBold
+                        color = Color(0xFFFFDA77),
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontFamily = firaSansFamily
                     )
                     Text(
                         text = "사진 설명을 종료합니다.",
                         color = Color.Black,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.ExtraBold
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontFamily = firaSansFamily
                     )
                     Spacer(modifier = Modifier.height(30.dp))
 
                     Button(
                         onClick = onDismiss,
-                        modifier = Modifier.size(220.dp, 60.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xFF696969)),
+                        modifier = Modifier.fillMaxWidth().height(48.dp),
+                        colors = ButtonDefaults.buttonColors(Color(0xFFE7E7E7)),
                         shape = RoundedCornerShape(16.dp)
                     ) {
                         Text(
                             text = "종료",
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.ExtraBold
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.Black,
+                            fontFamily = firaSansFamily
                         )
                     }
                 }

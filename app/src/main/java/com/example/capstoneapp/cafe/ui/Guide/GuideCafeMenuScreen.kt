@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,8 +32,6 @@ import com.example.capstoneapp.cafe.data.Repository.MenuItemsRepository
 import com.example.capstoneapp.cafe.ui.Components.CafeMenuBarFormat
 import com.example.capstoneapp.cafe.ui.Components.OrderList
 import com.example.capstoneapp.cafe.ui.Components.totalOrder
-import com.example.capstoneapp.cafe.ui.Frame.GuidePopup
-import com.example.capstoneapp.cafe.ui.Frame.VerticalAlignment
 import com.example.capstoneapp.chatbot.utils.TtsPlaybackHandler
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
@@ -89,7 +85,8 @@ fun GuideCafeMenuScreen(
             }
         } else if (currentStep == 4) {
             // Step 4에서 문제의 메뉴를 OrderList에 추가
-            val menuItem = MenuItemsRepository.getItemsForMenu(selectedMenu).find { it.name == problem.c_menu }
+            val menuItem =
+                MenuItemsRepository.getItemsForMenu(selectedMenu).find { it.name == problem.c_menu }
             if (menuItem != null && orderItems.none { it.first == menuItem }) {
                 menuItemsViewModel.addMenuItem(Pair(menuItem, 1), -1)
             }
@@ -97,12 +94,14 @@ fun GuideCafeMenuScreen(
     }
 
     Surface(
-        color = Color(0xFFCACACA),
+        color = Color.White,
         modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(1f)
             .clip(shape = RoundedCornerShape(16.dp))
     ) {
-        Column {
-            Column(
+        Column(modifier = Modifier.fillMaxHeight(1f)) {
+            Column(//메뉴 리스트 Column
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -133,19 +132,6 @@ fun GuideCafeMenuScreen(
                 GuideCafeMenuList(
                     selectedMenu = selectedMenu,
                     onItemClicked = {
-//                        selectedItem ->
-//                        if (selectedItem.name == problem.c_menu) {
-//                            val targetPair = orderItems.firstOrNull { it.first.name == selectedItem.name }
-//                            if (targetPair != null) {
-//                                val index = orderItems.indexOf(targetPair)
-//                                menuItemsViewModel.addMenuItem(targetPair, index)
-//                            } else {
-//                                menuItemsViewModel.addMenuItem(Pair(selectedItem, 1), -1)
-//                            }
-//                        } else {
-//                            showRetryPopup = true
-//                            popupMessage = "다시 골라주세요!"
-//                        }
                     },
                     showBorder = when (currentStep) {
                         3 -> true
@@ -159,7 +145,7 @@ fun GuideCafeMenuScreen(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Spacer(modifier = Modifier.height(140.dp))
+                Spacer(modifier = Modifier.height(100.dp))
             }
 
             Row(
@@ -170,23 +156,24 @@ fun GuideCafeMenuScreen(
                         .width(230.dp)
                         .fillMaxHeight()
                 ) {
-                    Divider(
-                        color = Color.Gray,
-                        thickness = 2.dp,
-                        modifier = Modifier
-                            .padding()
-                            .width(234.dp)
-                    )
-
                     OrderList(
                         orderItems = orderItems,
                         onItemStatus = { onItemStatus ->
-                            val targetPairIndex = orderItems.indexOfFirst { onItemStatus.first == it.first }
+                            val targetPairIndex =
+                                orderItems.indexOfFirst { onItemStatus.first == it.first }
                             if (targetPairIndex != -1) {
                                 val targetPair = orderItems[targetPairIndex]
                                 when (onItemStatus.second) {
-                                    "Add" -> menuItemsViewModel.addMenuItem(targetPair, targetPairIndex)
-                                    "Minus" -> menuItemsViewModel.minusMenuItem(targetPair, targetPairIndex)
+                                    "Add" -> menuItemsViewModel.addMenuItem(
+                                        targetPair,
+                                        targetPairIndex
+                                    )
+
+                                    "Minus" -> menuItemsViewModel.minusMenuItem(
+                                        targetPair,
+                                        targetPairIndex
+                                    )
+
                                     "Delete" -> menuItemsViewModel.removeMenuItem(targetPair)
                                 }
                             }
@@ -198,27 +185,25 @@ fun GuideCafeMenuScreen(
                         currentStep
                     )
                 }
-                Divider(
-                    color = Color.Gray,
+                Column(
                     modifier = Modifier
+                        .width(230.dp)
                         .fillMaxHeight()
-                        .width(2.dp)
-                )
-                // totalOrder 호출 시 remainingTime을 고정하여 타이머 기능을 비활성화
-                totalOrder(totalCount, isRepeat, {
-                    if (!isRepeat && it.first) {
-                        menuItemsViewModel.clearMenuItem()
-                    } else if (it.second) {
-                        //navController.navigate("KioskCafePractice5")
-                    } else if (isRepeat && it.first) {
-                        isRepeat = false
-                    }
-                }, showBorder = currentStep == 6, false) // 타이머를 멈춘 상태로 표시
+                ) {
+                    // totalOrder 호출 시 remainingTime을 고정하여 타이머 기능을 비활성화
+                    totalOrder(totalCount, isRepeat, {
+                        if (!isRepeat && it.first) {
+                            menuItemsViewModel.clearMenuItem()
+                        } else if (it.second) {
+                        } else if (isRepeat && it.first) {
+                            isRepeat = false
+                        }
+                    }, showBorder = currentStep == 6, false) // 타이머를 멈춘 상태로 표시
+                }
             }
         }
     }
 }
-
 @Preview
 @Composable
 fun GuideCafeMenuScreenPreview() {
