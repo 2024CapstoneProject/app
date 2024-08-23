@@ -70,7 +70,7 @@ fun TaxiConfirmScreen(navController: NavController) {
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "마루아파트",
+                text = "경기대학교",
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
@@ -87,7 +87,7 @@ fun TaxiConfirmScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "디지털배움터",
+                text = "수원역",
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
