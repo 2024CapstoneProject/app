@@ -48,7 +48,7 @@ fun SetGoal(navController: NavController) {
             .background(Color.Gray)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.goal_map),
+            painter = painterResource(id = R.drawable.suwon_map),
             contentDescription = "goal_map",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds
@@ -65,7 +65,7 @@ fun SetGoal(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "디지털배움터",
+                text = "수원역",
                 style = TextStyle(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
@@ -75,7 +75,7 @@ fun SetGoal(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "배움시 학습3길 12",
+                text = "경기 수원시 팔달구 덕영대로 924",
                 style = TextStyle(
                     fontSize = 16.sp,
                     color = Color.Gray
