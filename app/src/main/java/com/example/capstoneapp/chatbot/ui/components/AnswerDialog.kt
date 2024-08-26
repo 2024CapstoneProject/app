@@ -1,4 +1,5 @@
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -89,11 +90,10 @@ fun AnswerDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // 챗봇 아이콘
-                    Icon(
-                        painter = painterResource(id = R.drawable.mic), // 챗봇 아이콘 리소스
-                        contentDescription = "Chatbot",
-                        tint = Color.Black,
-                        modifier = Modifier.size(24.dp)
+                   Image(
+                        painter = painterResource(id = R.drawable.chatboticon), // 이미지 리소스를 사용
+                        contentDescription = null,
+                        modifier = Modifier.size(72.dp)
                     )
 
                     // 네비게이션 화살표

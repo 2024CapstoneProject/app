@@ -4,6 +4,7 @@ package com.example.capstoneapp.cafe.ui.Screens
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,6 +46,8 @@ import com.example.capstoneapp.chatbot.api.ChatService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.res.painterResource
+import com.example.capstoneapp.R
 
 
 @Composable
@@ -83,7 +86,7 @@ fun GuideScreen(navController: NavController) {
                 Text(text="효자손",
                     fontSize = 32.sp,
                     color = Color(0xFF5C460C),
-                    style = MaterialTheme.typography.titleLarge)
+                    style = MaterialTheme.typography.displayLarge)
                 Button(
                     elevation = ButtonDefaults.buttonElevation(
                         defaultElevation = 8.dp,
@@ -100,7 +103,7 @@ fun GuideScreen(navController: NavController) {
                     Text(text="로그아웃",
                         fontSize = 20.sp,
                         color = Color(0xFF5C460C),
-                        style = MaterialTheme.typography.titleLarge)
+                        style = MaterialTheme.typography.displayLarge,)
                 }
 
             }
@@ -135,10 +138,9 @@ fun GuideScreen(navController: NavController) {
                         horizontalArrangement = Arrangement.Center
 
                     ){
-                        Icon(
-                            imageVector = Icons.Default.Warning,
-                            contentDescription = "",
-                            tint = Color(0xFF5C460C),
+                        Image(
+                            painter = painterResource(id = R.drawable.chatboticon), // 이미지 리소스를 사용
+                            contentDescription = null,
                             modifier = Modifier.size(40.dp).padding(end=12.dp)
                         )
                         Text(
@@ -184,11 +186,10 @@ fun GuideScreen(navController: NavController) {
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ){
-                            Icon(
-                                imageVector = Icons.Default.Warning,
-                                contentDescription = "",
-                                tint = Color(0xFFFFDA77),
-                                modifier = Modifier.size(68.dp).padding(bottom=12.dp)
+                            Image(
+                                painter = painterResource(id = R.drawable.cafe), // 이미지 리소스를 사용
+                                contentDescription = null,
+                                modifier = Modifier.size(72.dp)
                             )
                             Text(
                                 text = "카페",
@@ -226,11 +227,10 @@ fun GuideScreen(navController: NavController) {
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Warning,
-                                contentDescription = "",
-                                tint = Color(0xFFFFDA77),
-                                modifier = Modifier.size(68.dp).padding(bottom = 12.dp)
+                            Image(
+                                painter = painterResource(id = R.drawable.kakaotalk), // 이미지 리소스를 사용
+                                contentDescription = null,
+                                modifier = Modifier.size(72.dp)
                             )
                             Text(
                                 text = "카카오톡",
@@ -277,11 +277,10 @@ fun GuideScreen(navController: NavController) {
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Icon(
-                                    imageVector = Icons.Default.Warning,
-                                    contentDescription = "",
-                                    tint = Color(0xFFFFDA77),
-                                    modifier = Modifier.size(68.dp).padding(bottom = 12.dp)
+                                Image(
+                                    painter = painterResource(id = R.drawable.fastfood), // 이미지 리소스를 사용
+                                    contentDescription = null,
+                                    modifier = Modifier.size(72.dp)
                                 )
                                 Text(
                                     text = "패스트푸드",
@@ -319,11 +318,10 @@ fun GuideScreen(navController: NavController) {
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Warning,
-                                contentDescription = "",
-                                tint = Color(0xFFFFDA77),
-                                modifier = Modifier.size(68.dp).padding(bottom = 12.dp)
+                            Image(
+                                painter = painterResource(id = R.drawable.taxi), // 이미지 리소스를 사용
+                                contentDescription = null,
+                                modifier = Modifier.size(72.dp)
                             )
                             Text(
                                 text = "택시",
@@ -366,11 +364,10 @@ fun GuideScreen(navController: NavController) {
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Warning,
-                                contentDescription = "",
-                                tint = Color(0xFFFFDA77),
-                                modifier = Modifier.size(68.dp).padding(bottom = 12.dp)
+                            Image(
+                                painter = painterResource(id = R.drawable.phonehome), // 이미지 리소스를 사용
+                                contentDescription = null,
+                                modifier = Modifier.size(72.dp)
                             )
                             Text(
                                 text = "휴대전화",
@@ -399,10 +396,10 @@ fun GuideScreen(navController: NavController) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "길찾기",
+                            text = "준비중",
                             fontSize = 32.sp,
                             color = Color(0xFFADADAD),
-                            style = MaterialTheme.typography.displayLarge
+                            style = MaterialTheme.typography.displayLarge,
                         )
                     }
                 }

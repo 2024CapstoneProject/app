@@ -60,7 +60,7 @@ fun MessageInputField(
                 .shadow(
                     elevation = 6.dp, // Slightly higher elevation for a wider shadow
                     shape = RoundedCornerShape(16.dp), // Rounded corners
-                    ambientColor = Color.Black.copy(alpha = 1f), // Lighter gray shadow
+                //    ambientColor = Color.Black.copy(alpha = 1f), // Lighter gray shadow
                     spotColor = Color.Black.copy(alpha = 1f) // Lighter gray shadow
                 )
                 .clip(RoundedCornerShape(16.dp)) // Clip the corners to be rounded

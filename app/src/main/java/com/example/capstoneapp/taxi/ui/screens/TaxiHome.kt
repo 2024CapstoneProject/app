@@ -1,5 +1,6 @@
 package com.example.capstoneapp.taxi.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,12 +30,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.ui.theme.CapstoneAppTheme
 
 @Composable
@@ -93,7 +96,7 @@ fun TaxiHome(navController: NavController) {
                 OptionButton(
                     navController = navController,
                     paddingValue = 16.dp,
-                    imageVector = Icons.Default.Warning,
+                    imageResId = R.drawable.image,
                     title = "사진 설명서",
                     description = "사진으로 설명서를 보여줘요.",
                     route = "Taxi_Guide"
@@ -101,7 +104,7 @@ fun TaxiHome(navController: NavController) {
                 OptionButton(
                     navController = navController,
                     paddingValue = 0.dp,
-                    imageVector = Icons.Default.Warning,
+                    imageResId = R.drawable.practice,
                     title = "연습해보기",
                     description = "직접 문제를 풀며 연습해요.",
                     route = "TaxiMain"
@@ -116,7 +119,7 @@ fun TaxiHome(navController: NavController) {
 fun OptionButton(
     navController: NavController,
     paddingValue: Dp,
-    imageVector: ImageVector,
+    imageResId: Int,
     title: String,
     description: String,
     route: String
@@ -148,10 +151,9 @@ fun OptionButton(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
-                    imageVector = imageVector,
-                    contentDescription = "",
-                    tint = Color(0xFF5C460C),
+                Image(
+                    painter = painterResource(id = imageResId), // 이미지 리소스를 사용
+                    contentDescription = null,
                     modifier = Modifier.size(72.dp)
                 )
                 Text(
