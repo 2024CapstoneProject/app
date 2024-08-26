@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
 @Composable
@@ -43,9 +44,9 @@ fun ButtonFormat(
     ) {
         Text(
             text = buttonText,
-            fontWeight = FontWeight.ExtraBold,
+            fontWeight = FontWeight.Bold,
             color = contentColor,
-            fontFamily = fontFamily,
+            fontFamily = firaSansFamily,
             fontSize = 24.sp,
             modifier = Modifier.padding(vertical = 8.dp),
         )

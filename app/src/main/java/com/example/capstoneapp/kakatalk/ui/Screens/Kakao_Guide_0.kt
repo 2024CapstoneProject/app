@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 import com.example.capstoneapp.chatbot.ui.components.showNextImage
 import com.example.capstoneapp.chatbot.ui.components.showPreviousImage
 import com.example.capstoneapp.chatbot.ui.components.EnlargedImagePopup
@@ -142,8 +143,9 @@ fun guideImage(
         ) {
             Text(
                 text = imageName,
-                style = TextStyle(fontSize = 30.sp),
-                fontWeight = FontWeight.ExtraBold,
+                fontSize = 30.sp,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
 

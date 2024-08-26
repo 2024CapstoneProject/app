@@ -47,7 +47,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
+import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
 
 @Composable
@@ -86,7 +89,8 @@ fun GuideScreen(navController: NavController) {
                 Text(text="효자손",
                     fontSize = 32.sp,
                     color = Color(0xFF5C460C),
-                    style = MaterialTheme.typography.displayLarge)
+                    fontFamily = firaSansFamily,
+                    fontWeight = FontWeight.ExtraBold,)
                 Button(
                     elevation = ButtonDefaults.buttonElevation(
                         defaultElevation = 8.dp,
@@ -103,7 +107,9 @@ fun GuideScreen(navController: NavController) {
                     Text(text="로그아웃",
                         fontSize = 20.sp,
                         color = Color(0xFF5C460C),
-                        style = MaterialTheme.typography.displayLarge,)
+                        fontFamily = firaSansFamily,
+                        fontWeight = FontWeight.ExtraBold,
+                        )
                 }
 
             }
@@ -147,7 +153,8 @@ fun GuideScreen(navController: NavController) {
                             text = "AI 도우미 대화 서비스",
                             fontSize = 24.sp,
                             color = Color(0xFF5C460C),
-                            style = MaterialTheme.typography.displayLarge,
+                            fontFamily = firaSansFamily,
+                            fontWeight = FontWeight.Bold
                         )
                     }
 
@@ -195,7 +202,8 @@ fun GuideScreen(navController: NavController) {
                                 text = "카페",
                                 fontSize = 32.sp,
                                 color = Color.Black,
-                                style = MaterialTheme.typography.displayLarge
+                                fontFamily = firaSansFamily,
+                                fontWeight = FontWeight.Bold
                             )
                         }
 
@@ -236,7 +244,8 @@ fun GuideScreen(navController: NavController) {
                                 text = "카카오톡",
                                 fontSize = 32.sp,
                                 color = Color.Black,
-                                style = MaterialTheme.typography.displayLarge
+                                fontFamily = firaSansFamily,
+                                fontWeight = FontWeight.Bold
                             )
                         }
                     }
@@ -286,7 +295,8 @@ fun GuideScreen(navController: NavController) {
                                     text = "패스트푸드",
                                     fontSize = 30.sp,
                                     color = Color.Black,
-                                    style = MaterialTheme.typography.displayLarge,
+                                    fontFamily = firaSansFamily,
+                                    fontWeight = FontWeight.Bold,
                                     textAlign = TextAlign.Center
                                 )
                             }
@@ -327,7 +337,8 @@ fun GuideScreen(navController: NavController) {
                                 text = "택시",
                                 fontSize = 32.sp,
                                 color = Color.Black,
-                                style = MaterialTheme.typography.displayLarge
+                                fontFamily = firaSansFamily,
+                                fontWeight = FontWeight.Bold
                             )
                         }
                     }
@@ -373,7 +384,8 @@ fun GuideScreen(navController: NavController) {
                                 text = "휴대전화",
                                 fontSize = 32.sp,
                                 color = Color.Black,
-                                style = MaterialTheme.typography.displayLarge
+                                fontFamily = firaSansFamily,
+                                fontWeight = FontWeight.Bold
                             )
                         }
                     }
@@ -399,7 +411,8 @@ fun GuideScreen(navController: NavController) {
                             text = "준비중",
                             fontSize = 32.sp,
                             color = Color(0xFFADADAD),
-                            style = MaterialTheme.typography.displayLarge,
+                            fontFamily = firaSansFamily,
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 }

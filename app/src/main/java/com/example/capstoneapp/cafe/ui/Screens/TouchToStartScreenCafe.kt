@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 import com.example.capstoneapp.fastfood.ui.theme.BorderColor
 import com.example.capstoneapp.fastfood.ui.theme.BorderShape
 import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
@@ -54,8 +55,8 @@ fun TouchScreenCafe(navController: NavController, showBorder: Boolean) {
             style =
             TextStyle(
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = fontFamily
+                fontWeight = FontWeight.Medium,
+                fontFamily = firaSansFamily
             ),
             modifier = Modifier.padding(top = 16.dp)
         )
