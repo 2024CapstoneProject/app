@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,6 +39,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.Screens.ChecklistItem
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
@@ -91,7 +93,8 @@ fun TextScreen(navController: NavController, problem: Problem) {
                 text = "연습해보기",
                 fontSize = 32.sp,
                 color = Color.Black,
-                style = MaterialTheme.typography.titleLarge
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.ExtraBold,
             )
         }
     }
@@ -112,13 +115,15 @@ fun TextScreen(navController: NavController, problem: Problem) {
             Text(
                 text = "아래 내용을 확인하고",
                 fontSize = 28.sp,
-                style = MaterialTheme.typography.displayLarge,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Medium,
                 color = Color.Black
             )
             Text(
                 text = "키오스크 주문을 연습해요!",
                 fontSize = 28.sp,
-                style = MaterialTheme.typography.displayLarge,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Medium,
                 color = Color.Black,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -126,13 +131,15 @@ fun TextScreen(navController: NavController, problem: Problem) {
                 text = "아래 정보는 주문하실 내용입니다.",
                 fontSize = 16.sp,
                 color = Color(0xFFADADAD),
-                style = MaterialTheme.typography.displayLarge,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Light,
             )
             Text(
                 text = "확인하셨다면 버튼을 눌러 체크해주세요.",
                 fontSize = 16.sp,
                 color = Color(0xFFADADAD),
-                style = MaterialTheme.typography.displayLarge,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Light,
             )
         }
         FastfoodProblemCard(navController, problem) {
@@ -209,7 +216,8 @@ fun StartButton(alpha: Double, onClick: () -> Unit) {
             Text(
                 text = "시작하기",
                 fontSize = 24.sp,
-                style = MaterialTheme.typography.displayLarge,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Bold,
                 color = Color(0xFF5C460C)
             )
         }

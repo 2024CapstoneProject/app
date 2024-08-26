@@ -43,6 +43,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
 import kotlinx.coroutines.launch
 
 @Composable
@@ -154,7 +155,8 @@ fun guideImage(
             Text(
                 text = imageName,
                 style = TextStyle(fontSize = 30.sp),
-                fontWeight = FontWeight.ExtraBold,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
 
