@@ -387,7 +387,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             NotificationScreen(
                 problem = problem!!,
                 screenType=4,
-                content = { TaxiMain(navController = navController)}
+                content = { TaxiMain(navController = navController,showBorder)}
             ) { setShowBorder(!showBorder) }
         }
         //택시 가이드 첫번째 화면
@@ -403,8 +403,11 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         }
         composable(route = "taxi_sub_screen") {
-            //Taxi_Guide(navController = navController)
-            SubScreen(navController = navController)
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = {  SubScreen(navController = navController,showBorder)}
+            ) { setShowBorder(!showBorder) }
 
         }
 

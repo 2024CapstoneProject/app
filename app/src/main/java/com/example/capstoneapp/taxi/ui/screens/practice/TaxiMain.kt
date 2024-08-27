@@ -23,19 +23,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
 
 @Composable
-fun TaxiMain(navController: NavController) {
+fun TaxiMain(navController: NavController,showBorder: Boolean) {
     Column(
         modifier = Modifier
             .fillMaxHeight(1f)
             .clip(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
     ) {
-        TaxiMainScreen(navController)
+        TaxiMainScreen(navController,showBorder)
     }
 }
 
 @SuppressLint("ClickableViewAccessibility")
 @Composable
-fun TaxiMainScreen(navController: NavController) {
+fun TaxiMainScreen(navController: NavController,showBorder: Boolean) {
     val context = LocalContext.current
 
     AndroidView(
@@ -51,6 +51,7 @@ fun TaxiMainScreen(navController: NavController) {
                 // Ensure the ImageView is visible and check the drawable resource
                 imageView1.setImageResource(R.drawable.kyonggi_map)
                 imageView1.isVisible = true
+
 
                 imageButton.setOnClickListener {
                     imageView2.setImageResource(R.drawable.marker)
@@ -75,7 +76,19 @@ fun TaxiMainScreen(navController: NavController) {
                 }
             }
         },
-        update = { }
+        update = { view ->
+            val imageButton = view.findViewById<ImageButton>(R.id.imageButton)
+            val textView6 = view.findViewById<TextView>(R.id.textView6)
+
+            // Update the background based on showBorder value
+            if (showBorder) {
+                imageButton.background = context.getDrawable(R.drawable.custombutton)
+                textView6.background = context.getDrawable(R.drawable.customtextfield)
+            } else {
+                imageButton.background = null
+                textView6.background = null
+            }
+        }
     )
 }
 
@@ -83,5 +96,5 @@ fun TaxiMainScreen(navController: NavController) {
 @Composable
 fun TaxiMainPreview() {
     val navController = rememberNavController()
-    TaxiMain(navController)
+    TaxiMain(navController,true)
 }

@@ -23,13 +23,14 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:scaleType="fitXY"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:src="@drawable/position"
             android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:padding="8dp"
+            android:src="@drawable/position"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="@+id/imageView" />
 
@@ -147,6 +148,7 @@
 
             <TextView
                 android:id="@+id/textView6"
+                android:background="@android:color/transparent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="20"
