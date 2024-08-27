@@ -107,7 +107,7 @@ fun TaxiHome(navController: NavController) {
                     imageResId = R.drawable.practice,
                     title = "연습해보기",
                     description = "직접 문제를 풀며 연습해요.",
-                    route = "TaxiMain"
+                    route = "TaxiProblem"
                 )
             }
 

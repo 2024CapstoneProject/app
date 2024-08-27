@@ -82,7 +82,7 @@ fun TextScreen(navController: NavController, problem: KakaotalkProblem) {
         ) {
             IconButton(
                 modifier = Modifier.size(56.dp),
-                onClick = { navController.navigate("Kakao_Menu") },
+                onClick = { navController.popBackStack("Kakao_Menu", inclusive = false) },
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
