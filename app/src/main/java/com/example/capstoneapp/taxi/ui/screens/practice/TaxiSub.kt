@@ -1,3 +1,4 @@
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -14,9 +15,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
-fun SubScreen(navController: NavController) {
+fun SubScreen(navController: NavController,showBorder: Boolean) {
     var inputText by remember { mutableStateOf("") }
     var showLayouts by remember { mutableStateOf(false) }
 
@@ -69,33 +73,40 @@ fun SubScreen(navController: NavController) {
 
         // 검색 결과 레이아웃
         if (showLayouts) {
-            LocationItem("수원역", "경기 수원시 팔달구 덕영대로 924") {
+            LocationItem("수원역", "경기 수원시 팔달구 덕영대로 924",showBorder) {
                 navController.navigate("taxi_set_goal")
             }
-            LocationItem("수원역 1호선", "경기 수원시 팔달구 덕영대로 924")
-            LocationItem("수원역환승센터", "경기 수원시 권선구 세화로 136")
+            LocationItem("수원역 1호선", "경기 수원시 팔달구 덕영대로 924",false)
+            LocationItem("수원역환승센터", "경기 수원시 권선구 세화로 136",false)
         }
     }
 }
 
 @Composable
-fun LocationItem(title: String, address: String, onClick: () -> Unit = {}) {
+fun LocationItem(title: String, address: String, showBorder: Boolean, onClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 40.dp, top = 12.dp, end = 12.dp, bottom = 12.dp)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .then(
+                if (showBorder) Modifier.border(
+                    BorderWidth,
+                    BorderColor,
+                    BorderShape
+                ) else Modifier
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             painter = painterResource(id = R.drawable.marker),
             contentDescription = "Location marker",
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(24.dp).padding(start = 4.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text(title, fontSize = 20.sp, fontFamily = FontFamily(Font(R.font.yfont)), color = Color.Black)
-            Text(address, fontFamily = FontFamily(Font(R.font.yfont)))
+            Text(address, fontFamily = FontFamily(Font(R.font.yfont)),modifier = Modifier.padding(bottom=4.dp))
         }
     }
 }
@@ -104,5 +115,5 @@ fun LocationItem(title: String, address: String, onClick: () -> Unit = {}) {
 @Composable
 fun SubActivityScreenPreview() {
     val navController = rememberNavController()
-   SubScreen(navController)
+   SubScreen(navController,true)
 }

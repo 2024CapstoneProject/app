@@ -29,6 +29,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.fastfood.ui.frame.ButtonFormat
+import com.example.capstoneapp.fastfood.ui.theme.Brown
+import com.example.capstoneapp.fastfood.ui.theme.White
+import com.example.capstoneapp.fastfood.ui.theme.Yellow
 import com.example.capstoneapp.fastfood.ui.theme.fontFamily
 
 @Composable
@@ -90,20 +94,29 @@ fun SetGoal(navController: NavController) {
                 )
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = { navController.navigate("TaxiChoose") },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Text(
-                    text = "목적지 설정 완료",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        color = Color.White
-                    )
-                )
-            }
+//            Button(
+//                onClick = { navController.navigate("TaxiChoose") },
+//                modifier = Modifier
+//                    .fillMaxWidth(),
+//                shape = RoundedCornerShape(8.dp)
+//            ) {
+//                Text(
+//                    text = "목적지 설정 완료",
+//                    style = TextStyle(
+//                        fontSize = 16.sp,
+//                        color = Color.White
+//                    )
+//                )
+//            }
+
+            ButtonFormat(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {navController.navigate("TaxiChoose") },
+                buttonText = "목적지 설정 완료",
+                backgroundColor = White,
+                contentColor = Brown,
+                showShadow = true
+            )
         }
     }
 //    }

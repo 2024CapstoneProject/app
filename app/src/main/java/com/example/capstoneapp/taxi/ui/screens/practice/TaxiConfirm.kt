@@ -32,6 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.capstoneapp.R
+import com.example.capstoneapp.fastfood.ui.frame.ButtonFormat
+import com.example.capstoneapp.fastfood.ui.theme.Brown
+import com.example.capstoneapp.fastfood.ui.theme.White
 
 @Composable
 fun TaxiConfirm(navController: NavController) {
@@ -182,17 +185,27 @@ fun TaxiOptionDetail(navController: NavController) {
         )
     }
     Spacer(modifier = Modifier.height(16.dp))
-    Button(
-        onClick = {
-            navController.navigate("TaxiRequest")
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp)
-            .padding(top = 16.dp)
-            .height(50.dp)
-    ) {
-        Text("호출하기")
-    }
+//    Button(
+//        onClick = {
+//            navController.navigate("TaxiRequest")
+//        },
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(start = 16.dp, end = 16.dp)
+//            .padding(top = 16.dp)
+//            .height(50.dp)
+//    ) {
+//        Text("호출하기")
+//    }
+    ButtonFormat(
+        modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+        onClick = {navController.navigate("TaxiRequest") },
+        buttonText = "호출하기",
+        backgroundColor = White,
+        contentColor = Brown,
+        showShadow = true
+    )
+
+
     Spacer(modifier = Modifier.height(16.dp))
 }
