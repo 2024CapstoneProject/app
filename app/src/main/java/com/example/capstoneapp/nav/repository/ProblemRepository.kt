@@ -45,7 +45,7 @@ object ProblemRepository {
 
     private var simpleProblemList = listOf(
         Pair("\'뭐해?\'라고 문자 보내기","뭐해"),
-        Pair("\'경로당에 있다고 문자 보내기","경로당"),
+        Pair("\'경로당\'에 있다고 문자 보내기","경로당"),
         Pair("전화번호 보내기\n(전화번호 : 010-1234-5678)","010-1234-5678")
     )
 
