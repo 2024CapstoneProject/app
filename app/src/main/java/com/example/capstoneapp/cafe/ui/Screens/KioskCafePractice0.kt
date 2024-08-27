@@ -75,7 +75,7 @@ fun KioskCafePractice0(navController: NavController, problem: Problem) {
             ) {
                 IconButton(
                     modifier = Modifier.size(56.dp),
-                    onClick = { navController.navigate("Guide0") },
+                    onClick = {navController.popBackStack("CafeHomeScreen", inclusive = false)},
                 ) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,

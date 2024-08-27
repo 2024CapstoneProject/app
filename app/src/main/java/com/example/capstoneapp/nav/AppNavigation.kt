@@ -62,6 +62,7 @@ import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
 
 import com.example.capstoneapp.taxi.ui.screens.TaxiHome
+import com.example.capstoneapp.taxi.ui.screens.TaxiProblem
 import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiInform
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiPay
@@ -69,7 +70,6 @@ import com.example.capstoneapp.taxi.ui.screens.practice.TaxiRequest
 import com.example.capstoneapp.taxi.ui.screens.practice.ChooseTaxiScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.SetGoalScreen
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiConfirm
-
 import com.example.capstoneapp.taxi.ui.screens.practice.TaxiMain
 
 
@@ -381,6 +381,7 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         //택시 메인화면
         composable(route = "TaxiHome") {
+
             TaxiHome(navController = navController)
         }
         composable(route = "TaxiMain") {
@@ -442,6 +443,9 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
                 screenType=4,
                 content = {  TaxiConfirm(navController = navController)}
             ) { setShowBorder(!showBorder) }
+        }
+        composable(route = "TaxiProblem") {
+            TaxiProblem(navController = navController)
         }
 
 

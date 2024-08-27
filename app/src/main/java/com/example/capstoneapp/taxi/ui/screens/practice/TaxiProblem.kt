@@ -1,6 +1,7 @@
-package com.example.capstoneapp.fastfood.ui.screens
+package com.example.capstoneapp.taxi.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,18 +15,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,18 +39,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.capstoneapp.cafe.ui.Screens.ChecklistItem
 import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
-import com.example.capstoneapp.nav.repository.Problem
-import com.example.capstoneapp.nav.repository.ProblemRepository
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
-import com.example.capstoneapp.nav.viewmodel.ProblemViewModelFactory
 
 @Composable
-fun PracticeHomeScreen(navController: NavController, problem: Problem) {
+fun TaxiProblem(navController: NavController) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,13 +53,12 @@ fun PracticeHomeScreen(navController: NavController, problem: Problem) {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextScreen(navController = navController, problem = problem)
+        TaxiProblemScreen(navController)
     }
-
 }
 
 @Composable
-fun TextScreen(navController: NavController, problem: Problem) {
+fun TaxiProblemScreen(navController: NavController) {
     var alpha by remember { mutableStateOf(0.0) }
 
     Box(
@@ -78,7 +76,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
         ) {
             IconButton(
                 modifier = Modifier.size(56.dp),
-                onClick = { navController.popBackStack("HamburgerHomeScreen", inclusive = false) },
+                onClick = { navController.popBackStack("TaxiHome", inclusive = false)},
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
@@ -120,7 +118,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
                 color = Color.Black
             )
             Text(
-                text = "키오스크 주문을 연습해요!",
+                text = "택시 호출하기를 연습해요!",
                 fontSize = 28.sp,
                 fontFamily = firaSansFamily,
                 fontWeight = FontWeight.Medium,
@@ -128,7 +126,7 @@ fun TextScreen(navController: NavController, problem: Problem) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Text(
-                text = "아래 정보는 주문하실 내용입니다.",
+                text = "아래 정보는 택시 호출 정보입니다.",
                 fontSize = 16.sp,
                 color = Color(0xFFADADAD),
                 fontFamily = firaSansFamily,
@@ -142,51 +140,91 @@ fun TextScreen(navController: NavController, problem: Problem) {
                 fontWeight = FontWeight.Light,
             )
         }
-        FastfoodProblemCard(navController, problem) {
+        ProblemCard(navController) {
             if (it) alpha = 1.0 else 0.0
         }
     }
     StartButton(alpha, onClick = {
-        navController.navigate("touchToStart")
+        navController.navigate("TaxiMain")
     })
 }
 
-
 @Composable
-fun FastfoodProblemCard(
+fun ProblemCard(
     navController: NavController,
-    problem: Problem,
     checkSuccess: (Boolean) -> Unit
 ) {
     val items = listOf(
-        "메뉴 : ${problem.menu}",
-        "장소 : ${problem.place}",
-        "포인트 적립 여부 : ${problem.point}",
-        "결제 방식 : ${problem.pay}"
+        "도착지 : 수원역",
+        "택시 종류 : 빠른 택시",
     )
-    val checkedStates = remember { mutableStateListOf(false, false, false, false) }
-
+    val checkedStates = remember { mutableStateListOf(false, false) }
     if (checkedStates.all { it == true }) {
         checkSuccess(true)
     } else {
         checkSuccess(false)
     }
 
-    Column(
+    Box(
+        modifier = Modifier
+            .height(380.dp)
+            .padding(top = 20.dp, bottom = 20.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .padding(top = 20.dp, bottom = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            items.forEachIndexed { index, item ->
+                ChecklistItem(
+                    title = item,
+                    checked = checkedStates[index],
+                    onCheckedChange = { checked ->
+                        checkedStates[index] = checked
+                    }
+                )
+            }
+        }
+    }
+
+}
+
+@Composable
+fun ChecklistItem(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    val currentCheckedState = rememberUpdatedState(checked)
+
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(380.dp)
-            .padding(top = 32.dp, bottom = 32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly
+            .height(64.dp)
+            .clickable { onCheckedChange(!currentCheckedState.value) },
+        colors = CardDefaults.cardColors(
+            containerColor = if (currentCheckedState.value) Color(0xFFFFDA77) else Color(0xFFE7E7E7)
+        ),
+        shape = RoundedCornerShape(20.dp),
     ) {
-        items.forEachIndexed { index, item ->
-            ChecklistItem(
-                title = item,
-                checked = checkedStates[index],
-                onCheckedChange = { checked ->
-                    checkedStates[index] = checked
-                }
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = title,
+                fontSize = 18.sp,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Medium,
+            )
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = null,
+                tint = if (currentCheckedState.value) Color(0xFF5C460C) else Color(0xFFADADAD),
+                modifier = Modifier.size(40.dp)
             )
         }
     }
@@ -194,7 +232,6 @@ fun FastfoodProblemCard(
 
 @Composable
 fun StartButton(alpha: Double, onClick: () -> Unit) {
-
     Button(
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 16.dp,
@@ -226,10 +263,8 @@ fun StartButton(alpha: Double, onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun TPreview() {
+fun TaxiScreenPreview() {
     val navController = rememberNavController()
-    val problemViewModelFactory = ProblemViewModelFactory(ProblemRepository)
-    val problemViewModel: ProblemViewModel = viewModel(factory = problemViewModelFactory)
 
-    PracticeHomeScreen(navController, problemViewModel.getProblemValue()!!)
+    TaxiProblem(navController)
 }
