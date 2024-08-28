@@ -249,7 +249,7 @@ fun Fastfood_Guide2(navController: NavController, problem: Problem, showBorder: 
                 currentStep += 1
                 if (currentStep > 3) { // 모든 단계가 끝난 후
                     showPopup = false
-                    navController.navigate("itemMenu")
+                    navController.navigate("Fastfood_Guide3")
                 }
             },
             title = "결제수단 선택",
