@@ -33,6 +33,7 @@ import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
 import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide1
 import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide2
+import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide3
 import com.example.capstoneapp.fastfood.ui.screens.DessertChickenScreen
 import com.example.capstoneapp.fastfood.ui.screens.DrinkCoffeeScreen
 import com.example.capstoneapp.fastfood.ui.screens.FastFoodHomeScreen
@@ -108,6 +109,9 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         composable(route = "Fastfood_Guide2") {
             Fastfood_Guide2(navController = navController, problem!!, true)
+        }
+        composable(route = "Fastfood_Guide3") {
+            Fastfood_Guide3(navController = navController, viewModel, true, problem!!)
         }
 
         composable(route = "HamburgerPracticeHomeScreen"){
