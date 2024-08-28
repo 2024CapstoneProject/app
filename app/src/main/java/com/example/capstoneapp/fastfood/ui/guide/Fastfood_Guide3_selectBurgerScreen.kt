@@ -86,6 +86,9 @@ fun Fastfood_Guide3(
     //가이드팝업2
     var showPopup2 by remember { mutableStateOf(false) }
     var currentStep2 by remember { mutableStateOf(1) }
+    val d_messageStep1 = "먼저 화면에서 ${menu.getOrNull(2)}를 찾아 눌러주세요."
+    val d_messageStep2 = "그다음 세트 드링크를 누른 후 ${menu.getOrNull(1)}를 눌러주세요."
+    val d_messageStep3 = "마지막으로 선택완료를 눌러주세요."
 
     // 주문한 목록
     var showDialog by remember { mutableStateOf(false) }
@@ -133,7 +136,7 @@ fun Fastfood_Guide3(
             }
             showDessertScreen = false
         } else {
-            navController.navigate("finalOrder")
+            navController.navigate("Fastfood_Guide4")
         }
     }
 
@@ -212,6 +215,7 @@ fun Fastfood_Guide3(
                             viewModel.addMenuItem(item, 1)
                             showDialog = false
                             showDessertScreen = item.id % 2 == 0
+                            showPopup2 = true
                         } else {
                             repeatAnswer = true
                         }
@@ -220,7 +224,6 @@ fun Fastfood_Guide3(
             }
         }
         if (showDessertScreen) {
-            showPopup2 = true
             SelectSetDessertScreen(
                 selectedDessert = selectedDessert,
                 selectedDrink = selectedDrink,
@@ -296,22 +299,25 @@ fun Fastfood_Guide3(
         )
     }
     if (showPopup2) {
+        val menu = problem.menu.split(",")
         GuidePopup(
             isPopupVisible = showPopup2,
             onDismiss = {
                 currentStep2 += 1
-                if (currentStep2 > 2) { // 모든 단계가 끝난 후
+                if (currentStep2 > 3) { // 모든 단계가 끝난 후
                     showPopup2 = false
                 }
             },
             title = "디저트 선택 안내",
             message = when (currentStep2) {
-                1 -> messageStep1
-                2 -> messageStep2
-                3 -> messageStep3
+                1 -> d_messageStep1
+                2 -> d_messageStep2
+                3 -> d_messageStep3
                 else -> ""
             },
             highlights = when (currentStep2) {
+                1 -> listOf(menu.getOrNull(2) ?: "")
+                2 -> listOf(menu.getOrNull(1) ?: "")
                 else -> listOf("")
             },
             verticalAlignment = VerticalAlignment.Bottom,

@@ -6,7 +6,7 @@ import kotlin.random.Random
 object ProblemRepository {
     //fastfood
     private var menuList = listOf(
-        "불고기 버거,콜라,감자튀김","새우버거,오렌지 주스,치즈스틱","치즈버거,제로콜라,양념감자","치킨버거,감자튀김,사이다"
+        "불고기 버거,콜라,감자튀김","새우버거,오렌지 주스,치즈스틱","치즈버거,제로콜라,양념감자","치킨버거,사이다,감자튀김"
     )
 
     private var placeList = listOf(
@@ -68,7 +68,7 @@ object ProblemRepository {
         "쿠폰없음"
     )
     private var t_payList = listOf(
-        7300,8500
+        7300
     )
 
     fun createProblem(): Problem {
