@@ -1,5 +1,6 @@
 package com.example.capstoneapp.nav
 
+import SubScreen
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -15,8 +16,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.cafe.ui.Screens.CafeHomeScreen
 import com.example.capstoneapp.cafe.ui.Screens.CafeKioskScreen
+import com.example.capstoneapp.cafe.ui.Guide.Guide1
+import com.example.capstoneapp.cafe.ui.Guide.Guide2
+import com.example.capstoneapp.cafe.ui.Guide.Guide3
+import com.example.capstoneapp.cafe.ui.Guide.Guide4
 import com.example.capstoneapp.cafe.ui.Screens.GuideScreen
-import com.example.capstoneapp.cafe.ui.Screens.KioskCafeGuide0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice0
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice5
 import com.example.capstoneapp.cafe.ui.Screens.KioskCafePractice6
@@ -27,6 +31,8 @@ import com.example.capstoneapp.chatbot.ui.components.ChatbotHomeScreen
 import com.example.capstoneapp.chatbot.ui.components.ChatUI
 import com.example.capstoneapp.fastfood.data.model.OrderViewModel
 import com.example.capstoneapp.fastfood.ui.frame.NotificationScreen
+import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide1
+import com.example.capstoneapp.fastfood.ui.guide.Fastfood_Guide2
 import com.example.capstoneapp.fastfood.ui.screens.DessertChickenScreen
 import com.example.capstoneapp.fastfood.ui.screens.DrinkCoffeeScreen
 import com.example.capstoneapp.fastfood.ui.screens.FastFoodHomeScreen
@@ -54,7 +60,18 @@ import com.example.capstoneapp.phone.ui.screens.PhoneCameraGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneContactGuide
 import com.example.capstoneapp.phone.ui.screens.PhoneGuide0
 import com.example.capstoneapp.phone.ui.screens.PhoneMessageGuide
-import com.example.capstoneapp.taxi.ui.screens.Taxi_Guide
+
+import com.example.capstoneapp.taxi.ui.screens.TaxiHome
+import com.example.capstoneapp.taxi.ui.screens.TaxiProblem
+import com.example.capstoneapp.taxi.ui.screens.guide.Taxi_Guide
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiInform
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiPay
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiRequest
+import com.example.capstoneapp.taxi.ui.screens.practice.ChooseTaxiScreen
+import com.example.capstoneapp.taxi.ui.screens.practice.SetGoalScreen
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiConfirm
+import com.example.capstoneapp.taxi.ui.screens.practice.TaxiMain
+
 
 @SuppressLint("RememberReturnType")
 @Composable
@@ -83,6 +100,14 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         composable(route = "HamburgerGuideScreen"){
             FastfoodGuideScreenPreview(navController = navController)
+        }
+
+        composable(route = "Fastfood_Guide1") {
+            Fastfood_Guide1(navController = navController, showBorder)
+        }
+
+        composable(route = "Fastfood_Guide2") {
+            Fastfood_Guide2(navController = navController, problem!!, true)
         }
 
         composable(route = "HamburgerPracticeHomeScreen"){
@@ -189,7 +214,6 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
             }
         }
 
-
         //메인(제일 처음)
         composable(route = "Guide0") {
             GuideScreen(navController = navController)
@@ -201,8 +225,25 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
         }
 
         //카페 가이드 첫번째 화면
-        composable(route = "KioskCafeGuide0") {
-            KioskCafeGuide0(navController = navController)
+        composable(route = "Guide1_touchscreen") {
+            Guide1(navController = navController, showBorder)
+        }
+
+        composable(route = "Guide2_kiosk") {
+            LaunchedEffect(navBackStackEntry) {
+                if (navBackStackEntry?.destination?.route == "Guide2_kiosk") {
+                    problemViewModel.createProblem() // 문제 생성
+                }
+            }
+            Guide2(navController, menuItemsViewModel, problem!!, true)
+        }
+
+        composable(route = "Guide3_checkOrder") {
+            Guide3(navController = navController, menuItemsViewModel, problem!!,true)
+        }
+
+        composable(route = "Guide4_payment") {
+            Guide4(navController = navController, menuItemsViewModel, problem!!,true)
         }
 
         //카페 연습 첫번째 화면
@@ -338,10 +379,75 @@ fun AppNavigation(problemViewModel: ProblemViewModel, context: Context) {
 
         }
 
+        //택시 메인화면
+        composable(route = "TaxiHome") {
+
+            TaxiHome(navController = navController)
+        }
+        composable(route = "TaxiMain") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = { TaxiMain(navController = navController,showBorder)}
+            ) { setShowBorder(!showBorder) }
+        }
         //택시 가이드 첫번째 화면
         composable(route = "Taxi_Guide") {
             Taxi_Guide(navController = navController)
         }
+        composable(route = "TaxiInform") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = { TaxiInform(navController = navController )}
+            ) { setShowBorder(!showBorder) }
+
+        }
+        composable(route = "taxi_sub_screen") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = {  SubScreen(navController = navController,showBorder)}
+            ) { setShowBorder(!showBorder) }
+
+        }
+
+        composable(route = "TaxiPay") {
+            TaxiPay(problem = problem!!, navController = navController )
+        }
+        composable(route = "TaxiRequest") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = {   TaxiRequest( problem = problem!!, navController = navController )}
+            ) { setShowBorder(!showBorder) }
+        }
+
+        composable(route = "taxi_set_goal") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = { SetGoalScreen(navController = navController)}
+            ) { setShowBorder(!showBorder) }
+        }
+        composable(route = "TaxiChoose") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = {  ChooseTaxiScreen(navController = navController)}
+            ) { setShowBorder(!showBorder) }
+        }
+        composable(route = "TaxiChooseConfirm") {
+            NotificationScreen(
+                problem = problem!!,
+                screenType=4,
+                content = {  TaxiConfirm(navController = navController)}
+            ) { setShowBorder(!showBorder) }
+        }
+        composable(route = "TaxiProblem") {
+            TaxiProblem(navController = navController)
+        }
+
 
         composable(route = "chatbotHome") {
             ChatbotHomeScreen(navController = navController)

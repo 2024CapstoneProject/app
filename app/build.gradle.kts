@@ -22,7 +22,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-    id("com.google.gms.google-services")
+
+    //id("com.google.gms.google-services")
+
 }
 
 android {
@@ -30,7 +32,8 @@ android {
     compileSdk = 34
 
     defaultConfig {
-      //  buildConfigField("String","google_map_key",getApiKey("google_map_key"))
+      manifestPlaceholders += mapOf()
+        //  buildConfigField("String","google_map_key",getApiKey("google_map_key"))
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getKakaoAPiKey("KAKAO_NATIVE_APP_KEY"))
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getKakaoAPiKey("KAKAO_NATIVE_APP_KEY")
         applicationId = "com.example.capstoneapp"
@@ -44,6 +47,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
     }
 
     buildTypes {
@@ -121,12 +125,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
     implementation("com.google.android.material:material:1.11.0")
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.android.gms:play-services-gcm:17.0.0")
-    implementation("com.google.android.gms:play-services-location:21.2.0")
-    implementation("com.google.firebase:firebase-database-ktx:20.3.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
 
 
     // Google Cloud Text-to-Speech API
@@ -153,7 +152,7 @@ dependencies {
     implementation( "com.google.accompanist:accompanist-pager:0.30.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.30.0")
 
-
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
     implementation("androidx.multidex:multidex:2.0.1")
 }

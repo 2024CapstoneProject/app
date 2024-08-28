@@ -1,5 +1,7 @@
 package com.example.capstoneapp.cafe.ui.Components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
@@ -20,30 +23,41 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.capstoneapp.R
 import com.example.capstoneapp.cafe.data.Repository.MenuItem
+import com.example.capstoneapp.fastfood.ui.theme.BorderColor
+import com.example.capstoneapp.fastfood.ui.theme.BorderShape
+import com.example.capstoneapp.fastfood.ui.theme.BorderWidth
 
 @Composable
 fun OrderList(
-    orderItems: List<Pair<MenuItem, Int>>, onItemStatus: (Pair<MenuItem, String>) -> Unit
+    orderItems: List<Pair<MenuItem, Int>>,
+    onItemStatus: (Pair<MenuItem, String>) -> Unit,
+    showBorder: Boolean = false,
+    currentStep: Int = 0
 ) {
     Box(
         modifier = Modifier
             .width(230.dp)
             .fillMaxHeight()
+            .background(Color(0xFFE7E7E7),shape = RoundedCornerShape(bottomStart = 24.dp))
+            .then(if (showBorder && currentStep == 4) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier) // 조건에 따라 보더 적용
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .then(if (showBorder && currentStep == 5) Modifier.border(BorderWidth, BorderColor, BorderShape) else Modifier), // 조건에 따라 보더 적용
             contentPadding = PaddingValues(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             //선택한 메뉴 갯수에 따라 메뉴리스트 조회가능
             //메뉴 선택 시 status 변경 -> delete, add, minus
-            items(orderItems.size) { it ->
-                val item = orderItems[it]
+            items(orderItems.size) { index ->
+                val item = orderItems[index]
                 SelectedMenuSpec(
                     selectedMenuItem = item.first,
                     selectedMenuCount = item.second,
@@ -53,8 +67,6 @@ fun OrderList(
             }
         }
     }
-
-
 }
 
 @Composable

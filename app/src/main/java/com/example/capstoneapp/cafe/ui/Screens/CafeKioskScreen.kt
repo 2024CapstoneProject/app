@@ -33,6 +33,7 @@ import com.example.capstoneapp.cafe.ui.Components.OrderList
 import com.example.capstoneapp.cafe.ui.Components.totalOrder
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModel
 import com.example.capstoneapp.kakatalk.data.ViewModel.MenuItemsViewModelFactory
+import com.example.capstoneapp.kakatalk.ui.Components.RepeatDialog
 import com.example.capstoneapp.nav.repository.Problem
 import com.example.capstoneapp.nav.repository.ProblemRepository
 import com.example.capstoneapp.nav.viewmodel.ProblemViewModel
@@ -62,14 +63,16 @@ fun CafeMenuScreen(
     var selectedMenu by remember { mutableStateOf("커피(HOT)") }
     val menuCategory = listOf("커피(HOT)", "커피(ICE)", "티(TEA)")
 
+    var showRetryDialog by remember { mutableStateOf(false) }
 
     Surface(
-        color = Color(0xFFCACACA),
+        color = Color.White,
         modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(1f)
             .clip(shape = RoundedCornerShape(16.dp))
-    )
-    {
-        Column() {
+    ) {
+        Column(modifier = Modifier.fillMaxHeight(1f)) {
             Column(//메뉴 리스트 Column
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -113,7 +116,7 @@ fun CafeMenuScreen(
             Column( //빈공간
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Spacer(modifier = Modifier.height(140.dp))
+                Spacer(modifier = Modifier.height(100.dp))
             }
 
             Row(//선택한 메뉴, 남은시간, 결제 버튼 공간
@@ -124,53 +127,49 @@ fun CafeMenuScreen(
                         .width(230.dp)
                         .fillMaxHeight()
                 ) {
-                    Divider(
-                        color = Color.Gray, // 선의 색상 지정
-                        thickness = 2.dp, // 선의 두께 지정
-                        modifier = Modifier
-                            .padding()
-                            .width(234.dp)
-                    )
-
-                    OrderList(orderItems = orderItems) { onItemStatus ->
-                        var targetPairIndex =
-                            orderItems.indexOfFirst { onItemStatus.first == it.first }
-
-                        if (targetPairIndex != -1) {
-                            val targetPair = orderItems[targetPairIndex]
-
-                            if (onItemStatus.second.equals("Add")) {
-                                viewModel.addMenuItem(targetPair, targetPairIndex)
-                            } else if (onItemStatus.second.equals("Minus")) {
-                                viewModel.minusMenuItem(targetPair, targetPairIndex)
-                            } else if (onItemStatus.second.equals("Delete")) {
-                                viewModel.removeMenuItem(targetPair)
+                    OrderList(orderItems = orderItems,
+                        onItemStatus = { onItemStatus ->
+                            val targetPairIndex = orderItems.indexOfFirst { onItemStatus.first == it.first }
+                            if (targetPairIndex != -1) {
+                                val targetPair = orderItems[targetPairIndex]
+                                when (onItemStatus.second) {
+                                    "Add" -> viewModel.addMenuItem(targetPair, targetPairIndex)
+                                    "Minus" -> viewModel.minusMenuItem(targetPair, targetPairIndex)
+                                    "Delete" -> viewModel.removeMenuItem(targetPair)
+                                }
                             }
-                        }
-                    }
+                        },
+                        false // Ensure `showBorder` is passed correctly
+                    )
                 }
-                Divider(
-                    color = Color.Gray, // 선의 색상 지정
+                Column(
                     modifier = Modifier
+                        .width(230.dp)
                         .fillMaxHeight()
-                        .width(2.dp)
-                )
+                ){
+                    totalOrder(totalCount, isRepeat, {
+                        if (!isRepeat && it.first) {
+                            viewModel.clearMenuItem()
+                        } else if (it.second) {
+                            navController.navigate("KioskCafePractice5")
+                        } else if (isRepeat && it.first) {
+                            isRepeat = false
+                        }
+                    }, showBorder)
+                }
+
                 //결제하기, 선택 상품 개수, 시간 표시
-                totalOrder(totalCount, isRepeat, {
-                    if (!isRepeat && it.first) {
-                        viewModel.clearMenuItem()
-                    } else if (it.second) {
-                        navController.navigate("KioskCafePractice5")
-                    } else if (isRepeat && it.first) {
-                        isRepeat = false
-                    }
-                }, showBorder)
+
             }
         }
     }
+
+    if (showRetryDialog) {
+        RepeatDialog(onDismiss = { showRetryDialog = false })
+    }
 }
 
-@Preview
+@Preview(widthDp=412, heightDp = 846)
 @Composable
 fun cafeKioskScreenPreview() {
     val navController = rememberNavController()

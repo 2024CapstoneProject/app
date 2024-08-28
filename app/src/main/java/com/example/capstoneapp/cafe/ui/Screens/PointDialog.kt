@@ -63,26 +63,28 @@ fun PointDialog(onDismiss: () -> Unit, isYesPoint: () -> Unit, isNoPoint:()->Uni
                     Button(
                         onClick = isYesPoint,
                         modifier = Modifier.weight(0.5f).height(60.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xFF696969)),
+                        colors = ButtonDefaults.buttonColors(Color(0xFFADADAD)),
                         shape = RoundedCornerShape(16.dp)
                     ) {
                         Text(
                             text = "예",
                             fontSize = 25.sp,
-                            fontWeight = FontWeight.ExtraBold
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.Black
                         )
                     }
                     Spacer(modifier = Modifier.width(16.dp))
                     Button(
                         onClick = isNoPoint,
                         modifier = Modifier.weight(0.5f).height(60.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xffff602e)),
+                        colors = ButtonDefaults.buttonColors(Color(0xFFFFDA77)),
                         shape = RoundedCornerShape(16.dp)
                     ) {
                         Text(
                             text = "아니오",
                             fontSize = 25.sp,
-                            fontWeight = FontWeight.ExtraBold
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.Black
                         )
                     }
                 }

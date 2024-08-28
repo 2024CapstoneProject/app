@@ -37,11 +37,10 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit, showBorder: Boolean) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .width(130.dp)
-            .height(180.dp)
+            .width(148.dp)
+            .height(200.dp)
             .absolutePadding(right = 8.dp, left = 8.dp)
-            .background(Color.White, RoundedCornerShape(8.dp))
-            // .border(0.dp,Color.Transparent, RoundedCornerShape(4.dp))
+            .background(Color(0xffE7E7E7), RoundedCornerShape(20.dp))
             .clickable(onClick = onClick)
             .then(
                 if (showBorder) Modifier.border(
@@ -56,18 +55,18 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit, showBorder: Boolean) {
             contentDescription = "",
             modifier = Modifier
                 .padding(top = 24.dp)
-                .width(88.dp)
-                .height(88.dp),
+                .width(92.dp)
+                .height(92.dp),
             contentScale = ContentScale.Crop
         )
 
         Text(
             text = item.name,
             style = TextStyle(
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.ExtraBold
             ),
-            modifier = Modifier.padding(top = 4.dp)
+            modifier = Modifier.padding(top = 4.dp,bottom=4.dp)
         )
 
         Text(
@@ -75,8 +74,8 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit, showBorder: Boolean) {
             text = buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
-                        Color.Red,
-                        fontSize = 14.sp,
+                        Color.Black,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.ExtraBold
                     ),
                 ) {
@@ -86,8 +85,8 @@ fun ItemCard(item: MenuItem, onClick: () -> Unit, showBorder: Boolean) {
             },
             textAlign = TextAlign.Center,
             fontFamily = FontFamily.SansSerif,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold
+            fontSize = 16.sp,
+            fontWeight = FontWeight.ExtraBold
         )
 
     }

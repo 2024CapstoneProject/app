@@ -38,8 +38,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.capstoneapp.R
-import com.example.capstoneapp.cafe.ui.Screens.showNextImage
-import com.example.capstoneapp.cafe.ui.Screens.showPreviousImage
+import com.example.capstoneapp.cafe.ui.theme.firaSansFamily
+import com.example.capstoneapp.chatbot.ui.components.showNextImage
+import com.example.capstoneapp.chatbot.ui.components.showPreviousImage
+import com.example.capstoneapp.chatbot.ui.components.EnlargedImagePopup
+import com.example.capstoneapp.chatbot.ui.components.TextWithColoredWords
 import kotlinx.coroutines.launch
 
 
@@ -79,7 +82,7 @@ fun KakaoGuide0(navController: NavController) {
     }
 
     if (isImageClicked) {
-        com.example.capstoneapp.cafe.ui.Screens.EnlargedImagePopup(
+        EnlargedImagePopup(
             imageResource = clickedImageResource,
             onClose = {
                 isImageClicked = false
@@ -140,8 +143,9 @@ fun guideImage(
         ) {
             Text(
                 text = imageName,
-                style = TextStyle(fontSize = 30.sp),
-                fontWeight = FontWeight.ExtraBold,
+                fontSize = 30.sp,
+                fontFamily = firaSansFamily,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
 
@@ -226,17 +230,17 @@ fun guideText(currentImageIndex: Int) {
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         val (text1, text2, text3) = textList[currentImageIndex]
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text1, wordsToColor = mapOf(
                 "프로필" to Color.Green, "앨범" to Color.Blue, "사진" to Color.Blue
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+       TextWithColoredWords(
             text = text2, wordsToColor = mapOf(
                 "친구목록" to Color.Blue, "메세지" to Color.Blue, "화면 오른쪽 아래" to Color.Red,"최대 30장" to Color.Red
             )
         )
-        com.example.capstoneapp.cafe.ui.Screens.TextWithColoredWords(
+        TextWithColoredWords(
             text = text3, wordsToColor = mapOf(
                 "이름" to Color.Red, "채팅" to Color.Red,"화살표" to Color.Green
             )
